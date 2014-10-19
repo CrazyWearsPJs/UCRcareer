@@ -30,7 +30,7 @@ They can also rate and review jobs. After user's first use, he should get update
 * Push changes to remote
 * Repeat
 
-If a feature is ready to be merged to master, make a pull request. See [this](https://help.github.com/articles/creating-a-pull-request/) for a quick how-to.
+If a feature is ready to be merged to master, make a pull request. See [this](https://help.github.com/articles/creating-a-pull-request/) for a quick how-to. Otherwise, if we are together you can just let Manny or Alex know, and they will merge the features into master then and there.
 
 Once you have a feature merged into master, you can delete your branch (WARNING MAKE SURE YOUR STUFF REALLY IS MERGED INTO MASTER), and make a new one based off the master branch. 
 
