@@ -66,6 +66,7 @@ bower
 gulp
 nodemon
 mongodb
+heroku
 ```
 Along with everything else that comes in a base install of ubuntu. The VM has been setup to also forward port 8080, to your host's port 8080, meaning if you were to have a server running on you VM which is listening on 8080, you would be able to send it requests from your host's browser.
 
