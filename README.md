@@ -14,6 +14,65 @@ They can also rate and review jobs. After user's first use, he should get update
 |Noel Llanura          |nllan001@ucr.edu  |nllan001         |
 |Manuel Sanchez Munoz  |msanc031@ucr.edu  |omoman           |
 
+# Setting up your development machine
+We will be using vagrant to set up a virtual machine we can use for development.
+
+## Required Dependancies
+Install the latest versions of [virtualbox](https://www.virtualbox.org/wiki/Downloads) and [vagrant](https://www.vagrantup.com/downloads), and [git](http://git-scm.com/book/en/Getting-Started-Installing-Git) in that order.
+
+## Getting the source
+Simply run
+```bash
+git clone https://github.com/CrazyWearsPJs/UCRcareer.git
+```
+
+## Starting the environment
+From the root of the project, simply run
+```bash
+vagrant up
+```
+This command will fetch a copy of Ubuntu 14.04, provision it with the software we need (More below..), and automagically enable port forwarding.
+
+## Interaction with the VM
+Below are a list of commands you'll be using often with vagrant
+```bash
+# Remote into your VM
+vagrant ssh 
+
+# View current state of VM
+vagrant status
+
+# Put your VM to sleep
+vagrant suspend
+
+# Start a sleeping VM 
+vagrant resume
+
+# Shutdown the VM
+vagrant halt
+
+# Wipe your VM out completely
+vagrant destroy
+```
+REMEMBER, anything you do with vagrant, can also be done with virtualbox, so if you want to modify your VM using a GUI or if vagrant enters a 'bad state', you can delete the VM through the virtualbox GUI.
+
+## Installed software
+The VM comes installed with the following
+```bash
+git 
+node
+npm
+bower
+gulp
+nodemon
+mongodb
+```
+Along with everything else that comes in a base install of ubuntu. The VM has been setup to also forward port 8080, to your host's port 8080, meaning if you were to have a server running on you VM which is listening on 8080, you would be able to send it requests from your host's browser.
+
+Also, the VM exposes a shared folder under '/vagrant'. In that folder you will find all our development files that we cloned from github. Any changes you make to those files will be available on your host and vice versa, meaning you can edit your development files on your host using sublime (or whatever) and have your VM get those changes as well instantaneously. 
+
+
+## 
 # Quick Git Review
 
 ## Getting started
