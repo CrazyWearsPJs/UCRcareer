@@ -15,7 +15,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Virtualbox specific settings
   config.vm.provider "virtualbox" do |vb|
     # Allocate 2048 or 2GB of memory for virtual machine  
-    vb.customize ["modifyvm", :id, "--memory", "1024"]
+    vb.customize ["modifyvm", :id, "--memory", "2048"]
   end
 
   # Run our install script
