@@ -1,0 +1,18 @@
+{
+  "name": "UCRCareer",
+  "version": "0.0.0",
+  "description": "UCRcareer ============== This project mimics job hunting websites such as indeed.com. Users can search for jobs based on keywords.",
+  "main": "server/app.js",
+  "scripts": {
+    "test": "gulp test:server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CrazyWearsPJs/UCRCareer.git"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/CrazyWearsPJs/UCRCareer/issues"
+  }
+}

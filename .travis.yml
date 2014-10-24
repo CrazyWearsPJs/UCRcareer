@@ -1,5 +1,12 @@
 language: node
+
 node_js: 
     - "0.10"
 services:
     - mongodb
+
+before_script:
+    - npm install -g gulp
+
+install:
+    - npm install
