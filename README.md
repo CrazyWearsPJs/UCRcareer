@@ -68,7 +68,20 @@ nodemon
 mongodb
 heroku
 ```
-Along with everything else that comes in a base install of ubuntu. The VM has been setup to also forward port 8080, to your host's port 8080, meaning if you were to have a server running on you VM which is listening on 8080, you would be able to send it requests from your host's browser.
+Along with everything else that comes in a base install of ubuntu. Vagrant also sets up port forwarding on the VM, meaning certain ports which will be listed below, will be accessible from your host machine.
+
+Forwarded ports:
+
+| Host                 | Guest            | Use                 |
+|:---------------------|:-----------------|:--------------------|
+|8080                  |8080              |HTTP Server          |
+|8081                  |8081              |MongoDB Listening    |
+|9081                  |9081              |MongoDB Web Interface|
+
+EXAMPLE USE:
+
+You have a node app on the VM listening on port 8080. You'll be able to send it requests from your host web browser by going to localhost:8080.
+
 
 Also, the VM exposes a shared folder under '/vagrant'. In that folder you will find all our development files that we cloned from github. Any changes you make to those files will be available on your host and vice versa, meaning you can edit your development files on your host using sublime (or whatever) and have your VM get those changes as well instantaneously. 
 
