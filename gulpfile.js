@@ -1,11 +1,20 @@
 var gulp = require('gulp');
+var gutil = require('gulp-util');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var karma = require('karma');
 var jshint = require('gulp-jshint');
 var sourcemaps = require('gulp-sourcemaps');
 var del = require('del');
-
+/*
+var handle = function(stream) {
+    stream.on('error', function() {
+        gutil.log.apply(this, arguments);
+        stream.end();
+    });
+    
+};
+*/
 var sources = {
     js: ['site/app.js', 'site/components/**/*.js'],
     scss: ['site/styles/**/*.scss']
@@ -54,5 +63,5 @@ gulp.task('watch:js',  function() {
 
 gulp.task('make:js', ['clean:js', 'lint:js', 'build:js']);
 
-gulp.task('default', ['make:js']);
+gulp.task('default', ['make:js', 'watch:js']);
 
