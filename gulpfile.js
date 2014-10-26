@@ -1,12 +1,15 @@
 var gulp = require('gulp');
 var concat = require('gulp-concat');
-var mocha = require('gulp-mocha');
 var uglify = require('gulp-uglify');
-var karma = require('karma').server;
+var karma = require('karma');
+var jshint = require('gulp-jshint');
+var sourcemaps = require('gulp-sourcemaps');
+var del = require('del');
 
 var sources = {
     js: ['site/app.js', 'site/components/**/*.js'],
     scss: ['site/styles/**/*.scss']
+
 
 };
 
@@ -17,9 +20,39 @@ var destinations = {
 };
 
 gulp.task('build:js', function(){
-    gulp.src(sources.js)
-        .pipe(concat('all.js'))
+    return gulp.src(sources.js)
         .pipe(uglify())
+        .pipe(concat('all.js'))
+        .pipe(sourcemaps.write())
         .pipe(gulp.dest(destinations.js));
+
 });
+
+/*
+gulp.task('test:js', function(done) {
+    return karma.start({
+        configFile: __dirname + 'karma.conf.js',
+        singleRun: true
+    }, done);
+}); */
+
+
+gulp.task('lint:js', function() {
+    return gulp.src(sources.js)
+            .pipe(jshint('.jshintrc'))
+            .pipe(jshint.reporter('jshint-stylish'));
+});
+
+gulp.task('clean:js', function() {
+    return del(destinations.js + '**/*.js');
+});
+
+gulp.task('watch:js',  function() {
+    gulp.watch(sources.js, ['make:js']);
+});
+
+
+gulp.task('make:js', ['clean:js', 'lint:js', 'build:js']);
+
+gulp.task('default', ['make:js']);
 
