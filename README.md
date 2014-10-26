@@ -86,7 +86,23 @@ You have a node app on the VM listening on port 8080. You'll be able to send it 
 Also, the VM exposes a shared folder under '/vagrant'. In that folder you will find all our development files that we cloned from github. Any changes you make to those files will be available on your host and vice versa, meaning you can edit your development files on your host using sublime (or whatever) and have your VM get those changes as well instantaneously. 
 
 
-## 
+# MongoDB Reference
+
+## Connecting to DB
+You can connect using the 'mongo' driver program which comes installed on the VM. To connect, simply run 
+```bash
+mongo --port 8081 --host 10.0.2.15
+```
+From the VM. If you want to connect to the DB from your host machine, make sure you have 'mongo' installed and run 
+```bash
+mongo --port 8081
+```
+
+## Web interface
+The VM has also been set up with a web interface for the DB which can be viewed by following [this](http://localhost:9081) link. NOTE: The web interface will only show you information about YOUR DB ON YOUR VM. If you can't view it, make sure your VM is running using 'vagrant status'
+
+Curious what [this](http://localhost:9081) is? Click it and see! The reason we can do that is because of the port forwarding vagrant set up!
+
 # Quick Git Review
 
 ## Getting started
