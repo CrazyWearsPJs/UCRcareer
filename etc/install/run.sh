@@ -20,7 +20,7 @@ echo 'Done building and installing node and npm'
 
 # Install global node modules
 echo 'Installing bower, nodemon, and gulp'
-sudo npm install -g bower nodemon gulp 
+sudo npm install -g bower nodemon gulp http-server
 echo 'Done installing bower, nodemon, and gulp'
 
 # Install mongodb
