@@ -6,14 +6,24 @@
     <div class="form-group">
         <label for="newUserEmail">Email</label>
         <input ng-model="user.email" type="email" class="form-control" id="newUserEmail" placeholder="johndoe64@aol.com"/>
+        <div ng-show="invalidEmail">
+            <p class="error-text">Please enter a valid email address! </p>
+        </div>
     </div>
     <div class="form-group">
         <label for="newUserPassword">Password</label>
         <input ng-model="user.password" type="password" class="form-control" id="newUserPassword" placeholder="password"/>
     </div>
+
+    <div class="form-group" ng-class="{'has-error' : differentPasswords}">
+        <label for="newUserReEnterPassword">Re-enter Password</label>
+        <input ng-model="user.reEnterPassword" type="password" class="form-control" id=newUserReEnterPassword" placeholder="re-enter password">
+        <div ng-show="differentPasswords">
+            <p class="error-text"> The passwords you entered do not match! </p>
+        </div>
+    </div>
 </div>
 <div class = "modal-footer">
-    {{user.password}}
-    <button class="btn btn-primary" ng-click="ok()"> Submit </button>
+    <button class="btn" ng-class="submitAvailable?'btn-primary':'disabled'" ng-click="ok()"> Submit </button>
     <button class="btn btn-warning" ng-click="cancel()"> Cancel </button>
 </div>

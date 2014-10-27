@@ -16,19 +16,40 @@ angular.module('ucrCareerControllers')
                         $scope.user.email = user.email;
                         $scope.user.password = user.password;
                     }, function() {
-                        console.log("dey closed dis :(");
                     });
                 };
         }])
         .controller('registerModalCtrl', ['$scope', '$modalInstance', function($scope, $modalInstance){
             $scope.user = {
                 email : "",
-                password: ""
+                password: "",
+                reEnterPassword: ""
             };
             
+            var noErrors = false;
+            var updated_email = "", updated_password = "", updated_reEnterPassword = "";
+            $scope.differentPasswords = false;
+            $scope.invalidEmail = false;
+            $scope.submitAvailable = false;
+
+            $scope.$watchGroup(["user.email", "user.password","user.reEnterPassword"], function(updated) {
+                updated_email = updated[0];
+                updated_password = updated[1];
+                updated_reEnterPassword = updated[2];
+
+                $scope.submitAvailable = updated_email && updated_password.length > 8 &&  
+                    updated_password === updated_reEnterPassword;
+            });
+
+
             $scope.ok = function() {
-                console.log("closing modal", $scope.user);
-                $modalInstance.close($scope.user);
+                $scope.differentPasswords = $scope.user.password !== $scope.user.reEnterPassword;
+                $scope.invalidEmail = !$scope.user.email;
+
+                noErrors = !$scope.differentPassword && !$scope.invalidEmail;
+                if (noErrors) {
+                    $modalInstance.close($scope.user);
+                }
             };
             
             $scope.cancel = function() {

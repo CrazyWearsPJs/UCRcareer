@@ -1,4 +1,4 @@
-angular.module('ucrCareer', ['ngRoute', 'ucrCareerControllers'])
+angular.module('ucrCareer', ['ngRoute', 'ucrCareerControllers', 'ucrCareerServices'])
     .config(['$routeProvider', function($routeProvider) {
             $routeProvider.when('/', {
                 templateUrl: 'templates/splash.html',
@@ -10,3 +10,5 @@ angular.module('ucrCareer', ['ngRoute', 'ucrCareerControllers'])
         }]);
 
 angular.module('ucrCareerControllers', ["ui.bootstrap"]);
+
+angular.module('ucrCareerServices', []);
