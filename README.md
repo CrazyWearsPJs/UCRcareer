@@ -97,6 +97,11 @@ From the VM. If you want to connect to the DB from your host machine, make sure 
 ```bash
 mongo --port 8081
 ```
+Remember that when you need to start up your VM again because of a shut down, the db daemon will also be killed off so you need to start the db again. To do so, just run 
+```bash
+mongod --config /vagrant/etc/install/mongod-yaml.conf
+```
+in the root directory.
 
 ## Web interface
 The VM has also been set up with a web interface for the DB which can be viewed by following [this](http://localhost:9081) link. NOTE: The web interface will only show you information about YOUR DB ON YOUR VM. If you can't view it, make sure your VM is running using 'vagrant status'
