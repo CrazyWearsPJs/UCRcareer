@@ -25,29 +25,42 @@ angular.module('ucrCareerControllers')
                 password: "",
                 reEnterPassword: ""
             };
-            
-            var noErrors = false;
-            var updated_email = "", updated_password = "", updated_reEnterPassword = "";
-            $scope.differentPasswords = false;
-            $scope.invalidEmail = false;
-            $scope.submitAvailable = false;
+           
 
-            $scope.$watchGroup(["user.email", "user.password","user.reEnterPassword"], function(updated) {
-                updated_email = updated[0];
+            var updated_email = "", updated_password = "" , updated_reEnterPassword = "";
+            /*           
+            $scope.$watchGroup(["user.email", "user.password", "user.reEnterPassword"],
+                function(updated) {
+                    console.log(updated);
+                console.log($scope.user.email);
+            updated_email = updated[0];
                 updated_password = updated[1];
                 updated_reEnterPassword = updated[2];
+                $scope.user.reEnterPassword.$error = {
+                    different: updated_reEnterPassword !== updated_email
+                };
 
-                $scope.submitAvailable = updated_email && updated_password.length > 8 &&  
-                    updated_password === updated_reEnterPassword;
+                $scope.submitAvailable = updated_email.$valid && updated_password.$valid && 
+                   updated_reEnterPassword.$valid;
             });
+            */
 
+            var differentPassword = function() {
+                return $scope.user.password !== $scope.user.reEnterPassword;
+            };
+
+            $scope.invalidPasswordTouched = function() {
+                return $scope.register.password.$invalid && $scope.register.password.$touched;
+            };
+
+            $scope.differentPasswordTouched = function() {
+                return $scope.register.reEnterPassword.$touched && 
+                    $scope.register.password.$viewValue !== $scope.register.reEnterPassword.$viewValue;
+            };
 
             $scope.ok = function() {
-                $scope.differentPasswords = $scope.user.password !== $scope.user.reEnterPassword;
-                $scope.invalidEmail = !$scope.user.email;
-
-                noErrors = !$scope.differentPassword && !$scope.invalidEmail;
-                if (noErrors) {
+                console.log($scope.differentPasswordTouched());
+                if ($scope.register.$valid && !differentPassword()) {
                     $modalInstance.close($scope.user);
                 }
             };

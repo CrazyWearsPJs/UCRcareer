@@ -1,4 +1,4 @@
-angular.module('ucrCareer', ['ngRoute', 'ucrCareerControllers', 'ucrCareerServices'])
+angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'ucrCareerServices'])
     .config(['$routeProvider', function($routeProvider) {
             $routeProvider.when('/', {
                 templateUrl: 'templates/splash.html',
@@ -11,4 +11,8 @@ angular.module('ucrCareer', ['ngRoute', 'ucrCareerControllers', 'ucrCareerServic
 
 angular.module('ucrCareerControllers', ["ui.bootstrap"]);
 
-angular.module('ucrCareerServices', []);
+angular.module('ucrCareerServices', ['LocalStorageModule'])
+    .config(['localStorageServiceProvider', function(localStorageServiceProvider){
+        localStorageServiceProvider.setPrefix('ucrCareer');
+        localStorageServiceProvider.setStorageCookie(45, '/');
+    }]);
