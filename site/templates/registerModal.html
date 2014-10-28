@@ -2,9 +2,9 @@
     <h3 class="modal-title">Register!</h3>
 </div>
 <form name="register" ng-submit="ok()" novalidate>
-<div class="modal-body">
+    <div class="modal-body">
     <div class="form-group"
-        ng-class="{'has-error':user.password.$error.email}">
+        ng-class="{'has-error':register.email.$error.email}">
         <label for="newUserEmail">Email</label>
         <input ng-model="user.email" type="email" class="form-control" id="newUserEmail" 
             placeholder="johndoe64@aol.com" 
@@ -46,9 +46,9 @@
             <p class="error-text"> The passwords you entered do not match! </p>
         </div>
     </div>
-</div>
-<div class = "modal-footer">
-    <input type="submit" class="btn" ng-class="register.$valid?'btn-primary':'btn-default'"/>
-    <button class="btn btn-warning" ng-click="cancel()"> Cancel </button>
-</div>
+    </div>
+    <div class = "modal-footer">
+        <input type="submit" class="btn" ng-class="register.$valid?'btn-primary':'btn-default'"/>
+        <button class="btn btn-warning" ng-click="cancel()"> Cancel </button>
+    </div>
 </form>

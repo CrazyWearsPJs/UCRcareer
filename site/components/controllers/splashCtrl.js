@@ -25,26 +25,6 @@ angular.module('ucrCareerControllers')
                 password: "",
                 reEnterPassword: ""
             };
-           
-
-            var updated_email = "", updated_password = "" , updated_reEnterPassword = "";
-            /*           
-            $scope.$watchGroup(["user.email", "user.password", "user.reEnterPassword"],
-                function(updated) {
-                    console.log(updated);
-                console.log($scope.user.email);
-            updated_email = updated[0];
-                updated_password = updated[1];
-                updated_reEnterPassword = updated[2];
-                $scope.user.reEnterPassword.$error = {
-                    different: updated_reEnterPassword !== updated_email
-                };
-
-                $scope.submitAvailable = updated_email.$valid && updated_password.$valid && 
-                   updated_reEnterPassword.$valid;
-            });
-            */
-
             var differentPassword = function() {
                 return $scope.user.password !== $scope.user.reEnterPassword;
             };
@@ -59,7 +39,6 @@ angular.module('ucrCareerControllers')
             };
 
             $scope.ok = function() {
-                console.log($scope.differentPasswordTouched());
                 if ($scope.register.$valid && !differentPassword()) {
                     $modalInstance.close($scope.user);
                 }
