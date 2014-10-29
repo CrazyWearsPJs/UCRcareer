@@ -1,10 +1,11 @@
 angular.module('ucrCareerControllers')
-        .controller('headerCtrl', ['$scope', '$modal', function($scope, $modal){
+        .controller('headerCtrl', ['$scope', '$modal', 
+        function($scope, $modal){
                 $scope.user = {
                     email: "",
                     password: ""
                 };
-                $scope.open = function() {
+                $scope.registerOpen = function() {
                     var modalInstance = $modal.open({
                         templateUrl: 'templates/registerModal.html',
                         controller: 'registerModalCtrl',
@@ -12,14 +13,28 @@ angular.module('ucrCareerControllers')
                     });
 
                     modalInstance.result.then(function(user) {
-                        console.log(user);
                         $scope.user.email = user.email;
                         $scope.user.password = user.password;
+			            //then register
                     }, function() {
                     });
                 };
+
+        	$scope.loginOpen = function() {
+            	var modalInstance = $modal.open({
+                	templateUrl: 'templates/loginModal.html',
+	                controller: 'loginModalCtrl',
+        	        size: 'lg'
+	            });
+        	    modalInstance.result.then(function(user) {
+        	        $scope.user.email = user.email;
+                	$scope.user.password = user.password;
+	            }, function() {
+        	    });
+        	};
         }])
-        .controller('registerModalCtrl', ['$scope', '$modalInstance', function($scope, $modalInstance){
+        .controller('registerModalCtrl', ['$scope', '$modalInstance',
+        function($scope, $modalInstance){
             $scope.user = {
                 email : "",
                 password: "",
@@ -42,6 +57,19 @@ angular.module('ucrCareerControllers')
                 if ($scope.register.$valid && !differentPassword()) {
                     $modalInstance.close($scope.user);
                 }
+            };
+            
+            $scope.cancel = function() {
+                $modalInstance.dismiss();
+            };
+        }]).controller('loginModalCtrl', ['$scope', '$modalInstance', function($scope, $modalInstance){
+            $scope.user = {
+                email : "",
+                password: "",
+            };
+
+            $scope.ok = function() {
+                    $modalInstance.close($scope.user);
             };
             
             $scope.cancel = function() {
