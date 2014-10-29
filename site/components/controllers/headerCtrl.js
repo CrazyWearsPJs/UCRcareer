@@ -1,39 +1,33 @@
 angular.module('ucrCareerControllers')
-        .controller('headerCtrl', ['$scope', '$modal', 
-        function($scope, $modal){
-                $scope.user = {
-                    email: "",
-                    password: ""
-                };
+        .controller('HeaderCtrl', ['$scope', '$modal', '$location', 'User', 
+        function($scope, $modal, $location, User){
                 $scope.registerOpen = function() {
                     var modalInstance = $modal.open({
                         templateUrl: 'templates/registerModal.html',
-                        controller: 'registerModalCtrl',
+                        controller: 'RegisterModalCtrl',
                         size: 'lg'
                     });
 
                     modalInstance.result.then(function(user) {
-                        $scope.user.email = user.email;
-                        $scope.user.password = user.password;
-			            //then register
+                        User.addCredentials(user.email, user.password);
+                        $location.path('/register');
                     }, function() {
                     });
                 };
 
-        	$scope.loginOpen = function() {
-            	var modalInstance = $modal.open({
+        	    $scope.loginOpen = function() {
+                	var modalInstance = $modal.open({
                 	templateUrl: 'templates/loginModal.html',
-	                controller: 'loginModalCtrl',
+	                controller: 'LoginModalCtrl',
         	        size: 'lg'
 	            });
-        	    modalInstance.result.then(function(user) {
-        	        $scope.user.email = user.email;
-                	$scope.user.password = user.password;
-	            }, function() {
-        	    });
-        	};
+        	        modalInstance.result.then(function(user) {
+	                    User.addCredentials(user.email, user.password);
+                    }, function() {
+        	        });
+        	    };
         }])
-        .controller('registerModalCtrl', ['$scope', '$modalInstance',
+        .controller('RegisterModalCtrl', ['$scope', '$modalInstance',
         function($scope, $modalInstance){
             $scope.user = {
                 email : "",
@@ -62,7 +56,7 @@ angular.module('ucrCareerControllers')
             $scope.cancel = function() {
                 $modalInstance.dismiss();
             };
-        }]).controller('loginModalCtrl', ['$scope', '$modalInstance', function($scope, $modalInstance){
+        }]).controller('LoginModalCtrl', ['$scope', '$modalInstance', function($scope, $modalInstance){
             $scope.user = {
                 email : "",
                 password: "",

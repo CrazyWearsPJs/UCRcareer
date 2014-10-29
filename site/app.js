@@ -2,9 +2,12 @@ angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'u
     .config(['$routeProvider', function($routeProvider) {
             $routeProvider.when('/', {
                 templateUrl: 'templates/splash.html',
-                controller: 'splashCtrl' 
-            }).
-            otherwise({
+                controller: 'SplashCtrl' 
+            }).when('/register', {
+                templateUrl: 'templates/register.html',
+                controller: 'RegisterCtrl'
+            })
+            .otherwise({
                 redirectTo: '/'
             });
         }]);

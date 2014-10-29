@@ -1,5 +1,5 @@
 angular.module('ucrCareerControllers')
-        .controller('splashCtrl', ['$scope', function($scope){
+        .controller('SplashCtrl', ['$scope', function($scope){
         }]);
 
 
