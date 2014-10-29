@@ -69,7 +69,9 @@ angular.module('ucrCareerControllers')
             };
 
             $scope.ok = function() {
+                if ($scope.login.$valid) {
                     $modalInstance.close($scope.user);
+                }
             };
             
             $scope.cancel = function() {
