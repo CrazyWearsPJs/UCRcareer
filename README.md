@@ -68,12 +68,46 @@ nodemon
 mongodb
 heroku
 ```
-Along with everything else that comes in a base install of ubuntu. The VM has been setup to also forward port 8080, to your host's port 8080, meaning if you were to have a server running on you VM which is listening on 8080, you would be able to send it requests from your host's browser.
+Along with everything else that comes in a base install of ubuntu. Vagrant also sets up port forwarding on the VM, meaning certain ports which will be listed below, will be accessible from your host machine.
+
+Forwarded ports:
+
+| Host                 | Guest            | Use                 |
+|:---------------------|:-----------------|:--------------------|
+|8080                  |8080              |HTTP Server          |
+|8081                  |8081              |MongoDB Listening    |
+|9081                  |9081              |MongoDB Web Interface|
+
+EXAMPLE USE:
+
+You have a node app on the VM listening on port 8080. You'll be able to send it requests from your host web browser by going to localhost:8080.
+
 
 Also, the VM exposes a shared folder under '/vagrant'. In that folder you will find all our development files that we cloned from github. Any changes you make to those files will be available on your host and vice versa, meaning you can edit your development files on your host using sublime (or whatever) and have your VM get those changes as well instantaneously. 
 
 
-## 
+# MongoDB Reference
+
+## Connecting to DB
+You can connect using the 'mongo' driver program which comes installed on the VM. To connect, simply run 
+```bash
+mongo --port 8081 --host 10.0.2.15
+```
+From the VM. If you want to connect to the DB from your host machine, make sure you have 'mongo' installed and run 
+```bash
+mongo --port 8081
+```
+Remember that when you need to start up your VM again because of a shut down, the db daemon will also be killed off so you need to start the db again. To do so, just run 
+```bash
+mongod --config /vagrant/etc/install/mongod-yaml.conf
+```
+in the root directory.
+
+## Web interface
+The VM has also been set up with a web interface for the DB which can be viewed by following [this](http://localhost:9081) link. NOTE: The web interface will only show you information about YOUR DB ON YOUR VM. If you can't view it, make sure your VM is running using 'vagrant status'
+
+Curious what [this](http://localhost:9081) is? Click it and see! The reason we can do that is because of the port forwarding vagrant set up!
+
 # Quick Git Review
 
 ## Getting started
