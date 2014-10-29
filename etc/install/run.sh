@@ -1,22 +1,27 @@
 MONGO_LOG='/var/log/mongodb'
 MONGO_DB='/opt/UCRcareer_db'
 
+# Update package repositories
+echo 'Updating package repositories...'
+sudo apt-add-repository "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc) main universe restricted multiverse"
+sudo apt-get update
+echo 'Done updating package repositories'
+
 # Prerequisite tools 
 echo 'Installing prerequisite tools...'
 sudo apt-get install -y build-essential git
 echo 'Finished installing prerequisites'
 
-# Build and install node and npm from source
-echo 'Building and installing node and npm from source...'
-pushd ~ 
-git clone https://github.com/joyent/node.git
-cd node
-git checkout v0.10.32
-./configure && make && sudo make install
-cd ..
-rm -rf node
-popd 
-echo 'Done building and installing node and npm'
+# Install node and npm from source
+echo 'Installing node and npm...'
+sudo apt-get install -y nodejs npm
+# Create alias for node -> nodejs
+echo 'alias node="nodejs"' >> ~/.bashrc
+. ~/.bashrc
+# Create a symlink for /usr/bin/nodejs -> /usr/bin/node
+# needed so some node applications work properly
+sudo ln -s /usr/bin/nodejs /usr/bin/node
+echo 'Done installing node and npm'
 
 # Install global node modules
 echo 'Installing bower, nodemon, and gulp'
@@ -34,8 +39,8 @@ sudo apt-get update
 sudo apt-get install -y mongodb-org
 echo 'Done installing mongodb'
 
-# Setup DB paths, set permissions, and start DB
-echo 'Creating DB paths, setting permissions, and starting mongo'
+# Setup DB paths and setting permissions
+echo 'Creating DB paths and setting permissions...'
 # Make sure mongo daemon has not already started
 # if so, stop daemon
 sudo service mongod stop
@@ -43,8 +48,7 @@ sudo mkdir -p $MONGO_LOG
 sudo chown -R 'vagrant' $MONGO_LOG
 sudo mkdir -p $MONGO_DB
 sudo chown -R 'vagrant' $MONGO_DB
-sudo -u vagrant mongod --config /vagrant/etc/install/mongod-yaml.conf
-echo 'Done setting up and running mongodb'
+echo 'Done setting up mongodb'
 
 # Install Heroku Toolbelt
 echo 'Installing heroku'
