@@ -16,7 +16,8 @@
     "url": "https://github.com/CrazyWearsPJs/UCRCareer/issues"
   },
   "dependencies": {
-    "mongoose" : "~3.8.18"
+    "mongoose" : "~3.8.18",
+	"express"  : "~4.10.1"
   },
   "devDependencies": {
     "gulp-mocha": "~1.1.1"
