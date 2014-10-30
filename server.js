@@ -15,4 +15,4 @@ var config   = require('./config')
 var dbSettings = config.dbSettings
   , db = mongoose.createConnection(dbSettings.host
                                  , dbSettings.database
-								 , dbSettings.port);
+                                 , dbSettings.port);
