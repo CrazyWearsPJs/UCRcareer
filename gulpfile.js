@@ -30,6 +30,7 @@ var destinations = {
 
 gulp.task('build:js', function(){
     return gulp.src(sources.js)
+        .pipe(sourcemaps.init())
         .pipe(uglify())
         .pipe(concat('all.js'))
         .pipe(sourcemaps.write())
