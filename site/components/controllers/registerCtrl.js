@@ -20,7 +20,7 @@ angular.module('ucrCareerControllers')
 
             $scope.differentPasswordTouched = function() {
                return $scope.register.reEnterPassword.$touched &&
-                $scope.reguster.password.$viewValue !== $scope.register.password.$viewValue; 
+                $scope.register.password.$viewValue !== $scope.register.password.$viewValue; 
             };
 
             $scope.ok = function() {
