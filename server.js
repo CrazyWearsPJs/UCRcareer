@@ -5,8 +5,7 @@
 var express  = require('express')
   , mongoose = require('mongoose');
 
-var config   = require('./config')
-  , app      = require('./app/models');
+var config   = require('./config');
 
 /**
  * Setup database 
