@@ -10,7 +10,7 @@ var mongoose = require('mongoose')
  */
 
 var loginSchema = new Schema({
-	password: String
+    password: String
   , uName:    String
 }); 
 

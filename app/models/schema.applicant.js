@@ -16,11 +16,11 @@ var loginSchema     = require('./schema.login')
  */
 
 var applicantSchema = new Schema({
-	login:    [loginSchema]
-  , contact:  [contactSchema]
-  , location: [locationSchema]
-  , spec:     [specSchema]
-  , personal: [personalSchema]
+    login:    loginSchema
+  , contact:  contactSchema
+  , location: locationSchema
+  , spec:     specSchema
+  , personal: personalSchema
 }); 
 
 /**

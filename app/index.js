@@ -4,10 +4,9 @@
 
 
 /**
- * Define login schema
+ * Register models
  */
 
-
 /**
- * Export schema
+ * Export model registration 
  */
