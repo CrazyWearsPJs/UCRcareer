@@ -9,6 +9,9 @@ var applicantSchema = require('./schema.applicant')
 
 /**
  * Register models
+ * @param db {Connection} Mongoose connection
+ * @return none
+ * @api public
  */
 
 function register (db) {
