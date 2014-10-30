@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var gutil = require('gulp-util');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
+var traceur = require('gulp-traceur');
 var karma = require('karma');
 var jshint = require('gulp-jshint');
 var sourcemaps = require('gulp-sourcemaps');
@@ -31,6 +32,7 @@ var destinations = {
 gulp.task('build:js', function(){
     return gulp.src(sources.js)
         .pipe(sourcemaps.init())
+        .pipe(traceur())
         .pipe(uglify())
         .pipe(concat('all.js'))
         .pipe(sourcemaps.write())
