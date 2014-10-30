@@ -12,7 +12,6 @@ angular.module('ucrCareerControllers')
             
             if(credentials.password !== null) {
                 $scope.user.password = credentials.password;
-                $scope.user.reEnterPassword = credentials.password;
             }
 
             $scope.differentPassword = function() {
