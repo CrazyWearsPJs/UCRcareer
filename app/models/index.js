@@ -28,9 +28,9 @@ function register (db) {
  */
 
 function applicant () {
-	if (dbref === undefined)
+	if (dbRef === undefined)
 		throw new error('Need to register models first!');
-	return dbref.model('Applicant');
+	return dbRef.model('Applicant');
 }
 
 /**
@@ -40,13 +40,13 @@ function applicant () {
  */
 
 function employer () {
-	if (dbref === undefined)
+	if (dbRef === undefined)
 		throw new error('Need to register models first!');
-	return dbref.model('Employer');
+	return dbRef.model('Employer');
 }
 
 /**
- * Export model registration 
+ * Exports
  */
 
 module.exports = {
