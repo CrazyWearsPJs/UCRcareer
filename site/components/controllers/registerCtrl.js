@@ -1,6 +1,6 @@
 angular.module('ucrCareerControllers')
-        .controller('RegisterCtrl', ['$scope', 'User', 
-        function($scope, User){
+        .controller('RegisterCtrl', ['$scope', '$location', 'User', 
+        function($scope, $location, User){
             $scope.user = {
                 email: "", 
                 password: ""
@@ -12,7 +12,27 @@ angular.module('ucrCareerControllers')
             
             if(credentials.password !== null) {
                 $scope.user.password = credentials.password;
+                $scope.user.reEnterPassword = credentials.password;
             }
+
+            $scope.differentPassword = function() {
+                return $scope.user.password !== $scope.user.reEnterPassword;
+            };
+
+            $scope.differentPasswordTouched = function() {
+               return $scope.register.reEnterPassword.$touched &&
+                $scope.reguster.password.$viewValue !== $scope.register.password.$viewValue; 
+            };
+
+            $scope.ok = function() {
+                if($scope.register.$valid && !$scope.differentPassword()) {
+                    // api call
+                }
+            };
+
+            $scope.cancel = function() {
+                $location.path('/');
+            };
        }]);
 
 

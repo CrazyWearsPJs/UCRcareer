@@ -1,2 +1,73 @@
-The registration page!
-{{user.email}}
+<h1>Register!</h1>
+<form name="register" ng-submit="ok()" novalidate>
+    <div class="body">
+    <div class="form-group"
+        ng-class="{'has-error':register.email.$error.email}">
+        <label for="newUserEmail">Email</label>
+        <input ng-model="user.email" type="email" class="form-control" id="newUserEmail" 
+            placeholder="johndoe64@aol.com" 
+            name="email"
+            ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
+            required
+            ng-trim/>
+        <div ng-show="register.email.$error.email">
+            <p class="error-text">Please enter a valid email address! </p>
+        </div>
+    </div>
+    <div class="form-group"
+        ng-class="{'has-error': invalidPasswordTouched()}">
+        <label for="newUserPassword">Password (minimum 8 characters long)</label>
+        <input ng-model="user.password" type="password" class="form-control" id="newUserPassword"
+            placeholder="password"
+            name="password"
+            ng-minlength="8"
+            ng-maxlength="30"
+            ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
+            required/>
+    </div>
+    <div ng-messages="register.password.$error">
+        <p ng-message="minlength" class="error-text">Password must be at least 8 characters long!</p>
+        <p ng-message="maxlength" class="error-text">Password is way too long! (over 30 characters)</p>
+    </div>
+
+
+    <div class="form-group"
+        ng-class="{'has-error': differentPasswordTouched()}">
+        <label for="newUserReEnterPassword">Re-enter Password</label>
+        <input ng-model="user.reEnterPassword" type="password" class="form-control" 
+            name="reEnterPassword"
+            ng-class="{'has-error': register.password !== register.reEnterPassword}"
+            id=newUserReEnterPassword" placeholder="re-enter password"
+            ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
+            required/>
+        <div ng-show="differentPasswordTouched()">
+            <p class="error-text"> The passwords you entered do not match! </p>
+        </div>
+    </div>
+
+    <div class="form-inline">
+        <div class="form-group"
+            ng-class="{'has-error':register.fName.$invalid}">
+            <label for="newUserfName">First Name</label>
+            <input ng-model="user.fname" type="text" class="form-control" id="newUserfName"
+                placeholder="John"
+                name="fName"
+                ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
+                required/>
+        </div>
+         <div class="form-group"
+            ng-class="{'has-error':register.lName.$invalid}">
+            <label for="newUserlName">Last Name</label>
+            <input ng-model="user.lname" type="text" class="form-control" id="newUserlName"
+                placeholder="Doe"
+                name="lName"
+                ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
+                required/>
+        </div>
+    
+     </div>
+    <div class = "footer">
+        <input type="submit" class="btn" ng-class="register.$valid?'btn-primary':'btn-default'" value="Submit"/>
+        <button class="btn btn-warning" ng-click="cancel()"> Cancel </button>
+    </div>
+</form>
