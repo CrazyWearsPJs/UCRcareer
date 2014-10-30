@@ -5,22 +5,42 @@
 var mongoose = require('mongoose')
   , Schema   = mongoose.Schema;
 
-var loginObj     = require('./login')
-  , contactObj   = require('./contact')
-  , locationObj  = require('./location')
-  , specObj      = require('./spec')
-  , personalObj  = require('./personal');
-
 /**
  * Define applicant schema
  */
 
 var applicantSchema = new Schema({
-    login:    loginObj
-  , contact:  contactObj
-  , location: locationObj
-  , spec:     specObj
-  , personal: personalObj
+    login: {
+        password: String
+      , uName:    String
+    }
+  , contact: {
+        website:  String
+      , linkedIn: String
+      , facebook: String
+      , twitter:  String
+      , phoneNum: String
+      , email:    String
+    }
+  , location: {
+        city:     String
+      , state:    String
+      , zip:      String
+      , address:  String
+      , country:  String
+    }
+  , spec: {
+        degree:   String
+      , univ:     String
+      , year:     String
+      , resume:   String
+      , focus:    String
+    }
+  , personal: {
+        fName:    String
+      , mInit:    String
+      , lName:    String
+    }
 }); 
 
 /**
