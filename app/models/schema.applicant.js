@@ -5,22 +5,22 @@
 var mongoose = require('mongoose')
   , Schema   = mongoose.Schema;
 
-var loginSchema     = require('./schema.login')
-  , contactSchema   = require('./schema.contact')
-  , locationSchema  = require('./schema.location')
-  , specSchema      = require('./schema.spec')
-  , personalSchema  = require('./schema.personal');
+var loginObj     = require('./login')
+  , contactObj   = require('./contact')
+  , locationObj  = require('./location')
+  , specObj      = require('./spec')
+  , personalObj  = require('./personal');
 
 /**
  * Define applicant schema
  */
 
 var applicantSchema = new Schema({
-    login:    loginSchema
-  , contact:  contactSchema
-  , location: locationSchema
-  , spec:     specSchema
-  , personal: personalSchema
+	login:    loginObj
+  , contact:  contactObj
+  , location: locationObj
+  , spec:     specObj
+  , personal: personalObj
 }); 
 
 /**
