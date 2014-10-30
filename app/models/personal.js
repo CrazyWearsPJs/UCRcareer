@@ -7,7 +7,7 @@
  */
 
 var personalObj = {
-	fName:    String
+    fName:    String
   , mInit:    String
   , lName:    String
   , jobTitle: String

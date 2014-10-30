@@ -12,8 +12,8 @@ var applicantSchema = require('./schema.applicant')
  */
 
 function register (db) {
-	db.model('Applicant', applicantSchema);
-	db.model('Employer' , employerSchema);
+    db.model('Applicant', applicantSchema);
+    db.model('Employer' , employerSchema);
 }
 
 /**
@@ -21,5 +21,5 @@ function register (db) {
  */
 
 module.exports = {
-	register: register
+    register: register
 };

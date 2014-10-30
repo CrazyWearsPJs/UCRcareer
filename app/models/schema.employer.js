@@ -16,7 +16,7 @@ var loginObj    = require('./login')
 
 var employerSchema = new Schema({
     companyName: String
-  ,	login:       loginObj
+  , login:       loginObj
   , contact:     contactObj
   , location:    locationObj
   , personal:    personalObj

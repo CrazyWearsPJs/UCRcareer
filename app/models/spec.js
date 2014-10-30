@@ -7,7 +7,7 @@
  */
 
 var specObj = {
-	degree: String
+    degree: String
   , univ:   String
   , year:   String
   , resume: String

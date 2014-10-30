@@ -7,7 +7,7 @@
  */
 
 var loginObj = {
-	password: String
+    password: String
   , uName:    String
 }; 
 

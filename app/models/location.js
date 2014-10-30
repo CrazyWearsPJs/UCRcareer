@@ -7,7 +7,7 @@
  */
 
 var locationObj = {
-	city:    String
+    city:    String
   , state:   String
   , zip:     String
   , address: String

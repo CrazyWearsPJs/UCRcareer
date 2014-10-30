@@ -7,7 +7,7 @@
  */
 
 var contactObj = {
-	website:  String
+    website:  String
   , linkedIn: String
   , facebook: String
   , twitter:  String

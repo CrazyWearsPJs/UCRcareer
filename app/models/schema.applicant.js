@@ -16,7 +16,7 @@ var loginObj     = require('./login')
  */
 
 var applicantSchema = new Schema({
-	login:    loginObj
+    login:    loginObj
   , contact:  contactObj
   , location: locationObj
   , spec:     specObj
