@@ -28,9 +28,6 @@ db.on('error', function(err) {
     throw new Error('DB connection error');
 });
 
-db.on('connecting', function() {
-});
-
 db.on('connected', function() {
     logger.info("Connected to mongodb://%s/%s:%s", dbSettings.host
                                                  , dbSettings.database
