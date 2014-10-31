@@ -6,8 +6,10 @@ angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'u
             }).when('/register', {
                 templateUrl: 'templates/register.html',
                 controller: 'RegisterCtrl'
-            })
-            .otherwise({
+            }).when('/employerRegister', {
+		templateUrl: 'templates/employerRegister.html',
+            	controller: 'RegisterCtrl'
+            }).otherwise({
                 redirectTo: '/'
             });
         }]);
