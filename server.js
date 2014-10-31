@@ -20,13 +20,36 @@ var config = require('./app/config')
 
 var dbSettings = config.dbSettings;
 
-logger.info("Connecting to mongodb://%s/%s:%s", dbSettings.host
-                                              , dbSettings.database
-                                              , dbSettings.port);
-
 var db = mongoose.createConnection(dbSettings.host
                                  , dbSettings.database
                                  , dbSettings.port);
+
+db.on('error', function(err) {
+    logger.error('DB connection error: %s', err);
+    throw new Error('DB connection error');
+});
+
+db.on('connecting', function() {
+});
+
+db.on('connected', function() {
+    logger.info("Connected to mongodb://%s/%s:%s", dbSettings.host
+                                                 , dbSettings.database
+                                                 , dbSettings.port);
+});
+
+db.on('disconnected', function() {
+    logger.warn("DB connection has been lost!")
+});
+
+db.on('reconnected', function() {
+    logger.info("DB connection has been restarted!");
+});
+
+db.on('close', function() {
+    logger.warn("DB connection has been closed!");
+});
+
 // Register models
 models.register(db);
 
@@ -83,4 +106,3 @@ var port = serverSettings.port || 8080;
 app.listen(port, function (){
     logger.info("Application started on port %s", port);
 });
-
