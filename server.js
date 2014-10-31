@@ -21,7 +21,7 @@ var dbSettings = config.dbSettings;
 
 logger.info("Connecting to mongodb://%s/%s:%s", dbSettings.host
                                               , dbSettings.database
-											  , dbSettings.port);
+					      , dbSettings.port);
 
 var db = mongoose.createConnection(dbSettings.host
                                  , dbSettings.database

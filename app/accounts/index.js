@@ -2,9 +2,10 @@
  * Module Dependencies
  */
  
-var models    = require('../models')
-  , Applicant = models.applicant()
-  , Employer  = models.employer();
+var models     = require('../models')
+  , Applicant  = models.applicant()
+  , Employer   = models.employer()
+  , JobPosting = models.jobPosting();
 
 /**
  * Create a new applicant in our db
@@ -29,9 +30,21 @@ function createEmployer (employerInfo) {
 }
 
 /**
+ * Create a new job posting in our db
+ * @param jobPostingInfo {Object} Should match schema
+ * @return none
+ */
+
+function createJobPosting (jobPostingInfo) {
+	var jobPost = new JobPosting(jobPostingInfo);
+	jobPost.save();
+}
+
+/**
  * Exports
  */
 module.exports = {
-	createApplicant : createApplicant
-  , createEmployer  : createEmployer
+    createApplicant   : createApplicant
+  , createEmployer    : createEmployer
+  , createJobPosting  : createJobPosting
 }
