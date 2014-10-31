@@ -11,22 +11,21 @@ var mongoose = require('mongoose')
 
 var jobPostingSchema = new Schema({
     specifics: {
-        jobTitle:     String
-      , description:  String
-      , requirements: String
-      , salary:       String
-      , department:   String
-      , jobType:      String
+        jobTitle:     { type: String }
+      , description:  { type: String }
+      , requirements: { type: String }
+      , salary:       { type: String }
+      , department:   { type: String }
+      , jobType:      { type: String }
     }
   , location: {
-        city:         String
-      , state:        String
+        city:         { type: String }
+      , state:        { type: String }
     }
   , date: {
-        post:         String
-      , close:        String
+        postedOn:     { type: String }
+      , endsOn:       { type: String }
     }
-  , employerId:        String
 }); 
 
 /**

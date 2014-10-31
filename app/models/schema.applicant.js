@@ -11,36 +11,36 @@ var mongoose = require('mongoose')
 
 var applicantSchema = new Schema({
     login: {
-        password:  String
-      , uName:     String
+        password:  { type: String, required: true }
+      , uName:     { type: String, required: true, lowercase: true }
     }
   , contact: {
-        website:   String
-      , linkedIn:  String
-      , facebook:  String
-      , twitter:   String
-      , phoneNum:  String
-      , email:     String
+        website:   { type: String } 
+      , linkedIn:  { type: String }
+      , facebook:  { type: String }
+      , twitter:   { type: String }
+      , phoneNum:  { type: String }
+      , email:     { type: String, required: true, lowercase: true }
     }
   , location: {
-        city:      String
-      , state:     String
-      , zip:       String
-      , address1:  String
-      , address2:  String
-      , country:   String
+        city:      { type: String, required: true }
+      , state:     { type: String, required: true }
+      , zip:       { type: String, required: true }
+      , address1:  { type: String, required: true }
+      , address2:  { type: String }
+      , country:   { type: String, required: true }
     }
   , spec: {
-        degree:    String
-      , univ:      String
-      , year:      String
-      , resume:    String
-      , focus:     String
+        degree:    { type: String }
+      , univ:      { type: String }
+      , year:      { type: String }
+      , resume:    { type: String }
+      , focus:     { type: String }
     }
   , personal: {
-        fName:     String
-      , mInit:     String
-      , lName:     String
+        fName:     { type: String, required: true }
+      , mInit:     { type: String }
+      , lName:     { type: String, required: true }
     }
 }); 
 
