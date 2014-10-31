@@ -1,7 +1,7 @@
 <div class="modal-header"> 
     <h3 class="modal-title">Register!</h3>
 </div>
-<form name="register" ng-submit="ok()" novalidate>
+<form name="register" novalidate>
     <div class="modal-body">
     <div class="form-group"
         ng-class="{'has-error':register.email.$error.email}">
@@ -48,7 +48,8 @@
     </div>
     </div>
     <div class = "modal-footer">
-        <input type="submit" class="btn" ng-class="register.$valid?'btn-primary':'btn-default'" value="Submit"/>
+        <input type="submit" class="btn" ng-class="register.$valid?'btn-primary':'btn-default'" value="New Employee" ng-click="registerEmployee()"/>
+        <input type="submit" class="btn" ng-class="register.$valid?'btn-primary':'btn-default'" value="New Employer" ng-click="registerEmployer()"/>
         <button class="btn btn-warning" ng-click="cancel()"> Cancel </button>
     </div>
 </form>

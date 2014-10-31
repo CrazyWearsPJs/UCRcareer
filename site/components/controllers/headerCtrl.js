@@ -10,7 +10,12 @@ angular.module('ucrCareerControllers')
 
                     modalInstance.result.then(function(user) {
                         User.addCredentials(user.email, user.password);
-                        $location.path('/register');
+                        console.dir(user);
+                        if(user.employer) {
+                            $location.path('/employerRegister');
+                        } else {
+                            $location.path('/register');
+                        }
                     }, function() {
                     });
                 };
@@ -26,44 +31,6 @@ angular.module('ucrCareerControllers')
                     }, function() {
         	    });
         	};
-        	$scope.employerRegisterOpen = function() {
-                    var modalInstance = $modal.open({
-                	templateUrl: 'templates/registerModal.html',
-	                controller: 'RegisterModalCtrl',
-        	        size: 'lg'
-	            });
-       	            modalInstance.result.then(function(user) {
-	                User.addCredentials(user.email, user.password);
-                        $location.path('/employerRegister');
-                    }, function() {
-	     	    });
-        	};
-        }])
-        .controller('RegisterModalCtrl', ['$scope', '$modalInstance',
-        function($scope, $modalInstance){
-            $scope.user = {
-                email : "",
-                password: "",
-                reEnterPassword: ""
-            };
-            var differentPassword = function() {
-                return $scope.user.password !== $scope.user.reEnterPassword;
-            };
-
-            $scope.differentPasswordTouched = function() {
-                return $scope.register.reEnterPassword.$touched && 
-                    $scope.register.password.$viewValue !== $scope.register.reEnterPassword.$viewValue;
-            };
-
-            $scope.ok = function() {
-                if ($scope.register.$valid && !differentPassword()) {
-                    $modalInstance.close($scope.user);
-                }
-            };
-            
-            $scope.cancel = function() {
-                $modalInstance.dismiss();
-            };
         }])
 	.controller('LoginModalCtrl', ['$scope', '$modalInstance', function($scope, $modalInstance){
             $scope.user = {
@@ -81,14 +48,23 @@ angular.module('ucrCareerControllers')
                 $modalInstance.dismiss();
             };
         }])
-	.controller('EmployerRegisterModalCtrl', ['$scope', '$modalInstance', function($scope, $modalInstance){
+	.controller('RegisterModalCtrl', ['$scope', '$modalInstance', function($scope, $modalInstance){
             $scope.user = {
                 email : "",
                 password: "",
+                employer: false
             };
 
-            $scope.ok = function() {
-                if ($scope.employerRegister.$valid) {
+            $scope.registerEmployee = function() {
+                if ($scope.register.$valid) {
+                    $scope.user.employer = false;
+                    $modalInstance.close($scope.user);
+                }
+            };
+
+            $scope.registerEmployer = function() {
+                if($scope.register.$valid) {
+                    $scope.user.employer = true;
                     $modalInstance.close($scope.user);
                 }
             };
