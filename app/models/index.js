@@ -5,7 +5,7 @@
 var mongoose = require('mongoose');
 
 var applicantSchema   = require('./schema.applicant')
-  , employerSchema    = require('./schema.employer');
+  , employerSchema    = require('./schema.employer')
   , jobPostingSchema  = require('./schema.jobPosting');
 
 var dbRef = undefined;

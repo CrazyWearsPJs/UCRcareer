@@ -26,7 +26,7 @@ var jobPostingSchema = new Schema({
         post:         String
       , close:        String
     }
-   employerId:        String
+  , employerId:        String
 }); 
 
 /**
