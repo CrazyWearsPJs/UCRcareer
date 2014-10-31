@@ -11,35 +11,36 @@ var mongoose = require('mongoose')
 
 var applicantSchema = new Schema({
     login: {
-        password: String
-      , uName:    String
+        password:  String
+      , uName:     String
     }
   , contact: {
-        website:  String
-      , linkedIn: String
-      , facebook: String
-      , twitter:  String
-      , phoneNum: String
-      , email:    String
+        website:   String
+      , linkedIn:  String
+      , facebook:  String
+      , twitter:   String
+      , phoneNum:  String
+      , email:     String
     }
   , location: {
-        city:     String
-      , state:    String
-      , zip:      String
-      , address:  String
-      , country:  String
+        city:      String
+      , state:     String
+      , zip:       String
+      , address1:  String
+      , address2:  String
+      , country:   String
     }
   , spec: {
-        degree:   String
-      , univ:     String
-      , year:     String
-      , resume:   String
-      , focus:    String
+        degree:    String
+      , univ:      String
+      , year:      String
+      , resume:    String
+      , focus:     String
     }
   , personal: {
-        fName:    String
-      , mInit:    String
-      , lName:    String
+        fName:     String
+      , mInit:     String
+      , lName:     String
     }
 }); 
 
