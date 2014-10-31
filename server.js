@@ -11,6 +11,7 @@ var express        = require('express')
   , app            = express();
 
 var config = require('./config')
+  , models = require('./app/models')
   , logger = require('./app/logger');
 
 /**
@@ -26,6 +27,8 @@ logger.info("Connecting to mongodb://%s/%s:%s", dbSettings.host
 var db = mongoose.createConnection(dbSettings.host
                                  , dbSettings.database
                                  , dbSettings.port);
+// Register models
+models.register(db);
 
 /**
  * Setup server
