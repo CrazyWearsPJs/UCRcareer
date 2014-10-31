@@ -54,7 +54,7 @@ app.use(expressWinston.logger({
 }));
 
 // Serve static files
-app.use(express.static(__dirname + '/site'));
+app.use(express.static(path.join(__dirname, serverSettings.staticPath)));
 
 // Set up HTTP error logging
 // Needs to be placed after routes and static

@@ -15,5 +15,6 @@ module.exports = {
 	  , appErrLogFile:  "APP.ERROR.log"
 	  , appInfoLogFile: "APP.INFO.log"
 	  , appWarnLogFile: "APP.WARN.log"
+      , staticPath:     "site"
 	}
 };
