@@ -5,7 +5,7 @@
 var winston = require('winston')
   , path    = require('path');
 
-var config  = require('../../config')
+var config  = require('../config')
 
 /**
  * Create logger for the application

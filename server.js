@@ -10,7 +10,7 @@ var express        = require('express')
   , winston        = require('winston')
   , app            = express();
 
-var config = require('./config')
+var config = require('./app/config')
   , models = require('./app/models')
   , logger = require('./app/logger');
 
