@@ -22,7 +22,7 @@ var dbSettings = config.dbSettings;
 
 logger.info("Connecting to mongodb://%s/%s:%s", dbSettings.host
                                               , dbSettings.database
-											  , dbSettings.port);
+                                              , dbSettings.port);
 
 var db = mongoose.createConnection(dbSettings.host
                                  , dbSettings.database
@@ -39,16 +39,16 @@ var serverSettings = config.serverSettings;
 // Set up HTTP logging (non-errors). Needs
 // to be done before any route handlers!
 app.use(expressWinston.logger({
-	transports: [
-		new winston.transports.Console({
-			colorize:    true
-		  , exitOnError: false
-		})
-	  , new winston.transports.File({
-			filename: path.join('.', serverSettings.httpLogFile)
-		  , exitOnError: false
-		})
-	]
+    transports: [
+        new winston.transports.Console({
+            colorize:    true
+          , exitOnError: false
+        })
+      , new winston.transports.File({
+            filename: path.join('.', serverSettings.httpLogFile)
+          , exitOnError: false
+        })
+    ]
   , msg:         "{{res.statusCode}} {{req.method}} {{res.responseTime}}ms {{req.url}}"
   , colorStatus: true
 }));
@@ -60,16 +60,16 @@ app.use(express.static(path.join(__dirname, serverSettings.staticPath)));
 // Needs to be placed after routes and static
 // files, else it won't have errors to catch!
 app.use(expressWinston.errorLogger({
-	transports: [
-		new winston.transports.Console({
-			colorize:    true
-		  , exitOnError: false
-		})
-	  , new winston.transports.File({
-			filename: path.join('.', serverSettings.httpErrLogFile)
-		  , exitOnError: false
-		})
-	]
+    transports: [
+        new winston.transports.Console({
+            colorize:    true
+          , exitOnError: false
+        })
+      , new winston.transports.File({
+            filename: path.join('.', serverSettings.httpErrLogFile)
+          , exitOnError: false
+        })
+    ]
   , msg:         "{{res.statusCode}} {{req.method}} {{res.responseTime}}ms {{req.url}}"
   , colorStatus: true
 }));
@@ -81,6 +81,6 @@ app.use(expressWinston.errorLogger({
 var port = serverSettings.port || 8080;
 
 app.listen(port, function (){
-	logger.info("Application started on port %s", port);
+    logger.info("Application started on port %s", port);
 });
 
