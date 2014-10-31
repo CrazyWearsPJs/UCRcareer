@@ -8,4 +8,12 @@ module.exports = {
 	  , port:     "8081"
 	  , database: "UCRcareers"
 	}
+  , serverSettings: {
+        port:           "8080"
+	  , httpErrLogFile: "HTTP.ERROR.log"
+	  , httpLogFile:    "HTTP.log"
+	  , appErrLogFile:  "APP.ERROR.log"
+	  , appInfoLogFile: "APP.INFO.log"
+	  , appWarnLogFile: "APP.WARN.log"
+	}
 };
