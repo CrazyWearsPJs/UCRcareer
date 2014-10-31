@@ -4,7 +4,6 @@
 
 var express        = require('express')
   , expressWinston = require('express-winston')
-  , fs             = require('fs')
   , mongoose       = require('mongoose')
   , path           = require('path')
   , winston        = require('winston')
