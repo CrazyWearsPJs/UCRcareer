@@ -22,7 +22,7 @@ function register (db) {
 }
 
 /**
- * creates an applicant model constructor
+ * creates an applicant document constructor IE a model
  * @param none
  * @return {Model}
  */
@@ -34,7 +34,7 @@ function applicant () {
 }
 
 /**
- * creates an employer model constructor
+ * creates an employer document constructor IE a model
  * @param none
  * @return {Model}
  */
