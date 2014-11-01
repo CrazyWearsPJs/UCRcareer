@@ -24,8 +24,7 @@ var db = mongoose.createConnection(dbSettings.host
                                  , dbSettings.port);
 
 db.on('error', function(err) {
-    logger.error('DB connection error: %s', err);
-    throw new Error('DB connection error');
+    logger.error("DB error", err);
 });
 
 db.on('connected', function() {
