@@ -20,7 +20,8 @@
     "express": "~4.10.1",
     "winston": "~0.8.1",
     "express-winston": "~0.2.8",
-    "bcrypt": "~0.8.0"
+    "bcrypt": "~0.8.0",
+    "chai": "~1.9.2"
   },
   "devDependencies": {
     "gulp-mocha": "~1.1.1"
