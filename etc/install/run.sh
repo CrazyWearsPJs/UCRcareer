@@ -24,9 +24,9 @@ sudo ln -s /usr/bin/nodejs /usr/bin/node
 echo 'Done installing node and npm'
 
 # Install global node modules
-echo 'Installing bower, nodemon, and gulp'
-sudo npm install -g bower nodemon gulp 
-echo 'Done installing bower, nodemon, and gulp'
+echo 'Installing bower, nodemon, gulp, and mocha'
+sudo npm install -g bower nodemon gulp mocha
+echo 'Done installing bower, nodemon, gulp, and mocha'
 
 # Install mongodb
 # Following the directions from the offical site found
