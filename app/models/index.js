@@ -30,9 +30,9 @@ function register (db) {
  */
 
 function applicant () {
-	if (dbRef === undefined)
-		throw new error('Need to register models first!');
-	return dbRef.model('Applicant');
+    if (dbRef === undefined)
+        throw new error('Need to register models first!');
+    return dbRef.model('Applicant');
 }
 
 /**
@@ -42,9 +42,9 @@ function applicant () {
  */
 
 function employer () {
-	if (dbRef === undefined)
-		throw new error('Need to register models first!');
-	return dbRef.model('Employer');
+    if (dbRef === undefined)
+        throw new error('Need to register models first!');
+    return dbRef.model('Employer');
 }
 
 
@@ -55,9 +55,9 @@ function employer () {
  */
 
 function jobPosting () {
-	if (dbRef === undefined)
-		throw new error('Need to register models first!');
-	return dbRef.model('JobPosting');
+    if (dbRef === undefined)
+        throw new error('Need to register models first!');
+    return dbRef.model('JobPosting');
 }
 
 /**
@@ -65,8 +65,8 @@ function jobPosting () {
  */
 
 module.exports = {
-    register:  register
-  , applicant: applicant
-  , employer:  employer
-  , jobPosting:  jobPosting
+    register:   register
+  , applicant:  applicant
+  , employer:   employer
+  , jobPosting: jobPosting
 };
