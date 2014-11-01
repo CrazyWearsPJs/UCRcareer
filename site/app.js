@@ -3,11 +3,11 @@ angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'u
             $routeProvider.when('/', {
                 templateUrl: 'templates/splash.html',
                 controller: 'SplashCtrl' 
-            }).when('/register', {
-                templateUrl: 'templates/register.html',
+            }).when('/applicantRegister', {
+                templateUrl: 'templates/applicantRegister.html',
                 controller: 'RegisterCtrl'
             }).when('/employerRegister', {
-		        templateUrl: 'templates/employerRegister.html',
+	        templateUrl: 'templates/employerRegister.html',
             	controller: 'RegisterCtrl'
             }).otherwise({
                 redirectTo: '/'

@@ -14,7 +14,7 @@ angular.module('ucrCareerControllers')
                         if(user.employer) {
                             $location.path('/employerRegister');
                         } else {
-                            $location.path('/register');
+                            $location.path('/applicantRegister');
                         }
                     }, function() {
                     });
@@ -55,7 +55,7 @@ angular.module('ucrCareerControllers')
                 employer: false
             };
 
-            $scope.registerEmployee = function() {
+            $scope.registerApplicant = function() {
                 if ($scope.register.$valid) {
                     $scope.user.employer = false;
                     $modalInstance.close($scope.user);
