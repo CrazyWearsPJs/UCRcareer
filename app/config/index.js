@@ -11,7 +11,7 @@ module.exports = {
   , dbTestSettings: {
         host:     "10.0.2.15"
       , port:     "8081"
-      , database: "TestUCRcareers
+      , database: "TestUCRcareers"
     }
   , serverSettings: {
         port:           "8080"
