@@ -22,5 +22,8 @@ module.exports = {
 	  , appWarnLogFile: "APP.WARN.log"
       , staticPath:     "site"
 	}
+  , bcryptSettings: {
+        hashRounds: 10
+    }
 };
 

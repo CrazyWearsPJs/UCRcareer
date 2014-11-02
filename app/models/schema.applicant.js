@@ -3,7 +3,12 @@
  */
 
 var mongoose = require('mongoose')
+  , bcrypt   = require('bcrypt')
   , Schema   = mongoose.Schema;
+
+var config   = require('../config');
+
+var bcryptSettings = config.bcryptSettings;
 
 /**
  * Define applicant schema
@@ -42,6 +47,32 @@ var applicantSchema = new Schema({
       , lName:     { type: String, required: true }
     }
 }); 
+
+/**
+ * Set pre-save hook for replacing password field
+ * with its hashed version
+ */
+
+applicantSchema.pre('save', function(next){
+    var applicant = this;
+    
+    // Make sure if password has been set before,
+    // DON'T HASH IT AGAIN and stop saving model
+    if (applicant.isDirectModified('password'))
+        return next(new Error("Can't save same model twice. Password has been hashed already!"));
+    
+    // Create a SALT
+    bcrypt.genSalt(bcryptSettings.hashRounds, function(err, salt){
+        if(err) return next(err);
+        // Hash password
+        bcrypt.hash(applicant.login.password, salt, function(err, hashedPassword){
+            if(err) return next(err);
+            // Overwrite plain text password with hashed version
+            applicant.login.password = hashedPassword;
+            next();
+        });
+    });
+});
 
 /**
  * Export schema
