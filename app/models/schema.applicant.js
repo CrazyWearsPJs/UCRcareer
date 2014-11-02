@@ -12,7 +12,7 @@ var mongoose = require('mongoose')
 var applicantSchema = new Schema({
     login: {
         password:  { type: String, required: true }
-      , uName:     { type: String, required: true, lowercase: true }
+      , email:     { type: String, required: true, lowercase: true, unique: true }
     }
   , contact: {
         website:   { type: String } 
@@ -20,7 +20,6 @@ var applicantSchema = new Schema({
       , facebook:  { type: String }
       , twitter:   { type: String }
       , phoneNum:  { type: String }
-      , email:     { type: String, required: true, lowercase: true }
     }
   , location: {
         city:      { type: String, required: true }
