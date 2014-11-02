@@ -19,17 +19,19 @@ var dbTestSettings = config.dbTestSettings
 
 describe('models', function (){
     
-    beforeEach('Create a db connection', function(done) {
+    before('Create a db connection', function(done) {
         db = mongoose.createConnection(dbTestSettings.host
                                      , dbTestSettings.database
                                      , dbTestSettings.port);
-        done();
+        //Wait till db is connected
+		db.on('connected', function(){
+			done();
+		});
     });
     
-    afterEach('Destroy the db connection', function(done) {
+    after('Destroy the db connection', function() {
         db.close();
         db = undefined;
-        done();
     });
 
     describe('#register', function (){
@@ -51,23 +53,70 @@ describe('models', function (){
 
     describe('#applicant', function (){
         it('should return a applicant model c\'tor', function (){
-            var Applicant = models.applicant()
-              , johnDoe   = new Applicant();
+            var Applicant = models.applicant();
         });
     });
 
     describe('#employer', function (){
         it('should return a employer model c\'tor', function (){
-            var Employer = models.employer()
-              , johnDoe  = new Employer();
+            var Employer = models.employer();
         });
     });
 
     describe('#jobPosting', function (){
         it('should return a jobPosting model c\'tor', function (){
-            var JobPosting = models.jobPosting()
-              , post       = new JobPosting();
+            var JobPosting = models.jobPosting();
         });
     });
+
+	describe('Applicant', function (){
+		it('should be able to be saved to DB', function (done){
+			var Applicant = models.applicant();
+		    var johnDoe   = new Applicant({
+					login: {
+						password: "password1"
+					  , uName:    "jdoe001"
+					}
+				  , contact: {
+						email: "jdoe001@ucr.edu"
+					}
+				  , location: {
+						city:     "Riverside"
+					  , state:    "CA"
+					  , zip:      "92501"
+					  , address1: "1111 Linden St"
+					  , country:  "USA"
+					}
+				  , spec: {
+						degree: "Computer Science"
+					}
+				  , personal: {
+						fName: "John"
+					  , lName: "Doe"
+					}
+			    });
+			
+			// Save applicant
+			johnDoe.save(function(err, applicant, numAffected){
+				if(err) console.log(err);
+				// Find him again
+				var searchCriteria = {
+					personal: {
+						fName: "John"
+					  , lName: "Doe"
+				    }
+			    };
+			
+	     		Applicant.find(searchCriteria, function(err, applicant){
+		    		if(err) throw new Error("John Doe was not found!");
+			    	// We have found him, so delete him from DB and
+					// move on
+					Applicant.remove(applicant, function(){
+						done();
+					});
+			    });
+			});
+		});
+	});
 });
 
