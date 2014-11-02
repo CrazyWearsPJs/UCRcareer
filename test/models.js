@@ -70,15 +70,17 @@ describe('models', function (){
     });
 
     describe('Applicant', function (){
-        it('should be able to be saved to DB', function (done){
+        
+        // Insert dummy data into db
+        beforeEach(function(done){
             var Applicant = models.applicant();
             var johnDoe   = new Applicant({
                     login: {
                         password: "password1"
-                      , uName:    "jdoe001"
+                      , email:    "jdoe001@ucr.edu"
                     }
                   , contact: {
-                        email: "jdoe001@ucr.edu"
+                        phoneNum: "9099999999"
                     }
                   , location: {
                         city:     "Riverside"
@@ -98,23 +100,28 @@ describe('models', function (){
             
             // Save applicant
             johnDoe.save(function(err, applicant, numAffected){
-                if(err) console.log(err);
-                // Find him again
-                var searchCriteria = {
-                    personal: {
-                        fName: "John"
-                      , lName: "Doe"
-                    }
-                };
+                if(err) throw err;
+                expect(numAffected).to.be.equal(1);
+                done();
+            });
+        });
+
+        // Remove dummy data
+        afterEach(function(done){
+            // Remove dummy applicant
+            var Applicant = models.applicant();
+            Applicant.remove({"login.email" : "jdoe001@ucr.edu"}, function(err){
+                if(err) throw err;
+                done();
+            });
+        });
             
-                Applicant.find(searchCriteria, function(err, applicant){
-                    if(err) throw new Error("John Doe was not found!");
-                    // We have found him, so delete him from DB and
-                    // move on
-                    Applicant.remove(applicant, function(){
-                        done();
-                    });
-                });
+        it('should be able to be saved to DB', function (done){
+            var Applicant = models.applicant();
+            Applicant.findOne({"login.email" : "jdoe001@ucr.edu"}, function(err, applicant){
+                if(err) throw err;
+                expect(applicant).to.not.be.equal(null);
+                done();
             });
         });
     });
