@@ -24,9 +24,9 @@ describe('models', function (){
                                      , dbTestSettings.database
                                      , dbTestSettings.port);
         //Wait till db is connected
-		db.on('connected', function(){
-			done();
-		});
+        db.on('connected', function(){
+            done();
+        });
     });
     
     after('Destroy the db connection', function() {
@@ -69,54 +69,54 @@ describe('models', function (){
         });
     });
 
-	describe('Applicant', function (){
-		it('should be able to be saved to DB', function (done){
-			var Applicant = models.applicant();
-		    var johnDoe   = new Applicant({
-					login: {
-						password: "password1"
-					  , uName:    "jdoe001"
-					}
-				  , contact: {
-						email: "jdoe001@ucr.edu"
-					}
-				  , location: {
-						city:     "Riverside"
-					  , state:    "CA"
-					  , zip:      "92501"
-					  , address1: "1111 Linden St"
-					  , country:  "USA"
-					}
-				  , spec: {
-						degree: "Computer Science"
-					}
-				  , personal: {
-						fName: "John"
-					  , lName: "Doe"
-					}
-			    });
-			
-			// Save applicant
-			johnDoe.save(function(err, applicant, numAffected){
-				if(err) console.log(err);
-				// Find him again
-				var searchCriteria = {
-					personal: {
-						fName: "John"
-					  , lName: "Doe"
-				    }
-			    };
-			
-	     		Applicant.find(searchCriteria, function(err, applicant){
-		    		if(err) throw new Error("John Doe was not found!");
-			    	// We have found him, so delete him from DB and
-					// move on
-					Applicant.remove(applicant, function(){
-						done();
-					});
-			    });
-			});
-		});
-	});
+    describe('Applicant', function (){
+        it('should be able to be saved to DB', function (done){
+            var Applicant = models.applicant();
+            var johnDoe   = new Applicant({
+                    login: {
+                        password: "password1"
+                      , uName:    "jdoe001"
+                    }
+                  , contact: {
+                        email: "jdoe001@ucr.edu"
+                    }
+                  , location: {
+                        city:     "Riverside"
+                      , state:    "CA"
+                      , zip:      "92501"
+                      , address1: "1111 Linden St"
+                      , country:  "USA"
+                    }
+                  , spec: {
+                        degree: "Computer Science"
+                    }
+                  , personal: {
+                        fName: "John"
+                      , lName: "Doe"
+                    }
+                });
+            
+            // Save applicant
+            johnDoe.save(function(err, applicant, numAffected){
+                if(err) console.log(err);
+                // Find him again
+                var searchCriteria = {
+                    personal: {
+                        fName: "John"
+                      , lName: "Doe"
+                    }
+                };
+            
+                Applicant.find(searchCriteria, function(err, applicant){
+                    if(err) throw new Error("John Doe was not found!");
+                    // We have found him, so delete him from DB and
+                    // move on
+                    Applicant.remove(applicant, function(){
+                        done();
+                    });
+                });
+            });
+        });
+    });
 });
 
