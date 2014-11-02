@@ -107,12 +107,15 @@
  	<div class="form-group"
             ng-class="{'has-error':register.phone.$invalid && register.phone.$touched}">
             <label for="newUserPhone">Phone</label>
+            <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-phone"></i></span> 
             <input ng-model="user.phone" type="text" 
                 class="form-control" id="newUserNumber"
                 placeholder="5558675309"
                 name="phoneNum"
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
                 ng-trim/>
+            </div>
         </div>
 	</div>
     </div>
@@ -121,24 +124,32 @@
         <div class="form-group"
             ng-class="{'has-error':register.website.$invalid && register.website.$touched}">
             <label for="newUserWebsite">Website</label>
+            <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-globe"></i></span>
+            <span class="input-group-addon">www.</span>
             <input ng-model="user.website" type="url" 
                 class="form-control" id="newUserWebsite"
-                placeholder="www.yourwebsite.com"
+                placeholder="yourwebsite.com"
                 name="website"
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
                 ng-trim/>
         </div>
+    </div>
 	</div>
 	<div class="col-md-6">
         <div class="form-group"
             ng-class="{'has-error':register.LinkedIn.$invalid && register.LinkedIn.$touched}">
             <label for="newUserLinkedIn">LinkedIn</label>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-linkedin"></i></span>
+                <span class="input-group-addon">www.linkedin.com/in/</span>
             <input ng-model="user.linkedIn" type="url" 
                 class="form-control" id="newUserLinkedIn"
-                placeholder="www.linkedin.com"
+                placeholder="johndoe64"
                 name="linkedIn"
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
                 ng-trim/>
+            </div>
         </div>
 	</div>
     </div>
@@ -147,24 +158,32 @@
         <div class="form-group"
             ng-class="{'has-error':register.facebook.$invalid && register.facebook.$touched}">
             <label for="newUserFacebook">Facebook</label>
+            <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-facebook-square"></i></span>
+            <span class="input-group-addon">www.facebook.com/</span> 
             <input ng-model="user.facebook" type="url" 
                 class="form-control" id="newUserFacebook"
-                placeholder="www.facebook.com"
+                placeholder="john.doe.64"
                 name="facebook"
         	ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
                 ng-trim/>
+            </div>
         </div>
 	</div>
 	<div class="col-md-6">
         <div class="form-group"
             ng-class="{'has-error':register.twitter.$invalid && register.twitter.$touched}">
-            <label for="newUserTwitter">Twitter</label>
-            <input ng-model="user.twitter" type="text" 
+            <label for="newUserTwitter">Twitter Handle</label>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-twitter"></i></span>
+                <span class="input-group-addon"><i class="fa fa-at"></i></span> 
+                <input ng-model="user.twitter" type="text" 
                 class="form-control" id="newUserTwitter"
-                placeholder="@yourtwitter"
+                placeholder="johnDoe64"
                 name="twitter"
         	ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
                 ng-trim/>
+            </div>
         </div>
 	</div>
    </div>
@@ -299,12 +318,16 @@
         <div class="form-group"
             ng-class="{'has-error':register.univ.$invalid && register.univ.$touched}">
             <label for="newUserUniv">University</label>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-graduation-cap"></i></span>
+             
             <input ng-model="user.univ" type="text" 
                 class="form-control" id="newUserUniv"
                 placeholder="University of California, Riverside"
                 name="univ"
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
                 ng-trim/>
+            </div>
         </div>
 	</div>
     </div>
