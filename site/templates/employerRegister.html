@@ -103,6 +103,20 @@
 	</div>
     </div>
     <div class="row">
+        <div class="col-md-6">
+        <div class="form-group"
+   	    ng-class="{'has-error':register.company.$invalid && register.company.$touched}">
+	    <label for="newUserCompany">Company</label>
+	    <input ng-model="user.company" type="text" 
+	        class="form-control" id="newUserCompany"
+	        placeholder="Google"
+	        name="company"
+	        ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
+	        ng-trim/>
+            </div>
+        </div>
+    </div>
+    <div class="row">
 	<div class="col-md-6">
  	<div class="form-group"
             ng-class="{'has-error':register.phone.$invalid && register.phone.$touched}">
@@ -117,21 +131,6 @@
                 ng-trim/>
 	    </div>
         </div>
-	</div>
-    </div>
-    <br>
-    <div class="row">
-	<div class="col-md-6">
-	<div class="form-group"
-            ng-class="{'has-error':register.company.$invalid && register.company.$touched}">
-            <label for="newUserCompany">Company</label>
-            <input ng-model="user.company" type="text" 
-                class="form-control" id="newUserCompany"
-                placeholder="Google"
-                name="company"
-                ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
-                ng-trim/>
-	</div>
 	</div>
     </div>
     <div class="row">
