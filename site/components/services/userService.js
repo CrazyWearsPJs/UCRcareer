@@ -71,13 +71,19 @@ angular.module('ucrCareerServices')
         };
 
         User.getProfileData = function() {
-            var info = {};
-           
+            var info = {},
+                noNullValues = null;
             forEach(User, function(_, key) {
                 forEach(PROFILE_DATA_FIELDS, function(value,
                     profileDataField) {
                     if(key === profileDataField) {
-                        copy(info[profileDataField], value);
+                        noNullValues = copy(value);
+                        forEach(nullValues, function(copyValue, copyKey) {
+                            if(!copyValue) {
+                                delete noNullValues[copyKey];
+                            }
+                        });
+                        info[profileDataField] = noNullValues;
                     }
                 });  
             });
@@ -88,7 +94,7 @@ angular.module('ucrCareerServices')
             var info = {},
                 credentials = User.getCredentials();
             forEach(credentials, function(value, key) {
-                if(key === 'email' || key === 'password') {
+                if((key === 'email' || key === 'password') && value) {
                     info[key] = value;
                 }
             });
