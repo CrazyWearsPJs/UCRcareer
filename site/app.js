@@ -9,7 +9,11 @@ angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'u
             }).when('/employerRegister', {
 	        templateUrl: 'templates/employerRegister.html',
             	controller: 'RegisterCtrl'
-            }).otherwise({
+            }).when('/jobPosting', {
+		templateUrl: 'templates/jobPosting.html',
+		//TODO Fix this shit.
+		controller: 'RegisterCtrl'
+	    }).otherwise({
                 redirectTo: '/'
             });
         }]);
