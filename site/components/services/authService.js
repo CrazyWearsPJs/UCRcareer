@@ -52,12 +52,12 @@ angular.module('ucrCareerServices')
             User.clearAuthToken();
         };
 
-        this.register = function() {
+        this.registerApplicant = function() {
             var deferred = $q.defer(),
                 registrationData = extend(User.getProfileData(),
                     User.getLoginCredentials());
            
-           $http.post('/api/v1/register', registrationData)
+           $http.post('/api/v1/register/applicant', registrationData)
                 .then(function(data) {
                     if(data.hasOwnProperty('authToken')) {
                         this.storeAuthToken(data.authToken);
