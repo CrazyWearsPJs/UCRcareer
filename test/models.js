@@ -182,7 +182,7 @@ describe('models', function (){
                     }
                 });
             
-            // Save applicant
+            // Save employer
             johnDoe.save(function(err, employer, numAffected){
                 if(err) throw err;
                 expect(numAffected).to.be.equal(1);
