@@ -1,3 +1,3 @@
 module.exports = function(app, db) {
-    app.use('/register', require('./routes/register')(db));
+    app.use('/api/v1/register', require('./routes/register')(db));
 };
