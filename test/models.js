@@ -124,7 +124,19 @@ describe('models', function (){
                 done();
             });
         });
-
+        
+        it('should throw an error when saved if it is missing a required field', function(done){
+            var Applicant = models.applicant()
+              , johnDoe   = new Applicant({});
+            
+            // An error should be generated since we are missing
+            // required fields
+            johnDoe.save(function(err){
+                expect(err).to.not.be.equal(null);
+                done();
+            });
+        });
+        
         describe('#exists', function (){
             it('should check if an applicant exists, given credentials', function(done){
                 var Applicant = models.applicant();
