@@ -56,9 +56,9 @@ var applicantSchema = new Schema({
 applicantSchema.pre('save', function(next){
     var applicant = this;
     
-    // Make sure if password has been set before,
-    // DON'T HASH IT AGAIN and stop saving model
-    if (applicant.isDirectModified('password'))
+    // Make sure model has not been saved before, else
+    // we might end up hashing the password twice
+    if (!applicant.isNew)
         return next(new Error("Can't save same model twice. Password has been hashed already!"));
     
     // Create a SALT
