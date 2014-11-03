@@ -2,55 +2,66 @@
 <form name="register" ng-submit="ok()" novalidate>
     <div class="body">
     
-    <div class="form-group"
-        ng-class="{'has-error':register.email.$invalid && register.email.$touched}">
-        <label for="newUserEmail">Email</label>
-        <input ng-model="user.email" type="email" class="form-control" id="newUserEmail" 
-            placeholder="johndoe64@aol.com" 
-            name="email"
-            ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
-            required
-            ng-trim/>
-        <div ng-show="register.email.$error.email">
-            <p class="error-text">Please enter a valid email address! </p>
+    <div class="row">
+	<div class="col-md-6">
+	<div class="form-group"
+            ng-class="{'has-error':register.email.$invalid && register.email.$touched}">
+            <label for="newUserEmail">Email</label>
+            <input ng-model="user.email" type="email" class="form-control" id="newUserEmail" 
+                placeholder="johndoe64@aol.com" 
+                name="email"
+                ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
+                required
+                ng-trim/>
+            <div ng-show="register.email.$error.email">
+                <p class="error-text">Please enter a valid email address! </p>
+            </div>
+        </div>
         </div>
     </div>
     
-    <div class="form-group"
-        ng-class="{'has-error': register.password.$invalid && register.password.$touched}">
-        <label for="newUserPassword">Password (minimum 8 characters long)</label>
-        <input ng-model="user.password" type="password" class="form-control" id="newUserPassword"
-            placeholder="password"
-            name="password"
-            ng-minlength="8"
-            ng-maxlength="30"
-            ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
-            required/>
-    </div>
-    <div ng-messages="register.password.$error">
-        <p ng-message="minlength" class="error-text">Password must be at least 8 characters long!</p>
-        <p ng-message="maxlength" class="error-text">Password is way too long! (over 30 characters)</p>
+    <div class ="row">
+	<div class="col-md-6">
+        <div class="form-group"
+            ng-class="{'has-error': register.password.$invalid && register.password.$touched}">
+            <label for="newUserPassword">Password (minimum 8 characters long)</label>
+            <input ng-model="user.password" type="password" class="form-control" id="newUserPassword"
+                placeholder="password"
+                name="password"
+                ng-minlength="8"
+                ng-maxlength="30"
+                ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
+                required/>
+        </div>
+        <div ng-messages="register.password.$error">
+            <p ng-message="minlength" class="error-text">Password must be at least 8 characters long!</p>
+            <p ng-message="maxlength" class="error-text">Password is way too long! (over 30 characters)</p>
+        </div>
+	</div>
     </div>
 
-    <div class="form-group"
-        ng-class="{'has-error': differentPasswordTouched()}">
-        <label for="newUserReEnterPassword">Re-enter Password</label>
-        <input ng-model="user.reEnterPassword" type="password" class="form-control" 
-            name="reEnterPassword"
-            ng-class="{'has-error': register.password !== register.reEnterPassword}"
-            id=newUserReEnterPassword" placeholder="re-enter password"
-            ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
-            required/>
-        <div ng-show="differentPasswordTouched()">
-            <p class="error-text"> The passwords you entered do not match! </p>
+    <div class="row">
+	<div class="col-md-6">
+        <div class="form-group"
+            ng-class="{'has-error': differentPasswordTouched()}">
+            <label for="newUserReEnterPassword">Re-enter Password</label>
+            <input ng-model="user.reEnterPassword" type="password" class="form-control" 
+                name="reEnterPassword"
+                ng-class="{'has-error': register.password !== register.reEnterPassword}"
+                id=newUserReEnterPassword" placeholder="re-enter password"
+                ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
+                required/>
+            <div ng-show="differentPasswordTouched()">
+                <p class="error-text"> The passwords you entered do not match! </p>
+            </div>
         </div>
+	</div>
     </div>
     
-    <br>
     <h2>Personal Information</h2>
     <hr> 
-    
-    <div class="form-inline">
+    <div class="row">
+        <div class="col-md-4">
         <div class="form-group"
             ng-class="{'has-error':register.fName.$invalid && register.fName.$touched}">
             <label for="newUserfName">First Name</label>
@@ -62,6 +73,8 @@
                 required
                 ng-trim/>
         </div>
+	</div>
+	<div class="col-md-4">
         <div class="form-group"
             ng-class="{'has-error':register.mInit.$invalid && register.fName.$touched}">
             <label for="newUserMInit">Middle Inital</label>
@@ -74,6 +87,8 @@
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
                 ng-trim/>
         </div>
+	</div>
+	<div class="col-md-4">
         <div class="form-group"
             ng-class="{'has-error':register.lName.$invalid && register.lName.$touched}">
             <label for="newUserlName">Last Name</label>
@@ -85,22 +100,28 @@
                 required
                 ng-trim/>
         </div>
+	</div>
     </div>
-    <br>
-    <div class="form-inline">
+    <div class="row">
+	<div class="col-md-6">
  	<div class="form-group"
             ng-class="{'has-error':register.phone.$invalid && register.phone.$touched}">
             <label for="newUserPhone">Phone</label>
+	    <div class="input-group">
+	    <span class="input-group-addon"><i class="fa fa-phone"></i></span>
             <input ng-model="user.phone" type="text" 
                 class="form-control" id="newUserNumber"
                 placeholder="5558675309"
                 name="phoneNum"
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
                 ng-trim/>
+	    </div>
         </div>
+	</div>
     </div>
     <br>
-    <div class="form-inline">
+    <div class="row">
+	<div class="col-md-6">
 	<div class="form-group"
             ng-class="{'has-error':register.company.$invalid && register.company.$touched}">
             <label for="newUserCompany">Company</label>
@@ -110,59 +131,83 @@
                 name="company"
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
                 ng-trim/>
-	 </div>
+	</div>
+	</div>
     </div>
-    <br>
-    <div class="form-inline">
+    <div class="row">
+	<div class="col-md-6">
         <div class="form-group"
             ng-class="{'has-error':register.website.$invalid && register.website.$touched}">
             <label for="newUserWebsite">Website</label>
-            <input ng-model="user.website" type="url" 
+	    <div class="input-group">
+	        <span class="input-group-addon"><i class="fa fa-globe"></i></span>
+                <span class="input-group-addon">www.</span>
+	    <input ng-model="user.website" type="url" 
                 class="form-control" id="newUserWebsite"
-                placeholder="www.yourwebsite.com"
+                placeholder="yourwebsite.com"
                 name="website"
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
                 ng-trim/>
-        </div>
+            </div>
+	</div>
+	</div>
+	<div class="col-md-6">
         <div class="form-group"
             ng-class="{'has-error':register.LinkedIn.$invalid && register.LinkedIn.$touched}">
             <label for="newUserLinkedIn">LinkedIn</label>
-            <input ng-model="user.linkedIn" type="url" 
+            <div class="input-group">
+  	        <span class="input-group-addon"><i class="fa fa-linkedin"></i></span>
+	        <span class="input-group-addon">www.linkedin.com/in</span>
+	    <input ng-model="user.linkedIn" type="url" 
                 class="form-control" id="newUserLinkedIn"
-                placeholder="www.linkedin.com"
+                placeholder="johnDoe64"
                 name="linkedIn"
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
                 ng-trim/>
+	    </div>
         </div>
+	</div>
     </div>
-    <br>
-    <div class="form-inline">
+    <div class="row">
+	<div class="col-md-6">
         <div class="form-group"
             ng-class="{'has-error':register.facebook.$invalid && register.facebook.$touched}">
             <label for="newUserFacebook">Facebook</label>
-            <input ng-model="user.facebook" type="url" 
+            <div class="input-group">
+		<span class="input-group-addon"><i class="fa fa-facebook"></i></span>
+		<span class="input-group-addon">www.facebook.com/</span>
+	    <input ng-model="user.facebook" type="url" 
                 class="form-control" id="newUserFacebook"
-                placeholder="www.facebook.com"
+                placeholder="john.doe.64"
                 name="facebook"
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
                 ng-trim/>
-        </div>
+            </div>
+	</div>
+	</div>
+	<div class="col-md-6">
         <div class="form-group"
             ng-class="{'has-error':register.twitter.$invalid && register.twitter.$touched}">
             <label for="newUserTwitter">Twitter</label>
+	    <div class="input-group">
+		<span class="input-group-addon"><i class="fa fa-twitter"></i></span>
+		<span class="input-group-addon">@</span>
             <input ng-model="user.twitter" type="text" 
                 class="form-control" id="newUserTwitter"
-                placeholder="@yourtwitter"
+                placeholder="johnDoe64"
                 name="twitter"
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
                 ng-trim/>
+	    </div>
         </div>
+	</div>
      </div>
-     <br>
+
      <h2>Location</h2>
      <hr>
-     <div class="form-inline"
-            <div class="form-group"
+     <div class="row">
+	<div class="col-md-6">
+	<div class="form-group"
             ng-class="{'has-error':register.address1.$invalid && register.address1.$touched}">
             <label for="newUserAddress1">Address 1</label>
             <input ng-model="user.address1" type="text" 
@@ -172,9 +217,10 @@
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
                 ng-trim/>
         </div>
+	</div>
     </div>
-    <br>
-     <div class="form-inline">
+    <div class="row">
+	<div class="col-md-6">
         <div class="form-group"
             ng-class="{'has-error':register.address2.$invalid && register.address2.$touched}">
             <label for="newUserAddress2">Address 2</label>
@@ -185,9 +231,10 @@
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
                 ng-trim/>
         </div>
+	</div>
     </div>
-    <br>
-    <div class="form-inline">
+    <div class="row">
+	<div class="col-md-4">
         <div class="form-group"
             ng-class="{'has-error':register.city.$invalid && register.city.$touched}">
             <label for="newUserCity">City</label>
@@ -196,9 +243,11 @@
                 placeholder="Riverside"
                 name="city"
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
-		required
+		required:
                 ng-trim/>
         </div>
+	</div>
+	<div class="col-md-4">
         <div class="form-group"
             ng-class="{'has-error':register.state.$invalid && register.state.$touched}">
             <label for="newUserState">State</label>
@@ -210,6 +259,8 @@
 		required
                 ng-trim/>
         </div>
+	</div> 
+	<div class="col-md-4">
         <div class="form-group"
             ng-class="{'has-error':register.zipCode.$invalid && register.zipCode.$touched}">
             <label for="newUserZipCode">Zipcode</label>
@@ -221,9 +272,10 @@
 		required
                 ng-trim/>
         </div>
+	</div>
     </div>
-    <br>
-    <div class="form-inline">
+    <div class="row">
+	<div class="col-md-6">
         <div class="form-group"
             ng-class="{'has-error':register.country.$invalid && register.country.$touched}">
             <label for="newUserCountry">Country</label>
@@ -235,9 +287,9 @@
 		required
                 ng-trim/>
         </div>
+	</div>
     </div>
-    <br>
-    </div>
+ </div>
  </div>
     <div class = "footer">
         <input type="submit" class="btn" ng-class="register.$valid?'btn-primary':'btn-default'" value="Submit"/>
