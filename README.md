@@ -181,3 +181,31 @@ git branch -d <BRANCH_NAME>
 git push origin :<BRANCH_NAME>
 EX. git push origin :bad-branch-dev
 ```
+
+# Running the application
+
+Start the VM do the following
+```bash
+cd /vagrant
+mongod --host 10.0.2.15 --port 8081
+npm install
+```
+These steps will
+* Move you to our development directory
+* Start the mongo daemon
+* Locally install our node dependancies
+
+Next, to start the webserver run
+```bash
+node server.js
+```
+You should be able to go to http://localhost:8080 and see the application. 
+
+## Tests
+
+### Server
+
+You can run our server test cases by running
+```bash
+mocha
+```
