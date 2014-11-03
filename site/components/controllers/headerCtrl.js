@@ -55,15 +55,19 @@ angular.module('ucrCareerControllers')
                 employer: false
             };
 
+            var differentPassword = function() {
+                return $scope.user.password !== $scope.user.reEnterPassword;
+            };
+
             $scope.registerApplicant = function() {
-                if ($scope.register.$valid) {
+                if (!differentPassword() && $scope.register.$valid) {
                     $scope.user.employer = false;
                     $modalInstance.close($scope.user);
                 }
             };
 
             $scope.registerEmployer = function() {
-                if($scope.register.$valid) {
+                if (!differentPassword() && $scope.register.$valid) {
                     $scope.user.employer = true;
                     $modalInstance.close($scope.user);
                 }

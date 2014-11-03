@@ -42,7 +42,7 @@
             id=newUserReEnterPassword" placeholder="re-enter password"
             ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
             required/>
-        <div ng-show="differentPasswordTouched()">
+            <div ng-if="register.password.$viewValue !== register.reEnterPassword.$viewValue && register.reEnterPassword.$touched">
             <p class="error-text"> The passwords you entered do not match! </p>
         </div>
     </div>
