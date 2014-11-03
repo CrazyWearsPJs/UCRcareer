@@ -155,5 +155,90 @@ describe('models', function (){
             });
         });
     });
+
+    describe('Employer', function (){
+        // Insert dummy data into db
+        beforeEach(function(done){
+            var Employer = models.employer();
+            var johnDoe   = new Employer({
+                    companyName: 'Google Inc'
+                  , credentials: {
+                        password: "password1"
+                      , email:    "jdoe001@ucr.edu"
+                    }
+                  , contact: {
+                        phoneNum: "9099999999"
+                    }
+                  , location: {
+                        city:     "Riverside"
+                      , state:    "CA"
+                      , zip:      "92501"
+                      , address1: "1111 Linden St"
+                      , country:  "USA"
+                    }
+                  , personal: {
+                        fName: "John"
+                      , lName: "Doe"
+                    }
+                });
+            
+            // Save applicant
+            johnDoe.save(function(err, employer, numAffected){
+                if(err) throw err;
+                expect(numAffected).to.be.equal(1);
+                done();
+            });
+        });
+
+        // Remove dummy data
+        afterEach(function(done){
+            // Remove dummy employer
+            var Employer = models.employer();
+            Employer.remove({"credentials.email" : "jdoe001@ucr.edu"}, function(err){
+                if(err) throw err;
+                done();
+            });
+        });
+        
+        it('should be able to be saved to DB', function (done){
+            var Employer = models.employer();
+            Employer.findOne({"credentials.email" : "jdoe001@ucr.edu"}, function(err, employer){
+                if(err) throw err;
+                expect(employer).to.not.be.equal(null);
+                done();
+            });
+        });
+        
+        it('should throw an error when saved if it is missing a required field', function(done){
+            var Employer = models.employer()
+              , johnDoe   = new Employer({});
+            
+            // An error should be generated since we are missing
+            // required fields
+            johnDoe.save(function(err){
+                expect(err).to.not.be.equal(null);
+                done();
+            });
+        });
+        
+        describe('#exists', function (){
+            it('should check if an employer exists, given credentials', function(done){
+                var Employer = models.employer();
+                // Test should return true
+                Employer.exists({'email':'jdoe001@ucr.edu', 'password':'password1'}, function(err, res){
+                    if (err) throw err;
+                    expect(res).to.be.equal(true);
+                    
+                    //Test should return false
+                    Employer.exists({'email':'jdoe001@ucr.edu', 'password':'password2'}, function(err, res){
+                        if (err) throw err;
+                        expect(res).to.be.equal(false);
+                        done();
+                    });
+                });
+            });
+        });
+ 
+    });
 });
 
