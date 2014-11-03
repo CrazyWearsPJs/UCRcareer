@@ -11,7 +11,7 @@ var mongoose = require('mongoose')
 
 var employerSchema = new Schema({
     companyName:   { type: String, required: true } 
-  , login: {
+  , credentials: {
         password:  { type: String, required: true }
       , uName:     { type: String, required: true }
     }

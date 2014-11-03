@@ -15,7 +15,7 @@ var bcryptSettings = config.bcryptSettings;
  */
 
 var applicantSchema = new Schema({
-    login: {
+    credentials: {
         password:  { type: String, required: true }
       , email:     { type: String, required: true, lowercase: true, unique: true }
     }
@@ -65,10 +65,10 @@ applicantSchema.pre('save', function(next){
     bcrypt.genSalt(bcryptSettings.hashRounds, function(err, salt){
         if(err) return next(err);
         // Hash password
-        bcrypt.hash(applicant.login.password, salt, function(err, hashedPassword){
+        bcrypt.hash(applicant.credentials.password, salt, function(err, hashedPassword){
             if(err) return next(err);
             // Overwrite plain text password with hashed version
-            applicant.login.password = hashedPassword;
+            applicant.credentials.password = hashedPassword;
             next();
         });
     });
@@ -89,10 +89,10 @@ applicantSchema.pre('save', function(next){
 applicantSchema.static('exists', function(creds,cb){
     var applicant = this;
     // Look for applicant with the given email
-    applicant.findOne({'login.email' : creds.email}, function(err, applicant){
+    applicant.findOne({'credentials.email' : creds.email}, function(err, applicant){
         if (err) return cb(err);
         // Compare applicant password hash with given credentials
-        bcrypt.compare(creds.password, applicant.login.password, function(err, res){
+        bcrypt.compare(creds.password, applicant.credentials.password, function(err, res){
             if (err) return cb(err);
             // res is true if passwords matched
             cb(null, res);

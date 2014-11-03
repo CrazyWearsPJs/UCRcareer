@@ -75,7 +75,7 @@ describe('models', function (){
         beforeEach(function(done){
             var Applicant = models.applicant();
             var johnDoe   = new Applicant({
-                    login: {
+                    credentials: {
                         password: "password1"
                       , email:    "jdoe001@ucr.edu"
                     }
@@ -110,7 +110,7 @@ describe('models', function (){
         afterEach(function(done){
             // Remove dummy applicant
             var Applicant = models.applicant();
-            Applicant.remove({"login.email" : "jdoe001@ucr.edu"}, function(err){
+            Applicant.remove({"credentials.email" : "jdoe001@ucr.edu"}, function(err){
                 if(err) throw err;
                 done();
             });
@@ -118,7 +118,7 @@ describe('models', function (){
         
         it('should be able to be saved to DB', function (done){
             var Applicant = models.applicant();
-            Applicant.findOne({"login.email" : "jdoe001@ucr.edu"}, function(err, applicant){
+            Applicant.findOne({"credentials.email" : "jdoe001@ucr.edu"}, function(err, applicant){
                 if(err) throw err;
                 expect(applicant).to.not.be.equal(null);
                 done();
