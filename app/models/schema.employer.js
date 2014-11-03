@@ -74,7 +74,7 @@ employerSchema.pre('save', function(next){
  * Password is expected to be in plain text
  * @param creds {Object} employer credentials
  * @param cb {Function} callback 
- * @return {Bool} applicant exists
+ * @return {Bool} employer exists
  * creds {
  *     password: {String}
  *   , email   : {String}
