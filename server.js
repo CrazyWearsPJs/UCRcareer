@@ -11,7 +11,8 @@ var express        = require('express')
 
 var config = require('./app/config')
   , models = require('./app/models')
-  , logger = require('./app/logger');
+  , logger = require('./app/logger')
+  , router = require('./app/router');
 
 /**
  * Setup database 
@@ -97,6 +98,11 @@ app.use(expressWinston.errorLogger({
  */
 
 var port = serverSettings.port || 8080;
+
+/**
+ * Router
+ */
+var routerRef = router(app, db);
 
 app.listen(port, function (){
     logger.info("Application started on port %s", port);
