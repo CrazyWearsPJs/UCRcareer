@@ -184,7 +184,7 @@ EX. git push origin :bad-branch-dev
 
 # Running the application
 
-Start the VM do the following
+Start the VM and do the following
 ```bash
 cd /vagrant
 mongod --host 10.0.2.15 --port 8081
