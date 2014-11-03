@@ -1,10 +1,17 @@
 angular.module('ucrCareerServices')
-    .factory('User', ['localStorageService', 
-     function(localStorageService) {
+    .factory('User', [ function() {
+        var forEach = angular.forEach,
+            isFunction = angular.isFunction,
+            copy = angular.copy;
+        
+        var PROFILE_DATA_FIELDS = ['personal', 'contact', 'spec',
+            'location']; 
+
         var User = {
             'credentials': {
                 'email': null, 
-                'password': null
+                'password': null,
+                'authKey': null
             },
             'personal': {
                 'fName': null,
@@ -46,18 +53,57 @@ angular.module('ucrCareerServices')
         };
 
         User.clearPassword = function() {
-            this.credentials.password = null;
+            User.credentials.password = null;
+        };
+
+        User.clearAuthToken = function() {
+            User.credentials.authToken = null;
         };
 
         User.getAll = function() {
             var info = {};
-            angular.forEach(User, function(value, key){
-                if(!angular.isFunction(value)) {
+            forEach(User, function(value, key){
+                if(!isFunction(value)) {
                     info[key] = value; 
                 }
             });
             return info;
         };
 
+        User.getProfileData = function() {
+            var info = {};
+           
+            forEach(User, function(_, key) {
+                forEach(PROFILE_DATA_FIELDS, function(value,
+                    profileDataField) {
+                    if(key === profileDataField) {
+                        copy(info[profileDataField], value);
+                    }
+                });  
+            });
+            return info;
+        };
+
+        User.getLoginCredentials = function() {
+            var info = {},
+                credentials = User.getCredentials();
+            forEach(credentials, function(value, key) {
+                if(key === 'email' || key === 'password') {
+                    info[key] = value;
+                }
+            });
+            return info;
+        };
+   
+        User.storeAuthToken = function(authToken) {
+            if(authToken) {
+                User.credentials.authToken = authToken;
+            }
+        };
+
+        User.getAuthToken = function() {
+            return User.credentials.authToken;
+        };
+        
         return User;
     }]);
