@@ -75,6 +75,32 @@ applicantSchema.pre('save', function(next){
 });
 
 /**
+ * Finds an applicant with the given credentials.
+ * Returns true if the applicant exists
+ * Password is expected to be in plain text
+ * @param creds {Object} applicant credentials
+ * @param cb {Function} callback 
+ * @return {Bool} applicant exists
+ * creds {
+ *     password: {String}
+ *   , email   : {String}
+ * }
+ */
+applicantSchema.static('exists', function(creds,cb){
+    var applicant = this;
+    // Look for applicant with the given email
+    applicant.findOne({'login.email' : creds.email}, function(err, applicant){
+        if (err) return cb(err);
+        // Compare applicant password hash with given credentials
+        bcrypt.compare(creds.password, applicant.login.password, function(err, res){
+            if (err) return cb(err);
+            // res is true if passwords matched
+            cb(null, res);
+        });
+    });
+});
+
+/**
  * Export schema
  */
 
