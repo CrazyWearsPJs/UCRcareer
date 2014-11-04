@@ -1,45 +1,29 @@
 angular.module('ucrCareerServices')
-    .service('AuthService', ['$http','$q', 'localStorageService', 'User',
-    function($http, $q, localStorageService, User){
+    .service('AuthService', ['$http','$q', 'User',
+    function($http, $q, User){
         var authTokenSuffix = 'api-token',
-            getCookie = localStorageService.cookie.get,
-            setCookie = localStorageService.cookie.set,
-            removeCookie = localStorageService.cooke.remove,
             extend = angular.extend;
 
-        this.authWithToken = function(authToken) {
-            var deferred = $q.defer();
-            $http.post('/api/v1/login', {
-                'authToken': authToken    
-            }).then(function(data) {
-                if(data.hasOwnProperty('profileData') ) {
-                    User.fillProfileData(data.profileData);        
-                }                
-                deferred.resolve(data);
-            },function(data){
-                // if error    
-                deferred.reject(data);
-            });  
-            return deferred.promise;
+        var setPermissions = function(permission) {
+            //TODO: set permissions on login;
         };
 
-        this.storeAuthToken = function(authToken) {
-            setCookie(authTokenSuffix, authToken);
-            User.setAuthToken(authToken);
-        };
-
-        this.retriveAuthToken = function() {
-            var authToken = getCookie(authTokenSuffix, authToken);
-            User.setAuthToken(authToken);
+        
+        this.heartBeat = function(credentials) {
+            var deferred = $q.defer(0;
+            $http.post('/api/v1/heartbeat')
+                .then(function() {
+                    setPermissions();              
+                }, function(data) {
+                
+                });
         };
 
         this.login = function(credentials) {
             var deferred = $q.defer();
             $http.post('/api/v1/login', credentials)
                 .then(function(data) {
-                    if(data.hasOwnProperty('authToken')) {
-                        this.storeAuthToken(data.authToken);
-                    }
+                    setPermissions();
                     deferred.resolve(data);
                     }, function(data) {
                     deferred.reject(data);
@@ -48,8 +32,7 @@ angular.module('ucrCareerServices')
         };
 
         this.logout = function() {
-            removeCookie(authTokenSuffix);
-            User.clearAuthToken();
+            $http.post('/api/v1/logout');
         };
 
         this.registerApplicant = function() {
@@ -59,9 +42,7 @@ angular.module('ucrCareerServices')
            
            $http.post('/api/v1/register/applicant', registrationData)
                 .then(function(data) {
-                    if(data.hasOwnProperty('authToken')) {
-                        this.storeAuthToken(data.authToken);
-                    }
+                    setPermissions();
                     deferred.resolve(data);   
                 }, function(data) {
                     deferred.reject(data);
