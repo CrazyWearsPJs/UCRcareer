@@ -7,8 +7,9 @@ module.exports = function(db) {
         var Applicant = db.model('Applicant'),
             newApplicant = null,
             applicantData = req.body;
-        
-        if(applicantData && newApplicant.credentials) {
+       
+       console.log(applicantData);
+        if(applicantData && applicantData.credentials) {
             newApplicant = new Applicant(req.body);
             newApplicant.save(function(err, newApplicantUpdated) {
                 if(err) {

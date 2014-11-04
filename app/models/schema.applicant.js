@@ -87,15 +87,29 @@ applicantSchema.pre('save', function(next){
  * }
  */
 applicantSchema.static('exists', function(creds,cb){
-    var applicant = this;
+    var Applicant = this;
     // Look for applicant with the given email
-    applicant.findOne({'credentials.email' : creds.email}, function(err, applicant){
-        if (err) return cb(err);
+    Applicant.findOne({'credentials.email' : creds.email}, 
+    function(err, applicant){
+        if (err) return cb(err, null);
+        console.log(applicant);
+        if (!applicant) {
+            var err = new Error("Applicant doesn't exist");
+            err.name = "error";
+            err.status(404);
+            return cb(err, null);
+        }
         // Compare applicant password hash with given credentials
-        bcrypt.compare(creds.password, applicant.credentials.password, function(err, res){
-            if (err) return cb(err);
-            // res is true if passwords matched
-            cb(null, res);
+        bcrypt.compare(creds.password, applicant.credentials.password,
+        function(err, res){
+            if (err) return cb(err, null);
+            // if passwords match, then return null as the error, and return the applicant object, 
+            // otherwise, return the error and null for the applicant object
+            if (res) {
+                return cb(null, applicant);
+            } else {
+                return cb(err, null);
+            }
         });
     });
 });

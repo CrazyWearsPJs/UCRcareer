@@ -9,10 +9,10 @@ var checkAuthApplicant = function(req, res, next) {
     }
 };
 
-
-
 module.exports = function(app, db) {
     app.use('/api/v1/register', require('./routes/register')(db));
+    app.use('/api/v1/login', require('./routes/login')(db));
+
     /*
      * Error middleware
      */

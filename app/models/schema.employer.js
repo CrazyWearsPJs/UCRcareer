@@ -81,15 +81,24 @@ employerSchema.pre('save', function(next){
  * }
  */
 employerSchema.static('exists', function(creds,cb){
-    var employer = this;
+    var Employer = this;
     // Look for employer with the given email
-    employer.findOne({'credentials.email' : creds.email}, function(err, employer){
-        if (err) return cb(err);
-        // Compare employer password hash with given credentials
+    Employer.findOne({'credentials.email' : creds.email}, function(err, employer){
+        if (err) return cb(err, null);
+        if (!employer) {
+            var err = new Error('Employer doesn\'t exist' );
+            err.name = 'error';
+            return cb(err, null);
+        }
+    // Compare employer password hash with given credentials
         bcrypt.compare(creds.password, employer.credentials.password, function(err, res){
             if (err) return cb(err);
-            // res is true if passwords matched
-            cb(null, res);
+            // if res is true, return employer, otherwise return error and null
+            if(res) {
+                return cb(null, employer);
+            } else {
+                return cb(err, null);
+            }
         });
     });
 });
