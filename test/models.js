@@ -137,18 +137,18 @@ describe('models', function (){
             });
         });
         
-        describe('#exists', function (){
+        describe('#findByCredentials', function (){
             it('should check if an applicant exists, given credentials', function(done){
                 var Applicant = models.applicant();
                 // Test should return true
-                Applicant.exists({'email':'jdoe001@ucr.edu', 'password':'password1'}, function(err, res){
+                Applicant.findByCredentials({'email':'jdoe001@ucr.edu', 'password':'password1'}, function(err, applicant){
                     if (err) throw err;
-                    expect(res).to.be.equal(true);
+                    expect(applicant).to.not.be.equal(null);
                     
                     //Test should return false
-                    Applicant.exists({'email':'jdoe001@ucr.edu', 'password':'password2'}, function(err, res){
+                    Applicant.findByCredentials({'email':'jdoe001@ucr.edu', 'password':'password2'}, function(err, _applicant){
                         if (err) throw err;
-                        expect(res).to.be.equal(false);
+                        expect(_applicant).to.be.equal(null);
                         done();
                     });
                 });
@@ -221,18 +221,17 @@ describe('models', function (){
             });
         });
         
-        describe('#exists', function (){
+        describe('#findByCredentials', function (){
             it('should check if an employer exists, given credentials', function(done){
                 var Employer = models.employer();
                 // Test should return true
-                Employer.exists({'email':'jdoe001@ucr.edu', 'password':'password1'}, function(err, res){
+                Employer.findByCredentials({'email':'jdoe001@ucr.edu', 'password':'password1'}, function(err, employer){
                     if (err) throw err;
-                    expect(res).to.be.equal(true);
-                    
+                    expect(employer).to.not.be.equal(null);
                     //Test should return false
-                    Employer.exists({'email':'jdoe001@ucr.edu', 'password':'password2'}, function(err, res){
+                    Employer.findByCredentials({'email':'jdoe001@ucr.edu', 'password':'password2'}, function(err, _employer){
                         if (err) throw err;
-                        expect(res).to.be.equal(false);
+                        expect(_employer).to.be.equal(null);
                         done();
                     });
                 });

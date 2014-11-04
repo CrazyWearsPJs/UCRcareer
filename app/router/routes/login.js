@@ -7,7 +7,7 @@ module.exports = function(db) {
             credentials = req.body; 
         
         if(credentials.email && credentials.password) {
-            Applicant.exists(credentials, function(err, applicant) {
+            Applicant.findByCredentials(credentials, function(err, applicant) {
                 if(err) {
                     err.status = 403;
                     next(err);

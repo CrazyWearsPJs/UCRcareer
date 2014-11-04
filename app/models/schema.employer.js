@@ -80,7 +80,7 @@ employerSchema.pre('save', function(next){
  *   , email   : {String}
  * }
  */
-employerSchema.static('exists', function(creds,cb){
+employerSchema.static('findByCredentials', function(creds,cb){
     var Employer = this;
     // Look for employer with the given email
     Employer.findOne({'credentials.email' : creds.email}, function(err, employer){

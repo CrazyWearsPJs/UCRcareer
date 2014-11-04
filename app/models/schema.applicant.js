@@ -86,17 +86,15 @@ applicantSchema.pre('save', function(next){
  *   , email   : {String}
  * }
  */
-applicantSchema.static('exists', function(creds,cb){
+applicantSchema.static('findByCredentials', function(creds,cb){
     var Applicant = this;
     // Look for applicant with the given email
     Applicant.findOne({'credentials.email' : creds.email}, 
     function(err, applicant){
         if (err) return cb(err, null);
-        console.log(applicant);
         if (!applicant) {
             var err = new Error("Applicant doesn't exist");
             err.name = "error";
-            err.status(404);
             return cb(err, null);
         }
         // Compare applicant password hash with given credentials
