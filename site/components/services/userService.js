@@ -12,22 +12,19 @@ angular.module('ucrCareerServices')
         var User = {
             'credentials': {
                 'email': null, 
-                'password': null,
-                'authKey': null
+                'password': null
             },
             'personal': {
                 'fName': null,
                 'mInit': null,
-                'lName': null,
-                'jobTitle': null
+                'lName': null
             },
             'contact': {
                 'website': null,
                 'linkedIn': null,
                 'facebook': null,
                 'twitter': null,
-                'phoneNum': null,
-                'email': null
+                'phoneNum': null
             }, 
             'spec': {
                 'degree': null,
@@ -40,7 +37,8 @@ angular.module('ucrCareerServices')
                 'city': null,
                 'state': null,
                 'zip': null,
-                'address': null,
+                'address1': null,
+                'address2': null,
                 'country': null
             }
         };
@@ -113,15 +111,5 @@ angular.module('ucrCareerServices')
             return info;
         };
    
-        User.storeAuthToken = function(authToken) {
-            if(authToken) {
-                User.credentials.authToken = authToken;
-            }
-        };
-
-        User.getAuthToken = function() {
-            return User.credentials.authToken;
-        };
-        
         return User;
     }]);
