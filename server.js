@@ -4,7 +4,8 @@
 
 var express        = require('express')
   , session        = require('express-session')
-  ,expressWinston = require('express-winston')
+  , bodyParser     = require('body-parser')
+  , expressWinston = require('express-winston')
   , mongoose       = require('mongoose')
   , path           = require('path')
   , winston        = require('winston')
@@ -102,11 +103,20 @@ app.use(expressWinston.errorLogger({
   , colorStatus: true
 }));
 
+
+/**
+ * Use body parser
+ */
+app.use(bodyParser.json());
+
 /**
  * Use Session Cookies
  */
-app.use(session{
- name: "ucrCareer.api-token"   
+app.use(session({
+    'name': 'ucrCareer.api-token',
+    'resave': true,
+    'secret': 'test',
+    'saveUninitialized' : true
 }));
 
 /**

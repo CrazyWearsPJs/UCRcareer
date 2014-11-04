@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "bcrypt": "~0.8.0",
+    "body-parser": "^1.9.2",
     "chai": "~1.9.2",
     "express": "~4.10.1",
     "express-session": "^1.9.1",
