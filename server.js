@@ -3,7 +3,7 @@
  */
 
 var express        = require('express')
-  , expressWinston = require('express-winston')
+  ,expressWinston = require('express-winston')
   , mongoose       = require('mongoose')
   , path           = require('path')
   , winston        = require('winston')
@@ -19,19 +19,27 @@ var config = require('./app/config')
  */
 
 var dbSettings = config.dbSettings;
+var dbTestSettings = config.dbTestSettings;
 
-var db = mongoose.createConnection(dbSettings.host
-                                 , dbSettings.database
-                                 , dbSettings.port);
+var db = undefined;
+if (process.env.TEST) {
+    db = mongoose.createConnection(dbTestSettings.host
+                                , dbTestSettings.database
+                                , dbTestSettings.port);
+} else {
+    db = mongoose.createConnection(dbSettings.host
+                                , dbSettings.database
+                                , dbSettings.port);
+}
 
 db.on('error', function(err) {
     logger.error("DB error", err);
 });
 
 db.on('connected', function() {
-    logger.info("Connected to mongodb://%s/%s:%s", dbSettings.host
-                                                 , dbSettings.database
-                                                 , dbSettings.port);
+    logger.info("Connected to mongodb://%s/%s:%s", db.host
+                                                 , db.name
+                                                 , db.port);
 });
 
 db.on('disconnected', function() {
