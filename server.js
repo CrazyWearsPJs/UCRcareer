@@ -3,6 +3,7 @@
  */
 
 var express        = require('express')
+  , session        = require('express-session')
   ,expressWinston = require('express-winston')
   , mongoose       = require('mongoose')
   , path           = require('path')
@@ -22,7 +23,7 @@ var dbSettings = config.dbSettings;
 var dbTestSettings = config.dbTestSettings;
 
 var db = undefined;
-if (process.env.TEST) {
+if (app.get('env') === 'development') {
     db = mongoose.createConnection(dbTestSettings.host
                                 , dbTestSettings.database
                                 , dbTestSettings.port);
@@ -99,6 +100,13 @@ app.use(expressWinston.errorLogger({
     ]
   , msg:         "{{res.statusCode}} {{req.method}} {{res.responseTime}}ms {{req.url}}"
   , colorStatus: true
+}));
+
+/**
+ * Use Session Cookies
+ */
+app.use(session{
+ name: "ucrCareer.api-token"   
 }));
 
 /**
