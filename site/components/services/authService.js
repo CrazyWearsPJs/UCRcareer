@@ -10,7 +10,7 @@ angular.module('ucrCareerServices')
 
         
         this.heartBeat = function(credentials) {
-            var deferred = $q.defer(0;
+            var deferred = $q.defer();
             $http.post('/api/v1/heartbeat')
                 .then(function() {
                     setPermissions();              
