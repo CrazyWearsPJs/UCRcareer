@@ -1,13 +1,14 @@
-var express = require('express');
+var express = require('express'),
+    models = require('../../models');
 
-module.exports = function(db) {
     var router = express.Router();
     router.post('/applicant', function(req, res, next) {
-        var Applicant = db.model('Applicant'),
+        var Applicant = models.applicant(),
             credentials = req.body; 
-        
+            
         if(credentials.email && credentials.password) {
-            Applicant.findByCredentials(credentials, function(err, applicant) {
+            Applicant.findByCredentials(credentials, 
+            function(err, applicant) {
                 if(err) {
                     err.status = 403;
                     next(err);
@@ -25,12 +26,8 @@ module.exports = function(db) {
     });
 
     router.post('/employer', function(req, res, next) {
-        var Employer = db.model('Employer'),
+        var Employer = models.employer(),
             credentials = req.body; 
-
-        if(req.session.employerUserId) {
-            res.status(200).end();
-        }
 
         if(credentials.email && credentials.password) {
             Employer.exists(credentials, function(err, employer) {
@@ -49,5 +46,6 @@ module.exports = function(db) {
             next(err);
         }   
     });
-    return router;
-};
+    
+module.exports = router;
+
