@@ -33,7 +33,7 @@ module.exports = function(db) {
             employerData = req.body;
        
         if(employerData && employerData.credentials) {
-            newEmployer = new Applicant(req.body);
+            newEmployer = new Employer(req.body);
             newEmployer.save(function(err, newEmployerUpdated) {
                 if(err) {
                     err.status = 400;
