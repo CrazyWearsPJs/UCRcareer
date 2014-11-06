@@ -142,12 +142,12 @@ describe('models', function (){
                 var Applicant = models.applicant();
                 // Test should return true
                 Applicant.findByCredentials({'email':'jdoe001@ucr.edu', 'password':'password1'}, function(err, applicant){
-                    if (err) throw err;
+                    expect(err).to.be.equal(null);
                     expect(applicant).to.not.be.equal(null);
                     
                     //Test should return false
                     Applicant.findByCredentials({'email':'jdoe001@ucr.edu', 'password':'password2'}, function(err, _applicant){
-                        if (err) throw err;
+                        expect(err).to.not.be.equal(null);
                         expect(_applicant).to.be.equal(null);
                         done();
                     });
@@ -226,11 +226,11 @@ describe('models', function (){
                 var Employer = models.employer();
                 // Test should return true
                 Employer.findByCredentials({'email':'jdoe001@ucr.edu', 'password':'password1'}, function(err, employer){
-                    if (err) throw err;
+                    expect(err).to.be.equal(null);
                     expect(employer).to.not.be.equal(null);
                     //Test should return false
                     Employer.findByCredentials({'email':'jdoe001@ucr.edu', 'password':'password2'}, function(err, _employer){
-                        if (err) throw err;
+                        expect(err).to.not.be.equal(null);
                         expect(_employer).to.be.equal(null);
                         done();
                     });
