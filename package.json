@@ -24,7 +24,8 @@
     "express-winston": "~0.2.8",
     "mongoose": "~3.8.18",
     "underscore": "~1.7.0",
-    "winston": "~0.8.1"
+    "winston": "~0.8.1",
+    "supertest": "~0.14.0"
   },
   "devDependencies": {
     "del": "~0.1.3",
