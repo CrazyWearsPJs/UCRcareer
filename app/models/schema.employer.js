@@ -15,10 +15,10 @@ var bcryptSettings = config.bcryptSettings;
  */
 
 var employerSchema = new Schema({
-    companyName:   { type: String, required: true } 
+    companyName:   { type: String, required: true, unique: true } 
   , credentials: {
         password:  { type: String, required: true }
-      , email:     { type: String, required: true }
+      , email:     { type: String, required: true, lowercase: true, unique: true }
     }
   , contact: {
         website:   { type: String }
