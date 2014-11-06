@@ -1,6 +1,6 @@
-var express = require('express');
+var express = require('express'),
+    models = require('../../models');
 
-module.exports = function(db) {
     var router = new express.Router();
     
     router.post('/applicant', function(req, res, next) {
@@ -14,7 +14,6 @@ module.exports = function(db) {
         }
     });
 
-
     router.post('/employer', function(req, res, next) {
         if(req.session.employerUserId) {
             delete req.session.employerUserId;
@@ -26,5 +25,4 @@ module.exports = function(db) {
         }
 
     });
-    return router;
-};
+module.exports = router;

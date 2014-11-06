@@ -1,15 +1,15 @@
-var express = require('express');
+var express = require('express'),
+    models = require('../../models');
 
-module.exports = function(db) {
     var router = express.Router();
 
     router.post('/applicant', function(req, res, next) {
-        var Applicant = db.model('Applicant'),
+        var Applicant = models.applicant(),
             newApplicant = null,
             applicantData = req.body;
        
         if(applicantData && applicantData.credentials) {
-            newApplicant = new Applicant(req.body);
+            newApplicant = new Applicant(applicantData);
             newApplicant.save(function(err, newApplicantUpdated) {
                 if(err) {
                     err.status = 400;
@@ -27,13 +27,13 @@ module.exports = function(db) {
         }
     });
 
-    router.post('/employer', function(req, res) {
-        var Employer = db.model('Employer'),
+    router.post('/employer', function(req, res, next) {
+        var Employer = models.employer(),
             newEmployer = null,
             employerData = req.body;
        
         if(employerData && employerData.credentials) {
-            newEmployer = new Applicant(req.body);
+            newEmployer = new Employer(employerData);
             newEmployer.save(function(err, newEmployerUpdated) {
                 if(err) {
                     err.status = 400;
@@ -51,5 +51,4 @@ module.exports = function(db) {
         }
     });
 
-    return router;
-};
+module.exports = router;
