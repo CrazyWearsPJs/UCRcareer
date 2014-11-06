@@ -30,7 +30,7 @@ var express = require('express'),
             credentials = req.body; 
 
         if(credentials.email && credentials.password) {
-            Employer.exists(credentials, function(err, employer) {
+            Employer.findByCredentials(credentials, function(err, employer) {
                 if(err) {
                     err.status = 403;
                     next(err);
