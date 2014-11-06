@@ -106,6 +106,8 @@ applicantSchema.static('findByCredentials', function(creds,cb){
             if (res) {
                 return cb(null, applicant);
             } else {
+                var err = new Error('Given password does not match actual');
+                err.name = 'InvalidPasswordError';
                 return cb(err, null);
             }
         });
