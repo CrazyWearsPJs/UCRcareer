@@ -73,8 +73,9 @@ employerSchema.pre('save', function(next){
  * Returns true if the employer exists
  * Password is expected to be in plain text
  * @param creds {Object} employer credentials
- * @param cb {Function} callback 
- * @return {Bool} employer exists
+ * @param cb(err, employer) {Function} callback 
+ * @cb-param err {Error} error if credentials doesnt match an employer, null otherwise
+ * @cb-param employer {employer} employer object if credentials match an employer, null otherwise
  * creds {
  *     password: {String}
  *   , email   : {String}

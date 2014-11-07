@@ -4,10 +4,9 @@ angular.module('ucrCareerServices')
         var authTokenSuffix = 'api-token',
             extend = angular.extend;
 
-        var setPermissions = function(permission) {
-            //TODO: set permissions on login;
+        var setPermissions = function(role) {
+            User.setUserRole(role);
         };
-
         
         this.heartBeat = function(credentials) {
             var deferred = $q.defer();
@@ -17,6 +16,7 @@ angular.module('ucrCareerServices')
                 }, function(data) {
                 
                 });
+            return deferred.promise;
         };
 
         this.login = function(credentials) {
@@ -35,14 +35,14 @@ angular.module('ucrCareerServices')
             $http.post('/api/v1/logout');
         };
 
-        this.registerApplicant = function() {
+        this.register = function(role) {
             var deferred = $q.defer(),
-                registrationData = extend(User.getProfileData(),
+                registrationRoutePrefix = '/api/v1/register', 
+                registrationData = extend(User.getProfileData(role),
                     User.getLoginCredentials());
-           
-           $http.post('/api/v1/register/applicant', registrationData)
+           $http.post(registrationRoutePrefix + '/' + role, registrationData)
                 .then(function(data) {
-                    setPermissions();
+                    setPermissions(role);
                     deferred.resolve(data);   
                 }, function(data) {
                     deferred.reject(data);
