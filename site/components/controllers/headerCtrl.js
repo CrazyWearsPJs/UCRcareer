@@ -1,6 +1,6 @@
 angular.module('ucrCareerControllers')
-        .controller('HeaderCtrl', ['$scope', '$modal', '$location', 'User', 
-        function($scope, $modal, $location, User){
+        .controller('HeaderCtrl', ['$scope', '$modal', '$location', 'AuthService', 'User', 
+        function($scope, $modal, $location, AuthService, User){
                 $scope.registerOpen = function() {
                     var modalInstance = $modal.open({
                         templateUrl: 'templates/registerModal.html',
@@ -9,8 +9,7 @@ angular.module('ucrCareerControllers')
                     });
 
                     modalInstance.result.then(function(user) {
-                        User.addCredentials(user.email, user.password);
-                        console.dir(user);
+                        User.setCredentials(user.email, user.password);
                         if(user.employer) {
                             $location.path('/employerRegister');
                         } else {
@@ -28,6 +27,7 @@ angular.module('ucrCareerControllers')
 	            });
         	        modalInstance.result.then(function(user) {
 	                    User.addCredentials(user.email, user.password);
+                        AuthService.login();
                     }, function() {
         	    });
         	};

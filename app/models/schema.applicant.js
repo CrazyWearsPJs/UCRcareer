@@ -79,8 +79,9 @@ applicantSchema.pre('save', function(next){
  * Returns true if the applicant exists
  * Password is expected to be in plain text
  * @param creds {Object} applicant credentials
- * @param cb {Function} callback 
- * @return {Bool} applicant exists
+ * @param cb(err, applicant) {Function} callback 
+ * @cb-param  err {Error} error if credentials doesnt match an applicant, null otherwise
+ * @cb-param  applicant {applicant} applicant object if credentials match an applicant, null otherwise
  * creds {
  *     password: {String}
  *   , email   : {String}

@@ -85,6 +85,19 @@ You have a node app on the VM listening on port 8080. You'll be able to send it 
 
 Also, the VM exposes a shared folder under '/vagrant'. In that folder you will find all our development files that we cloned from github. Any changes you make to those files will be available on your host and vice versa, meaning you can edit your development files on your host using sublime (or whatever) and have your VM get those changes as well instantaneously. 
 
+# Starting the application
+
+```bash
+vagrant ssh
+cd /vagrant
+npm install // or npm install --no-bin-links on windows
+cd site
+bower install
+cd ..
+npm install
+mongod --config /vagrant/etc/install/mongod-yaml.conf
+node server.js
+```
 
 # MongoDB Reference
 
