@@ -87,7 +87,7 @@ Also, the VM exposes a shared folder under '/vagrant'. In that folder you will f
 
 # Starting the application
 
-'''bash
+```bash
 vagrant ssh
 cd /vagrant
 npm install // or npm install --no-bin-links on windows
@@ -97,7 +97,7 @@ cd ..
 npm install
 mongod --config /vagrant/etc/install/mongod-yaml.conf
 node server.js
-'''
+```
 
 # MongoDB Reference
 
