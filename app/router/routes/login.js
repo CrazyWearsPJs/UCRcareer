@@ -13,7 +13,7 @@ var express = require('express'),
                     err.status = 403;
                     next(err);
                 } else {
-                    req.session.applicantUserId = applicant._Id;
+                    req.session.applicantUserId = applicant._id;
                     res.status(200).end();
                 }
             });
@@ -35,7 +35,7 @@ var express = require('express'),
                     err.status = 403;
                     next(err);
                 } else {
-                    req.session.employerUserId = employer._Id;
+                    req.session.employerUserId = employer._id;
                     res.status(200).end();
                 }
             });
