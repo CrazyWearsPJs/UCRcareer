@@ -222,3 +222,34 @@ You can run our server test cases by running
 ```bash
 mocha
 ```
+
+### Database
+If you want to check the database directly for a document, then first 
+run mongo's interactive shell with the command found above and then
+```bash
+show dbs
+```
+to list the databases currently on your machine. Then
+```bash
+use TestUCRcareers
+```
+to switch to the database the collections you want are stored at. 
+You can replace TestUCRcareers with whatever other database you need. Then
+```bash
+db.getCollectionNames();
+```
+to list the different collections you may have. Right now it should only be
+applicants, employers, and job postings. Not sure what the system indexes are.
+Then to list all the documents in a collection, let's say the documents in the
+applicants collection
+```bash
+db.applicants.find();
+  or
+db.applicants.find().pretty();
+```
+The former is to enable pretty print on the json blob. Only necessary for readability.
+To perform a query for a document, let's say an applicant with
+a first name of Prime and a last name of Minister
+```bash
+db.applicants.find({'personal.fName':'Prime','personal.lName':'Minister'}).pretty();
+```
