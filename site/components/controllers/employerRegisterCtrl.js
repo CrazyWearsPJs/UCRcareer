@@ -2,7 +2,11 @@ angular.module('ucrCareerControllers')
         .controller('EmployerRegisterCtrl', ['$scope', '$location', 'User', 'AuthService', 'USER_ROLES',
         function($scope, $location, User, AuthService, USER_ROLES){
             $scope.user = {
-                'credentials': {}
+                'companyName': {},
+                'contact': {},
+                'credentials': {},
+                'location': {},
+                'personal': {}
             };
 
             var credentials = User.getCredentials();
