@@ -250,6 +250,7 @@ describe('models', function (){
                       , requirements:  "Over 9000 IQ"
                       , salary:        "$100,000 annual"
                       , department:    "Dept. of the Helix Fossil"
+                      , application:   "best application ever!"
                     }
                   , location: {
                         city:          "Riverside"
@@ -261,7 +262,7 @@ describe('models', function (){
                     }
                 });
             
-            // Save employer
+            // Save job posting
             bestPost.save(function(err, jobPosting, numAffected){
                 if(err) throw err;
                 expect(numAffected).to.be.equal(1);
@@ -270,7 +271,7 @@ describe('models', function (){
         });
 
         afterEach(function(done) {
-            // Remove dummy applicant
+            // Remove dummy posting
             var JobPosting = models.jobPosting();
             JobPosting.remove({"specifics.department" : "Dept. of the Helix Fossil"}, function(err) {
                 if(err) throw err;
@@ -283,6 +284,18 @@ describe('models', function (){
             JobPosting.findOne({"specifics.department" : "Dept. of the Helix Fossil"}, function(err, jobPosting) {
                 if(err) throw err;
                 expect(jobPosting).to.not.be.equal(null);
+                done();
+            });
+        });
+        
+	it('should throw an error when saved if it is missing a required field', function(done){
+            var JobPosting = models.jobPosting()
+                , jobPost = new JobPosting({});
+            
+            // An error should be generated since we are missing
+            // required fields
+            jobPost.save(function(err){
+                expect(err).to.not.be.equal(null);
                 done();
             });
         });
