@@ -25,8 +25,8 @@ angular.module('ucrCareerControllers')
 	                controller: 'LoginModalCtrl',
         	        size: 'lg'
 	            });
-        	        modalInstance.result.then(function(user) {
-	                    User.addCredentials(user.email, user.password);
+        	    modalInstance.result.then(function(user) {
+	                User.addCredentials(user.email, user.password);
                         AuthService.login();
                     }, function() {
         	    });

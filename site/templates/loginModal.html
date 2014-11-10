@@ -1,7 +1,7 @@
 <div class="modal-header"> 
     <h3 class="modal-title">Log In</h3>
 </div>
-<form name="login" ng-submit="ok()" novalidate>
+<form name="login"> <!--ng-submit="ok()" novalidate-->
     <div class="modal-body">
     <div class="form-group"
         ng-class="{'has-error':login.email.$error.email}">
@@ -29,7 +29,7 @@
 
 
     <div class = "modal-footer">
-        <input type="submit" class="btn" ng-class="login.$valid?'btn-primary':'btn-default'" value="Submit"/>
+        <input type="submit" class="btn" ng-class="login.$valid?'btn-primary':'btn-default'" value="Submit" ng-click="ok()"/> <!--ng-click="validate()"/-->
         <button class="btn btn-warning" ng-click="cancel()"> Cancel </button>
     </div>
 </form>
