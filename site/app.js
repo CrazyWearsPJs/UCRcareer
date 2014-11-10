@@ -6,13 +6,16 @@ angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'u
             }).when('/applicantRegister', {
                 templateUrl: 'templates/applicantRegister.html',
                 controller: 'ApplicantRegisterCtrl'
+            }).when('/employerProfile', {
+                templateUrl: 'templates/employerProfile.html',
+                controller: 'EmployerProfileCtrl'
             }).when('/employerRegister', {
-	            templateUrl: 'templates/employerRegister.html',
+	        templateUrl: 'templates/employerRegister.html',
             	controller: 'EmployerRegisterCtrl'
             }).when('/jobPosting', {
-		    templateUrl: 'templates/jobPosting.html',
-		    //TODO Fix this shit.
-		    controller: 'RegisterCtrl'
+		templateUrl: 'templates/jobPosting.html',
+		//TODO Fix this shit. Same name as something else
+		controller: 'RegisterCtrl'
 	    }).otherwise({
                 redirectTo: '/'
             });
