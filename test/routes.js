@@ -26,6 +26,52 @@ var app = undefined;
  * Begin tests
  */
 
+var applicant = { 
+        credentials: {
+            password: "password1"
+          , email:    "jdoe001@ucr.edu"
+        }
+      , contact: {
+            phoneNum: "9099999999"
+        }
+      , location: {
+            city:     "Riverside"
+          , state:    "CA"
+          , zip:      "92501"
+          , address1: "1111 Linden St"
+          , country:  "USA"
+        }
+      , spec: {
+            degree: "Computer Science"
+        }
+      , personal: {
+            fName: "John"
+          , lName: "Doe"
+        }
+};
+ 
+var employer = {  
+      companyName: 'Google Inc'
+      , credentials: {
+            password: "password1"
+          , email:    "jdoe001@ucr.edu"
+        }
+      , contact: {
+            phoneNum: "9099999999"
+        }
+      , location: {
+            city:     "Riverside"
+          , state:    "CA"
+          , zip:      "92501"
+          , address1: "1111 Linden St"
+          , country:  "USA"
+        }
+      , personal: {
+            fName: "John"
+          , lName: "Doe"
+        }
+};
+
 describe('routes', function (){
     var apiPrefix = '/api/v1'
     , applicantRouteSuffix = '/applicant'
@@ -72,33 +118,7 @@ describe('routes', function (){
     });
 
     describe('POST api/v1/register', function (){
-       
-        describe('/applicant', function() {
-            
-            var input = {
-                    credentials: {
-                        password: "password1"
-                      , email:    "jdoe001@ucr.edu"
-                    }
-                  , contact: {
-                        phoneNum: "9099999999"
-                    }
-                  , location: {
-                        city:     "Riverside"
-                      , state:    "CA"
-                      , zip:      "92501"
-                      , address1: "1111 Linden St"
-                      , country:  "USA"
-                    }
-                  , spec: {
-                        degree: "Computer Science"
-                    }
-                  , personal: {
-                        fName: "John"
-                      , lName: "Doe"
-                    }
-            };
- 
+        describe('/applicant', function() { 
             afterEach('destory applicant db', function(done) {
                 models.applicant().remove({}, function(err) {
                     done();
@@ -108,19 +128,19 @@ describe('routes', function (){
             it('should register applicant successfully', function(done) {
                 request(app)
                     .post(registerRoutePrefix + '/applicant')
-                    .send(input)
+                    .send(applicant)
                     .expect(200, done)
             });  
 
             it('should not allow double registration', function(done) {
                 request(app)
                     .post(registerRoutePrefix + '/applicant')
-                    .send(input)
+                    .send(applicant)
                     .expect(200)
                     .end(function(err, res) {
                         request(app)
                             .post(registerRoutePrefix + '/applicant')
-                            .send(input)
+                            .send(applicant)
                             .expect(400, done);
                     });
             });
@@ -140,27 +160,6 @@ describe('routes', function (){
 
         });
         describe('/employer', function() { 
-            var input = {  
-                  companyName: 'Google Inc'
-                  , credentials: {
-                        password: "password1"
-                      , email:    "jdoe001@ucr.edu"
-                    }
-                  , contact: {
-                        phoneNum: "9099999999"
-                    }
-                  , location: {
-                        city:     "Riverside"
-                      , state:    "CA"
-                      , zip:      "92501"
-                      , address1: "1111 Linden St"
-                      , country:  "USA"
-                    }
-                  , personal: {
-                        fName: "John"
-                      , lName: "Doe"
-                    }
-            };
 
             afterEach('destory employer db', function(done) {
                 models.employer().remove({}, function(err) {
@@ -171,19 +170,19 @@ describe('routes', function (){
             it('should register employer successfully', function(done) {
                 request(app)
                     .post(registerEmployerRoute)
-                    .send(input)
+                    .send(employer)
                     .expect(200, done)
             });  
 
             it('should not allow double registration', function(done) {
                 request(app)
                     .post(registerEmployerRoute)
-                    .send(input)
+                    .send(employer)
                     .expect(200)
                     .end(function(err, res) {
                         request(app)
                             .post(registerEmployerRoute)
-                            .send(input)
+                            .send(employer)
                             .expect(400, done);
                     });
             });
@@ -204,41 +203,14 @@ describe('routes', function (){
     });
  
     describe('POST api/v1/login', function(){
-
+      
         describe('/applicant', function() {
-            var credentials = {
-                password: "password1"
-                , email: "jdoe001@ucr.edu"
-            };
-            
-            before('register applicant', function(done) {
-                    var input = {
-                        credentials: {
-                         password: "password1"
-                          , email:    "jdoe001@ucr.edu"
-                        }
-                      , contact: {
-                            phoneNum: "9099999999"
-                        }
-                    , location: {
-                            city:     "Riverside"
-                          , state:    "CA"
-                          , zip:      "92501"
-                          , address1: "1111 Linden St"
-                          , country:  "USA"
-                        }
-                          , spec: {
-                             degree: "Computer Science"
-                        }
-                        , personal: {
-                            fName: "John"
-                        , lName: "Doe"
-                        }
-                    };
+            var credentials = applicant.credentials;
 
+            before('register applicant', function(done) {
                     request(app)
                         .post(registerApplicantRoute)
-                        .send(input)
+                        .send(applicant)
                         .expect(200, done);
                 });
 
@@ -248,11 +220,15 @@ describe('routes', function (){
                     });
                 });
 
-                it('should allow a registered user to login', function(done) {
+                it('should allow a registered user to login and send back profile data', function(done) {
+                    var profileData = _.extend({}, applicant);
+                    delete profileData.credentials;
+
                     request(app)
                         .post(loginApplicantRoute)
                         .send(credentials)
-                        .expect(200, done);
+                        .expect(200)
+                        .expect(profileData, done);
                 });
                 it('should not allow a registered user with an invalid password to login', function(done) {
                     /*
@@ -279,38 +255,13 @@ describe('routes', function (){
                 });
         });
 
-        describe('/employer', function() {
-            var credentials = {
-                password: "password1"
-                , email: "jdoe001@ucr.edu"
-            };
-            
-            before('register employer', function(done) {
-                var input = {  
-                  companyName: 'Google Inc'
-                  , credentials: {
-                        password: "password1"
-                      , email:    "jdoe001@ucr.edu"
-                    }
-                  , contact: {
-                        phoneNum: "9099999999"
-                    }
-                  , location: {
-                        city:     "Riverside"
-                      , state:    "CA"
-                      , zip:      "92501"
-                      , address1: "1111 Linden St"
-                      , country:  "USA"
-                    }
-                  , personal: {
-                        fName: "John"
-                      , lName: "Doe"
-                    }
-                };
+        describe('/employer', function() { 
+            var credentials = employer.credentials;
 
+            before('register employer', function(done) {
                 request(app)
                     .post(registerEmployerRoute)
-                    .send(input)
+                    .send(employer)
                     .expect(200, done);
                 });
 
@@ -320,11 +271,15 @@ describe('routes', function (){
                     });
                 });
 
-                it('should allow a registered user to login', function(done) {
+                it('should allow a registered user to login and send back profile data', function(done) {
+                    var profileData = _.extend({}, employer);
+                    delete profileData.credentials;
+
                     request(app)
                         .post(loginEmployerRoute)
                         .send(credentials)
-                        .expect(200, done);
+                        .expect(200)
+                        .expect(profileData, done);
                 });
 
                 it('should not allow a registered user with an invalid password to login', function(done) {
