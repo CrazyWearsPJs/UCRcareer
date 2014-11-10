@@ -77,8 +77,8 @@ describe('routes', function (){
     , applicantRouteSuffix = '/applicant'
     , employerRouteSuffix = '/employer';
     
-    var registerRoutePrefix = apiPrefix + '/register'  
-    , loginRoutePrefix = apiPrefix + '/login';
+    var registerRoutePrefix = '/register'  
+    , loginRoutePrefix = '/login';
  
     var registerApplicantRoute = registerRoutePrefix + applicantRouteSuffix
     , registerEmployerRoute = registerRoutePrefix + employerRouteSuffix; 
@@ -116,7 +116,7 @@ describe('routes', function (){
         db = undefined;
     });
 
-    describe('POST api/v1/register', function (){
+    describe('POST /register', function (){
         describe('/applicant', function() { 
             afterEach('destory applicant db', function(done) {
                 models.applicant().remove({}, function(err) {
@@ -201,7 +201,7 @@ describe('routes', function (){
         });
     });
  
-    describe('POST api/v1/login', function(){
+    describe('POST /login', function(){
         var employerCredentials = employer.credentials
             , applicantCredentials = applicant.credentials;
 
