@@ -43,6 +43,22 @@ var employerSchema = new Schema({
 }); 
 
 /**
+ * Extend doc.toObject to "hide" sensitive properties
+ * Useful for hiding information such as login credentials.
+ */
+
+if(!employerSchema.options.toObject) employerSchema.options.toObject = {};
+ employerSchema.options.toObject.hide = [];
+ employerSchema.options.toObject.transform = function(doc, ret, options) {
+         if(options.hide) {
+            options.hide.forEach(function(prop) { 
+                delete ret[prop];
+            });
+        }
+ };
+
+
+/**
  * Set pre-save hook for replacing password field
  * with its hashed version
  */
@@ -105,6 +121,19 @@ employerSchema.static('findByCredentials', function(creds,cb){
         });
     });
 });
+
+/**
+ * Instance method that returns the object representation
+ * of an applicant while hiding sensitive information
+ * @return {Object} object representation of an applicant instance
+ */
+employerSchema.methods.getProfileData = function() {
+    return this.toObject({
+        'hide': ['credentials', '_id', '__v'] 
+        , 'transform': true
+    });
+};
+
 /**
  * Export schema
  */

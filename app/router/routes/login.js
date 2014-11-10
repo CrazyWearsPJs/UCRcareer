@@ -14,7 +14,7 @@ var express = require('express'),
                     next(err);
                 } else {
                     req.session.applicantUserId = applicant._id;
-                    res.status(200).end();
+                    res.status(200).json(applicant.getProfileData());
                 }
             });
         } else {
@@ -36,7 +36,7 @@ var express = require('express'),
                     next(err);
                 } else {
                     req.session.employerUserId = employer._id;
-                    res.status(200).end();
+                    res.status(200).json(employer.getProfileData());
                 }
             });
         } else {
