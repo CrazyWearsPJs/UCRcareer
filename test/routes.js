@@ -73,7 +73,7 @@ var employer = {
 };
 
 describe('routes', function (){
-    var apiPrefix = '/api/v1'
+   var apiPrefix = '/api/v1'
     , applicantRouteSuffix = '/applicant'
     , employerRouteSuffix = '/employer';
     
@@ -83,8 +83,7 @@ describe('routes', function (){
     var registerApplicantRoute = registerRoutePrefix + applicantRouteSuffix
     , registerEmployerRoute = registerRoutePrefix + employerRouteSuffix; 
          
-    var loginApplicantRoute = loginRoutePrefix + applicantRouteSuffix
-    , loginEmployerRoute = loginRoutePrefix + employerRouteSuffix;
+    var loginRoute = loginRoutePrefix;
 
     before('Setup app and create a db connection', function(done) {
         app = express();
@@ -203,10 +202,10 @@ describe('routes', function (){
     });
  
     describe('POST api/v1/login', function(){
-      
-        describe('/applicant', function() {
-            var credentials = applicant.credentials;
+        var employerCredentials = employer.credentials
+            , applicantCredentials = applicant.credentials;
 
+        describe('#applicant', function() {
             before('register applicant', function(done) {
                     request(app)
                         .post(registerApplicantRoute)
@@ -223,10 +222,11 @@ describe('routes', function (){
                 it('should allow a registered user to login and send back profile data', function(done) {
                     var profileData = _.extend({}, applicant);
                     delete profileData.credentials;
+                    profileData.type = 'applicant';
 
                     request(app)
-                        .post(loginApplicantRoute)
-                        .send(credentials)
+                        .post(loginRoute)
+                        .send(applicantCredentials)
                         .expect(200)
                         .expect(profileData, done);
                 });
@@ -235,29 +235,27 @@ describe('routes', function (){
                      * Make deep copy of credentials
                      */
 
-                    var invalidCredentials = _.extend({}, credentials);
+                    var invalidCredentials = _.extend({}, applicantCredentials);
                     
                     invalidCredentials.password += "wrong";
 
                     request(app)
-                        .post(loginApplicantRoute)
+                        .post(loginRoute)
                         .send(invalidCredentials)
                         .expect(403, done);
                 });
                 it('should not allow an unregistered user to login', function(done) {
-                    var invalidCredentials = _.extend({}, credentials);
+                    var invalidCredentials = _.extend({}, applicantCredentials);
                     invalidCredentials.email = "Not" + invalidCredentials.email;
 
                     request(app)
-                        .post(loginApplicantRoute)
+                        .post(loginRoute)
                         .send(invalidCredentials)
                         .expect(403, done);
                 });
         });
 
-        describe('/employer', function() { 
-            var credentials = employer.credentials;
-
+        describe('#employer', function() { 
             before('register employer', function(done) {
                 request(app)
                     .post(registerEmployerRoute)
@@ -274,10 +272,11 @@ describe('routes', function (){
                 it('should allow a registered user to login and send back profile data', function(done) {
                     var profileData = _.extend({}, employer);
                     delete profileData.credentials;
+                    profileData.type = 'employer';
 
                     request(app)
-                        .post(loginEmployerRoute)
-                        .send(credentials)
+                        .post(loginRoute)
+                        .send(employerCredentials)
                         .expect(200)
                         .expect(profileData, done);
                 });
@@ -287,21 +286,21 @@ describe('routes', function (){
                      * Make deep copy of credentials
                      */
 
-                    var invalidCredentials = _.extend({}, credentials);
+                    var invalidCredentials = _.extend({}, employerCredentials);
                     
                     invalidCredentials.password += "wrong";
 
                     request(app)
-                        .post(loginEmployerRoute)
+                        .post(loginRoute)
                         .send(invalidCredentials)
                         .expect(403, done);
                 });
                 it('should not allow an unregistered user to login', function(done) {
-                    var invalidCredentials = _.extend({}, credentials);
+                    var invalidCredentials = _.extend({}, employerCredentials);
                     invalidCredentials.email = "Not" + invalidCredentials.email;
 
                     request(app)
-                        .post(loginEmployerRoute)
+                        .post(loginRoute)
                         .send(invalidCredentials)
                         .expect(403, done);
                 });
