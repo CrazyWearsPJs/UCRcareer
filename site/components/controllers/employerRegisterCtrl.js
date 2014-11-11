@@ -1,21 +1,26 @@
 angular.module('ucrCareerControllers')
-        .controller('RegisterCtrl', ['$scope', '$location', 'User', 
-        function($scope, $location, User){
+        .controller('EmployerRegisterCtrl', ['$scope', '$location', 'User', 'AuthService', 'USER_ROLES',
+        function($scope, $location, User, AuthService, USER_ROLES){
             $scope.user = {
-                email: "", 
-                password: ""
+                'companyName': {}, 
+                'credentials': {}, 
+                'personal': {},
+                'contact': {},
+                'location': {}
             };
+
             var credentials = User.getCredentials();
             if (credentials.email !== null) {
                 $scope.user.email = credentials.email;
             }
             
             if(credentials.password !== null) {
-                $scope.user.password = credentials.password;
+                $scope.user.credentials.password = credentials.password;
+                $scope.user.credentials.reEnterPassword = credentials.password;
             }
 
             $scope.differentPassword = function() {
-                return $scope.user.password !== $scope.user.reEnterPassword;
+                return $scope.user.credentials.password !== $scope.user.credentials.reEnterPassword;
             };
 
             $scope.differentPasswordTouched = function() {
@@ -25,7 +30,10 @@ angular.module('ucrCareerControllers')
 
             $scope.ok = function() {
                 if($scope.register.$valid && !$scope.differentPassword()) {
-                    // api call
+                    console.log(User);
+                    User.setCredentials($scope.user.credentials.email, $scope.user.credentials.password);
+                    User.setProfileData($scope.user, USER_ROLES.employer);
+                    AuthService.register(USER_ROLES.employer);
                 }
             };
 

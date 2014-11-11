@@ -4,26 +4,28 @@ angular.module('ucrCareerServices')
         var authTokenSuffix = 'api-token',
             extend = angular.extend;
 
-        var setPermissions = function(permission) {
-            //TODO: set permissions on login;
+        var setPermissions = function(role) {
+            User.setUserRole(role);
         };
-
         
         this.heartBeat = function(credentials) {
             var deferred = $q.defer();
-            $http.post('/api/v1/heartbeat')
+            $http.post('/heartbeat')
                 .then(function() {
                     setPermissions();              
                 }, function(data) {
                 
                 });
+            return deferred.promise;
         };
 
         this.login = function(credentials) {
             var deferred = $q.defer();
-            $http.post('/api/v1/login', credentials)
+            $http.post('/login', credentials)
                 .then(function(data) {
-                    setPermissions();
+                    role = data.type;
+                    setPermissions(role);
+                    User.setProfileData(data, role);
                     deferred.resolve(data);
                     }, function(data) {
                     deferred.reject(data);
@@ -32,17 +34,17 @@ angular.module('ucrCareerServices')
         };
 
         this.logout = function() {
-            $http.post('/api/v1/logout');
+            $http.post('/logout');
         };
 
-        this.registerApplicant = function() {
+        this.register = function(role) {
             var deferred = $q.defer(),
-                registrationData = extend(User.getProfileData(),
+                registrationRoutePrefix = '/register', 
+                registrationData = extend(User.getProfileData(role),
                     User.getLoginCredentials());
-           
-           $http.post('/api/v1/register/applicant', registrationData)
+           $http.post(registrationRoutePrefix + '/' + role, registrationData)
                 .then(function(data) {
-                    setPermissions();
+                    setPermissions(role);
                     deferred.resolve(data);   
                 }, function(data) {
                     deferred.reject(data);

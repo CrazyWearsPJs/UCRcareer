@@ -49,6 +49,22 @@ var applicantSchema = new Schema({
 }); 
 
 /**
+ * Extends doc.toObject to "hide" sensitive properties.
+ * Useful for hiding information such as login credentials.
+ *
+ */
+
+if(!applicantSchema.options.toObject) applicantSchema.options.toObject = {};
+applicantSchema.options.toObject.hide = [];
+applicantSchema.options.toObject.transform = function(doc, ret, options) {
+    if(options.hide) {
+        options.hide.forEach(function(prop) { 
+            delete ret[prop];
+        });
+    }
+};
+
+/**
  * Set pre-save hook for replacing password field
  * with its hashed version
  */
@@ -79,8 +95,9 @@ applicantSchema.pre('save', function(next){
  * Returns true if the applicant exists
  * Password is expected to be in plain text
  * @param creds {Object} applicant credentials
- * @param cb {Function} callback 
- * @return {Bool} applicant exists
+ * @param cb(err, applicant) {Function} callback 
+ * @cb-param  err {Error} error if credentials doesnt match an applicant, null otherwise
+ * @cb-param  applicant {applicant} applicant object if credentials match an applicant, null otherwise
  * creds {
  *     password: {String}
  *   , email   : {String}
@@ -113,6 +130,19 @@ applicantSchema.static('findByCredentials', function(creds,cb){
         });
     });
 });
+
+
+/**
+ * Instance method that returns the object representation
+ * of an applicant while hiding sensitive information
+ * @return {Object} object representation of an applicant instance
+ */
+applicantSchema.methods.getProfileData = function() {
+    return this.toObject({
+        'hide': ['credentials', '_id', '__v']
+        , 'transform': true 
+    });
+};
 
 /**
  * Export schema
