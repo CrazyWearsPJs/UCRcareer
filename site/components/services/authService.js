@@ -1,6 +1,12 @@
-angular.module('ucrCareerServices')
-    .service('AuthService', ['$http','$q', 'User',
-    function($http, $q, User){
+(function(){
+    
+    'use strict';
+
+    /**
+     * Authentication Service
+     */
+    
+    function AuthService($http, $q, User){
         var authTokenSuffix = 'api-token',
             extend = angular.extend;
 
@@ -42,7 +48,7 @@ angular.module('ucrCareerServices')
                 registrationRoutePrefix = '/register', 
                 registrationData = extend(User.getProfileData(role),
                     User.getLoginCredentials());
-           $http.post(registrationRoutePrefix + '/' + role, registrationData)
+            $http.post(registrationRoutePrefix + '/' + role, registrationData)
                 .then(function(data) {
                     setPermissions(role);
                     deferred.resolve(data);   
@@ -51,4 +57,19 @@ angular.module('ucrCareerServices')
                 });
             return deferred.promise;
         };
-    }]);
+    }
+
+    /**
+     * Register functions
+     */
+
+    angular.module('ucrCareerServices')
+        .service('AuthService', 
+            [
+                 '$http'
+                ,'$q'
+                ,'User'
+                ,AuthService
+            ]);
+
+})();

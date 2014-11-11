@@ -1,10 +1,17 @@
-angular.module('ucrCareerServices')
-    .factory('User', ['USER_ROLES', function(USER_ROLES) {
+(function(){
+
+    'use strict';
+
+    /**
+     * Users Factory
+     */
+    
+    function UserFactory(USER_ROLES) {
         var forEach = angular.forEach,
             isFunction = angular.isFunction,
             isObject = angular.isObject,
             copy = angular.copy;
- 
+
         var copyNonNull = function(src, dest) {
             if(dest) {
                 copy(src, dest);
@@ -165,6 +172,19 @@ angular.module('ucrCareerServices')
             });
             return info;
         };
-  
+
         return User;
-    }]);
+    }
+
+    /**
+     * Register functions
+     */
+
+    angular.module('ucrCareerServices')
+        .factory('User',
+            [   
+                'USER_ROLES'
+              , UserFactory
+            ]);
+
+})();
