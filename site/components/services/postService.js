@@ -7,8 +7,7 @@
      */
     
     function PostService($http, $q, User, USER_ROLES){
-        var authTokenSuffix = 'api-token',
-            extend = angular.extend;
+        var authTokenSuffix = 'api-token';
         
         var forEach = angular.forEach,
             isObject = angular.isObject,
