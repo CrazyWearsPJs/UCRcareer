@@ -96,6 +96,7 @@ angular.module('ucrCareerServices')
             'role': USER_ROLES.guest, 
         };
 
+
         User.setCredentials = function(email, password) {
             this.credentials.email = email;
             this.credentials.password = password;

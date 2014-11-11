@@ -13,12 +13,9 @@ angular.module('ucrCareerControllers')
             }
             
             $scope.ok = function() {
-                if($scope.jobPosting.$valid) {
-                    //console.log(User);
-                    //User.setCredentials($scope.user.credentials.email, $scope.user.credentials.password);
-                    //User.setProfileData($scope.user, USER_ROLES.employer);
-                    //AuthService.register(USER_ROLES.employer);
-                    PostService.post(USER_ROLES.employer);
+                if($scope.jobPosting.$valid && User.role == USER_ROLES.employer) {
+                    Post.setJobPostData($scope.post);
+                    PostService.post();
                 }
             };
 

@@ -24,8 +24,6 @@ var express = require('express'),
                     err.status = 400;
                     next(err);
                 } else {
-                    //req.session.applicantUserId = newApplicantUpdated._id;
-                    // TODO set unique identifier for job posts
                     res.status(200).end();
                 }
             });
