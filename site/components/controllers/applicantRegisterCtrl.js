@@ -1,12 +1,5 @@
-(function(){
-
-    'use strict';
-
-    /**
-     * Applicant Registration Controller
-     */
-
-    function ApplicantRegisterCtrl ($scope, $location, User, AuthService, USER_ROLES){
+angular.module('ucrCareerControllers')
+    .controller('ApplicantRegisterCtrl', ['$scope', '$location', 'User', 'AuthService', 'USER_ROLES', function ApplicantRegisterCtrl($scope, $location, User, AuthService, USER_ROLES){
         $scope.user = {
             'credentials': {},
             'spec': {},
@@ -43,21 +36,4 @@
         $scope.cancel = function() {
             $location.path('/');
         };
-    }
-
-    /**
-     * Register functions
-     */
-
-    angular.module('ucrCareerControllers')
-        .controller('ApplicantRegisterCtrl', 
-          [ 
-              '$scope'
-            , '$location'
-            , 'User'
-            , 'AuthService'
-            , 'USER_ROLES'
-            , ApplicantRegisterCtrl
-          ]);
-
-})();
+    }]);

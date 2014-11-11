@@ -1,12 +1,6 @@
-(function(){
-    
-    'use strict';
+angular.module('ucrCareerControllers')
+    .controller('HeaderCtrl', ['$scope', '$modal', '$location', 'AuthService', 'User', function HeaderCtrl($scope, $modal, $location, AuthService, User){
 
-    /**
-     * Header Controller
-     */
-    
-    function HeaderCtrl($scope, $modal, $location, AuthService, User){
         $scope.registerOpen = function() {
             var modalInstance = $modal.open({
                 templateUrl: 'templates/registerModal.html',
@@ -37,34 +31,32 @@
                 }, function() {
             });
         };
-    }
-    
-    /**
-     * Login Modal Controller
-     */
-    
-    function LoginModalCtrl($scope, $modalInstance){
-        $scope.user = {
-            email : "",
-            password: "",
-        };
+    }]);
 
-        $scope.ok = function() {
-            if ($scope.login.$valid) {
-                $modalInstance.close($scope.user);
-            }
-        };
-        
-        $scope.cancel = function() {
-            $modalInstance.dismiss();
-        };
-    }
+    angular.module('ucrCareerControllers')
+        .controller('LoginModalCtrl', ['$scope', '$modalInstance', function LoginModalCtrl($scope, $modalInstance){
+            $scope.user = {
+                email : "",
+                password: "",
+            };
 
-    /**
-     * Register Modal Controller
-     */
+            $scope.ok = function() {
+                if ($scope.login.$valid) {
+                    $modalInstance.close($scope.user);
+                }
+            };
+            
+            $scope.cancel = function() {
+                $modalInstance.dismiss();
+            };
+        }]);
 
-    function RegisterModalCtrl($scope, $modalInstance){
+/**
+ * Register Modal Controller
+ */
+
+angular.module('ucrCareerControllers')
+    .controller('RegisterModalCtrl', ['$scope', '$modalInstance', function RegisterModalCtrl ($scope, $modalInstance){
         $scope.user = {
             email : "",
             password: "",
@@ -92,33 +84,4 @@
         $scope.cancel = function() {
             $modalInstance.dismiss();
         };
-    }
-
-    /**
-     * Register functions
-     */
-
-    angular.module('ucrCareerControllers')
-        .controller('HeaderCtrl', 
-            [
-                '$scope'
-              , '$modal'
-              , '$location'
-              , 'AuthService'
-              , 'User'
-              , HeaderCtrl
-            ])
-        .controller('LoginModalCtrl', 
-            [
-                '$scope'
-              , '$modalInstance'
-              , LoginModalCtrl
-            ])
-        .controller('RegisterModalCtrl', 
-            [
-                '$scope'
-              , '$modalInstance'
-              , RegisterModalCtrl
-            ]);
-
-})();
+    }]);
