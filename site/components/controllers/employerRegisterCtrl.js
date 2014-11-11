@@ -6,10 +6,13 @@
      * Employer Registration Controller
      */
     
-    function EmployerRegisterCtrl($scope, $route, User){
+    function EmployerRegisterCtrl($scope, $location, User, AuthService, USER_ROLES){
         $scope.user = {
-            email: "", 
-            password: ""
+            'companyName': {},
+            'credentials': {},
+            'personal': {},
+            'contact': {},
+            'location': {}
         };
 
         var credentials = User.getCredentials();
@@ -33,12 +36,15 @@
 
         $scope.ok = function() {
             if($scope.register.$valid && !$scope.differentPassword()) {
-                // api call
+                console.log(User);
+                User.setCredentials($scope.user.credentials.email, $scope.user.credentials.password);
+                User.setProfileData($scope.user, USER_ROLES.employer);
+                AuthService.register(USER_ROLES.employer);
             }
         };
 
         $scope.cancel = function() {
-            $route = '/';
+            $location.path('/');
         };
    }
             
@@ -50,8 +56,10 @@
         .controller('EmployerRegisterCtrl', 
             [
                 '$scope'
-              , '$route'
+              , '$location'
               , 'User'
+              , 'AuthService'
+              , 'USER_ROLES'
               , EmployerRegisterCtrl
             ]);
 
