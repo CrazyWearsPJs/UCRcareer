@@ -54,4 +54,5 @@
               , 'User'
               , EmployerRegisterCtrl
             ]);
+
 })();

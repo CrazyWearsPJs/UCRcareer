@@ -38,7 +38,7 @@
             });
         };
     }
-
+    
     /**
      * Login Modal Controller
      */

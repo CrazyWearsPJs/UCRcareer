@@ -39,13 +39,12 @@
                 templateUrl: 'templates/applicantRegister.html',
                 controller: 'ApplicantRegisterCtrl'
             }).when('/employerRegister', {
-                templateUrl: 'templates/employerRegister.html',
-                controller: 'EmployerRegisterCtrl'
+	        templateUrl: 'templates/employerRegister.html',
+            	controller: 'EmployerRegisterCtrl'
             }).when('/jobPosting', {
-                templateUrl: 'templates/jobPosting.html',
-                //TODO Fix this shit.
-                controller: 'RegisterCtrl'
-            }).otherwise({
+		        templateUrl: 'templates/jobPosting.html',
+		        controller: 'RegisterCtrl'
+	        }).otherwise({
                 redirectTo: '/'
             });
         }]);
