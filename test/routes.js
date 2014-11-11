@@ -80,7 +80,6 @@ var jobPost = {
         , salary: "$80,000"
         , department: "Computers"
         , jobType: "IT developer"
-
       }
     , location: {
           city: "Riverside"
@@ -338,7 +337,7 @@ describe('routes', function (){
             request(app)
                 .post('/post')
                 .send(jobPost)
-                .expect(200, done)
+                .expect(200, done);
         });  
 
         it('should not save given invalid posting data', function(done) {
