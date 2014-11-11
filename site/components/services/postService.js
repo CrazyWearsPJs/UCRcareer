@@ -1,6 +1,33 @@
 angular.module('ucrCareerServices')
     .service('PostService', ['$http','$q', 'User',
     function($http, $q, User){
+        var forEach = angular.forEach,
+            isFunction = angular.isFunction,
+            isObject = angular.isObject,
+            copy = angular.copy;
+
+        var copyNonNull = function(src, dest) {
+            if(dest) {
+                copy(src, dest);
+            } else {
+                dest = copy(src); 
+            }
+
+            if(isObject(dest)) {
+                forEach(dest, function(value, key) {
+                    if(!value) {
+                        delete dest[key];
+                    }
+                });
+            }
+            return dest;
+        };
+
+        var JOB_POST_DATA_FIELDS = {};
+
+        JOB_POST_DATA_FIELDS[USER_ROLES.employer] = ['specifics', 'location', 'date'];
+        
+        var jobPostData = JOB_POST_DATA_FIELDS[USER_ROLES.employer];
 
         var Post = {
             'specifics': {
@@ -21,27 +48,39 @@ angular.module('ucrCareerServices')
             } 
         };
 
-        var getJobPostDataFields = function(role) {
-              if(role === USER_ROLES.employer) {
-                return ;
-              }
-              return [];
+        var getJobPostDataFields = function() {
+            return jobPostData;
         };
 
-        Post.setJobPostData = function(data, role) {
-            var jobPostDataFields = getjobPostDataFields(role);
+        Post.setJobPostData = function(data) {
+            var jobPostDataFields = getjobPostDataFields();
 
             forEach(data, function(value, key) {
                 if(profileDataFields.indexOf(key) !== -1) {
-                    User[key] = copyNonNull(data[key]);
+                    Post[key] = copyNonNull(data[key]);
                 }
             });
         };
+
+        Post.getJobPostingData = function() {
+            var info = {},
+                jobPostDataFields = getJobPostDataFields();
+            
+            forEach(Post, function(value, key) {
+                forEach(jobPostDataFields, function(jobPostDataField) {
+                    if(value && (key === jobPostDataField)) {
+                        info[jobPostDataField] = 
+                            copyNonNull(value);
+                    }
+                });  
+            });
+            return info;
+        };
         
-        this.post = function(role) {
+        this.post = function() {
             var deferred = $q.defer(),
                 jobPostingRoutePrefix = '/post',
-                jobPostingData = extend(Post.getPostingData())); // TODO create the get posting data function for users!!!
+                jobPostingData = extend(Post.getJobPostingData())); // TODO create the get posting data function for users!!!
             $http.post(jobPostingRoutePrefix, jobPostingData)
                 .then(function(data) {
                     deferred.resolve(data);
