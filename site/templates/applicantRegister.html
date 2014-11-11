@@ -109,7 +109,7 @@
             <label for="newUserPhone">Phone</label>
             <div class="input-group">
             <span class="input-group-addon"><i class="fa fa-phone"></i></span> 
-            <input ng-model="user.contact.phone" type="text" 
+            <input ng-model="user.contact.phoneNum" type="text" 
                 class="form-control" id="newUserNumber"
                 placeholder="5558675309"
                 name="phoneNum"
@@ -341,7 +341,7 @@
 		class="form-control" id="newUserResume"
 		placeholder="www.dropbox.com/myresume"
 		name="resume"
-		mg-model-year="{updateOn: 'blur default', debounce: {'blue': 0, 'default': 500}}"
+		ng-model-year="{updateOn: 'blur default', debounce: {'blue': 0, 'default': 500}}"
 		ng-trim/>
 	</div>
 	</div>
@@ -349,7 +349,7 @@
  </div>
  </div>
     <div class = "footer">
-        <input class="btn" value="Submit" ng-class="register.$valid?'btn-primary':'btn-default'" type="submit"/>
+        <input class="btn" value="Submit" ng-class="register.$valid?'btn-primary':'btn-default'" type="Submit"/>
         <button class="btn btn-warning" ng-click="cancel()"> Cancel </button>
     </div>
 </form>

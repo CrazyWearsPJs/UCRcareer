@@ -1,6 +1,12 @@
-angular.module('ucrCareerControllers')
-	.controller('DateCtrl', ['$scope', 
-	function($scope){
+(function(){
+    
+    'use strict';
+
+    /**
+     * Date Controller
+     */
+
+    function DateCtrl ($scope){
 		$scope.datepickers = {
 		    dt: false,
 		    dtSecond: false
@@ -32,22 +38,28 @@ angular.module('ucrCareerControllers')
 		    $event.stopPropagation();
 
 		    $scope.opened = true;
-		
-//		    $scope.closeAll();
-//		    datePicker.opened = true;
 		    $scope.datepickers[which] = true;
 		};
-/*
-		$scope.closAll = function(){
-		    $scope.dateFrom.opened = false;
-		    $scope.dateTo.opened = false;
-		};
-*/	
-		$scope.dateOptions = {
+		
+        $scope.dateOptions = {
 		    formatYear: 'yy',
 		    startingDay: 1
 		};
 
 		$scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
 		$scope.format = $scope.formats[0];
-}]);
+    }
+
+    /**
+     * Register functions
+     */
+    
+    angular.module('ucrCareerControllers')
+	    .controller('DateCtrl', 
+            [
+                '$scope'
+              , DateCtrl
+            ]);
+
+})();
+

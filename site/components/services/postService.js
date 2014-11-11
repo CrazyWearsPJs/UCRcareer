@@ -1,6 +1,15 @@
-angular.module('ucrCareerServices')
-    .service('PostService', ['$http','$q', 'User', 'USER_ROLES',
-    function($http, $q, User, USER_ROLES){
+(function(){
+    
+    'use strict';
+
+    /**
+     * Post Service
+     */
+    
+    function PostService($http, $q, User, USER_ROLES){
+        var authTokenSuffix = 'api-token',
+            extend = angular.extend;
+        
         var forEach = angular.forEach,
             isObject = angular.isObject,
             copy = angular.copy,
@@ -89,4 +98,19 @@ angular.module('ucrCareerServices')
                 });
             return deferred.promise;
         };
-    }]);
+    }
+    
+    /**
+     * Register functions
+     */
+
+    angular.module('ucrCareerServices')
+        .service('PostService', 
+            [
+                 '$http'
+               , '$q'
+               , 'User'
+               , PostService
+            ]);
+
+})();
