@@ -10,7 +10,7 @@ angular.module('ucrCareerServices')
         
         this.heartBeat = function(credentials) {
             var deferred = $q.defer();
-            $http.post('/api/v1/heartbeat')
+            $http.post('/heartbeat')
                 .then(function() {
                     setPermissions();              
                 }, function(data) {
@@ -21,9 +21,11 @@ angular.module('ucrCareerServices')
 
         this.login = function(credentials) {
             var deferred = $q.defer();
-            $http.post('/api/v1/login', credentials)
+            $http.post('/login', credentials)
                 .then(function(data) {
-                    setPermissions();
+                    role = data.type;
+                    setPermissions(role);
+                    User.setProfileData(data, role);
                     deferred.resolve(data);
                     }, function(data) {
                     deferred.reject(data);
@@ -32,12 +34,12 @@ angular.module('ucrCareerServices')
         };
 
         this.logout = function() {
-            $http.post('/api/v1/logout');
+            $http.post('/logout');
         };
 
         this.register = function(role) {
             var deferred = $q.defer(),
-                registrationRoutePrefix = '/api/v1/register', 
+                registrationRoutePrefix = '/register', 
                 registrationData = extend(User.getProfileData(role),
                     User.getLoginCredentials());
            $http.post(registrationRoutePrefix + '/' + role, registrationData)
