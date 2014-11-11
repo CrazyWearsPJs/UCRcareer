@@ -22,7 +22,7 @@ angular.module('ucrCareerServices')
         this.post = function(role) {
             var deferred = $q.defer(),
                 jobPostingRoutePrefix = '/post',
-                jobPostingData = extend(User.getPostingData())); // TODO create the get posting data function for users!!!
+                jobPostingData = extend(User.getPostingData()); // TODO create the get posting data function for users!!!
             $http.post(jobPostingRoutePrefix, jobPostingData)
                 .then(function(data) {
                     deferred.resolve(data);
