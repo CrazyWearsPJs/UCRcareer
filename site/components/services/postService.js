@@ -89,7 +89,7 @@
         this.post = function() {
             var deferred = $q.defer(),
                 jobPostingRoutePrefix = '/post',
-                jobPostingData = extend(Post.getJobPostingData())); // TODO create the get posting data function for users!!!
+                jobPostingData = extend(Post.getJobPostingData()); // TODO create the get posting data function for users!!!
             $http.post(jobPostingRoutePrefix, jobPostingData)
                 .then(function(data) {
                     deferred.resolve(data);
