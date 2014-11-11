@@ -57,6 +57,29 @@ if(!employerSchema.options.toObject) employerSchema.options.toObject = {};
         }
  };
 
+/*
+ * Changes the password of an employer, used for registration or
+ * password change (password forgot/manual password change flows)
+ *
+ * @this {employer} Instance of an employer model
+ * @this.credentials.password {String} The plaintext password to be hashed
+ */
+
+employerSchema.methods.hashPassword = function(next) {
+    var employer = this;
+    
+    //create a SALT
+    bcrypt.genSalt(bcryptSettings.hashRounds, function(err, salt){
+        if(err) return next(err);
+        // Hash password
+        bcrypt.hash(employer.credentials.password, salt, function(err, hashedPassword){
+            if(err) return next(err);
+            // Overwrite plain text password with hashed version
+            employer.credentials.password = hashedPassword;
+            next();
+        });
+    });
+};
 
 /**
  * Set pre-save hook for replacing password field
@@ -71,17 +94,7 @@ employerSchema.pre('save', function(next){
     if (!employer.isNew)
         return next(new Error("Can't save same model twice. Password has been hashed already!"));
     
-    // Create a SALT
-    bcrypt.genSalt(bcryptSettings.hashRounds, function(err, salt){
-        if(err) return next(err);
-        // Hash password
-        bcrypt.hash(employer.credentials.password, salt, function(err, hashedPassword){
-            if(err) return next(err);
-            // Overwrite plain text password with hashed version
-            employer.credentials.password = hashedPassword;
-            next();
-        });
-    });
+    return employer.hashPassword(next);
 });
 
 /**
@@ -128,7 +141,8 @@ employerSchema.static('findByCredentials', function(creds,cb){
  * @return {Object} object representation of an applicant instance
  */
 employerSchema.methods.getProfileData = function() {
-    return this.toObject({
+    var employer = this;
+    return employer.toObject({
         'hide': ['credentials', '_id', '__v'] 
         , 'transform': true
     });

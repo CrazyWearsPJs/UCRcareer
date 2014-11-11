@@ -64,20 +64,16 @@ applicantSchema.options.toObject.transform = function(doc, ret, options) {
     }
 };
 
-/**
- * Set pre-save hook for replacing password field
- * with its hashed version
+/*
+ * Changes the password of an applicant, used for registration or
+ * password change (password forgot/manual password change flows)
+ *
+ * @this {applicant} Instance of an applicant model
+ * @this.credentials.password {String} The plaintext password to be hashed
  */
-
-applicantSchema.pre('save', function(next){
+applicantSchema.methods.hashPassword = function(next) {
     var applicant = this;
-    
-    // Make sure model has not been saved before, else
-    // we might end up hashing the password twice
-    if (!applicant.isNew)
-        return next(new Error("Can't save same model twice. Password has been hashed already!"));
-    
-    // Create a SALT
+     // Create a SALT
     bcrypt.genSalt(bcryptSettings.hashRounds, function(err, salt){
         if(err) return next(err);
         // Hash password
@@ -88,6 +84,21 @@ applicantSchema.pre('save', function(next){
             next();
         });
     });
+};
+
+/**
+ * Set pre-save hook for replacing password field
+ * with its hashed version
+ */
+applicantSchema.pre('save', function(next){
+    var applicant = this;
+    
+    // Make sure model has not been saved before, else
+    // we might end up hashing the password twice
+    if (!applicant.isNew)
+        return next(new Error("Can't save same model twice. Password has been hashed already!"));
+    
+    applicant.hashPassword(next);
 });
 
 /**
@@ -138,7 +149,8 @@ applicantSchema.static('findByCredentials', function(creds,cb){
  * @return {Object} object representation of an applicant instance
  */
 applicantSchema.methods.getProfileData = function() {
-    return this.toObject({
+    var applicant = this;
+    return applicant.toObject({
         'hide': ['credentials', '_id', '__v']
         , 'transform': true 
     });
