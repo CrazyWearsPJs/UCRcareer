@@ -34,7 +34,7 @@ gulp.task('build:js', function(){
         .pipe(sourcemaps.init())
         //.pipe(traceur())
         //.pipe(uglify())
-        //.pipe(concat('all.js'))
+        .pipe(concat('all.js'))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(destinations.js));
 
