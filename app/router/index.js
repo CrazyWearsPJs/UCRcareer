@@ -12,6 +12,7 @@ var checkAuthApplicant = function(req, res, next) {
 module.exports = function(app) {
     app.use('/register', require('./routes/register'));
     app.use('/login', require('./routes/login'));
+    app.use('/post', require('./routes/post'));
 
 
     /*
