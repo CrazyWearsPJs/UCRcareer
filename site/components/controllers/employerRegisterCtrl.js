@@ -41,7 +41,7 @@
             $route = '/';
         };
    }
-
+            
    /**
     * Register functions
     */

@@ -46,7 +46,7 @@
                 //TODO Fix this shit.
                 controller: 'RegisterCtrl'
             }).otherwise({
-                    redirectTo: '/'
+                redirectTo: '/'
             });
         }]);
 

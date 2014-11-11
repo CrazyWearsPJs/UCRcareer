@@ -7,9 +7,9 @@
     <div class="row">
 	<div class="col-md-6">
         <div class="form-group"
-            ng-class="{'has-error':jobPosting.jTitle.$invalid && jobPosting.jTitle.$touched}">
+            ng-class="{'has-error':jobPosting.jobTitle.$invalid && jobPosting.jobTitle.$touched}">
             <label for="jobTitle">Job Title</label>
-            <input ng-model="user.fname" type="text" 
+            <input ng-model="post.specifics.jobTitle" type="text" 
                 class="form-control" id="jobTitle"
                 placeholder="Junior Developer"
                 name="jobTitle"
@@ -24,8 +24,8 @@
         <div class="form-group"
             ng-class="{'has-error':jobPosting.description.$invalid && jobPosting.description.$touched}">
             <label for="jobDescription">Job Description</label>
-            <input ng-model="user.mInit" type="text" 
-                class="form-control" id="jobDescription"
+            <input ng-model="post.specifics.description" type="text" 
+                class="form-control" id="description"
                 placeholder="Do stuff here"
                 name="description"
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
@@ -37,9 +37,9 @@
     <div class="row">
 	<div class="col-md-12">
         <div class="form-group"
-            ng-class="{'has-error':jobPosting.reqs.$invalid && jobPosting.reqs.$touched}">
+            ng-class="{'has-error':jobPosting.requirements.$invalid && jobPosting.requirements.$touched}">
             <label for="jobReqs">Job Requirements</label>
-            <input ng-model="user.lname" type="text" 
+            <input ng-model="post.specifics.requirements" type="text" 
                 class="form-control" id="jobReqs"
                 placeholder="2 years Object Oriented programming experience."
                 name="requirements"
@@ -52,9 +52,9 @@
     <div class="row">
 	<div class="col-md-6">
         <div class="form-group"
-            ng-class="{'has-error':jobPosting.jSalary.$invalid && jobPosting.jSalary.$touched}">
+            ng-class="{'has-error':jobPosting.salary.$invalid && jobPosting.salary.$touched}">
             <label for="salary">Salary</label>
-            <input ng-model="user.lname" type="text" 
+            <input ng-model="post.specifics.salary" type="text" 
                 class="form-control" id="salary"
                 placeholder="$20/hr"
                 name="salary"
@@ -67,9 +67,9 @@
     <div class="row">	
 	<div class="col-md-6">
         <div class="form-group"
-            ng-class="{'has-error':jobPosting.jDepartment.$invalid && jobPosting.jDepartment.$touched}">
+            ng-class="{'has-error':jobPosting.department.$invalid && jobPosting.department.$touched}">
             <label for="department">Department</label>
-            <input ng-model="user.lname" type="text" 
+            <input ng-model="post.specifics.department" type="text" 
                 class="form-control" id="department"
                 placeholder="sample department here"
                 name="department"
@@ -82,9 +82,9 @@
     <div class="row">
 	<div class="col-md-6">
         <div class="form-group"
-            ng-class="{'has-error':jobPosting.jType.$invalid && jobPosting.jType.$touched}">
+            ng-class="{'has-error':jobPosting.jobType.$invalid && jobPosting.jobType.$touched}">
             <label for="jobType">Job Type</label>
-            <input ng-model="user.lname" type="text" 
+            <input ng-model="post.specifics.jobType" type="text" 
                 class="form-control" id="jobType"
                 placeholder="Internship/Fulltime"
                 name="jobType"
@@ -101,7 +101,7 @@
  	<div class="form-group"
             ng-class="{'has-error':jobPosting.city.$invalid && jobPosting.city.$touched}">
             <label for="jobCity">City</label>
-            <input ng-model="user.phone" type="text" 
+            <input ng-model="post.location.city" type="text" 
                 class="form-control" id="jobCity"
                 placeholder="San Diego"
                 name="city"
@@ -116,7 +116,7 @@
 	<div class="form-group"
             ng-class="{'has-error':jobPosting.state.$invalid && jobPosting.state.$touched}">
             <label for="jobState">State</label>
-            <input ng-model="user.company" type="text" 
+            <input ng-model="post.location.state" type="text" 
                 class="form-control" id="jobState"
                 placeholder="California"
                 name="state"
@@ -158,7 +158,7 @@
 
     	
     <div class = "footer">
-        <input type="submit" class="btn" ng-class="register.$valid?'btn-primary':'btn-default'" value="Submit"/>
+        <input type="submit" class="btn" ng-class="jobPosting.$valid?'btn-primary':'btn-default'" value="Submit"/>
         <button class="btn btn-warning" ng-click="cancel()"> Cancel </button>
     </div>
 </form>
