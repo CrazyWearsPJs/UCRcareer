@@ -85,6 +85,19 @@ You have a node app on the VM listening on port 8080. You'll be able to send it 
 
 Also, the VM exposes a shared folder under '/vagrant'. In that folder you will find all our development files that we cloned from github. Any changes you make to those files will be available on your host and vice versa, meaning you can edit your development files on your host using sublime (or whatever) and have your VM get those changes as well instantaneously. 
 
+# Starting the application
+
+```bash
+vagrant ssh
+cd /vagrant
+npm install // or npm install --no-bin-links on windows
+cd site
+bower install
+cd ..
+npm install
+mongod --config /vagrant/etc/install/mongod-yaml.conf
+node server.js
+```
 
 # MongoDB Reference
 
@@ -208,4 +221,39 @@ You should be able to go to http://localhost:8080 and see the application.
 You can run our server test cases by running
 ```bash
 mocha
+```
+
+### Database
+If you want to check the database directly for a document, then first 
+run mongo's interactive shell with the command
+```bash
+mongo --port 8081 --host 10.0.2.15
+```
+and then
+```bash
+show dbs
+```
+to list the databases currently on your machine. Then
+```bash
+use TestUCRcareers
+```
+to switch to the database where the collections you want are stored at. 
+Then you can replace TestUCRcareers with whatever other database you need. Then
+```bash
+db.getCollectionNames();
+```
+to list the different collections you may have. Right now it should only be
+applicants, employers, and job postings.
+To list all the documents in a collection you can use the .find(). For example, to find all the documents in the
+applicants collection
+```bash
+db.applicants.find();
+  or
+db.applicants.find().pretty();
+```
+The latter is to enable pretty print on the json blob, which is only necessary for readability.
+To perform a query for a document, let's say an applicant with
+a first name of Prime and a last name of Minister
+```bash
+db.applicants.find({'personal.fName':'Prime','personal.lName':'Minister'}).pretty();
 ```

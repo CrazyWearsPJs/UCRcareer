@@ -7,7 +7,7 @@
         <div class="form-group"
             ng-class="{'has-error':register.email.$invalid && register.email.$touched}">
             <label for="newUserEmail">Email</label>
-            <input ng-model="user.email" type="email" class="form-control" id="newUserEmail" 
+            <input ng-model="user.credentials.email" type="email" class="form-control" id="newUserEmail" 
                 placeholder="johndoe64@aol.com" 
                 name="email"
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
@@ -25,7 +25,7 @@
         <div class="form-group"
             ng-class="{'has-error': register.password.$invalid && register.password.$touched}">
             <label for="newUserPassword">Password (minimum 8 characters long)</label>
-            <input ng-model="user.password" type="password" class="form-control" id="newUserPassword"
+            <input ng-model="user.credentials.password" type="password" class="form-control" id="newUserPassword"
                 placeholder="password"
                 name="password"
                 ng-minlength="8"
@@ -65,7 +65,7 @@
         <div class="form-group"
             ng-class="{'has-error':register.fName.$invalid && register.fName.$touched}">
             <label for="newUserfName">First Name</label>
-            <input ng-model="user.fname" type="text" 
+            <input ng-model="user.personal.fName" type="text" 
                 class="form-control" id="newUserfName"
                 placeholder="John"
                 name="fName"
@@ -78,7 +78,7 @@
         <div class="form-group"
             ng-class="{'has-error':register.mInit.$invalid && register.fName.$touched}">
             <label for="newUserMInit">Middle Inital</label>
-            <input ng-model="user.mInit" type="text" 
+            <input ng-model="user.personal.mInit" type="text" 
                 class="form-control" id="newUserMInit"
                 placeholder="C"
                 ng-minlength="1"
@@ -92,7 +92,7 @@
         <div class="form-group"
             ng-class="{'has-error':register.lName.$invalid && register.lName.$touched}">
             <label for="newUserlName">Last Name</label>
-            <input ng-model="user.lname" type="text" 
+            <input ng-model="user.personal.lName" type="text" 
                 class="form-control" id="newUserlName"
                 placeholder="Doe"
                 name="lName"
@@ -109,7 +109,7 @@
             <label for="newUserPhone">Phone</label>
             <div class="input-group">
             <span class="input-group-addon"><i class="fa fa-phone"></i></span> 
-            <input ng-model="user.phone" type="text" 
+            <input ng-model="user.contact.phone" type="text" 
                 class="form-control" id="newUserNumber"
                 placeholder="5558675309"
                 name="phoneNum"
@@ -127,7 +127,7 @@
             <div class="input-group">
             <span class="input-group-addon"><i class="fa fa-globe"></i></span>
             <span class="input-group-addon">www.</span>
-            <input ng-model="user.website" type="url" 
+            <input ng-model="user.contact.website" type="text" 
                 class="form-control" id="newUserWebsite"
                 placeholder="yourwebsite.com"
                 name="website"
@@ -143,7 +143,7 @@
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-linkedin"></i></span>
                 <span class="input-group-addon">www.linkedin.com/in/</span>
-            <input ng-model="user.linkedIn" type="url" 
+            <input ng-model="user.contact.linkedIn" type="text" 
                 class="form-control" id="newUserLinkedIn"
                 placeholder="johndoe64"
                 name="linkedIn"
@@ -159,9 +159,10 @@
             ng-class="{'has-error':register.facebook.$invalid && register.facebook.$touched}">
             <label for="newUserFacebook">Facebook</label>
             <div class="input-group">
-            <span class="input-group-addon"><i class="fa fa-facebook-square"></i></span>
+            <span class="input-group-addon">
+                <i class="fa fa-facebook-square"></i></span>
             <span class="input-group-addon">www.facebook.com/</span> 
-            <input ng-model="user.facebook" type="url" 
+            <input ng-model="user.contact.facebook" type="text" 
                 class="form-control" id="newUserFacebook"
                 placeholder="john.doe.64"
                 name="facebook"
@@ -177,7 +178,7 @@
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-twitter"></i></span>
                 <span class="input-group-addon"><i class="fa fa-at"></i></span> 
-                <input ng-model="user.twitter" type="text" 
+                <input ng-model="user.contact.twitter" type="text" 
                 class="form-control" id="newUserTwitter"
                 placeholder="johnDoe64"
                 name="twitter"
@@ -194,7 +195,7 @@
        <div class="form-group"
             ng-class="{'has-error':register.address1.$invalid && register.address1.$touched}">
             <label for="newUserAddress1">Address 1</label>
-            <input ng-model="user.address1" type="text" 
+            <input ng-model="user.location.address1" type="text" 
                 class="form-control" id="newUserAddress1"
                 placeholder="123 Hacker Way"
                 name="address1"
@@ -208,7 +209,7 @@
         <div class="form-group"
              ng-class="{'has-error':register.address2.$invalid && register.address2.$touched}">
              <label for="newUserAddress2">Address 2</label>
-             <input ng-model="user.address2" type="text" 
+             <input ng-model="user.location.address2" type="text" 
                  class="form-control" id="newUserAddress2"
                  placeholder="PO Box 555"
                  name="address2"
@@ -222,7 +223,7 @@
         <div class="form-group"
             ng-class="{'has-error':register.city.$invalid && register.city.$touched}">
             <label for="newUserCity">City</label>
-            <input ng-model="user.city" type="text" 
+            <input ng-model="user.location.city" type="text" 
                 class="form-control" id="newUserCity"
                 placeholder="Riverside"
                 name="city"
@@ -235,7 +236,7 @@
         <div class="form-group"
             ng-class="{'has-error':register.state.$invalid && register.state.$touched}">
             <label for="newUserState">State</label>
-            <input ng-model="user.state" type="text" 
+            <input ng-model="user.location.state" type="text" 
                 class="form-control" id="newUserState"
                 placeholder="California"
                 name="state"
@@ -248,10 +249,10 @@
         <div class="form-group"
             ng-class="{'has-error':register.zipCode.$invalid && register.zipCode.$touched}">
             <label for="newUserZipCode">Zipcode</label>
-            <input ng-model="user.zipCode" type="text" 
-                class="form-control" id="newUserZipCode"
+            <input ng-model="user.location.zip" type="text" 
+                class="form-control" id="newUserZip"
                 placeholder="92507"
-                name="zipcode"
+                name="zip"
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
 		required
                 ng-trim/>
@@ -263,7 +264,7 @@
         <div class="form-group"
             ng-class="{'has-error':register.country.$invalid && register.country.$touched}">
             <label for="newUserCountry">Country</label>
-            <input ng-model="user.country" type="text" 
+            <input ng-model="user.location.country" type="text" 
                 class="form-control" id="newUserCountry"
                 placeholder="USA"
                 name="country"
@@ -280,7 +281,7 @@
         <div class="form-group"
             ng-class="{'has-error':register.degree.$invalid && register.degree.$touched}">
             <label for="newUserDegree">Degree</label>
-            <input ng-model="user.degree" type="text" 
+            <input ng-model="user.spec.degree" type="text" 
                 class="form-control" id="newUserDegree"
                 placeholder="B.S. Computer Engineering"
                 name="degree"
@@ -292,7 +293,7 @@
 	<div class="form-group"
 	    ng-class="{'has-error':register.focus.$invalid && register.focus.$touched}">
 	    <label for="newUserFocus">Focus</label>
-	    <input ng-model="user.focus" type="text" 
+	    <input ng-model="user.spec.focus" type="text" 
 		class="form-control" id="newUserFocus"
 		placeholder="Embedded Systems"
 		name="focus"
@@ -304,7 +305,7 @@
 	<div class="form-group"
             ng-class="{'has-error':register.year.$invalid && register.year.$touched}">
             <label for="newUserUniv">Year</label>
-            <input ng-model="user.year" type="text" 
+            <input ng-model="user.spec.year" type="text" 
                 class="form-control" id="newUserYear"
                 placeholder="Senior"
                 name="year"
@@ -321,7 +322,7 @@
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-graduation-cap"></i></span>
              
-            <input ng-model="user.univ" type="text" 
+            <input ng-model="user.spec.univ" type="text" 
                 class="form-control" id="newUserUniv"
                 placeholder="University of California, Riverside"
                 name="univ"
@@ -336,7 +337,7 @@
 	<div class="form-group"
 	    ng-class="{'has-error':register.resume.$invalid && register.resume.$touched}">
 	    <label for="newUserResume">Resume</label>
-	    <input ng-model="user.resume" type="text"
+	    <input ng-model="user.spec.resume" type="text"
 		class="form-control" id="newUserResume"
 		placeholder="www.dropbox.com/myresume"
 		name="resume"
@@ -348,7 +349,7 @@
  </div>
  </div>
     <div class = "footer">
-        <input type="submit" class="btn" ng-class="register.$valid?'btn-primary':'btn-default'" value="Submit"/>
+        <input class="btn" value="Submit" ng-class="register.$valid?'btn-primary':'btn-default'" type="submit"/>
         <button class="btn btn-warning" ng-click="cancel()"> Cancel </button>
     </div>
 </form>
