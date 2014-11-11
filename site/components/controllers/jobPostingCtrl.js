@@ -1,6 +1,6 @@
 angular.module('ucrCareerControllers')
-        .controller('JobPostingCtrl', ['$scope', '$location', 'User', 'USER_ROLES',
-        function($scope, $location, User, AuthService, USER_ROLES){
+        .controller('JobPostingCtrl', ['$scope', '$location', 'User', 'PostService', 'USER_ROLES',
+        function($scope, $location, User, PostService, USER_ROLES){
             $scope.post = {
                 'specifics': {}, 
                 'location': {}, 
@@ -13,8 +13,8 @@ angular.module('ucrCareerControllers')
             }
             
             $scope.ok = function() {
-                if($scope.jobPosting.$valid && User.role == USER_ROLES.employer) {
-                    Post.setJobPostData($scope.post);
+                if($scope.jobPosting.$valid && User.role === USER_ROLES.employer) {
+                    PostService.setJobPostData($scope.post);
                     PostService.post();
                 }
             };
