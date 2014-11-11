@@ -6,10 +6,10 @@ angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'u
             }).when('/applicantRegister', {
                 templateUrl: 'templates/applicantRegister.html',
                 controller: 'ApplicantRegisterCtrl'
-            }).when('/employerProfile', {
+            })/*.when('/employerProfile', {
                 templateUrl: 'templates/employerProfile.html',
-                controller: 'EmployerProfileCtrl'
-            }).when('/employerRegister', {
+                controller: 'EmployerRegisterCtrl'
+            })*/.when('/employerRegister', {
 	        templateUrl: 'templates/employerRegister.html',
             	controller: 'EmployerRegisterCtrl'
             }).when('/jobPosting', {
