@@ -1,7 +1,7 @@
 angular.module('ucrCareerControllers')
     .controller('HeaderCtrl', 
-    ['$scope', '$modal', '$location', 'AuthService', 'User', 
-    function HeaderCtrl($scope, $modal, $location, AuthService, User){
+    ['$scope', '$modal', '$location', 'AuthService', 'User', 'USER_ROLES', 
+    function HeaderCtrl($scope, $modal, $location, AuthService, User, USER_ROLES){
        
         $scope.showGuest = function() {
             return User.isGuest();
