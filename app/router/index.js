@@ -16,7 +16,8 @@ module.exports = function(app) {
     app.use('/login', require('./routes/login'));
     app.use('/logout', require('./routes/logout'));
     app.use('/profile', require('./routes/profile'));
-    
+    app.use('/post', require('./routes/post'));
+
     /*
      * Error middleware
      */

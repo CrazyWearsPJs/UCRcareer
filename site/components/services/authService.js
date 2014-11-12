@@ -1,6 +1,5 @@
 angular.module('ucrCareerServices')
-    .service('AuthService', ['$http','$q', 'User',
-    function($http, $q, User){
+    .service('AuthService', ['$http','$q','User', function AuthService($http, $q, User){
         var authTokenSuffix = 'api-token',
             extend = angular.extend;
 
@@ -42,7 +41,7 @@ angular.module('ucrCareerServices')
                 registrationRoutePrefix = '/register', 
                 registrationData = extend(User.getProfileData(role),
                     User.getLoginCredentials());
-           $http.post(registrationRoutePrefix + '/' + role, registrationData)
+            $http.post(registrationRoutePrefix + '/' + role, registrationData)
                 .then(function(data) {
                     setPermissions(role);
                     deferred.resolve(data);   

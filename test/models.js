@@ -237,7 +237,67 @@ describe('models', function (){
                 });
             });
         });
- 
+    });
+
+    describe('JobPosting', function (){
+        // Insert dummy data into db
+        beforeEach(function(done){
+            var JobPosting = models.jobPosting();
+            var bestPost   = new JobPosting({
+                    specifics: {
+                        jobTitle:      "Software Engineer"
+                      , description:   "Best Job Evar!"
+                      , requirements:  "Over 9000 IQ"
+                      , salary:        "$100,000 annual"
+                      , department:    "Dept. of the Helix Fossil"
+                      , application:   "best application ever!"
+                    }
+                  , location: {
+                        city:          "Riverside"
+                      , state:         "California"
+                    }
+                  , date: {
+                        postedOn:      "4/20/2014"
+                      , endsOn:        "4/20/2015"
+                    }
+                });
+            
+            // Save job posting
+            bestPost.save(function(err, jobPosting, numAffected){
+                if(err) throw err;
+                expect(numAffected).to.be.equal(1);
+                done();
+            });
+        });
+
+        afterEach(function(done) {
+            // Remove dummy posting
+            var JobPosting = models.jobPosting();
+            JobPosting.remove({"specifics.department" : "Dept. of the Helix Fossil"}, function(err) {
+                if(err) throw err;
+                done();
+            });
+        });
+    
+        it('should be able to be saved to DB', function(done) {
+            var JobPosting = models.jobPosting();
+            JobPosting.findOne({"specifics.department" : "Dept. of the Helix Fossil"}, function(err, jobPosting) {
+                if(err) throw err;
+                expect(jobPosting).to.not.be.equal(null);
+                done();
+            });
+        });
+        
+	it('should throw an error when saved if it is missing a required field', function(done){
+            var JobPosting = models.jobPosting()
+                , jobPost = new JobPosting({});
+            
+            // An error should be generated since we are missing
+            // required fields
+            jobPost.save(function(err){
+                expect(err).to.not.be.equal(null);
+                done();
+            });
+        });
     });
 });
-

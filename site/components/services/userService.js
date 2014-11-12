@@ -1,10 +1,10 @@
 angular.module('ucrCareerServices')
-    .factory('User', ['USER_ROLES', function(USER_ROLES) {
+    .factory('User', ['USER_ROLES', function UserFactory(USER_ROLES) {
         var forEach = angular.forEach,
             isFunction = angular.isFunction,
             isObject = angular.isObject,
             copy = angular.copy;
- 
+
         var copyNonNull = function(src, dest) {
             if(dest) {
                 copy(src, dest);
@@ -96,6 +96,7 @@ angular.module('ucrCareerServices')
             'role': USER_ROLES.guest, 
         };
 
+
         User.setCredentials = function(email, password) {
             this.credentials.email = email;
             this.credentials.password = password;
@@ -165,6 +166,6 @@ angular.module('ucrCareerServices')
             });
             return info;
         };
-  
+
         return User;
     }]);
