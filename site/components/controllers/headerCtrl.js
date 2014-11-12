@@ -43,7 +43,21 @@ angular.module('ucrCareerControllers')
             });
                 modalInstance.result.then(function(user) {
                     User.setCredentials(user.email, user.password);
-                    AuthService.login();
+                    AuthService.login()
+                      .then(function success() {
+                          if(User.getUserRole() === USER_ROLES.employer)
+                          {
+                              $location.path('/employerProfile');
+                          }
+                          else if(User.getUserRole() === USER_ROLES.applicant)
+                          {
+                              $location.path('/applicantProfile');
+                          }
+                      }, function failure(err) {
+                          //TESTING PURPOSES ONLY
+                          $location.path('/applicantProfile');
+//TODO                    $scope.logInFailed = true;           
+                    });
                 }, function() {
             });
         };
