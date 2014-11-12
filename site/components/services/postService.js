@@ -1,10 +1,8 @@
 angular.module('ucrCareerServices')
-    .service('PostService', ['$http', '$q', 'User', function PostService($http, $q, User){
+    .service('PostService', ['$http', '$q', 'User', 'USER_ROLES', function PostService($http, $q, User, USER_ROLES){
         var authTokenSuffix = 'api-token',
             extend = angular.extend;
-        
         var forEach = angular.forEach,
-            isFunction = angular.isFunction,
             isObject = angular.isObject,
             copy = angular.copy;
 
@@ -54,17 +52,16 @@ angular.module('ucrCareerServices')
             return jobPostData;
         };
 
-        Post.setJobPostData = function(data) {
-            var jobPostDataFields = getjobPostDataFields();
-
+        this.setJobPostData = function(data) {
+            var jobPostDataFields = getJobPostDataFields();
             forEach(data, function(value, key) {
-                if(profileDataFields.indexOf(key) !== -1) {
+                if(jobPostDataFields.indexOf(key) !== -1) {
                     Post[key] = copyNonNull(data[key]);
                 }
             });
         };
 
-        Post.getJobPostingData = function() {
+        this.getJobPostingData = function() {
             var info = {},
                 jobPostDataFields = getJobPostDataFields();
             
@@ -82,8 +79,8 @@ angular.module('ucrCareerServices')
         this.post = function() {
             var deferred = $q.defer(),
                 jobPostingRoutePrefix = '/post',
-                jobPostingData = extend(Post.getJobPostingData()); // TODO create the get posting data function for users!!!
-            $http.post(jobPostingRoutePrefix, jobPostingData)
+                jobPostingData = extend(this.getJobPostingData());
+            $http.post(jobPostingRoutePrefix + '/', jobPostingData)
                 .then(function(data) {
                     deferred.resolve(data);
                 }, function(data) {

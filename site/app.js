@@ -11,7 +11,7 @@ angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'u
             controller: 'EmployerRegisterCtrl'
         }).when('/jobPosting', {
             templateUrl: 'templates/jobPosting.html',
-            controller: 'RegisterCtrl'
+            controller: 'JobPostingCtrl'
         }).otherwise({
             redirectTo: '/'
         });

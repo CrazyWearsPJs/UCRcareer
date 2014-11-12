@@ -13,7 +13,7 @@ var express = require('express'),
      * @param next {Function} callback, used to send errors to the Error Middleware
      *
      */
-    router.post('/post', function(req, res, next) {
+    router.post('/', function(req, res, next) {
         var JobPosting = models.jobPosting(),
             newJobPosting = null,
             jobPostingData = req.body;
@@ -22,6 +22,7 @@ var express = require('express'),
             newJobPosting.save(function(err, newJobPostingUpdated) {
                 if(err) {
                     err.status = 400;
+console.log(err);
                     next(err);
                 } else {
                     res.status(200).end();

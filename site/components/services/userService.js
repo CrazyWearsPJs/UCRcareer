@@ -130,7 +130,6 @@ angular.module('ucrCareerServices')
 
         User.setProfileData = function(data,  role) {
             var profileDataFields = getProfileDataFields(role);
-
             forEach(data, function(value, key) {
                 if(profileDataFields.indexOf(key) !== -1) {
                     User[key] = copyNonNull(data[key]);

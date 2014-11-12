@@ -22,7 +22,7 @@ angular.module('ucrCareerServices')
             var deferred = $q.defer();
             $http.post('/login', credentials)
                 .then(function(data) {
-                    role = data.type;
+                    var role = data.type;
                     setPermissions(role);
                     User.setProfileData(data, role);
                     deferred.resolve(data);
