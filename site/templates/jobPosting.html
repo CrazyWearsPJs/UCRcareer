@@ -1,5 +1,6 @@
 <h1>Create a job posting</h1>
 <form name="jobPosting" ng-submit="ok()" novalidate>
+<!--<form name="jobPosting">-->
     <div class="body">
    
     <h2>Job Specifics</h2>
@@ -134,7 +135,7 @@
     <div class="row">
 	<div class="col-md-6">
 	    <p class="input-group">
-		<input type="text" class="form-control" datepicker-popup="{{format}}" name="dt" ng-model="dt" is-open="datepickers.dt" min-date="minDate" maxDate="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date,mode)" ng-required="true" close-text="Close" />
+		<input type="text" class="form-control" datepicker-popup="{{format}}" name="dt" ng-model="dt" ng-change="post.date.postedOn=dt" is-open="datepickers.dt" min-date="minDate" maxDate="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date,mode)" ng-required="true" close-text="Close" />
 		<span class="input-group-btn">
 		    <button type="button" class="btn btn-default" ng-click="open($event, 'dt')"> <i class="glyphicon glyphicon-calendar"></i></button>
 		</span>
@@ -145,7 +146,7 @@
     <div class="row">
 	<div class="col-md-6">
 	    <p class="input-group">
-		<input type="text" class="form-control" datepicker-popup="{{format}}" name="dtSecond" ng-model="dtSecond" is-open="datepickers.dtSecond" min-date="minDate" maxDate="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date,mode)" ng-required="true" close-text="Close" />
+		<input type="text" class="form-control" datepicker-popup="{{format}}" name="dtSecond" ng-model="dtSecond" ng-change="post.date.endsOn=dtSecond" is-open="datepickers.dtSecond" min-date="minDate" maxDate="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date,mode)" ng-required="true" close-text="Close" />
 		<span class="input-group-btn">
 		    <button type="button" class="btn btn-default" ng-click="open($event, 'dtSecond')"><i class="glyphicon glyphicon-calendar"></i></button>
 		</span>
@@ -158,7 +159,7 @@
 
     	
     <div class = "footer">
-        <input type="submit" class="btn" ng-class="jobPosting.$valid?'btn-primary':'btn-default'" value="Submit"/>
+        <input class="btn" value="Submit" ng-class="jobPosting.$valid?'btn-primary':'btn-default'" type="Submit"/>
         <button class="btn btn-warning" ng-click="cancel()"> Cancel </button>
     </div>
 </form>

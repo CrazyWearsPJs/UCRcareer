@@ -43,7 +43,7 @@
             	controller: 'EmployerRegisterCtrl'
             }).when('/jobPosting', {
                 templateUrl: 'templates/jobPosting.html',
-                controller: 'jobPostingCtrl'
+                controller: 'JobPostingCtrl'
 	        }).otherwise({
                 redirectTo: '/'
             });

@@ -22,6 +22,7 @@ var express = require('express'),
             newJobPosting.save(function(err, newJobPostingUpdated) {
                 if(err) {
                     err.status = 400;
+console.log(err);
                     next(err);
                 } else {
                     res.status(200).end();

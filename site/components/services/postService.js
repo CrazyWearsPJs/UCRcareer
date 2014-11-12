@@ -7,8 +7,6 @@
      */
     
     function PostService($http, $q, User, USER_ROLES){
-        var authTokenSuffix = 'api-token';
-        
         var forEach = angular.forEach,
             isObject = angular.isObject,
             copy = angular.copy,
@@ -62,7 +60,6 @@
 
         this.setJobPostData = function(data) {
             var jobPostDataFields = getJobPostDataFields();
-
             forEach(data, function(value, key) {
                 if(jobPostDataFields.indexOf(key) !== -1) {
                     Post[key] = copyNonNull(data[key]);
@@ -88,8 +85,8 @@
         this.post = function() {
             var deferred = $q.defer(),
                 jobPostingRoutePrefix = '/post',
-                jobPostingData = extend(Post.getJobPostingData()); // TODO create the get posting data function for users!!!
-            $http.post(jobPostingRoutePrefix, jobPostingData)
+                jobPostingData = extend(this.getJobPostingData());
+            $http.post(jobPostingRoutePrefix + '/', jobPostingData)
                 .then(function(data) {
                     deferred.resolve(data);
                 }, function(data) {
@@ -109,6 +106,7 @@
                  '$http'
                , '$q'
                , 'User'
+               , 'USER_ROLES'
                , PostService
             ]);
 
