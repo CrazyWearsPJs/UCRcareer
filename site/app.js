@@ -18,7 +18,10 @@ angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'u
             }).when('/applicantProfile', {
                 templateUrl: 'templates/applicantProfile.html',
                 controller: 'ApplicantProfileCtrl'
-	    }).otherwise({
+            }).when('/jobListing', {
+                templateUrl: 'templates/jobListing.html',
+                controller: 'JobListingCtrl'
+	        }).otherwise({
                 redirectTo: '/'
         });
     }])
