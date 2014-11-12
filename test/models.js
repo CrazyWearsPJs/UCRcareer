@@ -249,6 +249,7 @@ describe('models', function (){
                       , description:   "Best Job Evar!"
                       , requirements:  "Over 9000 IQ"
                       , salary:        "$100,000 annual"
+                      , application:   "Application link"
                       , department:    "Dept. of the Helix Fossil"
                       , application:   "best application ever!"
                     }
