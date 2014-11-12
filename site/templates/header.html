@@ -15,19 +15,15 @@
             <li><a href="" ng-click="registerOpen()" ng-show="showGuest()">Register</a></li>
             <li><a href="" ng-click="loginOpen()" ng-show="showGuest()">Log In</a></li>
             <li><a href="" ng-click="gotoProfile()" ng-show="!showGuest()">Profile Page</a></li>
-<!--<<<<<<< HEAD
-            <li><a href="" ng-click="gotoJobPosting()" ng-show="showEmployer()">Post New Job</a></li>
-            <li><a href="" ng-click="" ng-show="!showGuest()">Sign Out</a></li
--->
             <li><a href="" ng-click="" ng-show="showEmployer()">Post New Job</a></li>
             <li><a href="" ng-click="logout()" ng-show="!showGuest()">Sign Out</a></li>
         </ul>
-        <form class="navbar-form navbar-left">
-            <input type="text" class="form-control" placeholder="Search"
+        <form class="navbar-form navbar-left" ng-submit="ok()">
+            <input type="text" ng-model="splash.search" class="form-control" placeholder="Search"
                 name="search"
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
                 ng-trim/>
-            <button id="search-btn" class="btn btn-default">Submit</button>
+            <button id="search-btn" ng-class="btn-primary">Submit</button>
         </form>
     </div>
 </div>

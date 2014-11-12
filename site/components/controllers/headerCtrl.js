@@ -2,6 +2,20 @@ angular.module('ucrCareerControllers')
     .controller('HeaderCtrl', 
     ['$scope', '$modal', '$location', 'AuthService', 'User', 
     function HeaderCtrl($scope, $modal, $location, AuthService, User){
+
+        $scope.splash = {
+            'search': []
+        };
+
+        $scope.ok = function() {
+            if($scope.splash.search[0]) {
+                var search = $scope.splash.search.toString();
+                search = search.split(" ");
+                // TODO redirect to search page
+            }
+            else {
+            }
+        };
        
         $scope.showGuest = function() {
             return User.isGuest();

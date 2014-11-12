@@ -11,8 +11,7 @@ angular.module('ucrCareerControllers')
         $scope.ok = function() {
             if($scope.splash.search[0]) {
                 var search = $scope.splash.search.toString();
-                $scope.splash.search = search.split(" ");
-console.log($scope.splash.search);
+                search = search.split(" ");
                 // TODO redirect to search page
             }
             else {
