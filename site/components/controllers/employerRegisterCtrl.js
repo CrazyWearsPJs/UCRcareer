@@ -10,7 +10,7 @@ angular.module('ucrCareerControllers')
 
         var credentials = User.getCredentials();
         if (credentials.email !== null) {
-            $scope.user.email = credentials.email;
+            $scope.user.credentials.email = credentials.email;
         }
         
         if(credentials.password !== null) {
