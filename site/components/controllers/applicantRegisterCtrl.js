@@ -17,7 +17,7 @@ angular.module('ucrCareerControllers')
         }
 
         $scope.differentPassword = function() {
-            return $scope.user.credentials.password !== $scope.user.reEnterPassword;
+            return $scope.user.credentials.password !== $scope.user.credentials.reEnterPassword;
         };
 
         $scope.differentPasswordTouched = function() {
@@ -29,7 +29,11 @@ angular.module('ucrCareerControllers')
             if($scope.register.$valid && !$scope.differentPassword()) {
                 User.setCredentials($scope.user.credentials.email, $scope.user.credentials.password);
                 User.setProfileData($scope.user, USER_ROLES.applicant);
-                AuthService.register(USER_ROLES.applicant);
+                AuthService.register(USER_ROLES.applicant)
+                    .then(function(){
+                        //if registration is successful
+                        $location.path('/thankyou'); 
+                    });
             }
         };
 
