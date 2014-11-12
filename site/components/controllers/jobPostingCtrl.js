@@ -32,8 +32,4 @@ angular.module('ucrCareerControllers')
         $scope.cancel = function() {
             $location.path(redirectPath);
         };
-        }
-        else
-          {$location.path('/');}
-        });
     }]);
