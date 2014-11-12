@@ -1,4 +1,7 @@
 angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'ucrCareerServices'])
+    .run(['AuthService', function(AuthService){
+            AuthService.heartbeat();
+    }])
     .config(['$routeProvider', function($routeProvider) {
             $routeProvider.when('/', {
                 templateUrl: 'templates/splash.html',
@@ -27,6 +30,11 @@ angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'u
         guest: 'guest',
         applicant: 'applicant',
         employer: 'employer'
+    })
+    .constant('LOGIN_EVENTS', {
+        successful: 'loginSucessful',
+        failed: 'loginFailed',
+        logout: 'logout'
     });
 
 angular.module('ucrCareerControllers', ['ui.bootstrap']);

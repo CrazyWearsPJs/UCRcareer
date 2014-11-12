@@ -8,7 +8,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="/">HuntEdu</a>
+        <a class="navbar-brand" ng-href="#/">HuntEdu</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
@@ -16,7 +16,7 @@
             <li><a href="" ng-click="loginOpen()" ng-show="showGuest()">Log In</a></li>
             <li><a href="" ng-click="gotoProfile()" ng-show="!showGuest()">Profile Page</a></li>
             <li><a href="" ng-click="" ng-show="showEmployer()">Post New Job</a></li>
-            <li><a href="" ng-click="" ng-show="!showGuest()">Sign Out</a></li-->
+            <li><a href="" ng-click="logout()" ng-show="!showGuest()">Sign Out</a></li>
         </ul>
         <form class="navbar-form navbar-left">
             <input type="text" class="form-control" placeholder="Search"

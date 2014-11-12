@@ -1,19 +1,22 @@
 angular.module('ucrCareerServices')
-    .service('AuthService', ['$http','$q','User', function AuthService($http, $q, User){
-        var authTokenSuffix = 'api-token',
-            extend = angular.extend;
+    .service('AuthService', ['$rootScope', '$http','$q', 'User', 'USER_ROLES', 'LOGIN_EVENTS', 
+        function AuthService($rootScope, $http, $q, User, USER_ROLES, LOGIN_EVENTS){
+        var extend = angular.extend;
 
-        var setPermissions = function(role) {
-            User.setUserRole(role);
-        };
-        
-        this.heartBeat = function(credentials) {
+        this.heartbeat = function() {
             var deferred = $q.defer();
             $http.post('/heartbeat')
-                .then(function() {
-                    setPermissions();              
-                }, function(data) {
-                
+                .then(function(res) {
+                    var profileData = res.data,
+                        role = profileData.type;
+                    
+                    User.setUserRole(role);
+                    
+                    User.setProfileData(profileData, role);
+                    
+                    deferred.resolve(profileData);
+                }, function(err) {
+                    deferred.reject(err);
                 });
             return deferred.promise;
         };
@@ -22,19 +25,40 @@ angular.module('ucrCareerServices')
             var deferred = $q.defer(),
                 credentials = User.getCredentials();
             $http.post('/login', credentials)
-                .then(function(data) {
-                    var role = data.type;
-                    setPermissions(role);
-                    User.setProfileData(data, role);
-                    deferred.resolve(data);
-                    }, function(data) {
-                    deferred.reject(data);
+                .then(function(res) {
+                        var profileData = res.data, 
+                            role = profileData.type;
+                        
+                        User.setUserRole(role);
+                        
+                        User.setProfileData(profileData, role);
+                        
+                        $rootScope.$broadcast(LOGIN_EVENTS.successful, role);
+                        
+                        deferred.resolve(profileData);
+                    }, function(err) {
+                        $rootScope.$broadcast(LOGIN_EVENTS.failed, err);
+                        deferred.reject(err);
                 }); 
             return deferred.promise;
         };
 
         this.logout = function() {
-            $http.post('/logout');
+            var deferred = $q.defer();
+
+            if(User.isGuest()) {
+                deferred.reject();
+                return deferred.promise;
+            }
+
+            $http.post('/logout' + '/' + User.getUserRole())
+                .then(function(){
+                    User.setUserRole(USER_ROLES.guest);
+                    $rootScope.$broadcast(LOGIN_EVENTS.logout); 
+                    deferred.resolve();
+                }, deferred.reject);
+            
+            return deferred.promise;
         };
 
         this.register = function(role) {
@@ -43,11 +67,13 @@ angular.module('ucrCareerServices')
                 registrationData = extend(User.getProfileData(role),
                    {"credentials": User.getCredentials() });
             $http.post(registrationRoutePrefix + '/' + role, registrationData)
-                .then(function(data) {
-                    setPermissions(role);
-                    deferred.resolve(data);   
-                }, function(data) {
-                    deferred.reject(data);
+                .then(function() {
+                    User.setUserRole(role);
+                    $rootScope.$broadcast(LOGIN_EVENTS.successful);
+                    deferred.resolve();   
+                }, function(err) {
+                    $rootScope.$broadcast(LOGIN_EVENTS.failed, err);
+                    deferred.reject(err);
                 });
             return deferred.promise;
         };

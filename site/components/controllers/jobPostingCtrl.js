@@ -1,5 +1,6 @@
 angular.module('ucrCareerControllers')
-    .controller('JobPostingCtrl', ['$scope', '$location', 'User', 'PostService', 'USER_ROLES', function JobPostingCtrl($scope, $location, User, PostService, USER_ROLES){
+    .controller('JobPostingCtrl', ['$scope', '$location', 'User', 'PostService', 
+    function JobPostingCtrl($scope, $location, User, PostService){
         $scope.post = {
             'specifics': {}, 
             'location': {}, 

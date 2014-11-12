@@ -1,22 +1,31 @@
 angular.module('ucrCareerControllers')
-    .controller('HeaderCtrl', ['$scope', '$modal', '$location', 'AuthService', 'User', 'USER_ROLES', function HeaderCtrl($scope, $modal, $location, AuthService, User, USER_ROLES){
-
+    .controller('HeaderCtrl', 
+    ['$scope', '$modal', '$location', 'AuthService', 'User', 
+    function HeaderCtrl($scope, $modal, $location, AuthService, User){
+       
         $scope.showGuest = function() {
-            return User.getUserRole() === USER_ROLES.guest;
-        }; 
+            return User.isGuest();
+        };  
+        
+        $scope.showLoggedIn = function() {
+            return User.isLoggedIn();
+        };
+
         $scope.showEmployer = function() {
-            return User.getUserRole() === USER_ROLES.employer;
+            return User.isEmployer(); 
         };
+        
         $scope.gotoProfile = function() {
-            if(User.getUserRole() === USER_ROLES.applicant)
-            {
-                $location.path('/applicantProfile');
-            }
-            else if(User.getUserRole() === USER_ROLES.employer)
-            {
-                $location.path('/employerProfile');
-            }
+            $location.path('/applicantProfile');
         };
+
+        $scope.logout = function() {
+            AuthService.logout()
+                .then(function(){
+                    $location.path('/');   
+                });
+        };
+
         $scope.registerOpen = function() {
             var modalInstance = $modal.open({
                 templateUrl: 'templates/registerModal.html',
@@ -47,6 +56,9 @@ angular.module('ucrCareerControllers')
                 }, function() {
             });
         };
+
+        $scope.$watch(User.getUserRole);
+
     }]);
 
     angular.module('ucrCareerControllers')
@@ -67,7 +79,7 @@ angular.module('ucrCareerControllers')
             };
         }]);
 
-angular.module('ucrCareerControllers')
+    angular.module('ucrCareerControllers')
     .controller('RegisterModalCtrl', ['$scope', '$modalInstance', function RegisterModalCtrl ($scope, $modalInstance){
         $scope.user = {
             email : "",
