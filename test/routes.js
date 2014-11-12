@@ -78,12 +78,16 @@ describe('routes', function (){
     , employerRouteSuffix = '/employer';
     
     var registerRoutePrefix = '/register'  
-    , loginRoutePrefix = '/login';
+    , loginRoutePrefix = '/login'
+    , updateProfilePrefix = '/profile';
  
     var registerApplicantRoute = registerRoutePrefix + applicantRouteSuffix
     , registerEmployerRoute = registerRoutePrefix + employerRouteSuffix; 
          
     var loginRoute = loginRoutePrefix;
+
+    var updateApplicantProfileRoute = updateProfilePrefix + applicantRouteSuffix,
+        updateEmployerProfileRoute = updateProfilePrefix + employerRouteSuffix;
 
     before('Setup app and create a db connection', function(done) {
         app = express();
@@ -305,6 +309,115 @@ describe('routes', function (){
                         .expect(403, done);
                 });
         });
+    });
+
+    describe('POST /profile', function() {
+        describe('/applicant', function() {
+             var updatedInfo = {
+                spec: {
+                    degree: "Computer Engineering"
+                },
+                email: applicant.credentials.email
+             }
+             , agent = null;
+
+             beforeEach('register applicant', function(done) {
+                    agent = request.agent(app);
+                    agent
+                        .post(registerApplicantRoute)
+                        .send(applicant)
+                        .expect(200, done);
+             });
+
+             afterEach('destory applicant db', function(done) {
+                agent = null;
+                models.applicant().remove({}, function(err) {
+                    done();
+                });
+             });
+             
+             it('should update profile info given valid fields', function(done){
+                agent
+                    .post(updateApplicantProfileRoute)
+                    .send(updatedInfo)
+                    .expect(200)
+                    .end(function(err, res) {
+                        var cloneApplicant = _.extend({}, applicant);
+                        cloneApplicant.spec.degree = updatedInfo.spec.degree;
+                        delete cloneApplicant.credentials;
+                        models.applicant().findByEmail(applicant.credentials.email, function(err, _applicant){
+                            expect(_applicant.getProfileData()).to.be.deep.equal(cloneApplicant);
+                            done();
+                        });                       
+                    });
+             });
+
+            it('should not allow credentials to be changed', function(done) {
+                agent
+                    .post(updateApplicantProfileRoute)
+                    .send({
+                        email: applicant.credentials.email,
+                        credentials: {
+                            email: "alex@alex.com",
+                            password: "abc12345678"
+                        }
+                    })
+                    .expect(400, done);
+             });
+
+        });
+        describe('/employer', function() {
+             var updatedInfo = {
+                companyName: "Amazon",
+                email: employer.credentials.email
+             }
+             , agent = null;
+
+             beforeEach('register employer', function(done) {
+                    agent = request.agent(app);
+                    agent
+                        .post(registerEmployerRoute)
+                        .send(employer)
+                        .expect(200, done);
+             });
+
+             afterEach('destory employer db', function(done) {
+                agent = null;
+                models.employer().remove({}, function(err) {
+                    done();
+                });
+             });
+             
+             it('should update profile info given valid fields', function(done){
+                agent
+                    .post(updateEmployerProfileRoute)
+                    .send(updatedInfo)
+                    .expect(200)
+                    .end(function(err, res) {
+                        var cloneEmployer = _.extend({}, employer);
+                        cloneEmployer.companyName = updatedInfo.companyName;
+                        delete cloneEmployer.credentials;
+                        models.employer().findByEmail(employer.credentials.email, function(err, _employer){
+                            expect(_employer.getProfileData()).to.be.deep.equal(cloneEmployer);
+                            done();
+                        });                       
+                    });
+             });
+
+             it('should not allow credentials to be changed', function(done) {
+                agent
+                    .post(updateEmployerProfileRoute)
+                    .send({
+                        email: employer.credentials.email,
+                        credentials: {
+                            email: "alex@alex.com",
+                            password: "abc12345678"
+                        }
+                    })
+                    .expect(400, done);
+             });
+        });
+
     });
 });
 
