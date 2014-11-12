@@ -23,6 +23,8 @@ angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'u
         employer: 'employer'
     });
 
+angular.module('ucrCareerControllers', ['ui.bootstrap']);
+
 angular.module('ucrCareerServices', ['LocalStorageModule'])
     .config(['localStorageServiceProvider', function(localStorageServiceProvider){
         localStorageServiceProvider.setPrefix('ucrCareer');
