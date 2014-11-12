@@ -11,7 +11,8 @@
             'credentials': {},
             'spec': {},
             'location': {},
-            'personal': {}
+            'personal': {},
+            'interests': []
         };
         var credentials = User.getCredentials();
         if (credentials.email !== null) {

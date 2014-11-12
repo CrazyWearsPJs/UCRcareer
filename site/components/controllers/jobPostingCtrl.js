@@ -10,7 +10,8 @@
         $scope.post = {
             'specifics': {}, 
             'location': {}, 
-            'date': {}
+            'date': {},
+            'tags': []
         };
 
         $scope.ok = function() {

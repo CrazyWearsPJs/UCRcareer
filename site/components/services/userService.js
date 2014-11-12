@@ -60,7 +60,7 @@
         var PROFILE_DATA_FIELDS = {};
 
         PROFILE_DATA_FIELDS[USER_ROLES.all] =  ['personal', 'contact', 'spec', 'location'];
-        PROFILE_DATA_FIELDS[USER_ROLES.applicant] = ['spec'];
+        PROFILE_DATA_FIELDS[USER_ROLES.applicant] = ['spec', 'interests'];
         PROFILE_DATA_FIELDS[USER_ROLES.employer] = ['companyName'];
         
         var employerProfileData = unionArray(PROFILE_DATA_FIELDS[USER_ROLES.all], PROFILE_DATA_FIELDS[USER_ROLES.employer]),
@@ -100,6 +100,7 @@
                 'address2': null,
                 'country': null
             }, 
+            'interests': [],
             'role': USER_ROLES.guest, 
         };
 
