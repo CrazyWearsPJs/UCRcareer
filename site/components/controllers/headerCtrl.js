@@ -17,6 +17,12 @@ angular.module('ucrCareerControllers')
                 $location.path('/employerProfile');
             }
         };
+        $scope.gotoJobPosting = function() {
+            if(User.getUserRole() === USER_ROLES.employer)
+            {
+                $location.path('/jobPosting');
+            }
+        };
         $scope.registerOpen = function() {
             var modalInstance = $modal.open({
                 templateUrl: 'templates/registerModal.html',

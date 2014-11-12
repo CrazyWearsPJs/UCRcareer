@@ -1,5 +1,8 @@
 angular.module('ucrCareerControllers')
     .controller('JobPostingCtrl', ['$scope', '$location', 'User', 'PostService', 'USER_ROLES', function JobPostingCtrl($scope, $location, User, PostService, USER_ROLES){
+     $scope.$on('$viewContentLoaded', function(){
+        if(User.getUserRole() === USER_ROLES.employer)
+        {
         $scope.post = {
             'specifics': {}, 
             'location': {}, 
@@ -20,4 +23,8 @@ angular.module('ucrCareerControllers')
         $scope.cancel = function() {
             $location.path('/');
         };
+        }
+        else
+          {$location.path('/');}
+        });
     }]);
