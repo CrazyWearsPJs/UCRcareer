@@ -1,3 +1,5 @@
+var logger = require('../logger');
+
 var checkAuthApplicant = function(req, res, next) {
     if(req.session.applicantUserId) {
         next();
@@ -12,6 +14,8 @@ var checkAuthApplicant = function(req, res, next) {
 module.exports = function(app) {
     app.use('/register', require('./routes/register'));
     app.use('/login', require('./routes/login'));
+    app.use('/logout', require('./routes/logout'));
+    app.use('/profile', require('./routes/profile'));
     app.use('/post', require('./routes/post'));
 
     /*
@@ -21,8 +25,14 @@ module.exports = function(app) {
         if(err.status >= 200 && err.status < 300) {
             next();
         }
-        var errorObj = {};
-        errorObj[err.name] = err.message;
-        res.status(err.status || 500).json(errorObj);
+
+        if(!err.status) {
+            err.status = 500;
+            logger.error(err);
+        } else {
+            //logger.info(err);
+        }
+
+        res.status(err.status).json(err);
     });
 };

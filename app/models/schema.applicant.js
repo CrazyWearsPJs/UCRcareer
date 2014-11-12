@@ -4,7 +4,7 @@
 
 var mongoose = require('mongoose')
   , bcrypt   = require('bcrypt')
-  , Schema   = mongoose.Schema;
+  , Schema   = mongoose.Schema; 
 
 var config   = require('../config');
 
@@ -88,19 +88,43 @@ applicantSchema.methods.hashPassword = function(next) {
 };
 
 /**
+ *
+ * Setter to set a new plain-text password 
+ *
+ *@param plainTextPassword {String} Plain-text password which will be hashed upon save
+ */
+applicantSchema.methods.setPassword = function(plainTextPassword) {
+    var applicant = this;
+    applicant.plainTextPassword = true;
+    applicant.credentials.password = plainTextPassword;
+};
+
+/**
  * Set pre-save hook for replacing password field
  * with its hashed version
  */
 applicantSchema.pre('save', function(next){
     var applicant = this;
-    
+   
     // Make sure model has not been saved before, else
-    // we might end up hashing the password twice
-    if (!applicant.isNew)
-        return next(new Error("Can't save same model twice. Password has been hashed already!"));
-    
-    applicant.hashPassword(next);
+    // we might end up hashing the password twice 
+    if (applicant.isNew || applicant.plainTextPassword) {
+        applicant.hashPassword(next);
+    } else {
+        next();
+    }
 });
+
+/*
+ * Wrapper around Applicant.findOne({'credentials.email' . .. 
+ */
+
+applicantSchema.static('findByEmail', function(email, cb) {
+    var Applicant = this;
+
+    Applicant.findOne({'credentials.email' : email}, cb);
+});
+
 
 /**
  * Finds an applicant with the given credentials.
@@ -115,11 +139,10 @@ applicantSchema.pre('save', function(next){
  *   , email   : {String}
  * }
  */
-applicantSchema.static('findByCredentials', function(creds,cb){
+applicantSchema.static('findByCredentials', function findByCredentials(creds, cb) {
     var Applicant = this;
     // Look for applicant with the given email
-    Applicant.findOne({'credentials.email' : creds.email}, 
-    function(err, applicant){
+    Applicant.findByEmail(creds.email, function findByEmailAndComparePass(err, applicant) { 
         if (err) return cb(err, null);
         if (!applicant) {
             var err = new Error("Applicant doesn't exist");
@@ -142,7 +165,6 @@ applicantSchema.static('findByCredentials', function(creds,cb){
         });
     });
 });
-
 
 /**
  * Instance method that returns the object representation

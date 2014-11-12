@@ -82,19 +82,41 @@ employerSchema.methods.hashPassword = function(next) {
 };
 
 /**
+ * Setter to set a new plain-text password
+ *
+ * @param plainTextPassword {String} Plain-text password which will be hashed upon save
+ */
+employerSchema.methods.setPassword = function(plainTextPassword) {
+    var employer = this;
+    employer.plainTextPassword = true;
+    employer.credentials.password = plainTextPassword;
+};
+
+/**
  * Set pre-save hook for replacing password field
  * with its hashed version
  */
-
 employerSchema.pre('save', function(next){
     var employer = this;
     
     // Make sure model has not been saved before, else
     // we might end up hashing the password twice
-    if (!employer.isNew)
-        return next(new Error("Can't save same model twice. Password has been hashed already!"));
     
-    return employer.hashPassword(next);
+    if (employer.isNew || employer.plainTextPassword) {
+        employer.hashPassword(next);
+    } else {
+        next();
+    }
+});
+
+/**
+ * Wrapper around Employer.findOne('{credentials.email': ...
+*/
+employerSchema.static('findByEmail', function(email, cb) {
+    var Employer = this;
+    Employer.findOne({'credentials.email': email}, function(err, employer) {
+        return cb(err, employer);
+    });
 });
 
 /**
@@ -113,7 +135,7 @@ employerSchema.pre('save', function(next){
 employerSchema.static('findByCredentials', function(creds,cb){
     var Employer = this;
     // Look for employer with the given email
-    Employer.findOne({'credentials.email' : creds.email}, function(err, employer){
+    Employer.findByEmail(creds.email, function(err, employer){
         if (err) return cb(err, null);
         if (!employer) {
             var err = new Error('Employer doesn\'t exist' );
@@ -135,10 +157,11 @@ employerSchema.static('findByCredentials', function(creds,cb){
     });
 });
 
+
 /**
  * Instance method that returns the object representation
- * of an applicant while hiding sensitive information
- * @return {Object} object representation of an applicant instance
+ * of an employer while hiding sensitive information
+ * @return {Object} object representation of an employer instance
  */
 employerSchema.methods.getProfileData = function() {
     var employer = this;
