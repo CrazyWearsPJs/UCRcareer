@@ -18,7 +18,7 @@ angular.module('ucrCareerControllers')
         }
 
         $scope.differentPassword = function() {
-            return $scope.user.credentials.password !== $scope.user.reEnterPassword;
+            return $scope.user.credentials.password !== $scope.user.credentials.reEnterPassword;
         };
 
         $scope.differentPasswordTouched = function() {

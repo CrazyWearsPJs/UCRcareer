@@ -45,7 +45,7 @@
    	<div class="form-group"
             ng-class="{'has-error': differentPasswordTouched()}">
             <label for="newUserReEnterPassword">Re-enter Password</label>
-            <input ng-model="user.reEnterPassword" type="password" class="form-control" 
+            <input ng-model="user.credentials.reEnterPassword" type="password" class="form-control" 
                 name="reEnterPassword"
                 ng-class="{'has-error': register.password !== register.reEnterPassword}"
                 id=newUserReEnterPassword" placeholder="re-enter password"

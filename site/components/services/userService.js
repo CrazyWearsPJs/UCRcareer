@@ -56,9 +56,10 @@ angular.module('ucrCareerServices')
         PROFILE_DATA_FIELDS[USER_ROLES.applicant] = ['spec', 'interests'];
         PROFILE_DATA_FIELDS[USER_ROLES.employer] = ['companyName'];
         
-        var employerProfileData = unionArray(PROFILE_DATA_FIELDS[USER_ROLES.all], PROFILE_DATA_FIELDS[USER_ROLES.employer]),
-            applicantProfileData = unionArray(PROFILE_DATA_FIELDS[USER_ROLES.all], PROFILE_DATA_FIELDS[USER_ROLES.applicant]); 
-
+        var employerProfileData = unionArray(PROFILE_DATA_FIELDS[USER_ROLES.all], 
+                                            PROFILE_DATA_FIELDS[USER_ROLES.employer]),
+            applicantProfileData = unionArray(PROFILE_DATA_FIELDS[USER_ROLES.all],
+                                            PROFILE_DATA_FIELDS[USER_ROLES.applicant]); 
 
         var User = {
             'companyName': null,
@@ -96,7 +97,7 @@ angular.module('ucrCareerServices')
             'interests': [],
             'role': USER_ROLES.guest, 
         };
-
+        
         User.setCredentials = function(email, password) {
             this.credentials.email = email;
             this.credentials.password = password;
@@ -112,6 +113,23 @@ angular.module('ucrCareerServices')
 
         User.setUserRole = function(role) {
             User.role = role;
+        };
+
+        User.isLoggedIn = function() {
+            return User.role === USER_ROLES.applicant ||
+                User.role === USER_ROLES.employer;
+        };
+
+        User.isGuest = function() {
+            return User.role === USER_ROLES.guest;
+        };
+
+        User.isEmployer = function() {
+            return User.role === USER_ROLES.employer;
+        };
+
+        User.isApplicant = function() {
+            return User.role === USER_ROLES.applicant;
         };
 
         User.clearPassword = function() {
