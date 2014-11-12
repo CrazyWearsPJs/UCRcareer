@@ -42,7 +42,7 @@ angular.module('ucrCareerControllers')
                 size: 'lg'
             });
                 modalInstance.result.then(function(user) {
-                    User.addCredentials(user.email, user.password);
+                    User.setCredentials(user.email, user.password);
                     AuthService.login();
                 }, function() {
             });

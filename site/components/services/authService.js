@@ -18,8 +18,9 @@ angular.module('ucrCareerServices')
             return deferred.promise;
         };
 
-        this.login = function(credentials) {
-            var deferred = $q.defer();
+        this.login = function() {
+            var deferred = $q.defer(),
+                credentials = User.getCredentials();
             $http.post('/login', credentials)
                 .then(function(data) {
                     var role = data.type;
@@ -40,7 +41,7 @@ angular.module('ucrCareerServices')
             var deferred = $q.defer(),
                 registrationRoutePrefix = '/register', 
                 registrationData = extend(User.getProfileData(role),
-                    User.getLoginCredentials());
+                   {"credentials": User.getCredentials() });
             $http.post(registrationRoutePrefix + '/' + role, registrationData)
                 .then(function(data) {
                     setPermissions(role);
