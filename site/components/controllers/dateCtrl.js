@@ -1,65 +1,44 @@
-(function(){
-    
-    'use strict';
+angular.module('ucrCareerControllers')
+    .controller('DateCtrl', ['$scope', function DateCtrl($scope){
+        $scope.datepickers = {
+            dt: false,
+            dtSecond: false
+        };
 
-    /**
-     * Date Controller
-     */
+        $scope.today = function(){
+            $scope.dt = new Date();
+            $scope.dt = new Date();
+            
+            $scope.dtSecond = new Date();
+        };
+        $scope.today();
 
-    function DateCtrl ($scope){
-		$scope.datepickers = {
-		    dt: false,
-		    dtSecond: false
-		};
+        $scope.clear = function(){
+            $scope.dt = null;
+        };
+        //Disable weekend selection
+        $scope.disabled = function(date, mode){
+            return(mode === 'day' && (date.getDay() === 0 || date.getDay() === 6));
+        };
 
-		$scope.today = function(){
-		    $scope.dt = new Date();
-		    $scope.dt = new Date();
-		    
-		    $scope.dtSecond = new Date();
-		};
-		$scope.today();
+        $scope.toggleMin = function(){
+           $scope.minDate = $scope.minDate ? null : new Date();
+        };
+        $scope.toggleMin();
 
-		$scope.clear = function(){
-		    $scope.dt = null;
-		};
-		//Disable weekend selection
-		$scope.disabled = function(date, mode){
-		    return(mode === 'day' && (date.getDay() === 0 || date.getDay() === 6));
-		};
+        $scope.open = function($event, which){
+            $event.preventDefault();
+            $event.stopPropagation();
 
-		$scope.toggleMin = function(){
-		   $scope.minDate = $scope.minDate ? null : new Date();
-		};
-		$scope.toggleMin();
-
-		$scope.open = function($event, which){
-		    $event.preventDefault();
-		    $event.stopPropagation();
-
-		    $scope.opened = true;
-		    $scope.datepickers[which] = true;
-		};
-		
+            $scope.opened = true;
+            $scope.datepickers[which] = true;
+        };
+        
         $scope.dateOptions = {
-		    formatYear: 'yy',
-		    startingDay: 1
-		};
+            formatYear: 'yy',
+            startingDay: 1
+        };
 
-		$scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-		$scope.format = $scope.formats[0];
-    }
-
-    /**
-     * Register functions
-     */
-    
-    angular.module('ucrCareerControllers')
-	    .controller('DateCtrl', 
-            [
-                '$scope'
-              , DateCtrl
-            ]);
-
-})();
-
+        $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+        $scope.format = $scope.formats[0];
+    }]);

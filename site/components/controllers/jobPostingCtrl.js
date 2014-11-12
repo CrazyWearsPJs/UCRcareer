@@ -1,12 +1,5 @@
-(function(){
-
-    'use strict';
-
-    /**
-     * Job Posting Controller
-     */
-
-    function JobPostingCtrl($scope, $location, User, PostService, USER_ROLES){
+angular.module('ucrCareerControllers')
+    .controller('JobPostingCtrl', ['$scope', '$location', 'User', 'PostService', 'USER_ROLES', function JobPostingCtrl($scope, $location, User, PostService, USER_ROLES){
         $scope.post = {
             'specifics': {}, 
             'location': {}, 
@@ -28,22 +21,4 @@
         $scope.cancel = function() {
             $location.path('/');
         };
-    }
-
-    /**
-     * Register functions
-     */
-    
-    angular.module('ucrCareerControllers')
-        .controller('JobPostingCtrl', 
-            [
-                '$scope'
-              , '$location'
-              , 'User'
-              , 'PostService'
-              , 'USER_ROLES'
-              , JobPostingCtrl
-            ]);
-            
-})();
-
+    }]);

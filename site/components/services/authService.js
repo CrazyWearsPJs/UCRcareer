@@ -1,12 +1,5 @@
-(function(){
-    
-    'use strict';
-
-    /**
-     * Authentication Service
-     */
-    
-    function AuthService($http, $q, User){
+angular.module('ucrCareerServices')
+    .service('AuthService', ['$http','$q','User', function AuthService($http, $q, User){
         var authTokenSuffix = 'api-token',
             extend = angular.extend;
 
@@ -57,19 +50,4 @@
                 });
             return deferred.promise;
         };
-    }
-
-    /**
-     * Register functions
-     */
-
-    angular.module('ucrCareerServices')
-        .service('AuthService', 
-            [
-                 '$http'
-                ,'$q'
-                ,'User'
-                ,AuthService
-            ]);
-
-})();
+    }]);

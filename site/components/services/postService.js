@@ -1,16 +1,10 @@
-(function(){
-    
-    'use strict';
-
-    /**
-     * Post Service
-     */
-    
-    function PostService($http, $q, User, USER_ROLES){
+angular.module('ucrCareerServices')
+    .service('PostService', ['$http', '$q', 'User', 'USER_ROLES', function PostService($http, $q, User, USER_ROLES){
+        var authTokenSuffix = 'api-token',
+            extend = angular.extend;
         var forEach = angular.forEach,
             isObject = angular.isObject,
-            copy = angular.copy,
-            extend = angular.extend;
+            copy = angular.copy;
 
         var copyNonNull = function(src, dest) {
             if(dest) {
@@ -94,20 +88,4 @@
                 });
             return deferred.promise;
         };
-    }
-    
-    /**
-     * Register functions
-     */
-
-    angular.module('ucrCareerServices')
-        .service('PostService', 
-            [
-                 '$http'
-               , '$q'
-               , 'User'
-               , 'USER_ROLES'
-               , PostService
-            ]);
-
-})();
+    }]);
