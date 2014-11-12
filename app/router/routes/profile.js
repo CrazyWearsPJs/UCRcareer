@@ -1,20 +1,31 @@
 var express = require('express'),
     models = require('../../models'),
-    Q = require('q');
+    Q = require('q'),
+    deepExtend = require('deep-extend');
 
     var router = new express.Router();
     
-    router.post('/applicant/:email/profile', function(req, res, next) {
-        var email = req.params.email,
-            Applicant = models.applicant(), 
-            applicantUserId = req.session.applicantUserId;
+    router.post('/applicant', function(req, res, next) {
+        var Applicant = models.applicant(), 
+            applicantUserId = req.session.applicantUserId,
+            updatedProfileInfo = req.body,
+            email = updatedProfileInfo.email;
+
+        if(updatedProfileInfo.credentials) {
+            var err = new Error("Change of Credentials if forbidden");
+            err.name = "BadRequestError";
+            err.status = 400;
+            next(err);
+        }
         
         if(!email) {
             var err = new Error("Resource " + req.baseUrl +" doesn't exist");
             err.name = "NotFoundError";
             err.status = 404;
             next(err);
-        } 
+        } else {
+            delete updatedProfileInfo.email;
+        }
 
         if(!applicantUserId) {
             var err = new Error("Applicant not authorized");
@@ -24,42 +35,52 @@ var express = require('express'),
         }
         
         Q.ninvoke(Applicant, 'findById', applicantUserId)
-            .success(function foundApplicant(applicant)) {
+            .then(function foundApplicant(applicant) {
                 if(applicant.credentials.email !== email) {
                     var err = new Error("Applicant email " + applicant.credentials.email + " doesn't match given email" + email);
                     err.name = "ForbiddenError";
                     err.status = 403;
                     throw err;
                 } else {
-                    //updates TODO
+                    deepExtend(applicant, updatedProfileInfo);
                     return Q.ninvoke(applicant, 'save')
-                        .success(function(){
+                        .then(function(){
                            res.status(200).end(); 
-                        });
+                        })
                         .fail(function(err){
                            err.status = 400;
                         });
                 }
             })
-            .fail(function applicantNotFound(function(err)) {
+            .fail(function applicantNotFound(err) {
                 err.status = 404;
-            }
-            .catch(function applicantNotFoundOrValidEmail(function(err){
+            })
+            .catch(function applicantNotFoundOrValidEmail(err) {
                next(err); 
             });
     });
 
     router.post('/employer', function(req, res, next) {
-        var email = req.params.email,
-            Employer = models.employer(), 
-            employerUserId = req.session.employerUserId;
+        var Employer = models.employer(), 
+            employerUserId = req.session.employerUserId,
+            updatedProfileInfo = req.body,
+            email = updatedProfileInfo.email;
         
+        if(updatedProfileInfo.credentials) {
+            var err = new Error("Change of Credentials if forbidden");
+            err.name = "BadRequestError";
+            err.status = 400;
+            next(err);
+        }
+
         if(!email) {
             var err = new Error("Resource " + req.baseUrl +" doesn't exist");
             err.name = "NotFoundError";
             err.status = 404;
             next(err);
-        } 
+        } else {
+            delete updatedProfileInfo.email;
+        }
 
         if(!employerUserId) {
             var err = new Error("employer not authorized");
@@ -67,29 +88,29 @@ var express = require('express'),
             err.status = 401;
             next(err);
         }
-        
+
         Q.ninvoke(Employer, 'findById', employerUserId)
-            .success(function foundEmployer(employer)) {
+            .then(function foundEmployer(employer) {
                 if(employer.credentials.email !== email) {
                     var err = new Error("employer email " + employer.credentials.email + " doesn't match given email" + email);
                     err.name = "ForbiddenError";
                     err.status = 403;
                     throw err;
                 } else {
-                    //updates TODO
+                    deepExtend(employer, updatedProfileInfo);                 
                     return Q.ninvoke(employer, 'save')
-                        .success(function(){
+                        .then(function(){
                            res.status(200).end(); 
-                        });
+                        })
                         .fail(function(err){
-                           err.status = 400;
+                            err.status = 400;
                         });
                 }
             })
-            .fail(function employerNotFound(function(err)) {
+            .fail(function employerNotFound(err) {
                 err.status = 404;
-            }
-            .catch(function employerNotFoundOrValidEmail(function(err){
+            })
+            .catch(function employerNotFoundOrValidEmail(err) {
                next(err); 
             });
 
