@@ -1,15 +1,17 @@
     <div class="jumbotron" id="splashSearch">
-            <h4>Search for Jobs at HuntEdu</h4>
+    <h4>Search for Jobs at HuntEdu</h4>
+    <form name="search" ng-submit="ok()" novalidate>
         <div class="row">
             <div class="col-md-10">
             <form class="form-group">
-                <input type="text" class="form-control" placeholder="Jobtitle, Company, or keyword..."
+                <input ng-model="splash.search" type="text" class="form-control" placeholder="Jobtitle, Company, or keyword..."
                 name="search"
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
                 ng-trim/>
             </form>
             </div>
-            <button id="search-btn" class="btn btn-default">Submit</button>
+            <!--<button id="search-btn" class="btn btn-default">Submit</button>-->
+            <input class="btn" value="Submit" ng-class="search.$valid?'btn-primary':'btn-default'" type="submit"/>
         </div>
     </div>
     
