@@ -97,7 +97,6 @@ angular.module('ucrCareerServices')
             'role': USER_ROLES.guest, 
         };
 
-
         User.setCredentials = function(email, password) {
             this.credentials.email = email;
             this.credentials.password = password;
@@ -149,20 +148,6 @@ angular.module('ucrCareerServices')
                             copyNonNull(value);
                     }
                 });  
-            });
-            return info;
-        };
-
-        User.getLoginCredentials = function() {
-            var info = {
-                credentials: {}
-            },
-            credentials = User.getCredentials();
-            
-            forEach(credentials, function(value, key) {
-                if((key === 'email' || key === 'password') && value) {
-                    info.credentials[key] = value;
-                }
             });
             return info;
         };
