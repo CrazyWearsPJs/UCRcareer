@@ -1,21 +1,13 @@
-function EmployerProfileCtrl($scope, User, USER_ROLES, $location) {
+angular.module('ucrCareerControllers')
+    .controller('EmployerProfileCtrl', ['$scope', 'User', '$location',
+    function EmployerProfileCtrl($scope, User, $location) {
     $scope.$on('$viewContentLoaded', function() {
-        if(User.getUserRole() === USER_ROLES.employer)
-        {
-            $scope.employerProfileData = User.getProfileData(USER_ROLES.employer);
-        }
-        else
-        {
+        if(User.isEmployer()){
+            var role = User.getUserRole();
+            $scope.employerProfileData = User.getProfileData(role);
+    	}
+        else {
             $location.path('/');
         }
     });
-}
-  angular.module('ucrCareerControllers')
-    .controller('EmployerProfileCtrl',
-        [
-            '$scope'
-          , 'User'
-          , 'USER_ROLES'
-          , '$location'
-          , EmployerProfileCtrl
-        ]);
+}]);
