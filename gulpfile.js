@@ -35,7 +35,6 @@ gulp.task('watch:css', function() {
 gulp.task('build:js', function(){
     return gulp.src(sources.js)
         .pipe(sourcemaps.init())
-        //.pipe(traceur())
         //.pipe(uglify())
         .pipe(concat('all.js'))
         .pipe(sourcemaps.write())
