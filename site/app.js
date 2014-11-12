@@ -49,7 +49,7 @@
                 controller: 'EmployerProfileCtrl'
             }).when('/applicantProfile', {
                 templateUrl: 'templates/applicantProfile.html',
-                controller: 'ApplicantRegisterCtrl'
+                controller: 'ApplicantProfileCtrl'
 	    }).otherwise({
                 redirectTo: '/'
             });
