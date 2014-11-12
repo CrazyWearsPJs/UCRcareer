@@ -1,12 +1,5 @@
-(function(){
-
-    'use strict';
-
-    /**
-     * Users Factory
-     */
-    
-    function UserFactory(USER_ROLES) {
+angular.module('ucrCareerServices')
+    .factory('User', ['USER_ROLES', function UserFactory(USER_ROLES) {
         var forEach = angular.forEach,
             isFunction = angular.isFunction,
             isObject = angular.isObject,
@@ -175,17 +168,4 @@
         };
 
         return User;
-    }
-
-    /**
-     * Register functions
-     */
-
-    angular.module('ucrCareerServices')
-        .factory('User',
-            [   
-                'USER_ROLES'
-              , UserFactory
-            ]);
-
-})();
+    }]);
