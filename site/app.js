@@ -42,9 +42,15 @@
 	        templateUrl: 'templates/employerRegister.html',
             	controller: 'EmployerRegisterCtrl'
             }).when('/jobPosting', {
-		        templateUrl: 'templates/jobPosting.html',
-		        controller: 'RegisterCtrl'
-	        }).otherwise({
+		templateUrl: 'templates/jobPosting.html',
+		controller: 'RegisterCtrl'
+            }).when('/employerProfile', {
+                templateUrl: 'templates/employerProfile.html',
+                controller: 'EmployerProfileCtrl'
+            }).when('/applicantProfile', {
+                templateUrl: 'templates/applicantProfile.html',
+                controller: 'ApplicantRegisterCtrl'
+	    }).otherwise({
                 redirectTo: '/'
             });
         }]);

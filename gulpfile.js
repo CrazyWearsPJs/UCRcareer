@@ -32,8 +32,8 @@ var destinations = {
 gulp.task('build:js', function(){
     return gulp.src(sources.js)
         .pipe(sourcemaps.init())
-//        .pipe(traceur())
-//        .pipe(uglify())
+       // .pipe(traceur())
+       // .pipe(uglify())
         .pipe(concat('all.js'))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(destinations.js));
