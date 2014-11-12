@@ -1,8 +1,11 @@
 angular.module('ucrCareerControllers')
-    .controller('EmployerRegisterCtrl', ['$scope', '$route', 'User', function EmployerRegisterCtrl($scope, $route, User){
+    .controller('EmployerRegisterCtrl', ['$scope', '$location', 'User', 'AuthService', 'USER_ROLES', function EmployerRegisterCtrl($scope, $location, AuthService, User, USER_ROLES){
         $scope.user = {
-            email: "", 
-            password: ""
+            'companyName': {},
+            'credentials': {},
+            'personal': {},
+            'contact': {},
+            'location': {}
         };
 
         var credentials = User.getCredentials();
@@ -26,11 +29,14 @@ angular.module('ucrCareerControllers')
 
         $scope.ok = function() {
             if($scope.register.$valid && !$scope.differentPassword()) {
-                // api call
+                console.log(User);
+                User.setCredentials($scope.user.credentials.email, $scope.user.credentials.password);
+                User.setProfileData($scope.user, USER_ROLES.employer);
+                AuthService.register(USER_ROLES.employer);
             }
         };
 
         $scope.cancel = function() {
-            $route = '/';
+            $location.path('/');
         };
    }]);

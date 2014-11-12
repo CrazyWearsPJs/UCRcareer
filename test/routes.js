@@ -72,10 +72,30 @@ var employer = {
         }
 };
 
+var jobPost = {
+      specifics: {
+          jobTitle: "Software Engineer"
+        , description: "Develop software"
+        , requirements: "Programming experience"
+        , salary: "$80,000"
+        , department: "Computers"
+        , jobType: "IT developer"
+      }
+    , location: {
+          city: "Riverside"
+        , state: "California"
+      }
+    , date: {
+          postedOn: "April 1, 2014"
+        , endsOn: "October 31, 2014"
+      }
+};
+
 describe('routes', function (){
    var apiPrefix = '/api/v1'
     , applicantRouteSuffix = '/applicant'
-    , employerRouteSuffix = '/employer';
+    , employerRouteSuffix = '/employer'
+    , jobPostingRouteSuffix = '/post';
     
     var registerRoutePrefix = '/register'  
     , loginRoutePrefix = '/login'
@@ -417,7 +437,31 @@ describe('routes', function (){
                     .expect(400, done);
              });
         });
+    });
+    describe('POST /post', function (){
+        afterEach('destroy post db', function(done) {
+            models.jobPosting().remove({}, function(err) {
+                done();
+            });
+        });
 
+        it('should post job successfully', function(done) {
+            request(app)
+                .post('/post')
+                .send(jobPost)
+                .expect(200, done);
+        });  
+
+        it('should not save given invalid posting data', function(done) {
+            request(app)
+                .post('/post')
+                .send({
+                    location: {
+                        city: 'Riverside'
+                      , state: 'California'
+                    }
+                })
+                .expect(400, done);
+        });
     });
 });
-

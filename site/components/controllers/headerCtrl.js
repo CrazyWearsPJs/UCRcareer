@@ -1,6 +1,22 @@
 angular.module('ucrCareerControllers')
-    .controller('HeaderCtrl', ['$scope', '$modal', '$location', 'AuthService', 'User', function HeaderCtrl($scope, $modal, $location, AuthService, User){
+    .controller('HeaderCtrl', ['$scope', '$modal', '$location', 'AuthService', 'User', 'USER_ROLES', function HeaderCtrl($scope, $modal, $location, AuthService, User, USER_ROLES){
 
+        $scope.showGuest = function() {
+            return User.getUserRole() === USER_ROLES.guest;
+        }; 
+        $scope.showEmployer = function() {
+            return User.getUserRole() === USER_ROLES.employer;
+        };
+        $scope.gotoProfile = function() {
+            if(User.getUserRole() === USER_ROLES.applicant)
+            {
+                $location.path('/applicantProfile');
+            }
+            else if(User.getUserRole() === USER_ROLES.employer)
+            {
+                $location.path('/employerProfile');
+            }
+        };
         $scope.registerOpen = function() {
             var modalInstance = $modal.open({
                 templateUrl: 'templates/registerModal.html',
@@ -51,10 +67,6 @@ angular.module('ucrCareerControllers')
             };
         }]);
 
-/**
- * Register Modal Controller
- */
-
 angular.module('ucrCareerControllers')
     .controller('RegisterModalCtrl', ['$scope', '$modalInstance', function RegisterModalCtrl ($scope, $modalInstance){
         $scope.user = {
@@ -84,4 +96,5 @@ angular.module('ucrCareerControllers')
         $scope.cancel = function() {
             $modalInstance.dismiss();
         };
-    }]);
+        }]);
+
