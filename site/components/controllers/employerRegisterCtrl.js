@@ -1,5 +1,5 @@
 angular.module('ucrCareerControllers')
-    .controller('EmployerRegisterCtrl', ['$scope', '$location', 'User', 'AuthService', 'USER_ROLES', function EmployerRegisterCtrl($scope, $location, AuthService, User, USER_ROLES){
+    .controller('EmployerRegisterCtrl', ['$scope', '$location', 'AuthService', 'User', 'USER_ROLES', function EmployerRegisterCtrl($scope, $location, AuthService, User, USER_ROLES){
         $scope.user = {
             'companyName': {},
             'credentials': {},
