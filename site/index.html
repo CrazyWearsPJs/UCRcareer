@@ -15,9 +15,8 @@
     <link rel="stylesheet" href="build/css/all.css" />
   </head>
   <body ng-app="ucrCareer">
-
     <div class="container" ng-include="'templates/header.html'" ng-controller="HeaderCtrl"></div>
-    <div class="container" ng-view=""></div>
+    <div id='view-wrapper' ng-view=""></div>
   
     <!-- todo: update UA-XXXXX-X -->
     <!--
@@ -36,8 +35,7 @@
     <script src="bower_components/es5-shim/es5-shim.js"></script>
     <script src="bower_components/json3/lib/json3.min.js"></script>
     <![endif]-->
-
-
+    
     <!-- vendor libraries -->
     <script src="bower_components/traceur/traceur.js"></script>
     <script src="bower_components/angular/angular.js"></script>
