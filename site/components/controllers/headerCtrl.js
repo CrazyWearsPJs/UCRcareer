@@ -6,7 +6,13 @@
      * Header Controller
      */
     
-    function HeaderCtrl($scope, $modal, $location, AuthService, User){
+    function HeaderCtrl($scope, $modal, $location, AuthService, User, USER_ROLES){
+        $scope.showGuest = function() {
+            return User.getUserRole() === USER_ROLES.guest;
+        }; 
+        $scope.showEmployer = function() {
+            return User.getUserRole() === USER_ROLES.employer;
+        };
         $scope.registerOpen = function() {
             var modalInstance = $modal.open({
                 templateUrl: 'templates/registerModal.html',
@@ -97,7 +103,7 @@
     /**
      * Register functions
      */
-
+        
     angular.module('ucrCareerControllers')
         .controller('HeaderCtrl', 
             [
@@ -106,6 +112,7 @@
               , '$location'
               , 'AuthService'
               , 'User'
+              , 'USER_ROLES'
               , HeaderCtrl
             ])
         .controller('LoginModalCtrl', 
