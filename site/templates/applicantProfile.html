@@ -1,4 +1,3 @@
-<body ng-controller="ApplicantProfileCtrl">
 <h3>Personal Information</h3>
     <hr> 
     <div class="row">
@@ -9,13 +8,13 @@
 
     <div class="row">
 	<div class="col-md-4">
-	    <label for=""> Middle Initial: {{applicantPofileData.personal.mInit}}</label>
+	    <label for=""> Middle Initial: </label><td>{{applicantProfileData.personal.mInit}}</td>
         </div>
     </div>
 
     <div class="row">
 	<div class="col-md-4">
-	    <label for=""> Last Name: {{applicantPofileData.personal.lName}}</label>
+	    <label for=""> Last Name: </label><td>{{applicantProfileData.personal.lName}}</td>
 	</div>
     </div>
 
@@ -24,31 +23,31 @@
 
     <div class="row">
 	<div class="col-md-6">
-            <label for=""> Phone Number: {{applicantProfileData.contact.phoneNum}}</label>
+            <label for=""> Phone Number: </label><td>{{applicantProfileData.contact.phoneNum}}</td>
 	</div>
     </div>
 
     <div class="row">
 	<div class="col-md-6">
-            <label for=""> Website: {{applicantProfileData.contact.website}}</label>
+            <label for=""> Website: </label><td>{{applicantProfileData.contact.website}}</td>
 	</div>
     </div>
 
     <div class="row">
 	<div class="col-md-6">
-            <label for=""> LinkedIn: {{applicantProfileData.contact.linkedIn}}</label>
+            <label for=""> LinkedIn: </label><td>{{applicantProfileData.contact.linkedIn}}</td>
 	</div>
     </div>
 
     <div class="row">
 	<div class="col-md-6">
-            <label for=""> Facebook: {{applicantProfileData.contact.facebook}}</label>
+            <label for=""> Facebook: </label><td>{{applicantProfileData.contact.facebook}}</td>
 	</div>
     </div>
 
     <div class="row">
 	<div class="col-md-6">
-            <label for=""> Twitter: {{applicantProfileData.contact.twitter}}</label>
+            <label for=""> Twitter: </label><td>{{applicantProfileData.contact.twitter}}</td>
 	</div>
      </div>
 
@@ -57,38 +56,70 @@
 
      <div class="row">
 	<div class="col-md-6">
-            <label for=""> Address 1: {{applicantProfileData.location.address1}} </label>
+            <label for=""> Address 1: </label><td>{{applicantProfileData.location.address1}} </td>
 	</div>
     </div>
 
     <div class="row">
 	<div class="col-md-6">
-            <label for=""> Address 2: {{applicantProfileData.location.address2}}</label>
+            <label for=""> Address 2: </label><td>{{applicantProfileData.location.address2}}</td>
 	</div>
     </div>
 
     <div class="row">
 	<div class="col-md-6">
-            <label for=""> City: {{applicantProfileData.location.city}} </label>
+            <label for=""> City: </label><td>{{applicantProfileData.location.city}} </td>
 	</div>
     </div>
 
     <div class="row">
         <div class="col-md-6">
-            <label for=""> State: {{applicantProfileData.location.state}}</label>
+            <label for=""> State: </label><td>{{applicantProfileData.location.state}}</td>
 	</div> 
     </div>
 
     <div class="row">
         <div class="col-md-6">
-            <label for=""> Zipcode: {{applicantProfileData.location.zip}} </label>
+            <label for=""> Zipcode: </label><td>{{applicantProfileData.location.zip}} </td>
 	</div>
     </div>
 
     <div class="row">
         <div class="col-md-6">
-            <label for=""> Country: {{applicantProfileData.location.country}}</label>
+            <label for=""> Country: </label><td>{{applicantProfileData.location.country}}</td>
         </div>
     </div>
 
+<h3>Specialty </h3>
+<hr>
+
+    <div class="row">
+        <div class="col-md-6">
+            <label for=""> Degree: </label><td>{{applicantProfileData.spec.degree.country}}</td>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <label for=""> University: </label><td>{{applicantProfileData.spec.univ}}</td>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <label for=""> Year: </label><td>{{applicantProfileData.spec.year}}</td>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <label for=""> Resume: </label><td>{{applicantProfileData.spec.resume}}</td>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <label for=""> Focus: </label><td>{{applicantProfileData.spec.focus}}</td>
+        </div>
+    </div>
 </form>

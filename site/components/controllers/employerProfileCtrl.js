@@ -1,21 +1,21 @@
-  function EmployerProfileCtrl($scope, User, USER_ROLES, $location) {
-    $scope.getInfo = function() {
-        if(User.getUserRoles() === USER_ROLES.employer)
+function EmployerProfileCtrl($scope, User, USER_ROLES, $location) {
+    $scope.$on('$viewContentLoaded', function() {
+        if(User.getUserRole() === USER_ROLES.employer)
         {
-            $scope.employerProfileData = User.getProfileData();
+            $scope.employerProfileData = User.getProfileData(USER_ROLES.employer);
         }
         else
         {
             $location.path('/');
         }
-    };
+    });
 }
   angular.module('ucrCareerControllers')
     .controller('EmployerProfileCtrl',
         [
             '$scope'
+          , 'User'
           , 'USER_ROLES'
           , '$location'
-          , 'User'
           , EmployerProfileCtrl
         ]);
