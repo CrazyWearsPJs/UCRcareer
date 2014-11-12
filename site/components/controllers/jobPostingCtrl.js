@@ -8,7 +8,10 @@ angular.module('ucrCareerControllers')
         };
 
         $scope.ok = function() {
-            //if($scope.jobPosting.$valid && User.role === USER_ROLES.employer) {
+            if($scope.post.tags[0]) {
+                var tags = $scope.post.tags.toString();
+                $scope.post.tags = tags.split(" ");
+            }
             if($scope.jobPosting.$valid) {
                 PostService.setJobPostData($scope.post);
                 PostService.post();
