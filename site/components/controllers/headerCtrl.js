@@ -13,6 +13,16 @@
         $scope.showEmployer = function() {
             return User.getUserRole() === USER_ROLES.employer;
         };
+        $scope.gotoProfile = function() {
+            if(User.getUserRole() === USER_ROLES.applicant)
+            {
+                $location.path('/applicantProfile');
+            }
+            else if(User.getUserRole() === USER_ROLES.employer)
+            {
+                $location.path('/employerProfile');
+            }
+        };
         $scope.registerOpen = function() {
             var modalInstance = $modal.open({
                 templateUrl: 'templates/registerModal.html',
