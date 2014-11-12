@@ -16,7 +16,17 @@ angular.module('ucrCareerControllers')
         };
         
         $scope.gotoProfile = function() {
-            $location.path('/applicantProfile');
+            if(User.isApplicant()) {
+                $location.path('/applicantProfile');
+            } else if (User.isEmployer()) {
+                $location.path('/employerProfile');
+            }
+        };
+
+        $scope.gotoJobPostingPage = function() {
+            if(User.isEmployer()) {
+                $location.path('/jobPosting');
+            }
         };
 
         $scope.logout = function() {
