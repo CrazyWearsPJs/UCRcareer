@@ -35,6 +35,7 @@ angular.module('ucrCareerControllers')
                 User.setCredentials($scope.user.credentials.email, $scope.user.credentials.password);
                 User.setProfileData($scope.user, USER_ROLES.applicant);
                 AuthService.register(USER_ROLES.applicant);
+                $location.path('/applicantProfile');
             }
         };
 
