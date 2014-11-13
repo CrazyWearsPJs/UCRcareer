@@ -176,27 +176,37 @@
 	<div class="col-md-6">
  	<div class="form-group"
             ng-class="{'has-error':jobPosting.image.$invalid && jobPosting.image.$touched}">
-            <label for="jobImage">Image</label>
+            <label for="jobImage">Image Link</label>
+            <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-image"></i></span>
+            <span class="input-group-addon">www.</span> 
+
             <input ng-model="post.media.image" type="text" 
                 class="form-control" id="jobImage"
-                placeholder="Image Link"
+                placeholder="i.imgur.com/rFbEpE3.jpg"
                 name="image"
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
                 ng-trim/>
         </div>
 	</div>
     </div>
+    </div>
     <div class="row">
 	<div class="col-md-6">
 	<div class="form-group"
             ng-class="{'has-error':jobPosting.video.$invalid && jobPosting.video.$touched}">
-            <label for="jobVideo">Video</label>
+            <label for="jobVideo">Youtube Video</label>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-youtube-play"></i></span>
+                <span class="input-group-addon">www.youtube.com/watch?v=</span>
+  
             <input ng-model="post.media.video" type="text" 
                 class="form-control" id="jobVideo"
-                placeholder="Video Link"
+                placeholder="kZwhNFOn4ik"
                 name="video"
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
                 ng-trim/>
+            </div>
 	</div>
 	</div>
     </div>
