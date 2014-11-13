@@ -126,5 +126,16 @@
             <label for=""> Focus: </label><td>{{applicantProfileData.spec.focus}}</td>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <label for="userInterests"> Interested and Skills </label>
+            <div class="row" id="userInterests"
+                ng-repeat="interest in applicantProfileData.interests">
+                <div class="col-md-6">
+                <td>{{interest}}</td>
+            </div>
+        </div>
+    </div>
 </form>
 </div>
