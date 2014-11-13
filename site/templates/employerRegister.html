@@ -1,11 +1,11 @@
 <div class="container">
 <h1>Employer Registration!</h1>
 <form name="register" ng-submit="ok()" novalidate>
-    <div class="body">
+<div class="body">
     
     <div class="row">
-	<div class="col-md-6">
-	<div class="form-group"
+    <div class="col-md-6">
+	    <div class="form-group"
             ng-class="{'has-error':register.email.$invalid && register.email.$touched}">
             <label for="newUserEmail">Email</label>
             <input ng-model="user.credentials.email" type="email" class="form-control" id="newUserEmail" 
@@ -18,7 +18,7 @@
                 <p class="error-text">Please enter a valid email address! </p>
             </div>
         </div>
-        </div>
+    </div>
     </div>
     
     <div class ="row">
@@ -62,7 +62,7 @@
     <h2>Personal Information</h2>
     <hr> 
     <div class="row">
-        <div class="col-md-4">
+    <div class="col-md-4">
         <div class="form-group"
             ng-class="{'has-error':register.fName.$invalid && register.fName.$touched}">
             <label for="newUserfName">First Name</label>
@@ -104,53 +104,53 @@
 	</div>
     </div>
     <div class="row">
-        <div class="col-md-6">
+    <div class="col-md-6">
         <div class="form-group"
-   	    ng-class="{'has-error':register.company.$invalid && register.company.$touched}">
-	    <label for="newUserCompany">Company</label>
-	    <input ng-model="user.companyName" type="text" 
-	        class="form-control" id="newUserCompany"
-	        placeholder="Google"
-	        name="company"
-	        ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
+   	        ng-class="{'has-error':register.company.$invalid && register.company.$touched}">
+    	    <label for="newUserCompany">Company</label>
+	        <input ng-model="user.companyName" type="text" 
+	            class="form-control" id="newUserCompany"
+    	        placeholder="Google"
+	            name="company"
+	            ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
                 required
-	        ng-trim/>
-            </div>
+    	        ng-trim/>
         </div>
+    </div>
     </div>
     <div class="row">
 	<div class="col-md-6">
- 	<div class="form-group"
+ 	    <div class="form-group"
             ng-class="{'has-error':register.phone.$invalid && register.phone.$touched}">
             <label for="newUserPhone">Phone</label>
-	    <div class="input-group">
-	    <span class="input-group-addon"><i class="fa fa-phone"></i></span>
-            <input ng-model="user.contact.phoneNum" type="text" 
+	        <div class="input-group">
+    	    <span class="input-group-addon"><i class="fa fa-phone"></i></span> 
+                <input ng-model="user.contact.phoneNum" type="text" 
                 class="form-control" id="newUserNumber"
                 placeholder="5558675309"
                 name="phoneNum"
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
                 ng-trim/>
+            </div>
 	    </div>
-        </div>
-	</div>
+    </div>
     </div>
     <div class="row">
 	<div class="col-md-6">
         <div class="form-group"
             ng-class="{'has-error':register.website.$invalid && register.website.$touched}">
             <label for="newUserWebsite">Website</label>
-	    <div class="input-group">
+	        <div class="input-group">
 	        <span class="input-group-addon"><i class="fa fa-globe"></i></span>
-                <span class="input-group-addon">www.</span>
-	    <input ng-model="user.contact.website" type="text" 
+            <span class="input-group-addon">www.</span>
+    	    <input ng-model="user.contact.website" type="text" 
                 class="form-control" id="newUserWebsite"
                 placeholder="yourwebsite.com"
                 name="website"
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
                 ng-trim/>
             </div>
-	</div>
+        </div>
 	</div>
 	<div class="col-md-6">
         <div class="form-group"
@@ -159,13 +159,13 @@
             <div class="input-group">
   	        <span class="input-group-addon"><i class="fa fa-linkedin"></i></span>
 	        <span class="input-group-addon">www.linkedin.com/in</span>
-	    <input ng-model="user.contact.linkedIn" type="test" 
+	        <input ng-model="user.contact.linkedIn" type="test" 
                 class="form-control" id="newUserLinkedIn"
                 placeholder="johnDoe64"
                 name="linkedIn"
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
                 ng-trim/>
-	    </div>
+	        </div>
         </div>
 	</div>
     </div>
@@ -175,40 +175,40 @@
             ng-class="{'has-error':register.facebook.$invalid && register.facebook.$touched}">
             <label for="newUserFacebook">Facebook</label>
             <div class="input-group">
-		<span class="input-group-addon"><i class="fa fa-facebook"></i></span>
-		<span class="input-group-addon">www.facebook.com/</span>
-	    <input ng-model="user.contact.facebook" type="text" 
+		    <span class="input-group-addon"><i class="fa fa-facebook"></i></span>
+		    <span class="input-group-addon">www.facebook.com/</span>
+	        <input ng-model="user.contact.facebook" type="text" 
                 class="form-control" id="newUserFacebook"
                 placeholder="john.doe.64"
                 name="facebook"
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
                 ng-trim/>
             </div>
-	</div>
+    	</div>
 	</div>
 	<div class="col-md-6">
         <div class="form-group"
             ng-class="{'has-error':register.twitter.$invalid && register.twitter.$touched}">
             <label for="newUserTwitter">Twitter</label>
-	    <div class="input-group">
-		<span class="input-group-addon"><i class="fa fa-twitter"></i></span>
-		<span class="input-group-addon">@</span>
+	        <div class="input-group">
+    		<span class="input-group-addon"><i class="fa fa-twitter"></i></span>
+	    	<span class="input-group-addon">@</span>
             <input ng-model="user.contact.twitter" type="text" 
                 class="form-control" id="newUserTwitter"
                 placeholder="johnDoe64"
                 name="twitter"
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
                 ng-trim/>
-	    </div>
+	        </div>
         </div>
 	</div>
-     </div>
+    </div>
 
-     <h2>Location</h2>
-     <hr>
-     <div class="row">
+    <h2>Location</h2>
+    <hr>
+    <div class="row">
 	<div class="col-md-6">
-	<div class="form-group"
+	    <div class="form-group"
             ng-class="{'has-error':register.address1.$invalid && register.address1.$touched}">
             <label for="newUserAddress1">Address 1</label>
             <input ng-model="user.location.address1" type="text" 
@@ -245,7 +245,7 @@
                 placeholder="Riverside"
                 name="city"
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
-		required:
+		        required:
                 ng-trim/>
         </div>
 	</div>
@@ -258,7 +258,7 @@
                 placeholder="California"
                 name="state"
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
-		required
+		        required
                 ng-trim/>
         </div>
 	</div> 
@@ -271,7 +271,7 @@
                 placeholder="92507"
                 name="zip"
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
-		required
+        		required
                 ng-trim/>
         </div>
 	</div>
@@ -286,16 +286,15 @@
                 placeholder="USA"
                 name="country"
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
-		required
+		        required
                 ng-trim/>
         </div>
 	</div>
     </div>
  </div>
+ <div class = "footer">
+    <input class="btn" value="Submit" ng-class="register.$valid?'btn-primary':'btn-default'" type="submit"/>
+    <button class="btn btn-warning" ng-click="cancel()"> Cancel </button>
  </div>
-    <div class = "footer">
-        <input class="btn" value="Submit" ng-class="register.$valid?'btn-primary':'btn-default'" type="submit"/>
-        <button class="btn btn-warning" ng-click="cancel()"> Cancel </button>
-    </div>
 </form>
 </div>
