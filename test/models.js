@@ -267,7 +267,7 @@ describe('models', function (){
                     }
                 });
             
-            // Save job posting
+             
             bestPost.save(function(err, jobPosting, numAffected){
                 if(err) throw err;
                 expect(numAffected).to.be.equal(1);
@@ -276,9 +276,9 @@ describe('models', function (){
         });
 
         afterEach(function(done) {
-            // Remove dummy posting
+            // Remove dummy posts
             var JobPosting = models.jobPosting();
-            JobPosting.remove({"specifics.department" : "Dept. of the Helix Fossil"}, function(err) {
+            JobPosting.remove({}, function(err) {
                 if(err) throw err;
                 done();
             });
@@ -293,7 +293,7 @@ describe('models', function (){
             });
         });
         
-	it('should throw an error when saved if it is missing a required field', function(done){
+	    it('should throw an error when saved if it is missing a required field', function(done){
             var JobPosting = models.jobPosting()
                 , jobPost = new JobPosting({});
             
@@ -302,6 +302,17 @@ describe('models', function (){
             jobPost.save(function(err){
                 expect(err).to.not.be.equal(null);
                 done();
+            });
+        });
+
+        describe('#findByKeyword', function(){
+            it('should find all job postings with a given keyword', function(done){
+                var JobPosting = models.jobPosting();
+                JobPosting.findByKeyword('software', function(err, posts){
+                   if(err) throw err;
+                   expect(posts).to.have.length(1);
+                   done();
+                });
             });
         });
     });

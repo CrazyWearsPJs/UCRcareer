@@ -48,6 +48,7 @@ var applicant = {
             fName: "John"
           , lName: "Doe"
         }
+      , interests: []
 };
  
 var employer = {  
@@ -462,7 +463,7 @@ describe('routes', function (){
         });
         
         before('register employer', function(done) {
-                requestapp)
+                request(app)
                     .post(registerEmployerRoute)
                     .send(employer)
                     .expect(200, done);
@@ -509,6 +510,17 @@ describe('routes', function (){
                         .send(jobPost)
                         .expect(403, done);
                 });
+        });
+
+        describe('/search', function (){
+            it('should return a list', function(done) {
+                request(app)
+                    .post('/post/search')
+                    .send({
+                        keyword : "software"
+                    })
+                    .expect(200, done);
+            });
         });
     });
 });
