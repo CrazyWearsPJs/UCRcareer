@@ -1,25 +1,27 @@
 <div class="container">
-<h1>Employer Registration!</h1>
-<div class="body">
-    <form name="register" ng-submit="ok()" novalidate>
-        <ng-include src="'templates/register/partials/credentials.html'"></ng-include>
-        
-        <h2>Personal Information</h2>
-        <hr> 
-        <ng-include src="'templates/register/partials/personalInfo.html'"></ng-include>
+    <div class="body">
+        <form name="register" ng-submit="ok()" novalidate>
+            <h1>Employer Registration!</h1>
+            <hr>
+            <ng-include src="'templates/register/partials/credentials.html'"></ng-include>
+            
+            <h2>Personal Information</h2>
+            <hr> 
+            <ng-include src="'templates/register/partials/personalInfo.html'"></ng-include>
 
-        <h2>Location</h2>
-        <hr>
-        <ng-include src="'templates/register/partials/location.html'"></ng-include>
+            <h2>Location</h2>
+            <hr>
+            <ng-include src="'templates/register/partials/location.html'"></ng-include>
 
-        <div class = "footer">
-            <input class="btn" 
-                   value="Submit" 
-                   ng-class="register.$valid?'btn-primary':'btn-default'" 
-                   type="submit"/>
-            <button class="btn btn-warning" ng-click="cancel()"> 
-                Cancel 
-            </button>
-        </div>
-    </form>
+            <div class = "footer">
+                <input class="btn" 
+                       value="Submit" 
+                       ng-class="register.$valid?'btn-primary':'btn-default'" 
+                       type="submit"/>
+                <button class="btn btn-warning" ng-click="cancel()"> 
+                    Cancel 
+                </button>
+            </div>
+        </form>
+    </div>
 </div>

@@ -7,7 +7,7 @@ angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'u
                 templateUrl: 'templates/splash.html',
                 controller: 'SplashCtrl' 
             }).when('/applicantRegister', {
-                templateUrl: 'templates/applicantRegister.html',
+                templateUrl: 'templates/register/applicantRegister.html',
                 controller: 'ApplicantRegisterCtrl'
             }).when('/employerRegister', {
    	        templateUrl: 'templates/register/employerRegister.html',
