@@ -1,28 +1,41 @@
 angular.module('ucrCareerControllers')
-    .controller('HeaderCtrl', ['$scope', '$modal', '$location', 'AuthService', 'User', 'USER_ROLES', function HeaderCtrl($scope, $modal, $location, AuthService, User, USER_ROLES){
-
+    .controller('HeaderCtrl', 
+    ['$scope', '$modal', '$location', 'AuthService', 'User', 
+    function HeaderCtrl($scope, $modal, $location, AuthService, User){
+       
         $scope.showGuest = function() {
-            return User.getUserRole() === USER_ROLES.guest;
-        }; 
-        $scope.showEmployer = function() {
-            return User.getUserRole() === USER_ROLES.employer;
+            return User.isGuest();
+        };  
+        
+        $scope.showLoggedIn = function() {
+            return User.isLoggedIn();
         };
+
+        $scope.showEmployer = function() {
+            return User.isEmployer(); 
+        };
+        
         $scope.gotoProfile = function() {
-            if(User.getUserRole() === USER_ROLES.applicant)
-            {
+            if(User.isApplicant()) {
                 $location.path('/applicantProfile');
-            }
-            else if(User.getUserRole() === USER_ROLES.employer)
-            {
+            } else if (User.isEmployer()) {
                 $location.path('/employerProfile');
             }
         };
-        $scope.gotoJobPosting = function() {
-            if(User.getUserRole() === USER_ROLES.employer)
-            {
+
+        $scope.gotoJobPostingPage = function() {
+            if(User.isEmployer()) {
                 $location.path('/jobPosting');
             }
         };
+
+        $scope.logout = function() {
+            AuthService.logout()
+                .then(function(){
+                    $location.path('/');   
+                });
+        };
+
         $scope.registerOpen = function() {
             var modalInstance = $modal.open({
                 templateUrl: 'templates/registerModal.html',
@@ -47,16 +60,16 @@ angular.module('ucrCareerControllers')
                 controller: 'LoginModalCtrl',
                 size: 'lg'
             });
-                modalInstance.result.then(function(user) {
-                    User.addCredentials(user.email, user.password);
-                    AuthService.login();
-                }, function() {
-            });
+                modalInstance.result.then();
         };
+
+        $scope.$watch(User.getUserRole);
+
     }]);
 
     angular.module('ucrCareerControllers')
-        .controller('LoginModalCtrl', ['$scope', '$modalInstance', function LoginModalCtrl($scope, $modalInstance){
+        .controller('LoginModalCtrl', ['$scope', '$modalInstance', 'User', 'AuthService', 
+        function LoginModalCtrl($scope, $modalInstance, User, AuthService){
             $scope.user = {
                 email : "",
                 password: "",
@@ -64,7 +77,12 @@ angular.module('ucrCareerControllers')
 
             $scope.ok = function() {
                 if ($scope.login.$valid) {
-                    $modalInstance.close($scope.user);
+                    User.setCredentials($scope.user.email, $scope.user.password);
+                    AuthService.login()
+                        .then($modalInstance.close, 
+                            function(){
+                                //login failed
+                        });
                 }
             };
             
@@ -73,8 +91,9 @@ angular.module('ucrCareerControllers')
             };
         }]);
 
-angular.module('ucrCareerControllers')
-    .controller('RegisterModalCtrl', ['$scope', '$modalInstance', function RegisterModalCtrl ($scope, $modalInstance){
+    angular.module('ucrCareerControllers')
+    .controller('RegisterModalCtrl', ['$scope', '$modalInstance', 
+    function RegisterModalCtrl ($scope, $modalInstance){
         $scope.user = {
             email : "",
             password: "",

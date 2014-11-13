@@ -1,5 +1,5 @@
 angular.module('ucrCareerControllers')
-    .controller('EmployerRegisterCtrl', ['$scope', '$location', 'User', 'AuthService', 'USER_ROLES', function EmployerRegisterCtrl($scope, $location, AuthService, User, USER_ROLES){
+    .controller('EmployerRegisterCtrl', ['$scope', '$location', 'AuthService', 'User', 'USER_ROLES', function EmployerRegisterCtrl($scope, $location, AuthService, User, USER_ROLES){
         $scope.user = {
             'companyName': {},
             'credentials': {},
@@ -10,7 +10,7 @@ angular.module('ucrCareerControllers')
 
         var credentials = User.getCredentials();
         if (credentials.email !== null) {
-            $scope.user.email = credentials.email;
+            $scope.user.credentials.email = credentials.email;
         }
         
         if(credentials.password !== null) {
@@ -32,7 +32,11 @@ angular.module('ucrCareerControllers')
                 console.log(User);
                 User.setCredentials($scope.user.credentials.email, $scope.user.credentials.password);
                 User.setProfileData($scope.user, USER_ROLES.employer);
-                AuthService.register(USER_ROLES.employer);
+                AuthService.register(USER_ROLES.employer)
+                    .then(function() {
+                        //registration successful
+                        $location.path('/thankyou');
+                    });
             }
         };
 

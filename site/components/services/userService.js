@@ -56,9 +56,10 @@ angular.module('ucrCareerServices')
         PROFILE_DATA_FIELDS[USER_ROLES.applicant] = ['spec'];
         PROFILE_DATA_FIELDS[USER_ROLES.employer] = ['companyName'];
         
-        var employerProfileData = unionArray(PROFILE_DATA_FIELDS[USER_ROLES.all], PROFILE_DATA_FIELDS[USER_ROLES.employer]),
-            applicantProfileData = unionArray(PROFILE_DATA_FIELDS[USER_ROLES.all], PROFILE_DATA_FIELDS[USER_ROLES.applicant]); 
-
+        var employerProfileData = unionArray(PROFILE_DATA_FIELDS[USER_ROLES.all], 
+                                            PROFILE_DATA_FIELDS[USER_ROLES.employer]),
+            applicantProfileData = unionArray(PROFILE_DATA_FIELDS[USER_ROLES.all],
+                                            PROFILE_DATA_FIELDS[USER_ROLES.applicant]); 
 
         var User = {
             'companyName': null,
@@ -95,8 +96,7 @@ angular.module('ucrCareerServices')
             }, 
             'role': USER_ROLES.guest, 
         };
-
-
+        
         User.setCredentials = function(email, password) {
             this.credentials.email = email;
             this.credentials.password = password;
@@ -114,6 +114,23 @@ angular.module('ucrCareerServices')
             User.role = role;
         };
 
+        User.isLoggedIn = function() {
+            return User.role === USER_ROLES.applicant ||
+                User.role === USER_ROLES.employer;
+        };
+
+        User.isGuest = function() {
+            return User.role === USER_ROLES.guest;
+        };
+
+        User.isEmployer = function() {
+            return User.role === USER_ROLES.employer;
+        };
+
+        User.isApplicant = function() {
+            return User.role === USER_ROLES.applicant;
+        };
+
         User.clearPassword = function() {
             User.credentials.password = null;
         };
@@ -129,6 +146,7 @@ angular.module('ucrCareerServices')
         };
 
         User.setProfileData = function(data,  role) {
+            role = role || User.role;
             var profileDataFields = getProfileDataFields(role);
             forEach(data, function(value, key) {
                 if(profileDataFields.indexOf(key) !== -1) {
@@ -138,6 +156,7 @@ angular.module('ucrCareerServices')
         };
 
         User.getProfileData = function(role) {
+            role = role || User.role;
             var info = {},
                 profileDataFields = getProfileDataFields(role);
             
@@ -148,20 +167,6 @@ angular.module('ucrCareerServices')
                             copyNonNull(value);
                     }
                 });  
-            });
-            return info;
-        };
-
-        User.getLoginCredentials = function() {
-            var info = {
-                credentials: {}
-            },
-            credentials = User.getCredentials();
-            
-            forEach(credentials, function(value, key) {
-                if((key === 'email' || key === 'password') && value) {
-                    info.credentials[key] = value;
-                }
             });
             return info;
         };
