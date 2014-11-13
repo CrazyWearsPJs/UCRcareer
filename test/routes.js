@@ -513,7 +513,7 @@ describe('routes', function (){
         });
 
         describe('/search', function (){
-            it('should return a list', function(done) {
+            it('should return a list of job posts', function(done) {
                 request(app)
                     .post('/post/search')
                     .send({
