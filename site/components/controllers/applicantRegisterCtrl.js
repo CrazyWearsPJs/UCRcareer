@@ -27,10 +27,6 @@ angular.module('ucrCareerControllers')
         };
 
         $scope.ok = function() {
-            if($scope.user.interests[0]) {
-                var interests = $scope.user.interests.toString();
-                $scope.user.interests = interests.split(" ");
-            }
             if($scope.register.$valid && !$scope.differentPassword()) {
                 User.setCredentials($scope.user.credentials.email, $scope.user.credentials.password);
                 User.setProfileData($scope.user, USER_ROLES.applicant);
