@@ -5,7 +5,9 @@ angular.module('ucrCareerControllers')
         $scope.post = {
             'specifics': {}, 
             'location': {}, 
-            'date': {}
+            'date': {},
+            'media': {},
+            'tags': []
         };
 
         /*

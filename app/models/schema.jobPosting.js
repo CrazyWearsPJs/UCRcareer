@@ -15,6 +15,7 @@ var jobPostingSchema = new Schema({
       , description:  { type: String, required: true }
       , requirements: { type: String, required: true }
       , salary:       { type: String, required: true }
+      , application:  { type: String, required: true }
       , department:   { type: String }
       , jobType:      { type: String }
     }
@@ -26,6 +27,11 @@ var jobPostingSchema = new Schema({
         postedOn:     { type: String, required: true }
       , endsOn:       { type: String, required: true }
     }
+  , media: {
+        image:        { type: String }
+      , video:        { type: String }
+    }
+  , tags:             [ String ]
 }); 
 
 /**

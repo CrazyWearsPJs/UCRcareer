@@ -27,6 +27,9 @@ angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'u
             }).when('/applicantProfile', {
                 templateUrl: 'templates/applicantProfile.html',
                 controller: 'ApplicantProfileCtrl'
+            }).when('/jobListing', {
+                templateUrl: 'templates/jobListing.html',
+                controller: 'JobListingCtrl'
             }).when('/thankyou', {
                 templateUrl: 'templates/thankyou.html',
                 controller: 'ThankyouCtrl'

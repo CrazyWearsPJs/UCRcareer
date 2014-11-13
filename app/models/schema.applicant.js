@@ -46,6 +46,7 @@ var applicantSchema = new Schema({
       , mInit:     { type: String }
       , lName:     { type: String, required: true }
     }
+  , interests:     [ String ]
 }); 
 
 /**

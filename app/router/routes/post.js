@@ -29,6 +29,8 @@ var express = require('express'),
             newJobPosting = new JobPosting(jobPostingData);
             newJobPosting.save(function(err, newJobPostingUpdated) {
                 if(err) {
+console.log(newJobPosting);
+console.log(newJobPostingUpdated);
                     err.status = 400;
                     next(err);
                 } else {

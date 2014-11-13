@@ -78,6 +78,7 @@ var jobPost = {
         , description: "Develop software"
         , requirements: "Programming experience"
         , salary: "$80,000"
+        , application: "application link"
         , department: "Computers"
         , jobType: "IT developer"
       }

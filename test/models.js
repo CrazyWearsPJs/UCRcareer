@@ -249,6 +249,7 @@ describe('models', function (){
                       , description:   "Best Job Evar!"
                       , requirements:  "Over 9000 IQ"
                       , salary:        "$100,000 annual"
+                      , application:   "Application link"
                       , department:    "Dept. of the Helix Fossil"
                       , application:   "best application ever!"
                     }
@@ -259,6 +260,10 @@ describe('models', function (){
                   , date: {
                         postedOn:      "4/20/2014"
                       , endsOn:        "4/20/2015"
+                    }
+                  , media: {
+                        image:         "www.image.com"
+                      , video:         "www.video.com"
                     }
                 });
             
