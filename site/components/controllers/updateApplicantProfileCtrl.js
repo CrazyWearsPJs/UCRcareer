@@ -1,44 +1,35 @@
 angular.module('ucrCareerControllers')
-    .controller('UpdateApplicantProfileCtrl', ['$scope', '$location', 'User', function UpdateApplicantProfileCtrl($scope, $location, User){
+    .controller('UpdateApplicantProfileCtrl', ['$scope', '$location', 'User', 
+    function UpdateApplicantProfileCtrl($scope, $location, User) {
+        
+        var profilePage = '/applicantProfile';
+
         $scope.$on('$viewContentLoaded', function() {
-            if(!User.isApplicant())
-            {
+            if(!User.isApplicant()) {
                 $location.path('/');
-            }
-            else
-            {
-                var role = User.getUserRole();
-                $scope.updateApplicantProfileData = User.getProfileData(role);
+            } else {
+                $scope.updateApplicantProfileData = User.getProfileData();
             }
         });
-
  
         $scope.user = {
-            'credentials': {},
             'spec': {},
             'location': {},
-            'personal': {}
+            'personal': {},
+            'interests': []
         };
          
-        //TEMPORARY UNTIL UPDATEPROFILEDATA GETS FINISHED
         $scope.update = function() {
-            $location.path('/');
-        };
-
-//TODO
-/*
-        $scope.ok = function() {
-            if($scope.register.$valid && !$scope.differentPassword()) {
-                User.updateProfileData($scope.user, USER_ROLES.applicant);
-                AuthService.register(USER_ROLES.applicant)
-                    .then(function(){
-                        //if registration is successful
-                        $location.path('/thankyou'); 
+            if($scope.updateProfile.$valid) {
+                User.updateProfileData($scope.user)
+                    .then(function() {
+                        $location.path(profilePage);
+                    }, function() {
                     });
             }
         };
-*/
+
         $scope.updateCancel = function() {
-            $location.path('/');
+            $location.path(profilePage);
         };
     }]);

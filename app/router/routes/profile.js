@@ -45,7 +45,8 @@ var express = require('express'),
                     deepExtend(applicant, updatedProfileInfo);
                     return Q.ninvoke(applicant, 'save')
                         .then(function(){
-                           res.status(200).end(); 
+                           var jsonResponse = applicant.getProfileData();
+                           res.status(200).json(jsonResponse); 
                         })
                         .fail(function(err){
                            err.status = 400;
@@ -100,7 +101,8 @@ var express = require('express'),
                     deepExtend(employer, updatedProfileInfo);                 
                     return Q.ninvoke(employer, 'save')
                         .then(function(){
-                           res.status(200).end(); 
+                           var jsonResponse = employer.getProfileData();
+                           res.status(200).json(jsonResponse); 
                         })
                         .fail(function(err){
                             err.status = 400;

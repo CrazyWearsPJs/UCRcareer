@@ -1,6 +1,9 @@
-<form name="update" ng-submit="update()" novalidate>
+<form name="updateProfile" ng-submit="update()" novalidate>
     <div class="container">
-   
+    <input class="btn" value="Update" ng-class="updateProfile.$valid?'btn-primary':'btn-default'" type="Submit"/>
+    <button class="btn btn-warning" ng-click="updateCancel()"> Cancel </button>
+
+
     <h2>Personal Information</h2>
     <hr> 
     <div class="row">
@@ -12,13 +15,12 @@
                 placeholder="{{updateEmployerProfileData.personal.fName}}"
                 name="fName"
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
-                required
                 ng-trim/>
         </div>
 	</div>
 	<div class="col-md-4">
         <div class="form-group"
-            ng-class="{'has-error':update.mInit.$invalid && update.fName.$touched}">
+            ng-class="{'has-error':updateProfile.mInit.$invalid && updateProfile.fName.$touched}">
             <label for="newUserMInit">Middle Inital</label>
             <input ng-model="user.personal.mInit" type="text" 
                 class="form-control" id="newUserMInit"
@@ -32,14 +34,13 @@
 	</div>
 	<div class="col-md-4">
         <div class="form-group"
-            ng-class="{'has-error':update.lName.$invalid && update.lName.$touched}">
+            ng-class="{'has-error':updateProfile.lName.$invalid && updateProfile.lName.$touched}">
             <label for="newUserlName">Last Name</label>
             <input ng-model="user.personal.lName" type="text" 
                 class="form-control" id="newUserlName"
                 placeholder="{{updateEmployerProfileData.personal.lName}}"
                 name="lName"
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
-                required
                 ng-trim/>
         </div>
 	</div>
@@ -79,7 +80,7 @@
     <div class="row">
 	<div class="col-md-6">
         <div class="form-group"
-            ng-class="{'has-error':update.website.$invalid && update.website.$touched}">
+            ng-class="{'has-error':updateProfile.website.$invalid && updateProfile.website.$touched}">
             <label for="newUserWebsite">Website</label>
             <div class="input-group">
             <span class="input-group-addon"><i class="fa fa-globe"></i></span>
@@ -95,7 +96,7 @@
 	</div>
 	<div class="col-md-6">
         <div class="form-group"
-            ng-class="{'has-error':update.LinkedIn.$invalid && update.LinkedIn.$touched}">
+            ng-class="{'has-error':updateProfile.LinkedIn.$invalid && updateProfile.LinkedIn.$touched}">
             <label for="newUserLinkedIn">LinkedIn</label>
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-linkedin"></i></span>
@@ -113,7 +114,7 @@
     <div class="row">
 	<div class="col-md-6">
         <div class="form-group"
-            ng-class="{'has-error':update.facebook.$invalid && update.facebook.$touched}">
+            ng-class="{'has-error':updateProfile.facebook.$invalid && updateProfile.facebook.$touched}">
             <label for="newUserFacebook">Facebook</label>
             <div class="input-group">
             <span class="input-group-addon">
@@ -130,7 +131,7 @@
 	</div>
 	<div class="col-md-6">
         <div class="form-group"
-            ng-class="{'has-error':update.twitter.$invalid && update.twitter.$touched}">
+            ng-class="{'has-error':updateProfile.twitter.$invalid && updateProfile.twitter.$touched}">
             <label for="newUserTwitter">Twitter Handle</label>
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-twitter"></i></span>
@@ -150,7 +151,7 @@
    <div class="row">
        <div class="col-md-6">    
        <div class="form-group"
-            ng-class="{'has-error':update.address1.$invalid && update.address1.$touched}">
+            ng-class="{'has-error':updateProfile.address1.$invalid && updateProfile.address1.$touched}">
             <label for="newUserAddress1">Address 1</label>
             <input ng-model="user.location.address1" type="text" 
                 class="form-control" id="newUserAddress1"
@@ -164,7 +165,7 @@
     <div class="row">
 	<div class="col-md-6">
         <div class="form-group"
-             ng-class="{'has-error':update.address2.$invalid && update.address2.$touched}">
+             ng-class="{'has-error':updateProfile.address2.$invalid && updateProfile.address2.$touched}">
              <label for="newUserAddress2">Address 2</label>
              <input ng-model="user.location.address2" type="text" 
                  class="form-control" id="newUserAddress2"
@@ -178,62 +179,53 @@
     <div class="row">
 	<div class="col-md-4">
         <div class="form-group"
-            ng-class="{'has-error':update.city.$invalid && update.city.$touched}">
+            ng-class="{'has-error':updateProfile.city.$invalid && updateProfile.city.$touched}">
             <label for="newUserCity">City</label>
             <input ng-model="user.location.city" type="text" 
                 class="form-control" id="newUserCity"
                 placeholder="{{updateEmployerProfileData.location.city}}"
                 name="city"
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
-		required
                 ng-trim/>
         </div>
 	</div>
 	<div class="col-md-4">
         <div class="form-group"
-            ng-class="{'has-error':update.state.$invalid && update.state.$touched}">
+            ng-class="{'has-error':updateProfile.state.$invalid && updateProfile.state.$touched}">
             <label for="newUserState">State</label>
             <input ng-model="user.location.state" type="text" 
                 class="form-control" id="newUserState"
                 placeholder="{{updateEmployerProfileData.location.state}}"
                 name="state"
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
-		required
                 ng-trim/>
         </div>
 	</div>
 	<div class="col-md-4">
         <div class="form-group"
-            ng-class="{'has-error':update.zipCode.$invalid && update.zipCode.$touched}">
+            ng-class="{'has-error':updateProfile.zipCode.$invalid && updateProfile.zipCode.$touched}">
             <label for="newUserZipCode">Zipcode</label>
             <input ng-model="user.location.zip" type="text" 
                 class="form-control" id="newUserZip"
                 placeholder="{{updateEmployerProfileData.location.zip}}"
                 name="zip"
                 ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
-		required
-                ng-trim/>
+		        ng-trim/>
         </div>
 	</div>
     </div>
     <div class="row">
 	<div class="col-md-6">
         <div class="form-group"
-            ng-class="{'has-error':update.country.$invalid && update.country.$touched}">
+            ng-class="{'has-error':updateProfile.country.$invalid && updateProfile.country.$touched}">
             <label for="newUserCountry">Country</label>
             <input ng-model="user.location.country" type="text" 
                 class="form-control" id="newUserCountry"
                 placeholder="{{updateEmployerProfileData.location.country}}"
                 name="country"
-                ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
-		required
+                ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"	
                 ng-trim/>
         </div>
 	</div>
-    </div>
-    <div class = "footer">
-        <input class="btn" value="Update" ng-class="update.$valid?'btn-primary':'btn-default'" type="Submit"/>
-        <button class="btn btn-warning" ng-click="updateCancel()"> Cancel </button>
-
     </div>
 </form>
