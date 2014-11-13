@@ -22,6 +22,7 @@ var express = require('express'),
             newApplicant.save(function(err, newApplicantUpdated) {
                 if(err) {
                     err.status = 400;
+                    console.log(err);
                     next(err);
                 } else {
                     req.session.applicantUserId = newApplicantUpdated._id;
@@ -56,6 +57,7 @@ var express = require('express'),
             newEmployer.save(function(err, newEmployerUpdated) {
                 if(err) {
                     err.status = 400;
+                    console.log(err);
                     next(err);
                 } else {
                     req.session.employerUserId = newEmployerUpdated._id;

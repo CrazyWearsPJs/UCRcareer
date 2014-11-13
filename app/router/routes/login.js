@@ -20,7 +20,7 @@ var express = require('express')
                 .then(function foundApplicant(applicant){
                     var jsonResponse = applicant.getProfileData();
                     jsonResponse.type = 'applicant';
-
+                    
                     req.session.applicantUserId = applicant._id;
                     res.status(200).json(jsonResponse);
                 })
@@ -28,8 +28,7 @@ var express = require('express')
                     return Q.ninvoke(Employer, 'findByCredentials', credentials)
                     .then(function foundEmployer(employer) {
                         var jsonResponse = employer.getProfileData();
-                         jsonResponse.type = 'employer';
-
+                        jsonResponse.type = 'employer';
                         req.session.employerUserId = employer._id;
 
                         res.status(200).json(jsonResponse);  

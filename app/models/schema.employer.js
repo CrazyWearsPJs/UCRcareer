@@ -171,6 +171,11 @@ employerSchema.methods.getProfileData = function() {
     });
 };
 
+employerSchema.methods.getEmail = function() {
+    var employer = this;
+    return employer.credentials.email;
+}
+
 /**
  * Export schema
  */

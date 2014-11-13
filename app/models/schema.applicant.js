@@ -179,6 +179,12 @@ applicantSchema.methods.getProfileData = function() {
     });
 };
 
+
+applicantSchema.methods.getEmail = function() {
+    var applicant = this;
+    return applicant.credentials.email;
+};
+
 /**
  * Export schema
  */

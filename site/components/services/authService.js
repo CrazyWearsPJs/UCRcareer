@@ -7,14 +7,21 @@ angular.module('ucrCareerServices')
             var deferred = $q.defer();
             $http.post('/heartbeat')
                 .then(function(res) {
-                    var profileData = res.data,
-                        role = profileData.type;
+                    if(res.status === 200) {
+                        var profileData = res.data,
+                            role = profileData.type,
+                            email = profileData.email;
+
+                        User.setUserRole(role);
                     
-                    User.setUserRole(role);
+                        User.setEmail(email);
+
+                        User.setProfileData(profileData, role);
                     
-                    User.setProfileData(profileData, role);
-                    
-                    deferred.resolve(profileData);
+                        deferred.resolve(profileData);
+                    } else {
+                        deferred.reject(res);
+                    }
                 }, function(err) {
                     deferred.reject(err);
                 });
@@ -31,6 +38,8 @@ angular.module('ucrCareerServices')
                         
                         User.setUserRole(role);
                         
+                        User.setEmail(credentials.email);
+
                         User.setProfileData(profileData, role);
                         
                         $rootScope.$broadcast(LOGIN_EVENTS.successful, role);
@@ -69,6 +78,7 @@ angular.module('ucrCareerServices')
             $http.post(registrationRoutePrefix + '/' + role, registrationData)
                 .then(function() {
                     User.setUserRole(role);
+                    User.clearPassword();
                     $rootScope.$broadcast(LOGIN_EVENTS.successful);
                     deferred.resolve();   
                 }, function(err) {
