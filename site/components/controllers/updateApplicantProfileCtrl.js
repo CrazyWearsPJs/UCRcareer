@@ -1,5 +1,5 @@
 angular.module('ucrCareerControllers')
-    .controller('UpdateApplicantProfileCtrl', ['$scope', '$location', 'User', 'AuthService', 'USER_ROLES', function UpdateApplicantProfileCtrl($scope, $location, User, AuthService, USER_ROLES){
+    .controller('UpdateApplicantProfileCtrl', ['$scope', '$location', 'User', function UpdateApplicantProfileCtrl($scope, $location, User){
         $scope.$on('$viewContentLoaded', function() {
             if(!User.isApplicant())
             {
