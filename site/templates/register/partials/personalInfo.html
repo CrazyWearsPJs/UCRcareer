@@ -1,0 +1,207 @@
+<!-- Name -->
+<div class="row">
+    <div class="col-md-4">
+        <!-- First name form -->
+        <div class="form-group"
+             ng-class="{'has-error':register.fName.$invalid && register.fName.$touched}">
+            <label for="newUserfName">
+                First Name
+            </label>
+            <input ng-model="user.personal.fName" type="text" 
+                   class="form-control" id="newUserfName"
+                   placeholder="John"
+                   name="fName"
+                   ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
+                   required
+                   ng-trim/>
+        </div><!-- First name form -->
+    </div>
+    
+    <div class="col-md-4">
+        <!-- Middle initial form -->
+        <div class="form-group"
+             ng-class="{'has-error':register.mInit.$invalid && register.fName.$touched}">
+            <label for="newUserMInit">
+                Middle Inital
+            </label>
+            <input ng-model="user.personal.mInit" type="text" 
+                   class="form-control" id="newUserMInit"
+                   placeholder="C"
+                   ng-minlength="1"
+                   ng-maxlength="1"
+                   name="mInit"
+                   ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
+                   ng-trim/>
+        </div><!-- Middle initial form -->
+    </div>
+  
+    <div class="col-md-4">
+        <!-- Last name form -->
+        <div class="form-group"
+             ng-class="{'has-error':register.lName.$invalid && register.lName.$touched}">
+            <label for="newUserlName">
+                Last Name
+            </label>
+            <input ng-model="user.personal.lName" type="text" 
+                   class="form-control" id="newUserlName"
+                   placeholder="Doe"
+                   name="lName"
+                   ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
+                   required
+                   ng-trim/>
+        </div><!-- Last name form -->
+    </div>
+</div>
+
+<!-- Company -->
+<div class="row">
+    <div class="col-md-6">
+        <!-- Company form -->
+        <div class="form-group"
+             ng-class="{'has-error':register.company.$invalid && register.company.$touched}">
+            <label for="newUserCompany">
+                Company
+            </label>
+            <input ng-model="user.companyName" type="text" 
+                   class="form-control" id="newUserCompany"
+                   placeholder="Google"
+                   name="company"
+                   ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
+                   required
+                   ng-trim/>
+        </div><!-- Company form -->
+    </div>
+</div><!-- Company -->
+
+<!-- Phone -->
+<div class="row">
+    <div class="col-md-6">
+        <!-- Phone form -->
+        <div class="form-group"
+             ng-class="{'has-error':register.phone.$invalid && register.phone.$touched}">
+            <label for="newUserPhone">
+                Phone
+            </label>
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <i class="fa fa-phone"></i>
+                </span> 
+                <input ng-model="user.contact.phoneNum" 
+                       type="text" 
+                       class="form-control" 
+                       id="newUserNumber"
+                       placeholder="5558675309"
+                       name="phoneNum"
+                       ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
+                       ng-trim/>
+            </div>
+        </div><!-- Phone form -->
+    </div>
+</div><!-- Phone -->
+
+<div class="row">
+    <div class="col-md-6">
+        <!-- Website form -->
+        <div class="form-group"
+             ng-class="{'has-error':register.website.$invalid && register.website.$touched}">
+            <label for="newUserWebsite">
+                Website
+            </label>
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <i class="fa fa-globe"></i>
+                </span>
+                <span class="input-group-addon">
+                    www.
+                </span>
+                <input ng-model="user.contact.website" 
+                       type="text" 
+                       class="form-control" 
+                       id="newUserWebsite"
+                       placeholder="yourwebsite.com"
+                       name="website"
+                       ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
+                       ng-trim/>
+            </div>
+        </div><!-- Website form -->
+    </div>
+
+    <div class="col-md-6">
+        <!-- LinkedIn form -->
+        <div class="form-group"
+             ng-class="{'has-error':register.LinkedIn.$invalid && register.LinkedIn.$touched}">
+            <label for="newUserLinkedIn">
+                LinkedIn
+            </label>
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <i class="fa fa-linkedin"></i>
+                </span>
+                <span class="input-group-addon">
+                    www.linkedin.com/in
+                </span>
+                <input ng-model="user.contact.linkedIn" 
+                       type="text" 
+                       class="form-control" 
+                       id="newUserLinkedIn"
+                       placeholder="johnDoe64"
+                       name="linkedIn"
+                       ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
+                       ng-trim/>
+            </div>
+        </div><!-- LinkedIn form -->
+    </div>
+</div>
+    
+<div class="row">
+    <div class="col-md-6">
+        <!-- Facebook form -->
+        <div class="form-group"
+             ng-class="{'has-error':register.facebook.$invalid && register.facebook.$touched}">
+            <label for="newUserFacebook">
+                Facebook
+            </label>
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <i class="fa fa-facebook"></i>
+                </span>
+                <span class="input-group-addon">
+                    www.facebook.com/
+                </span>
+                <input ng-model="user.contact.facebook" 
+                       type="text" 
+                       class="form-control" 
+                       id="newUserFacebook"
+                       placeholder="john.doe.64"
+                       name="facebook"
+                       ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
+                       ng-trim/>
+            </div>
+        </div><!-- Facebook form -->
+    </div>
+    <div class="col-md-6">
+        <!-- Twitter form -->
+        <div class="form-group"
+             ng-class="{'has-error':register.twitter.$invalid && register.twitter.$touched}">
+            <label for="newUserTwitter">
+                Twitter
+            </label>
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <i class="fa fa-twitter"></i>
+                </span>
+                <span class="input-group-addon">
+                    @
+                </span>
+                <input ng-model="user.contact.twitter" 
+                       type="text" 
+                       class="form-control" 
+                       id="newUserTwitter"
+                       placeholder="johnDoe64"
+                       name="twitter"
+                       ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
+                       ng-trim/>
+            </div>
+        </div><!-- Twitter form -->
+    </div>
+</div>
