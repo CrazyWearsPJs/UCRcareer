@@ -7,13 +7,13 @@ angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'u
                 templateUrl: 'templates/splash.html',
                 controller: 'SplashCtrl' 
             }).when('/applicantRegister', {
-                templateUrl: 'templates/applicantRegister.html',
+                templateUrl: 'templates/register/applicantRegister.html',
                 controller: 'ApplicantRegisterCtrl'
             }).when('/employerRegister', {
-   	        templateUrl: 'templates/employerRegister.html',
+   	        templateUrl: 'templates/register/employerRegister.html',
             	controller: 'EmployerRegisterCtrl'
             }).when('/jobPosting', {
-		        templateUrl: 'templates/jobPosting.html',
+		        templateUrl: 'templates/jobs/jobPosting.html',
         		controller: 'JobPostingCtrl'
             }).when('/searchResults', {
                 templateUrl: 'templates/searchResults.html',
@@ -25,7 +25,7 @@ angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'u
                 templateUrl: 'templates/applicantProfile.html',
                 controller: 'ApplicantProfileCtrl'
             }).when('/jobListing', {
-                templateUrl: 'templates/jobListing.html',
+                templateUrl: 'templates/jobs/jobListing.html',
                 controller: 'JobListingCtrl'
             }).when('/thankyou', {
                 templateUrl: 'templates/thankyou.html',

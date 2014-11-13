@@ -1,0 +1,110 @@
+<div class="container">
+    <h3>
+        Job Title: 
+        <td>
+            {{jobListingData.specifics.jobTitle}}
+        </td>
+    </h3>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-4">
+            <label for="">
+                Location: 
+            </label> 
+            <td>
+                {{jobListingData.location.city}}
+            </td>
+            <td> 
+              , {{jobListingData.location.state}}
+            </td>
+        </div>
+        <div class="col-md-4">
+            <label for="">
+                Posted On: 
+            </label> 
+            <td>
+                {{jobListingData.date.postedOn}}
+            </td>
+        </div>
+        <div class="col-md-4">
+            <label for="">
+                Ends On: 
+            </label> 
+            <td>
+                {{jobListingData.date.endsOn}}
+            </td>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-12">
+            <label for="">
+                Application: 
+            </label> 
+            <td>
+                {{jobListingData.specifics.application}}
+            </td>
+        </div>
+    </div>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-4">
+            <label for="">
+                Salary: 
+            </label> 
+            <td>
+                {{jobListingData.specifics.salary}}
+            </td>
+        </div>
+        <div class="col-md-4">
+            <label for="">
+                Department: 
+            </label> 
+            <td>
+                {{jobListingData.specifics.department}}
+            </td>
+        </div>
+        <div class="col-md-4">
+            <label for="">
+                Job Type: 
+            </label> 
+            <td>
+                {{jobListingData.specifics.jobType}}
+            </td>
+        </div>
+    </div>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-12">
+            <label for="">
+                Description: 
+            </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <td>
+                {{jobListingData.specifics.description}}
+            </td>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <label for="">
+                Requirements: 
+            </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <td>
+                {{jobListingData.specifics.requirements}}
+            </td>
+        </div>
+    </div>
+    <br>
+</div> 

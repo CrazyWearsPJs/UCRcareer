@@ -1,0 +1,35 @@
+<div class="container">
+    <div class="body">
+        <form name="register" ng-submit="ok()" novalidate>
+            <h1>Applicant Registration!</h1>
+            <hr>
+            <ng-include src="'templates/register/partials/credentials.html'"></ng-include>
+            
+            <h2>Personal Information</h2>
+            <hr> 
+            <ng-include src="'templates/register/partials/personalInfo.html'"></ng-include>
+
+            <h2>Location</h2>
+            <hr>
+            <ng-include src="'templates/register/partials/location.html'"></ng-include>
+
+            <h2>Specialty</h2>
+            <hr>
+            <ng-include src="'templates/register/partials/specialty.html'"></ng-include>
+            
+            <h2>Interests and Skills</h2>
+            <hr>
+            <ng-include src="'templates/register/partials/interests.html'"></ng-include>
+
+            <div class = "footer">
+                <input class="btn" 
+                       value="Submit" 
+                       ng-class="register.$valid?'btn-primary':'btn-default'" 
+                       type="Submit"/>
+                <button class="btn btn-warning" ng-click="cancel()"> 
+                    Cancel 
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -50,7 +50,7 @@ angular.module('ucrCareerControllers')
 
         $scope.registerOpen = function() {
             var modalInstance = $modal.open({
-                templateUrl: 'templates/registerModal.html',
+                templateUrl: 'templates/register/registerModal.html',
                 controller: 'RegisterModalCtrl',
                 size: 'lg'
             });
