@@ -1,14 +1,24 @@
 angular.module('ucrCareerControllers')
-    .controller('JobPostingCtrl', ['$scope', '$location', 'User', 'PostService', 'USER_ROLES', function JobPostingCtrl($scope, $location, User, PostService, USER_ROLES){
-     $scope.$on('$viewContentLoaded', function(){
-        if(User.getUserRole() === USER_ROLES.employer)
-        {
+    .controller('JobPostingCtrl', ['$scope', '$location', 'User', 'PostService', 
+    function JobPostingCtrl($scope, $location, User, PostService){
+        var redirectPath = '/';
         $scope.post = {
             'specifics': {}, 
             'location': {}, 
             'date': {},
             'tags': []
         };
+
+        /*
+         * If they are not an employer,
+         * kick them out!
+         */
+
+        $scope.$on('$viewContentLoaded', function() {
+            if(!User.isEmployer()) {
+                $location.path(redirectPath);
+            }
+        });
 
         $scope.ok = function() {
             if($scope.post.tags[0]) {
@@ -20,15 +30,11 @@ angular.module('ucrCareerControllers')
                 PostService.post();
            }
             else {
-                $location.path('/');
+                $location.path(redirectPath);
             }
         };
 
         $scope.cancel = function() {
-            $location.path('/');
+            $location.path(redirectPath);
         };
-        }
-        else
-          {$location.path('/');}
-        });
     }]);

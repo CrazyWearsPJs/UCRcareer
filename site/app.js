@@ -24,9 +24,12 @@ angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'u
             }).when('/jobListing', {
                 templateUrl: 'templates/jobListing.html',
                 controller: 'JobListingCtrl'
-	        }).otherwise({
-                redirectTo: '/'
-        });
+            }).when('/thankyou', {
+                templateUrl: 'templates/thankyou.html',
+                controller: 'ThankyouCtrl'
+            }).otherwise({
+                    redirectTo: '/'
+            });
     }])
     .constant('USER_ROLES', {
         all: '*',

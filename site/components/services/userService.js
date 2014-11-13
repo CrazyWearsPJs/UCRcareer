@@ -147,6 +147,7 @@ angular.module('ucrCareerServices')
         };
 
         User.setProfileData = function(data,  role) {
+            role = role || User.role;
             var profileDataFields = getProfileDataFields(role);
             forEach(data, function(value, key) {
                 if(profileDataFields.indexOf(key) !== -1) {
@@ -156,6 +157,7 @@ angular.module('ucrCareerServices')
         };
 
         User.getProfileData = function(role) {
+            role = role || User.role;
             var info = {},
                 profileDataFields = getProfileDataFields(role);
             
