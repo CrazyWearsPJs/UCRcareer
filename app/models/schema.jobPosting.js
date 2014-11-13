@@ -27,6 +27,10 @@ var jobPostingSchema = new Schema({
         postedOn:     { type: String, required: true }
       , endsOn:       { type: String, required: true }
     }
+  , media: {
+        image:        { type: String }
+      , video:        { type: String }
+    }
   , tags:             [ String ]
 }); 
 

@@ -24,7 +24,7 @@ angular.module('ucrCareerServices')
 
         var JOB_POST_DATA_FIELDS = {};
 
-        JOB_POST_DATA_FIELDS[USER_ROLES.employer] = ['specifics', 'location', 'date', 'tags'];
+        JOB_POST_DATA_FIELDS[USER_ROLES.employer] = ['specifics', 'location', 'date', 'media', 'tags'];
         
         var jobPostData = JOB_POST_DATA_FIELDS[USER_ROLES.employer];
 
@@ -45,6 +45,10 @@ angular.module('ucrCareerServices')
             'date': {
                 'postedOn': null,
                 'endsOn': null
+            },
+            'media': {
+                'images': null,
+                'video': null
             },
             'tags': []
         };

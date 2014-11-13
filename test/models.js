@@ -261,6 +261,10 @@ describe('models', function (){
                         postedOn:      "4/20/2014"
                       , endsOn:        "4/20/2015"
                     }
+                  , media: {
+                        image:         "www.image.com"
+                      , video:         "www.video.com"
+                    }
                 });
             
             // Save job posting

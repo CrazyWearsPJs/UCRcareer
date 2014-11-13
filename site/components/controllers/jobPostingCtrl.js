@@ -6,6 +6,7 @@ angular.module('ucrCareerControllers')
             'specifics': {}, 
             'location': {}, 
             'date': {},
+            'media': {},
             'tags': []
         };
 

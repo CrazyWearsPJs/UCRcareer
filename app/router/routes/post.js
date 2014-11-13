@@ -17,10 +17,13 @@ var express = require('express'),
         var JobPosting = models.jobPosting(),
             newJobPosting = null,
             jobPostingData = req.body;
+console.log(jobPostingData);
         if(jobPostingData) {
             newJobPosting = new JobPosting(jobPostingData);
             newJobPosting.save(function(err, newJobPostingUpdated) {
                 if(err) {
+console.log(newJobPosting);
+console.log(newJobPostingUpdated);
                     err.status = 400;
                     next(err);
                 } else {
