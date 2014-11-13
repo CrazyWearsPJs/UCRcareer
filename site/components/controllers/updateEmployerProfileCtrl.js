@@ -13,7 +13,7 @@ angular.module('ucrCareerControllers')
         });
 
         $scope.user = {
-            'companyName': {},
+            'companyName':"",
             'credentials': {},
             'personal': {},
             'contact': {},
