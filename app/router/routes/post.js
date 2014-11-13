@@ -17,6 +17,14 @@ var express = require('express'),
         var JobPosting = models.jobPosting(),
             newJobPosting = null,
             jobPostingData = req.body;
+        
+        if(!req.session.employerUserId) {
+            var err = new Error("Not Authorized: not Employer");
+            err.name = "ForbiddenError";
+            err.status = 403;
+            next(err);
+        }
+        
         if(jobPostingData) {
             newJobPosting = new JobPosting(jobPostingData);
             newJobPosting.save(function(err, newJobPostingUpdated) {

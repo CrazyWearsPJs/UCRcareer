@@ -20,9 +20,9 @@ angular.module('ucrCareerControllers')
         });
 
         $scope.ok = function() {
-            if($scope.jobPosting.$valid) {
-                PostService.setJobPostData($scope.post);
-                PostService.post();
+            if($scope.jobPosting.$valid) {                
+                var job = new JobPost($scope.post);
+                PostService.postJob(job);
            }
             else {
                 $location.path(redirectPath);

@@ -54,7 +54,7 @@ var employer = {
       companyName: 'Google Inc'
       , credentials: {
             password: "password1"
-          , email:    "jdoe001@ucr.edu"
+          , email:    "jdoe002@ucr.edu"
         }
       , contact: {
             phoneNum: "9099999999"
@@ -280,7 +280,7 @@ describe('routes', function (){
         });
 
         describe('#employer', function() { 
-            before('register employer', function(done) {
+            before( 'register employer', function(done) {
                 request(app)
                     .post(registerEmployerRoute)
                     .send(employer)
@@ -304,7 +304,6 @@ describe('routes', function (){
                         .expect(200)
                         .expect(profileData, done);
                 });
-
                 it('should not allow a registered user with an invalid password to login', function(done) {
                     /*
                      * Make deep copy of credentials
@@ -438,30 +437,77 @@ describe('routes', function (){
              });
         });
     });
+    
     describe('POST /post', function (){
-        afterEach('destroy post db', function(done) {
+        var agent = null;
+
+        after('destroy applicant/employer/post db', function(done) {
             models.jobPosting().remove({}, function(err) {
-                done();
-            });
+                models.employer().remove({}, function(err){
+                    models.applicant().remove({}, done);
+                });
+            }); 
         });
 
-        it('should post job successfully', function(done) {
-            request(app)
-                .post('/post')
-                .send(jobPost)
-                .expect(200, done);
+        afterEach('reset cookie agent', function() {
+            agent = null;
+        });
+        
+        before('register applicant', function(done) {
+                request(app)
+                    .post(registerApplicantRoute)
+                    .send(applicant)
+                    .expect(200, done);
+        });
+        
+        before('register employer', function(done) {
+                requestapp)
+                    .post(registerEmployerRoute)
+                    .send(employer)
+                    .expect(200, done);
+        });
+
+        beforeEach('register new cookie agent', function() {
+            agent = request.agent(app);
+        });
+
+        it('should post job successfully as employer', function(done) {
+            agent
+                .post(loginRoute)
+                .send(employer.credentials)
+                .end(function(err, res) {
+                    agent
+                        .post('/post')
+                        .send(jobPost)
+                        .expect(200, done);
+                });
         });  
 
         it('should not save given invalid posting data', function(done) {
-            request(app)
-                .post('/post')
-                .send({
-                    location: {
-                        city: 'Riverside'
-                      , state: 'California'
-                    }
-                })
-                .expect(400, done);
+            agent
+                .post(loginRoute)
+                .send(employer.credentials)
+                .end(function(err, res) {
+                    agent
+                        .post('/post')
+                        .send({
+                            city: 'Riverside'
+                         , state: 'California'    
+                        })
+                        .expect(400, done);
+                });
+        });
+
+        it('should not save if not logged in as an applicant', function(done) {
+           agent
+                .post(loginRoute)
+                .send(applicant.credentials)
+                .end(function(err, res) {
+                    agent
+                        .post('/post')
+                        .send(jobPost)
+                        .expect(403, done);
+                });
         });
     });
 });

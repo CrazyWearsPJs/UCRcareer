@@ -29,7 +29,6 @@ angular.module('ucrCareerControllers')
 
         $scope.ok = function() {
             if($scope.register.$valid && !$scope.differentPassword()) {
-                console.log(User);
                 User.setCredentials($scope.user.credentials.email, $scope.user.credentials.password);
                 User.setProfileData($scope.user, USER_ROLES.employer);
                 AuthService.register(USER_ROLES.employer)

@@ -10,7 +10,6 @@ angular.module('ucrCareerControllers')
          * to the splash page
          */
         $scope.$on('$viewContentLoaded', function(){
-            console.log(User.getProfileData());
             $scope.user.fName = User.getProfileData().personal.fName;
             $timeout(function redirectUser(){
                 $location.path('/');

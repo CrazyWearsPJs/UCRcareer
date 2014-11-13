@@ -78,8 +78,13 @@ angular.module('ucrCareerServices')
         this.post = function() {
             var deferred = $q.defer(),
                 jobPostingRoutePrefix = '/post',
-                jobPostingData = extend(this.getJobPostingData());
-            $http.post(jobPostingRoutePrefix + '/', jobPostingData)
+                jobPostData = job.getJobPostData();
+                
+                if(!jobPostData || !User.isEmployer()) {
+                    deferred.reject();
+                    return deferred.promise; 
+                }
+                $http.post(jobPostingRoutePrefix, jobPostData)
                 .then(function(data) {
                     deferred.resolve(data);
                 }, function(data) {
