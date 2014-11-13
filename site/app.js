@@ -10,11 +10,11 @@ angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'u
                 templateUrl: 'templates/applicantRegister.html',
                 controller: 'ApplicantRegisterCtrl'
             }).when('/employerRegister', {
-   	            templateUrl: 'templates/employerRegister.html',
+   	        templateUrl: 'templates/employerRegister.html',
             	controller: 'EmployerRegisterCtrl'
             }).when('/jobPosting', {
-		        templateUrl: 'templates/jobPosting.html',
-        		controller: 'JobPostingCtrl'
+                templateUrl: 'templates/jobPosting.html',
+                controller: 'JobPostingCtrl'
             }).when('/employerProfile', {
                 templateUrl: 'templates/employerProfile.html',
                 controller: 'EmployerProfileCtrl'
@@ -24,6 +24,12 @@ angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'u
             }).when('/thankyou', {
                 templateUrl: 'templates/thankyou.html',
                 controller: 'ThankyouCtrl'
+            }).when('/updateApplicantProfile', {
+                templateUrl: 'templates/updateApplicantProfile.html',
+                controller: 'UpdateApplicantProfileCtrl',
+            }).when('/updateEmployerProfile', {
+                templateUrl: 'templates/updateEmployerProfile.html',
+                controller: 'UpdateEmployerProfileCtrl',
             }).otherwise({
                     redirectTo: '/'
             });
