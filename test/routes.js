@@ -463,5 +463,16 @@ describe('routes', function (){
                 })
                 .expect(400, done);
         });
+
+        describe('/search', function (){
+            it('should return a list', function(done) {
+                request(app)
+                    .post('/post/search')
+                    .send({
+                        keyword : "software"
+                    })
+                    .expect(200, done);
+            });
+        });
     });
 });

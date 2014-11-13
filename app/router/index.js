@@ -18,6 +18,7 @@ module.exports = function(app) {
     app.use('/profile', require('./routes/profile'));
     app.use('/post', require('./routes/post'));
     app.use('/heartbeat', require('./routes/heartbeat'));
+
     /*
      * Error middleware
      */
