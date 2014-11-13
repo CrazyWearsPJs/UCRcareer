@@ -40,6 +40,13 @@ angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'u
                     redirectTo: '/'
             });
     }])
+    .filter('join', function() {
+        return function join(input, delimiter) {
+            input = input || [];
+            delimiter = delimiter ||  ", ";
+            return input.join(delimiter);
+        };
+    })
     .constant('USER_ROLES', {
         all: '*',
         guest: 'guest',
