@@ -305,7 +305,6 @@ describe('models', function (){
                 var JobPosting = models.jobPosting();
                 JobPosting.findByKeyword('software', function(err, posts){
                    if(err) throw err;
-                   console.log(posts);
                    expect(posts).to.have.length(1);
                    done();
                 });
