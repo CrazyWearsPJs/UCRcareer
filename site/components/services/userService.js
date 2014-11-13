@@ -1,9 +1,14 @@
 angular.module('ucrCareerServices')
-    .factory('User', ['USER_ROLES', function UserFactory(USER_ROLES) {
+    .factory('User', ['$http', '$q', 'USER_ROLES', function UserFactory($http, $q, USER_ROLES) {
         var forEach = angular.forEach,
             isFunction = angular.isFunction,
             isObject = angular.isObject,
-            copy = angular.copy;
+            isArray = angular.isArray,
+            copy = angular.copy,
+            equals = angular.equals;
+
+        var EMPTY_OBJECT = {},
+            EMPTY_ARRAY = [];
 
         var copyNonNull = function(src, dest) {
             if(dest) {
@@ -13,9 +18,24 @@ angular.module('ucrCareerServices')
             }
 
             if(isObject(dest)) {
-                forEach(dest, function(value, key) {
-                    if(!value) {
-                        delete dest[key];
+                forEach(dest, function(value, field) {
+                    if (isArray(value)) {
+                        if(equals(EMPTY_ARRAY, value)) {
+                            delete dest[field];
+                        }
+                    }
+                    else if(isObject(value)) {
+                        if(equals(EMPTY_OBJECT, value)) {
+                            delete dest[field];
+                        } else {
+                            forEach(value, function(propertyVal, propertyKey) {
+                                if(!propertyVal) {
+                                    delete dest[field][propertyKey];
+                                }
+                            });
+                        }
+                    } else if(!value) {
+                        delete dest[field];
                     }
                 });
             }
@@ -52,7 +72,7 @@ angular.module('ucrCareerServices')
        
         var PROFILE_DATA_FIELDS = {};
 
-        PROFILE_DATA_FIELDS[USER_ROLES.all] =  ['personal', 'contact', 'spec', 'location'];
+        PROFILE_DATA_FIELDS[USER_ROLES.all] =  ['personal', 'contact', 'location'];
         PROFILE_DATA_FIELDS[USER_ROLES.applicant] = ['spec', 'interests'];
         PROFILE_DATA_FIELDS[USER_ROLES.employer] = ['companyName'];
         
@@ -97,7 +117,52 @@ angular.module('ucrCareerServices')
             'interests': [],
             'role': USER_ROLES.guest, 
         };
+
+
+        /*
+         *  Copies properties from data that are 
+         *  different than the current User model.
+         *  
+         *  @param data {Object} Data to be copied
+         *  @param(optional) role {String} role of the current user object
+         *
+         *  @returns {Object} data with nulled properties and properties
+         *  that have the same value of the properties in User deleted
+         */
         
+        var filterArrayDuplicates = function(arr) {
+            var uniqueArr = [];
+            forEach(arr, function(value) {
+                // if not found in uniqueArray, add to uniqueArray
+                if(uniqueArr.indexOf(value) === -1) {
+                    uniqueArr.push(value);
+                }
+            });
+            return uniqueArr;
+        };
+
+        var copyDifferentProfileData = function(data, role) {
+             role = role || User.role;
+            var profileDataFields = getProfileDataFields(role),
+                _data = copyNonNull(data);
+
+            forEach(profileDataFields, function(value, field) {
+                if (_data.hasOwnProperty(field)) {
+                    if(equals(_data[field], User[field])) {
+                        delete _data[field];
+                    } else {
+                        forEach(_data[field], function(subPropertyValue, subPropertyKey) {
+                            if(equals(_data[field][subPropertyKey], User[field][subPropertyKey])) {
+                                delete _data[field][subPropertyKey];
+                            }
+                        });
+                    }
+                }
+            });
+
+            return _data;
+        };
+
         User.setCredentials = function(email, password) {
             this.credentials.email = email;
             this.credentials.password = password;
@@ -105,6 +170,14 @@ angular.module('ucrCareerServices')
 
         User.getCredentials = function() {
             return User.credentials;
+        };
+
+        User.setEmail = function(email) {
+            User.credentials.email = email;
+        };
+
+        User.getEmail = function() {
+            return User.credentials.email;
         };
 
         User.getUserRole = function() {
@@ -151,8 +224,14 @@ angular.module('ucrCareerServices')
             var profileDataFields = getProfileDataFields(role);
             forEach(data, function(value, key) {
                 if(profileDataFields.indexOf(key) !== -1) {
-                    User[key] = copyNonNull(data[key]);
-                }
+                    if(isObject(value)) {
+                        User[key] = copyNonNull(value);
+                    } else if(isArray(value)) {
+                        User[key] = filterArrayDuplicates(value);
+                    } else {
+                        User[key] = value;
+                    }
+                }   
             });
         };
 
@@ -170,6 +249,45 @@ angular.module('ucrCareerServices')
                 });  
             });
             return info;
+        };
+
+        /**
+        * Sends a request to update profile information in the server,
+        * if it is valid info, then merge all changes from the backend
+        * to the User model in the frontend
+        */
+        User.updateProfileData = function(data) {
+           
+            /*
+             * crude hack since you cant use email as a URI
+             */
+           
+            var deferred = $q.defer(),
+                role = User.role;
+
+
+            if(!User.isEmployer() && !User.isApplicant()) {
+                deferred.reject();
+                return deferred.promise;
+            }
+            
+            var updatedProfileData = copyDifferentProfileData(data, role);
+            updatedProfileData.email = User.credentials.email;
+            
+            if(updatedProfileData.interests) {
+                updatedProfileData.interests = filterArrayDuplicates(updatedProfileData.interests);
+            }
+
+            $http.post('/profile/' + role, updatedProfileData)
+                .then(function(res) {
+                    var updatedProfileDataResponse = res.data;
+                    User.setProfileData(updatedProfileDataResponse);
+                    deferred.resolve(res);
+                }, function(err) {
+                    deferred.reject(err);   
+                });
+
+            return deferred.promise;
         };
 
         return User;
