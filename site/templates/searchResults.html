@@ -1,0 +1,31 @@
+<div class="container">
+<h1>Search Results<h1>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th><h4>Job Title</h4></th>
+            <th><h4>City</h4></th>
+            <th><h4>State</h4></th>
+            <th><h4>Posted On</h4></th>
+            <th><h4>Ends On</h4></th>
+            <th><h4>Salary</h4></th>
+            <th><h4>Job Type</h4></th>
+            <th><h4>Department</h4></th>
+        <tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{searchResultsData.specifics.jobTitle}}</td>
+            <td>{{searchResultsData.location.city}}</td>
+            <td>{{searchResultsData.location.state}}</td>
+            <td>{{searchResultsData.date.postedOn}}</td>
+            <td>{{searchResultsData.date.endsOn}}</td>
+            <td>{{searchResultsData.specifics.salary}}</td>
+            <td>{{searchResultsData.specifics.jobType}}</td>
+            <td>{{searchResultsData.specifics.department}}</td>
+        </tr>
+    <tbody>
+</table>
+</div>
+
+

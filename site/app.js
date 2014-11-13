@@ -15,6 +15,12 @@ angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'u
             }).when('/jobPosting', {
 		        templateUrl: 'templates/jobPosting.html',
         		controller: 'JobPostingCtrl'
+            }).when('/jobListing', {
+                templateUrl: 'templates/jobListing.html',
+                controller: 'JobListingCtrl'
+            }).when('/searchResults', {
+                templateUrl: 'templates/searchResults.html',
+                controller: 'SearchResultsCtrl'
             }).when('/employerProfile', {
                 templateUrl: 'templates/employerProfile.html',
                 controller: 'EmployerProfileCtrl'
