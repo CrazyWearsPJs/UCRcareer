@@ -1,6 +1,6 @@
 angular.module('ucrCareerControllers')
-    .controller('JobPostingCtrl', ['$scope', '$location', 'User', 'PostService', 
-    function JobPostingCtrl($scope, $location, User, PostService){
+    .controller('JobPostingCtrl', ['$scope', '$location', 'User', 'PostService', 'JobPost', 
+    function JobPostingCtrl($scope, $location, User, PostService, JobPost){
         var redirectPath = '/';
         $scope.post = {
             'specifics': {}, 
