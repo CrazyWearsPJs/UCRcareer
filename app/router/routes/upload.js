@@ -30,7 +30,7 @@ router.post('/', function(req, res){
         if(err) 
             return req.send(400, 'Error uploading file');
         // Path to temporary file we fetched
-        var filePath = files.resume[0].path;
+        var filePath = files.file[0].path;
         // Move temporary file to something more
         // permanent
         var saveFilePath = path.join(serverSettings.resumePath, applicantUserId + '.pdf');

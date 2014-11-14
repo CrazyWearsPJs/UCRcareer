@@ -1,5 +1,5 @@
 angular.module('ucrCareerControllers')
-    .controller('ApplicantRegisterCtrl', ['$scope', '$location', 'User', 'AuthService', 'USER_ROLES', function ApplicantRegisterCtrl($scope, $location, User, AuthService, USER_ROLES){
+    .controller('ApplicantRegisterCtrl', ['$scope', '$location', 'User', 'AuthService', 'fileUpload', 'USER_ROLES', function ApplicantRegisterCtrl($scope, $location, User, AuthService, fileUpload, USER_ROLES){
         $scope.user = {
             'credentials': {},
             'spec': {},
@@ -33,6 +33,8 @@ angular.module('ucrCareerControllers')
                 AuthService.register(USER_ROLES.applicant)
                     .then(function(){
                         //if registration is successful
+                        fileUpload.uploadFileToUrl($scope.user.spec.resume, '/upload'); 
+                        //upload users resume
                         $location.path('/thankyou'); 
                     });
             }
