@@ -1,5 +1,6 @@
 MONGO_LOG='/var/log/mongodb'
 MONGO_DB='/opt/UCRcareer_db'
+RESUME_DIR='/opt/resumes'
 
 # Update package repositories
 echo 'Updating package repositories...'
@@ -49,6 +50,12 @@ sudo chown -R 'vagrant' $MONGO_LOG
 sudo mkdir -p $MONGO_DB
 sudo chown -R 'vagrant' $MONGO_DB
 echo 'Done setting up mongodb'
+
+# Create directory for storing resumes
+echo "Creating resume directory..."
+sudo mkdir -p $RESUME_DIR
+sudo chown 'vagrant:vagrant' $RESUME_DIR
+echo "Done Creating resume directory"
 
 # Install Heroku Toolbelt
 echo 'Installing heroku'
