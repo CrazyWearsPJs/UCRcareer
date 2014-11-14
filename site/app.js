@@ -71,7 +71,7 @@ angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'u
             })
             .error(function(){
             });
-        }
+        };
     }])
     .filter('join', function() {
         return function join(input, delimiter) {
