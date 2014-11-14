@@ -38,7 +38,8 @@ angular.module('ucrCareerServices')
                 'jobTitle': null, 
                 'description': null, 
                 'requirements': null, 
-                'salary': null, 
+                'salary': null,
+                'companyName': null,
                 'department': null,
                 'jobType': null
             },

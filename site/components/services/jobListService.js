@@ -1,11 +1,11 @@
 angular.module('ucrCareerServices')
-    .factory('JobListService', ['$http', '$q', 'JobPost', 
-    function JobListService($http, $q, JobPost) {
+    .factory('JobListService', ['$http', '$q', 'JobPost', 'User', 
+    function JobListService($http, $q, JobPost, User) {
         
         var forEach = angular.forEach;
 
         var JobList = {
-            'jobs': {},
+            'jobs': {}
         };
 
         JobList.push = function(query, job) {
@@ -59,8 +59,10 @@ angular.module('ucrCareerServices')
             JobList.jobs = {};
         };
         
-        JobList.search = function(keyword) {
+        JobList.search = function(keyword, limit) {
             var deferred = $q.defer();
+
+            limit = limit || 100;
 
             if(JobList.queryCached(keyword)) {
                 deferred.resolve(JobList.getResults(keyword));
@@ -69,12 +71,17 @@ angular.module('ucrCareerServices')
              
             $http.get('/search' + '/' + keyword)
                 .then(function(res) {
-                    var results = res.data;
+                    var results = res.data,
+                        count = 0;
                     JobList.jobs[keyword] = {
                         "list" : []
                     };
+
                     forEach(results, function(result){
-                        JobList.push(keyword, new JobPost(result));
+                        if(count < limit) {
+                            JobList.push(keyword, new JobPost(result));
+                        }
+                        count += 1;
                     });
                     
                     deferred.resolve(JobList.getResults(keyword));
@@ -91,6 +98,24 @@ angular.module('ucrCareerServices')
 
         JobList.getNewJob = function() {
             return JobList.newJob;
+        };
+
+        JobList.getRecommendedJobs = function() {
+             var deferred = $q.defer(),
+                keyword = User.getMajor(),
+                limit = 3;
+
+             JobList.search(keyword, limit)
+                .then(function() {
+                    deferred.resolve(JobList.getResults(keyword));
+                }, deferred.reject);
+             
+             return deferred.promise;
+        };
+
+        JobList.atRecommendedJobs = function(index) {
+            var keyword = User.getMajor();
+            return JobList.at(keyword, index);
         };
 
         return JobList;

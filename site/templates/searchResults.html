@@ -1,69 +1,61 @@
-<div class="container">
-<h1>Search Results</h1>
 <table class="table" id="searchTable">
     <thead>
         <tr>
-            <th id="searchItemNum">
-                <!-- empty header for # column-->
+              
+            <th>
+                <a href="" ng-click="predicate = 'specifics.companyName';">
+                    Company
+                </a>
+            </th>
+
+            <th>
+                <a href="" ng-click="predicate = 'specifics.jobTitle';">
+                    Title
+                </a>
             </th>
             <th>
-                Title
+                <a href="" ng-click="predicate = 'location.city';">
+                    Location
+                </a>
             </th>
             <th>
-                City
+                <a href="" ng-click="predicate = 'date.postedOn';">
+                    Posted On
+                </a>
             </th>
             <th>
-                State
+                <a href="" ng-click="predicate = 'date.endsOn';">
+                    Ends On
+                </a>
             </th>
             <th>
-                Posted On
-            </th>
-            <th>
-                Ends On
-            </th>
-            <th>
-                Salary
-            </th>
-            <th>
-                Job Type
-            </th>
-            <th>
-                Department
+                <a href="" ng-click="predicate = 'specifics.jobType';">
+                    Job Type
+                </a>
             </th>
         <tr>
     </thead>
     <tbody>
-        <tr ng-repeat="result in searchResultsData">
+        <tr ng-repeat="job in searchResultsData | orderBy:predicate">
             <td>
-               {{$index + 1}}.
+                <a ng-href="#/jobListing/{{keyword}}/{{$index}}">{{job.specifics.companyName}}. </a>
+            </td>
+            
+            <td>
+                {{job.specifics.jobTitle}}.
             </td>
             <td>
-                {{result.specifics.jobTitle}}
+                {{job.location.city}}, {{job.location.state}}
             </td>
             <td>
-                {{result.location.city}}
+                {{job.date.postedOn}}
             </td>
             <td>
-                {{result.location.state}}
+                {{job.date.endsOn}}
             </td>
             <td>
-                {{result.date.postedOn}}
-            </td>
-            <td>
-                {{result.date.endsOn}}
-            </td>
-            <td>
-                {{result.specifics.salary}}
-            </td>
-            <td>
-                {{result.specifics.jobType}}
-            </td>
-            <td>
-                {{result.specifics.department}}
+                {{job.specifics.jobType}}
             </td>
         </tr>
     </tbody>
 </table>
-</div>
-
-

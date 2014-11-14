@@ -88,6 +88,7 @@ angular.module('ucrCareerControllers')
         $scope.ok = function() {
             if($scope.jobPosting.$valid) {                
                 var job = new JobPost($scope.post);
+                job.specifics.companyName = User.companyName;
                 checkValidMedia(job)
                     .then(function() {
                         //passed media check test 
