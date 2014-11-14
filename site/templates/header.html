@@ -12,6 +12,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
+                <li ng-show="!showGuest()"><p class="navbar-text"> Welcome {{welcome.personal.fName}} {{welcome.personal.lName}}</p> </li>
                 <li><a href="" ng-click="registerOpen()" ng-show="showGuest()">Register</a></li>
                 <li><a href="" ng-click="loginOpen()" ng-show="showGuest()">Log In</a></li>
                 <li><a href="" ng-click="gotoProfile()" ng-show="!showGuest()">Profile Page</a></li>
