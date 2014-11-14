@@ -1,5 +1,5 @@
 angular.module('ucrCareerServices')
-    .factory('JobPost', function JobPostFactory(){
+    .factory('JobPost', function JobPostFactory() {
         var forEach = angular.forEach,
             isObject = angular.isObject,
             copy = angular.copy;
@@ -21,7 +21,8 @@ angular.module('ucrCareerServices')
             return dest;
         };
 
-        var JOB_POST_DATA_FIELDS = ['specifics', 'location', 'date'];
+        var JOB_POST_DATA_FIELDS = ['specifics', 'location', 
+                            'date', 'media', 'tags'];
         
         function JobPost(data) {
            var self = this;
@@ -31,6 +32,7 @@ angular.module('ucrCareerServices')
                 }
             });
         }
+
         JobPost.prototype = {
             'specifics': {
                 'jobTitle': null, 
@@ -47,7 +49,12 @@ angular.module('ucrCareerServices')
             'date': {
                 'postedOn': null,
                 'endsOn': null
-            } 
+            }, 
+            'media': {
+                'image': null,
+                'video': null
+            },
+            'tags': []
         };
         
         JobPost.getJobPostDataFields = function() {
