@@ -19,6 +19,7 @@ module.exports = function(app) {
     app.use('/post', require('./routes/post'));
     app.use('/upload', require('./routes/upload'));
     app.use('/resume', require('./routes/resume'));
+    app.use('/search', require('./routes/search'));
     app.use('/heartbeat', require('./routes/heartbeat'));
 
     /*
@@ -32,9 +33,7 @@ module.exports = function(app) {
         if(!err.status) {
             err.status = 500;
             logger.error(err);
-        } else {
-            //logger.info(err);
-        }
+        } 
 
         res.status(err.status).json(err);
     });

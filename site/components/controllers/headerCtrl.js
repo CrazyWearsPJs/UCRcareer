@@ -1,11 +1,7 @@
 angular.module('ucrCareerControllers')
     .controller('HeaderCtrl', 
-    ['$scope', '$modal', '$location', 'AuthService', 'User', 
-    function HeaderCtrl($scope, $modal, $location, AuthService, User){
-
-        $scope.splash = {
-            'search': []
-        };
+    ['$scope', '$modal', '$location', 'AuthService', 'User', 'JobListService', 'LOGIN_EVENTS', 
+    function HeaderCtrl($scope, $modal, $location, AuthService, User, JobListService, LOGIN_EVENTS){
 
         $scope.ok = function() {
             if($scope.splash.search[0]) {
@@ -73,13 +69,21 @@ angular.module('ucrCareerControllers')
                 size: 'lg'
             });
                 modalInstance.result.then(function(){
-			if(User.isEmployer()) {
-				$location.path('/employerProfile');
-			} else if(User.isApplicant()){
-				$location.path('/applicantProfile');
-			}
-		});
+			     if(User.isEmployer()) {
+				        $location.path('/employerProfile');
+			        } else if(User.isApplicant()){
+			    	    $location.path('/applicantProfile');
+			        }
+		    });
         };
+
+        /**
+        *   Upon logging out, clear all cached models
+        */
+        $scope.$on(LOGIN_EVENTS.logout, function() {
+            User.clearAll();
+            JobListService.clearAll();
+        });
 
         $scope.$watch(User.getUserRole);
 

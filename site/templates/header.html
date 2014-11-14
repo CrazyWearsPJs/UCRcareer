@@ -18,13 +18,11 @@
                 <li><a href="" ng-click="gotoJobPostingPage()" ng-show="showEmployer()">Post New Job</a></li>
                 <li><a href="" ng-click="logout()" ng-show="!showGuest()">Sign Out</a></li>
             </ul>
-            <form class="navbar-form navbar-left" ng-submit="ok()">
-                <input type="text" ng-model="splash.search" class="form-control" placeholder="Search"
-                    name="search"
-                    ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
-                    ng-trim/>
-                <button id="search-btn" class="btn btn-default">Submit</button>
-            </form>
+            <span huntedu-nav-searchbar
+                  form-class="navbar-form navbar-left"
+                  placeholder="search"
+                  search-button-id="search-btn">
+            </span>
         </div>
     </div>
 </nav>

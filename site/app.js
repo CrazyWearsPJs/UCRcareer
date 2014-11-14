@@ -1,4 +1,4 @@
-angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'ucrCareerServices'])
+angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'ucrCareerServices', 'ucrCareerDirectives'])
     .run(['AuthService', function(AuthService){
             AuthService.heartbeat();
     }])
@@ -24,7 +24,7 @@ angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'u
             }).when('/applicantProfile', {
                 templateUrl: 'templates/applicantProfile.html',
                 controller: 'ApplicantProfileCtrl'
-            }).when('/jobListing', {
+            }).when('/jobListing/:keyword/:index', {
                 templateUrl: 'templates/jobs/jobListing.html',
                 controller: 'JobListingCtrl'
             }).when('/thankyou', {
@@ -36,6 +36,9 @@ angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'u
             }).when('/updateEmployerProfile', {
                 templateUrl: 'templates/updateEmployerProfile.html',
                 controller: 'UpdateEmployerProfileCtrl',
+            }).when('/newJob', {
+                templateUrl: 'templates/jobs/jobListing.html',
+                controller: 'NewJobCtrl'
             }).otherwise({
                     redirectTo: '/'
             });
@@ -89,7 +92,10 @@ angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'u
         logout: 'logout'
     });
 
-angular.module('ucrCareerControllers', ['ui.bootstrap']);
+
+angular.module('ucrCareerDirectives', ['ucrCareerControllers']);
+
+angular.module('ucrCareerControllers', ['ui.bootstrap', 'youtube-embed']);
 
 angular.module('ucrCareerServices', ['LocalStorageModule'])
     .config(['localStorageServiceProvider', function(localStorageServiceProvider){

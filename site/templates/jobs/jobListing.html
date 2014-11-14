@@ -106,5 +106,19 @@
             </td>
         </div>
     </div>
+    <div ng-show="hasVideo" class="row">
+        <div class="col-md-12">
+            <td>
+                <youtube-video video-id="jobListingData.media.video"></youtube-video>
+            </td>
+        </div>
+    </div>
+    <div ng-show="hasImage" class="row">
+        <div class="col-md-12">
+            <td>
+                <img src="{{jobListingData.media.image}}"></img>
+            </td>
+        </div>
+    </div>
     <br>
 </div> 

@@ -5,17 +5,12 @@
                 <div class="col-md-1">
                     <img src="../imgs/logo.png" id="logo"></img> 
                 </div>
-                <form class="form-group" ng-submit="ok()" id="nextoShark">
-                    <div class="row">
-                        <div class="col-md-9" id="searchbar">
-                            <input ng-model="splash.search" type="text" class="form-control" placeholder="Job Title, Company, or Keyword..."
-                                   name="search"
-                                   ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
-                                   ng-trim/>
-                        </div>
-                            <input id="search-btn" class="btn btn-default" value="Search" type="Submit"/>
-                    </div>
-                </form>
+                <span huntedu-searchbar 
+                    placeholder="Job Title, Company, or Keyword" 
+                    search-bar-id="searchbar"
+                    search-button-id="search-btn"
+                    form-id="nextoShark">
+                </span>
             </div>
         </div>
     </div>

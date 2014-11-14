@@ -512,15 +512,14 @@ describe('routes', function (){
                 });
         });
 
-        describe('/search', function (){
+       });
+     describe('GET /search', function (){
             it('should return a list of job posts', function(done) {
+                var keyword = 'software';
                 request(app)
-                    .post('/post/search')
-                    .send({
-                        keyword : "software"
-                    })
+                    .get('/search' + '/' + keyword)
                     .expect(200, done);
             });
         });
-    });
+
 });

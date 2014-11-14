@@ -1,5 +1,5 @@
 angular.module('ucrCareerServices')
-    .factory('JobPost', function JobPostFactory(){
+    .factory('JobPost', function JobPostFactory() {
         var forEach = angular.forEach,
             isObject = angular.isObject,
             copy = angular.copy;
@@ -21,7 +21,8 @@ angular.module('ucrCareerServices')
             return dest;
         };
 
-        var JOB_POST_DATA_FIELDS = ['specifics', 'location', 'date'];
+        var JOB_POST_DATA_FIELDS = ['specifics', 'location', 
+                            'date', 'media', 'tags'];
         
         function JobPost(data) {
            var self = this;
@@ -31,6 +32,7 @@ angular.module('ucrCareerServices')
                 }
             });
         }
+
         JobPost.prototype = {
             'specifics': {
                 'jobTitle': null, 
@@ -47,17 +49,39 @@ angular.module('ucrCareerServices')
             'date': {
                 'postedOn': null,
                 'endsOn': null
-            } 
+            }, 
+            'media': {
+                'image': null,
+                'video': null
+            },
+            'tags': []
         };
         
         JobPost.getJobPostDataFields = function() {
             return JOB_POST_DATA_FIELDS;
         };
 
+        JobPost.prototype.getImage = function() {
+            return this.media.image;
+        };
+
+        JobPost.prototype.hasImage = function() {
+            return !!this.media.image;
+        };
+
+        JobPost.prototype.getVideo = function() {
+            return this.media.video;
+        };
+        
+        JobPost.prototype.hasVideo = function() {
+            return !!this.media.video;
+        };
+
         JobPost.prototype.setJobPostData = function(data) {
+            var self = this;
             forEach(data, function(value, key) {
                 if(JOB_POST_DATA_FIELDS.indexOf(key) !== -1) {
-                   this[key] = copyNonNull(value);
+                   self[key] = copyNonNull(value);
                 }
             });
         };
