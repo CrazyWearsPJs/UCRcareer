@@ -14,8 +14,9 @@ angular.module('ucrCareerControllers')
                 // TODO redirect to search page
             }
         };
-       
+
         $scope.showGuest = function() {
+            $scope.welcome = User.getProfileData();
             return User.isGuest();
         };  
         
