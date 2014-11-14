@@ -61,6 +61,22 @@ angular.module('ucrCareerServices')
             return JOB_POST_DATA_FIELDS;
         };
 
+        JobPost.prototype.getImage = function() {
+            return this.media.image;
+        };
+
+        JobPost.prototype.hasImage = function() {
+            return !!this.media.image;
+        };
+
+        JobPost.prototype.getVideo = function() {
+            return this.media.video;
+        };
+        
+        JobPost.prototype.hasVideo = function() {
+            return !!this.media.video;
+        };
+
         JobPost.prototype.setJobPostData = function(data) {
             var self = this;
             forEach(data, function(value, key) {

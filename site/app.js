@@ -65,7 +65,7 @@ angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'u
 
 angular.module('ucrCareerDirectives', ['ucrCareerControllers']);
 
-angular.module('ucrCareerControllers', ['ui.bootstrap']);
+angular.module('ucrCareerControllers', ['ui.bootstrap', 'youtube-embed']);
 
 angular.module('ucrCareerServices', ['LocalStorageModule'])
     .config(['localStorageServiceProvider', function(localStorageServiceProvider){
