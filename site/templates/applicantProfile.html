@@ -6,19 +6,19 @@
     <hr> 
     <div class="row">
         <div class="col-md-4">
-            <label for=""> First Name: </label> <td>{{applicantProfileData.personal.fName}}</td>
+            <label for=""> First Name: &nbsp; </label> <td>{{applicantProfileData.personal.fName}}</td>
         </div>
     </div>
 
     <div class="row">
 	<div class="col-md-4">
-	    <label for=""> Middle Initial: </label><td>{{applicantProfileData.personal.mInit}}</td>
+	    <label for=""> Middle Initial: &nbsp; </label><td>{{applicantProfileData.personal.mInit}}</td>
         </div>
     </div>
 
     <div class="row">
 	<div class="col-md-4">
-	    <label for=""> Last Name: </label><td>{{applicantProfileData.personal.lName}}</td>
+	    <label for=""> Last Name: &nbsp; </label><td>{{applicantProfileData.personal.lName}}</td>
 	</div>
     </div>
 
@@ -27,31 +27,31 @@
 
     <div class="row">
 	<div class="col-md-6">
-            <label for=""> Phone Number: </label><td>{{applicantProfileData.contact.phoneNum}}</td>
+            <label for=""> Phone Number: &nbsp; </label><td>{{applicantProfileData.contact.phoneNum}}</td>
 	</div>
     </div>
 
     <div class="row">
 	<div class="col-md-6">
-            <label for=""> Website: </label><td>www.{{applicantProfileData.contact.website}}</td>
+            <label for=""> Website: &nbsp; </label><td>www.{{applicantProfileData.contact.website}}</td>
 	</div>
     </div>
 
     <div class="row">
 	<div class="col-md-6">
-            <label for=""> LinkedIn: </label><td>www.linkedin.com/in/{{applicantProfileData.contact.linkedIn}}</td>
+            <label for=""> LinkedIn: &nbsp; </label><td>www.linkedin.com/in/{{applicantProfileData.contact.linkedIn}}</td>
 	</div>
     </div>
 
     <div class="row">
 	<div class="col-md-6">
-            <label for=""> Facebook: </label><td>www.facebook.com/{{applicantProfileData.contact.facebook}}</td>
+            <label for=""> Facebook: &nbsp; </label><td>www.facebook.com/{{applicantProfileData.contact.facebook}}</td>
 	</div>
     </div>
 
     <div class="row">
 	<div class="col-md-6">
-            <label for=""> Twitter: </label><td>@{{applicantProfileData.contact.twitter}}</td>
+            <label for=""> Twitter: &nbsp; </label><td>@{{applicantProfileData.contact.twitter}}</td>
 	</div>
      </div>
 
@@ -60,37 +60,37 @@
 
      <div class="row">
 	<div class="col-md-6">
-            <label for=""> Address 1: </label><td>{{applicantProfileData.location.address1}} </td>
+            <label for=""> Address 1:&nbsp; </label><td>{{applicantProfileData.location.address1}} </td>
 	</div>
     </div>
 
     <div class="row">
 	<div class="col-md-6">
-            <label for=""> Address 2: </label><td>{{applicantProfileData.location.address2}}</td>
+            <label for=""> Address 2:&nbsp; </label><td>{{applicantProfileData.location.address2}}</td>
 	</div>
     </div>
 
     <div class="row">
 	<div class="col-md-6">
-            <label for=""> City: </label><td>{{applicantProfileData.location.city}} </td>
+            <label for=""> City:&nbsp; </label><td>{{applicantProfileData.location.city}} </td>
 	</div>
     </div>
 
     <div class="row">
         <div class="col-md-6">
-            <label for=""> State: </label><td>{{applicantProfileData.location.state}}</td>
+            <label for=""> State:&nbsp; </label><td>{{applicantProfileData.location.state}}</td>
 	</div> 
     </div>
 
     <div class="row">
         <div class="col-md-6">
-            <label for=""> Zipcode: </label><td>{{applicantProfileData.location.zip}} </td>
+            <label for=""> Zipcode:&nbsp; </label><td>{{applicantProfileData.location.zip}} </td>
 	</div>
     </div>
 
     <div class="row">
         <div class="col-md-6">
-            <label for=""> Country: </label><td>{{applicantProfileData.location.country}}</td>
+            <label for=""> Country:&nbsp;</label><td>{{applicantProfileData.location.country}}</td>
         </div>
     </div>
 
@@ -99,41 +99,41 @@
 
     <div class="row">
         <div class="col-md-6">
-            <label for=""> Degree: </label><td>{{applicantProfileData.spec.degree.country}}</td>
+            <label for=""> Degree:&nbsp;</label><td>{{applicantProfileData.spec.degree.country}}</td>
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-6">
-            <label for=""> University: </label><td>{{applicantProfileData.spec.univ}}</td>
+            <label for=""> University:&nbsp;</label><td>{{applicantProfileData.spec.univ}}</td>
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-6">
-            <label for=""> Year: </label><td>{{applicantProfileData.spec.year}}</td>
+            <label for=""> Year:&nbsp;</label><td>{{applicantProfileData.spec.year}}</td>
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-6">
-            <label for=""> Resume: </label><iframe ng-src='/resume'></iframe>
+            <label for=""> Resume:&nbsp;</label><br>
+            <iframe ng-src='/resume'></iframe>
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-6">
-            <label for=""> Focus: </label><td>{{applicantProfileData.spec.focus}}</td>
+            <label for=""> Focus:&nbsp</label><td>{{applicantProfileData.spec.focus}}</td>
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-6">
-            <label for="userInterests"> Interested and Skills </label>
-            <div class="row" id="userInterests"
+            <label for="userInterests"> Interested and Skills: </label>
+            <div id="userInterests"
                 ng-repeat="interest in applicantProfileData.interests">
-                <div class="col-md-6">
-                <td>{{interest}}</td>
+                    <td>{{interest}}&nbsp</td>
             </div>
         </div>
     </div>
