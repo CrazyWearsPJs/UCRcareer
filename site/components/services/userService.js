@@ -251,6 +251,20 @@ angular.module('ucrCareerServices')
             return info;
         };
 
+        User.clearAll = function() {
+            forEach(User, function(value, key) {
+                if(!isFunction(value)) {
+                    if(isArray(value)){
+                        User[key] = [];
+                    } else if (isObject(value)) {
+                        User[key] = {};
+                    } else {
+                        User[key] = null;
+                    }
+                }
+            });
+        };
+
         /**
         * Sends a request to update profile information in the server,
         * if it is valid info, then merge all changes from the backend
