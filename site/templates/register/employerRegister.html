@@ -9,6 +9,25 @@
             <hr> 
             <ng-include src="'templates/register/partials/personalInfo.html'"></ng-include>
 
+            <!-- Company -->
+            <div class="row">
+                <div class="col-md-6">
+                    <!-- Company form -->
+                    <div class="form-group"
+                        ng-class="{'has-error':register.company.$invalid && register.company.$touched}">
+                        <label for="newUserCompany">
+                        Company
+                        </label>
+                        <input ng-model="user.companyName" type="text" 
+                               class="form-control" id="newUserCompany"
+                               placeholder="Google"
+                               name="company"
+                               ng-model-options="{updateOn: 'blur default', debounce: {'blur': 0, 'default': 500}}"
+                               required
+                               ng-trim/>
+                    </div><!-- Company form -->
+                </div>
+            </div><!-- Company -->
             <h2>Location</h2>
             <hr>
             <ng-include src="'templates/register/partials/location.html'"></ng-include>
