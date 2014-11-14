@@ -17,7 +17,7 @@ router.post('/', function(req, res, next) {
     var JobPosting = models.jobPosting(),
         newJobPosting = null,
         jobPostingData = req.body;
-    
+
     if(!req.session.employerUserId) {
         var err = new Error("Not Authorized: not Employer");
         err.name = "ForbiddenError";

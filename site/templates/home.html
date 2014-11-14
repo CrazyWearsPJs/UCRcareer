@@ -1,0 +1,12 @@
+<div id="splash">
+    <div class='container'>
+        <h2>Recommended Jobs for you:</h2>
+        <div class="jumbotron" id="splashSearch">
+            <div ng-repeat="job in jobs" class="row">
+                
+                <a ng-href="#/jobListing/{{keyword}}/{{$index}}">{{job.specifics.jobTitle}}</a>
+                    {{job.specfics.salary}}
+            </div>
+        </div>
+    </div>
+</div>
