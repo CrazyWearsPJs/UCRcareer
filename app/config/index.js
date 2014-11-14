@@ -21,6 +21,7 @@ module.exports = {
 	, appInfoLogFile: "APP.INFO.log"
 	, appWarnLogFile: "APP.WARN.log"
 	, staticPath:     "site"
+    , resumePath:     "/opt/resumes"
     }
   , bcryptSettings: {
 	  hashRounds: 10
