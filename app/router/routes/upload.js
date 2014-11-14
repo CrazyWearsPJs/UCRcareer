@@ -39,11 +39,10 @@ router.post('/', function(req, res){
             // We shouldn't have trouble moving a file
             if (err) return req.send(400, 'Error saving file');
             // Save the path to the resume to the applicant
-            Applicant
-                .where ({ _id: applicantUserId})
-                .update({$set: {'spec.resume': saveFilePath}}, {}, function(){
+            Applicant.update({ _id : applicantUserId}, {'spec.resume': saveFilePath}, {}, function(err){
+                    if(err) return req.sendStatus(400).end();
                     res.sendStatus(200).end();
-                });
+            });
         });
     });
 });
