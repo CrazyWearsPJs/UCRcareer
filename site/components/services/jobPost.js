@@ -62,9 +62,10 @@ angular.module('ucrCareerServices')
         };
 
         JobPost.prototype.setJobPostData = function(data) {
+            var self = this;
             forEach(data, function(value, key) {
                 if(JOB_POST_DATA_FIELDS.indexOf(key) !== -1) {
-                   this[key] = copyNonNull(value);
+                   self[key] = copyNonNull(value);
                 }
             });
         };
