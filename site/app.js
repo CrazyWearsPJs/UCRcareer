@@ -56,7 +56,7 @@ angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'u
         };
     }])
     .service('fileUpload', ['$http', function ($http) {
-        this.uploadFileToUrl = function(file, uploadUrl){
+        this.uploadFileToUrl = function(file, uploadUrl, cb){
             var fd = new FormData();
             fd.append('file', file);
             $http.post(uploadUrl, fd, {
@@ -64,6 +64,7 @@ angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'u
                 headers: {'Content-Type': undefined}
             })
             .success(function(){
+                cb();
             })
             .error(function(){
             });

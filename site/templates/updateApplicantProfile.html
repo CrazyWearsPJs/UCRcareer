@@ -275,12 +275,12 @@
 	<div class="form-group"
 	    ng-class="{'has-error':updateProfile.resume.$invalid && updateProfile.resume.$touched}">
 	    <label for="newUserResume">Resume</label>
-	    <input ng-model="user.spec.resume" type="text"
-		class="form-control" id="newUserResume"
-		placeholder="{{updateApplicantProfileData.spec.resume}}"
-		name="resume"
-		ng-model-year="{updateOn: 'blur default', debounce: {'blue': 0, 'default': 500}}"
-		ng-trim/>
+	    <input type='file'
+                   accept='*.pdf'
+                   name='resume'
+                   id='newUserResume'
+                   class='form-control'
+                   file-model='user.spec.resume'/>
 	</div>
 	</div>
     </div>

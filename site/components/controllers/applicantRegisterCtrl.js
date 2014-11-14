@@ -33,9 +33,10 @@ angular.module('ucrCareerControllers')
                 AuthService.register(USER_ROLES.applicant)
                     .then(function(){
                         //if registration is successful
-                        fileUpload.uploadFileToUrl($scope.user.spec.resume, '/upload'); 
-                        //upload users resume
-                        $location.path('/thankyou'); 
+                        fileUpload.uploadFileToUrl($scope.user.spec.resume, '/upload', function(){ 
+                            //upload users resume
+                            $location.path('/thankyou'); 
+                        });
                     });
             }
         };

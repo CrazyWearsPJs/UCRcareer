@@ -1,6 +1,6 @@
 angular.module('ucrCareerControllers')
-    .controller('UpdateApplicantProfileCtrl', ['$scope', '$location', 'User', 
-    function UpdateApplicantProfileCtrl($scope, $location, User) {
+    .controller('UpdateApplicantProfileCtrl', ['$scope', '$location', 'fileUpload', 'User', 
+    function UpdateApplicantProfileCtrl($scope, $location, fileUpload, User) {
         
         var profilePage = '/applicantProfile';
 
@@ -23,7 +23,9 @@ angular.module('ucrCareerControllers')
             if($scope.updateProfile.$valid) {
                 User.updateProfileData($scope.user)
                     .then(function() {
-                        $location.path(profilePage);
+                        fileUpload.uploadFileToUrl($scope.user.spec.resume, '/upload', function(){
+                            $location.path(profilePage);
+                        });
                     }, function() {
                     });
             }
