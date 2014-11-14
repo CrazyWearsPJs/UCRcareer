@@ -263,6 +263,7 @@ angular.module('ucrCareerServices')
                     }
                 }
             });
+            User.setUserRole(USER_ROLES.guest);
         };
 
         /**
