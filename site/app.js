@@ -64,7 +64,7 @@ angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'u
             fd.append('file', file);
             $http.post(uploadUrl, fd, {
                 transformRequest: angular.identity,
-                headers: {'Content-Type': undefined}
+                headers: {'Content-Type': 'multipart/form-data'}
             })
             .success(function(){
                 cb();

@@ -20,12 +20,12 @@ angular.module('ucrCareerServices')
             if(isObject(dest)) {
                 forEach(dest, function(value, field) {
                     if (isArray(value)) {
-                        if(equals(EMPTY_ARRAY, value)) {
+                        if(equals([], value)) {
                             delete dest[field];
                         }
                     }
                     else if(isObject(value)) {
-                        if(equals(EMPTY_OBJECT, value)) {
+                        if(equals({}, value)) {
                             delete dest[field];
                         } else {
                             forEach(value, function(propertyVal, propertyKey) {
