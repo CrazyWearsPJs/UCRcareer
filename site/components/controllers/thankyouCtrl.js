@@ -12,7 +12,13 @@ angular.module('ucrCareerControllers')
         $scope.$on('$viewContentLoaded', function(){
             $scope.user.fName = User.getProfileData().personal.fName;
             $timeout(function redirectUser(){
-                $location.path('/');
+                if(User.isEmployer()){
+                    $location.path('/employerProfile');
+                } else if(User.isApplicant()) {
+                    $location.path('/home');
+                } else {
+                    $location.path('/');
+                }
             }, timeoutMs);
         });
     }]);

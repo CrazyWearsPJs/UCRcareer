@@ -16,6 +16,7 @@ var jobPostingSchema = new Schema({
       , requirements: { type: String, required: true }
       , salary:       { type: String, required: true }
       , application:  { type: String, required: true }
+      , companyName:  { type: String, required: true }
       , department:   { type: String }
       , jobType:      { type: String }
     }

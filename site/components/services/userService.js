@@ -7,9 +7,6 @@ angular.module('ucrCareerServices')
             copy = angular.copy,
             equals = angular.equals;
 
-        var EMPTY_OBJECT = {},
-            EMPTY_ARRAY = [];
-
         var copyNonNull = function(src, dest) {
             if(dest) {
                 copy(src, dest);
@@ -178,6 +175,10 @@ angular.module('ucrCareerServices')
 
         User.getEmail = function() {
             return User.credentials.email;
+        };
+
+        User.getMajor = function() {
+            return User.spec.focus;
         };
 
         User.getUserRole = function() {

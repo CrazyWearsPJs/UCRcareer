@@ -75,7 +75,7 @@ angular.module('ucrCareerControllers')
 			     if(User.isEmployer()) {
 				        $location.path('/employerProfile');
 			        } else if(User.isApplicant()){
-			    	    $location.path('/applicantProfile');
+			    	    $location.path('/home');
 			        }
 		    });
         };

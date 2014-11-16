@@ -27,6 +27,9 @@ angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'u
             }).when('/jobListing/:keyword/:index', {
                 templateUrl: 'templates/jobs/jobListing.html',
                 controller: 'JobListingCtrl'
+            }).when('/searchResults/:keyword', {
+                templateUrl: 'templates/searchResults.html',
+                controller: 'SearchResultsCtrl'
             }).when('/thankyou', {
                 templateUrl: 'templates/thankyou.html',
                 controller: 'ThankyouCtrl'
@@ -39,6 +42,14 @@ angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'u
             }).when('/newJob', {
                 templateUrl: 'templates/jobs/jobListing.html',
                 controller: 'NewJobCtrl'
+            }).when('/home', {
+                templateUrl: 'templates/home.html',
+                controller: 'HomeCtrl',
+                resolve: {
+                    jobs: function(JobListService){
+                        return JobListService.getRecommendedJobs();
+                    }
+                }    
             }).otherwise({
                     redirectTo: '/'
             });
