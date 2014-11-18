@@ -28,9 +28,20 @@ angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'u
                 templateUrl: 'templates/jobs/jobListing.html',
                 controller: 'JobListingCtrl'
             }).when('/searchResults/:keyword', {
-                templateUrl: 'templates/searchResults.html',
-                controller: 'SearchResultsCtrl'
-            }).when('/thankyou', {
+                templateUrl: 'templates/search/searchResults.html',
+                controller: 'SearchResultsCtrl',
+                resolve: {
+                    jobs: ['$route', 'JobListService', function($route, JobListService) {
+                        var keyword = $route.current.params.keyword;
+                        return JobListService.search(keyword);
+                    }]
+                }
+            }).when('/searchError/:keyword', {
+                templateUrl: 'templates/search/searchError.html', 
+                controller: ['$scope', '$routeParams', function SearchErrorCtrl($scope, $routeParams) {
+                        $scope.keyword = $routeParams.key;
+                
+            }]}).when('/thankyou', {
                 templateUrl: 'templates/thankyou.html',
                 controller: 'ThankyouCtrl'
             }).when('/updateApplicantProfile', {
