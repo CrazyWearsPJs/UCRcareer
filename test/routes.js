@@ -76,6 +76,7 @@ var employer = {
 var jobPost = {
       specifics: {
           jobTitle: "Software Engineer"
+        , companyName: 'Google Inc'
         , description: "Develop software"
         , requirements: "Programming experience"
         , salary: "$80,000"
