@@ -13,8 +13,8 @@ angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'u
    	        templateUrl: 'templates/register/employerRegister.html',
             	controller: 'EmployerRegisterCtrl'
             }).when('/jobPosting', {
-		        templateUrl: 'templates/jobs/jobPosting.html',
-        		controller: 'JobPostingCtrl'
+                templateUrl: 'templates/jobs/jobPosting.html',
+       	        controller: 'JobPostingCtrl'
             }).when('/searchResults', {
                 templateUrl: 'templates/searchResults.html',
                 controller: 'SearchResultsCtrl'
