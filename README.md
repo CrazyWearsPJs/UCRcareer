@@ -99,6 +99,33 @@ mongod --config /vagrant/etc/install/mongod-yaml.conf
 node server.js
 ```
 
+# Viewing the application on a mobile device
+You can view the website on a mobile device too!
+Sorry Manny, but so far I only know how to do this on windows :(
+First, make sure you started the application with
+```bash
+node server.js
+```
+Then, find out the ip address of your router.
+To do this, bring up the cmd and call ipconfig.
+For example, mine is 10.0.0.15.
+It could also start with 192.168.x.x.
+Then comes the windows specific part.
+Go to control panel/system and security/windows firewall/advanced settings.
+Click on inbound rules and click on "new rule" in the right pane.
+Choose "port" and then hit next.
+Enter in 8080 into ports and make sure it is TCP.
+Then just keep going with the defaults until you can name the rule.
+Name it whatever you want and finish.
+Now, go to some mobile device or just another device on the same network.
+Let's say your ip address = 10.0.0.15 and port = 8080.
+On your other computer, go to a web browser and enter as the url,
+```bash
+http://10.0.0.15:8080
+```
+And there you go. You should now be able to view the website on a remote device!
+*Note: Make sure you gulped the files so that it is on your latest build.
+
 # MongoDB Reference
 
 ## Connecting to DB
