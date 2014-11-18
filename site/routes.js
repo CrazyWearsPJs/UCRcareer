@@ -1,4 +1,4 @@
-angular.module('ucrCareer')
+angular.module('huntEdu')
 .config(['$routeProvider', function($routeProvider) {
             $routeProvider.when('/', {
                 templateUrl: 'templates/splash.html',
@@ -23,7 +23,14 @@ angular.module('ucrCareer')
                 controller: 'ApplicantProfileCtrl'
             }).when('/jobListing/:keyword/:index', {
                 templateUrl: 'templates/jobs/jobListing.html',
-                controller: 'JobListingCtrl'
+                controller: 'JobListingCtrl',
+                resolve: {
+                    job: ['$route', 'JobListService', function($route, JobListService) {
+                        var keyword = $route.current.params.keyword,
+                            index = $route.current.params.index;
+                        return JobListService.at(keyword, index);
+                    }]
+                }
             }).when('/searchResults/:keyword', {
                 templateUrl: 'templates/search/searchResults.html',
                 controller: 'SearchResultsCtrl',
@@ -36,8 +43,7 @@ angular.module('ucrCareer')
             }).when('/searchError/:keyword', {
                 templateUrl: 'templates/search/searchError.html', 
                 controller: ['$scope', '$routeParams', function SearchErrorCtrl($scope, $routeParams) {
-                        $scope.keyword = $routeParams.key;
-                
+                        $scope.keyword = $routeParams.key;              
             }]}).when('/thankyou', {
                 templateUrl: 'templates/thankyou.html',
                 controller: 'ThankyouCtrl'

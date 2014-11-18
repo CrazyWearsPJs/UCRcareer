@@ -1,4 +1,4 @@
-angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'ucrCareerServices', 'ucrCareerDirectives'])
+angular.module('huntEdu', ['ngRoute', 'ngMessages', 'huntEdu.controllers', 'huntEdu.services', 'huntEdu.directives'])
     .run(['AuthService', function(AuthService){
             AuthService.heartbeat();
     }])
@@ -51,12 +51,12 @@ angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'u
         logout: 'logout'
     });
 
-angular.module('ucrCareerDirectives', ['ucrCareerControllers']);
+angular.module('huntEdu.directives', ['huntEdu.controllers']);
 
-angular.module('ucrCareerControllers', ['ui.bootstrap', 'youtube-embed']);
+angular.module('huntEdu.controllers', ['ui.bootstrap', 'youtube-embed']);
 
-angular.module('ucrCareerServices', ['LocalStorageModule'])
+angular.module('huntEdu.services', ['LocalStorageModule'])
     .config(['localStorageServiceProvider', function(localStorageServiceProvider){
-        localStorageServiceProvider.setPrefix('ucrCareer');
+        localStorageServiceProvider.setPrefix('huntEdu.');
         localStorageServiceProvider.setStorageCookie(45, '/');
     }]);        

@@ -1,4 +1,4 @@
-angular.module('ucrCareerServices')
+angular.module('huntEdu.services')
     .service('AuthService', ['$rootScope', '$http','$q', 'User', 'USER_ROLES', 'LOGIN_EVENTS', 
         function AuthService($rootScope, $http, $q, User, USER_ROLES, LOGIN_EVENTS){
         var extend = angular.extend;

@@ -1,4 +1,4 @@
-angular.module('ucrCareerControllers')
+angular.module('huntEdu.controllers')
     .controller('EmployerRegisterCtrl', ['$scope', '$location', 'AuthService', 'User', 'USER_ROLES', function EmployerRegisterCtrl($scope, $location, AuthService, User, USER_ROLES){
         $scope.user = {
             'companyName': "",

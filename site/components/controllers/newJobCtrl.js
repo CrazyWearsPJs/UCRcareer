@@ -1,4 +1,4 @@
-angular.module('ucrCareerControllers')
+angular.module('huntEdu.controllers')
     .controller('NewJobCtrl',['$scope', '$location', 'JobListService', 
         function newJobCtrl($scope, $location, JobListService){
             $scope.$on('$viewContentLoaded', function(){

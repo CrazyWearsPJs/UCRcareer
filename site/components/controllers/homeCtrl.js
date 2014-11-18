@@ -1,7 +1,7 @@
-angular.module('ucrCareerControllers')
-    .controller('HomeCtrl',['$scope', '$location', 'User', 'JobListService',
-        function homeCtrl($scope, $location, User, JobListService){
-            $scope.$on('$viewContentLoaded', function(){
+angular.module('huntEdu.controllers')
+    .controller('HomeCtrl',['$scope', '$location', 'User', 'jobs',
+        function homeCtrl($scope, $location, User, jobs){
+            $scope.$on('$routeChangeSuccess', function(){
                var keyword = null;
 
                if(!User.isApplicant()) {
@@ -9,11 +9,10 @@ angular.module('ucrCareerControllers')
                } else {
                     keyword = User.getMajor();
                     $scope.keyword = keyword;
-                    $scope.jobs = JobListService.getResults(keyword);
+                    $scope.jobs = jobs;
                     if(!$scope.jobs) {
                         $location.path('/');    
                     }
-                    
                }
             });
     }]);

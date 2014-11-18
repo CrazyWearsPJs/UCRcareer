@@ -1,4 +1,4 @@
-angular.module('ucrCareerControllers')
+angular.module('huntEdu.controllers')
     .controller('HeaderCtrl', 
     ['$scope', '$modal', '$location', 'AuthService', 'User', 'JobListService', 
     function HeaderCtrl($scope, $modal, $location, AuthService, User, JobListService){
@@ -84,7 +84,7 @@ angular.module('ucrCareerControllers')
 
     }]);
 
-    angular.module('ucrCareerControllers')
+    angular.module('huntEdu.controllers')
         .controller('LoginModalCtrl', ['$scope', '$modalInstance', '$location', 'User', 'AuthService', 
         function LoginModalCtrl($scope, $modalInstance, $location, User, AuthService){
             $scope.user = {
@@ -108,7 +108,7 @@ angular.module('ucrCareerControllers')
             };
         }]);
 
-    angular.module('ucrCareerControllers')
+    angular.module('huntEdu.controllers')
     .controller('RegisterModalCtrl', ['$scope', '$modalInstance', 
     function RegisterModalCtrl ($scope, $modalInstance){
         $scope.user = {

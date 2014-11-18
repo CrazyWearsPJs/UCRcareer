@@ -1,12 +1,14 @@
-angular.module('ucrCareerControllers')
-    .controller('JobListingCtrl',['$scope', '$routeParams', 'JobListService', 
-        function ($scope, $routeParams, JobListService){
-            $scope.$on('$viewContentLoaded', function(){
-               var keyword = $routeParams.keyword,
-                   index = $routeParams.index,
-                   job = JobListService.at(keyword, index);
-               $scope.jobListingData = job;
-               $scope.hasVideo = job.hasVideo();
-               $scope.hasImage = job.hasImage();
+angular.module('huntEdu.controllers')
+    .controller('JobListingCtrl',['$scope', '$location', 'job', 
+        function ($scope, $location, job){
+            
+            $scope.$on('$routeChangeError', function() {
+                $location.path('/searchError');
+            });
+
+             $scope.$on('$routeChangeSuccess', function(){
+                    $scope.jobListingData = job;
+                    $scope.hasVideo = job.hasVideo();
+                    $scope.hasImage = job.hasImage();
             });
     }]);

@@ -1,4 +1,4 @@
-angular.module('ucrCareerControllers')
+angular.module('huntEdu.controllers')
     .controller('DateCtrl', ['$scope', function DateCtrl($scope){
         $scope.datepickers = {
             dt: false,

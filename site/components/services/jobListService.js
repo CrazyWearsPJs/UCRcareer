@@ -1,4 +1,4 @@
-angular.module('ucrCareerServices')
+angular.module('huntEdu.services')
     .factory('JobListService', ['$http', '$q', 'JobPost', 'User', 
     function JobListService($http, $q, JobPost, User) {
         
@@ -37,7 +37,19 @@ angular.module('ucrCareerServices')
         };
 
         JobList.at = function(query, index) {
-            return JobList.jobs[query].list[index];
+            var deferred = $q.defer();
+
+            if(JobList.queryCached(query)) {
+                deferred.resolve(JobList.jobs[query].list[index]);
+            } else {
+                JobList.search(query)
+                    .then(function(jobs) {
+                        if(jobs.length > index) {
+                            deferred.resolve(jobs[index]);
+                        }
+                    }, deferred.reject);
+            }
+            return deferred.promise;
         };
 
         JobList.queryList = function() {

@@ -1,4 +1,4 @@
-angular.module('ucrCareerControllers')
+angular.module('huntEdu.controllers')
     .controller('HunteduSearchbarCtrl', ['$scope', '$location', 
         function huntSearchBarContoller($scope, $location) {
                 $scope.searchOptions = {
