@@ -10,7 +10,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var del = require('del');
 
 var sources = {
-    js: ['site/app.js', 'site/components/**/*.js'],
+    js: ['site/app.js', 'site/routes.js', 'site/components/**/*.js'],
     scss: ['site/styles/**/*.scss']
 
 
