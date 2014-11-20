@@ -39,6 +39,7 @@ angular.module('huntEdu', ['ngRoute', 'ngMessages', 'huntEdu.controllers', 'hunt
             return input.join(delimiter);
         };
     })
+
     .constant('USER_ROLES', {
         all: '*',
         guest: 'guest',
@@ -57,6 +58,6 @@ angular.module('huntEdu.controllers', ['ui.bootstrap', 'youtube-embed']);
 
 angular.module('huntEdu.services', ['LocalStorageModule'])
     .config(['localStorageServiceProvider', function(localStorageServiceProvider){
-        localStorageServiceProvider.setPrefix('huntEdu.');
+        localStorageServiceProvider.setPrefix('huntEdu');
         localStorageServiceProvider.setStorageCookie(45, '/');
     }]);        
