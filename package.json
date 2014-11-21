@@ -26,14 +26,11 @@
     "express-winston": "~0.2.8",
     "gulp-sass": "~1.1.0",
     "mongoose": "~3.8.18",
-    "multiparty": "^4.0.0",
+    "multiparty": "~4.0.0",
     "q": "^1.1.0",
     "supertest": "~0.14.0",
     "underscore": "~1.7.0",
-    "winston": "~0.8.1",
-    "gulp-sass": "~1.1.0",
-    "connect-busboy": "0.0.2",
-    "multiparty": "~4.0.0"
+    "winston": "~0.8.1"
   },
   "devDependencies": {
     "del": "~0.1.3",
