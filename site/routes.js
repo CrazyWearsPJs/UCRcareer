@@ -21,23 +21,22 @@ angular.module('huntEdu')
             }).when('/applicantProfile', {
                 templateUrl: 'templates/applicantProfile.html',
                 controller: 'ApplicantProfileCtrl'
-            }).when('/jobListing/:keyword/:index', {
+            }).when('/jobListing/:id', {
                 templateUrl: 'templates/jobs/jobListing.html',
                 controller: 'JobListingCtrl',
                 resolve: {
-                    job: ['$route', 'JobListService', function($route, JobListService) {
-                        var keyword = $route.current.params.keyword,
-                            index = $route.current.params.index;
-                        return JobListService.at(keyword, index);
+                    job: ['$route', 'SearchService', function($route, SearchService) {
+                        var id = $route.current.params.id;
+                        return SearchService.findJobById(id);
                     }]
                 }
             }).when('/searchResults/:keyword', {
                 templateUrl: 'templates/search/searchResults.html',
                 controller: 'SearchResultsCtrl',
                 resolve: {
-                    jobs: ['$route', 'JobListService', function($route, JobListService) {
+                    jobs: ['$route', 'SearchService', function($route, SearchService) {
                         var keyword = $route.current.params.keyword;
-                        return JobListService.search(keyword);
+                        return SearchService.search(keyword);
                     }]
                 }
             }).when('/searchError/:keyword', {
@@ -55,14 +54,19 @@ angular.module('huntEdu')
                 controller: 'UpdateEmployerProfileCtrl',
             }).when('/newJob', {
                 templateUrl: 'templates/jobs/jobListing.html',
-                controller: 'NewJobCtrl'
+                controller: 'NewJobCtrl',
+                resolve: {
+                    job: ['JobList',  function(JobList) {
+                        return JobList.getNewJob();
+                    }]
+                }
             }).when('/home', {
                 templateUrl: 'templates/home.html',
                 controller: 'HomeCtrl',
                 resolve: {
-                    jobs: function(JobListService){
-                        return JobListService.getRecommendedJobs();
-                    }
+                    jobs: ['SearchService', function(SearchService){
+                        return SearchService.getRecommendedJobs();
+                    }]
                 }    
             }).otherwise({
                     redirectTo: '/'

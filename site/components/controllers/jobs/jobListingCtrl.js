@@ -6,9 +6,10 @@ angular.module('huntEdu.controllers')
                 $location.path('/searchError');
             });
 
-             $scope.$on('$routeChangeSuccess', function(){
-                    $scope.jobListingData = job;
-                    $scope.hasVideo = job.hasVideo();
-                    $scope.hasImage = job.hasImage();
+            $scope.$on('$routeChangeSuccess', function(){
+                console.log(job);
+                $scope.jobListingData = job;
+                $scope.hasVideo = job.hasVideo();
+                $scope.hasImage = job.hasImage();
             });
     }]);

@@ -22,7 +22,6 @@ router.get('/', function(req, res, next){
         if (!applicant)
             return res.send(400, 'No Resume was uploaded');
         res.sendFile(applicant.spec.resume);
-        console.log(applicant.spec.resume);
     });
 });
 

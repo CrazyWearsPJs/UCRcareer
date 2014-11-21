@@ -32,6 +32,9 @@ var jobPostingSchema = new Schema({
         image:        { type: String }
       , video:        { type: String }
     }
+  , meta: {
+        id:           { type: String }
+  }
   , tags:             [ String ]
 }); 
 
@@ -61,6 +64,25 @@ jobPostingSchema.static('findByKeyword', function jobSearch(keyword, cb){
         ]}
       , cb);
 });
+var generateUrlId = function generateJobPostUrlId(_id)  {  
+    var jobPosting = this;
+    buffer = new Buffer(_id, 'hex');
+    base64Id = buffer.toString('base64')
+                    .replace('+', '-')
+                    .replace('/', '_');
+        
+    return base64Id;
+};
+
+jobPostingSchema.pre('save', function beforeSavingJobPost(next) {
+  var jobPosting = this;
+    if(jobPosting.isNew) {
+        jobPosting.meta.id = generateUrlId(jobPosting._id.toString());
+    }
+    next();
+});
+
+
 
 /**
  * Export schema
