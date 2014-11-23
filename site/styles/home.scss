@@ -1,0 +1,23 @@
+#home {
+    background-color: #3A539B;
+    color: white;
+    min-height: 100%;
+    min-width: 100%;
+    margin:0;
+    padding:0;
+}
+
+#recommendations {
+    padding:20px;
+    background-color: lighten(#3A539B, 10%);
+    position: absolute;
+    top: 50%;
+    left:50%;
+    width: 60%;
+    color: white;
+    transform: translate(-50%, -50%);
+
+    a {
+        color: white;
+    }
+}
