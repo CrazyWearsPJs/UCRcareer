@@ -3,18 +3,21 @@
  */
 
 var express        = require('express')
+  , http           = require('http')
   , session        = require('express-session')
   , bodyParser     = require('body-parser')
   , expressWinston = require('express-winston')
   , mongoose       = require('mongoose')
   , path           = require('path')
-  , winston        = require('winston')
-  , app            = express();
+  , winston        = require('winston');
 
 var config = require('./app/config')
   , models = require('./app/models')
   , logger = require('./app/logger')
   , router = require('./app/router');
+
+var app    = express()
+  , server = http.Server(app);
 
 /**
  * Setup database 
@@ -124,12 +127,6 @@ app.use(session({
  */
 
 var port = serverSettings.port || 8080;
-
-/**
- * Router
- */
-var routerRef = router(app, db);
-
-app.listen(port, function (){
+server.listen(port, function (){
     logger.info("Application started on port %s", port);
 });
