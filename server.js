@@ -106,7 +106,6 @@ app.use(expressWinston.errorLogger({
   , colorStatus: true
 }));
 
-
 /**
  * Use body parser
  */
@@ -121,6 +120,12 @@ app.use(session({
     'secret': 'test',
     'saveUninitialized' : true
 }));
+
+/**
+ * Set application routes
+ */
+
+router(app);
 
 /**
  * Start application
