@@ -44,16 +44,13 @@ router.post('/', function(req, res, next) {
 });
 
 
-var ObjectId = require('mongoose').Types.ObjectId;
-
 router.get('/id/:id', function(req, res, next) {
     var JobPosting = models.jobPosting(), 
-        id = req.params.id;
+        base64Id = req.params.id;
 
-    if(id) {
-        var buffer = new Buffer(id.replace('-', '+').replace('_','/'), 'base64'),
-            decodedId = buffer.toString('hex'),
-            decodedObjectId = new ObjectId(decodedId);
+    if(base64Id) { 
+        var decodedId = JobPosting.decodeUrlId(base64Id);
+        console.log(decodedId);
 
         JobPosting.findById(decodedId, function(err, jobPosting) {
             if(err) {
@@ -62,8 +59,7 @@ router.get('/id/:id', function(req, res, next) {
             } else {
                res.status(200).json(jobPosting); 
             }
-        });
-    
+        }); 
     } else {
         var err = new Error("Missing id");
         err.name = "BadRequestError";

@@ -3,7 +3,9 @@
  */
 
 var mongoose = require('mongoose')
-  , Schema   = mongoose.Schema;
+  , Schema   = mongoose.Schema
+  , ObjectId = mongoose.Types.ObjectId;
+
 
 /**
  * Define job posting schema
@@ -64,7 +66,8 @@ jobPostingSchema.static('findByKeyword', function jobSearch(keyword, cb){
         ]}
       , cb);
 });
-var generateUrlId = function generateJobPostUrlId(_id)  {  
+
+jobPostingSchema.static('encodeUrlId',  function encodeJobPostUrlId(_id)  {  
     var jobPosting = this;
     buffer = new Buffer(_id, 'hex');
     base64Id = buffer.toString('base64')
@@ -72,17 +75,24 @@ var generateUrlId = function generateJobPostUrlId(_id)  {
                     .replace('/', '_');
         
     return base64Id;
-};
+});
+
+jobPostingSchema.static('decodeUrlId', function decodeJobPostUrlId(base64Id) {
+    var buffer = new Buffer(base64Id.replace('-', '+').replace('_','/'), 'base64'),
+        decodedId = buffer.toString('hex'),
+        decodedObjectId = new ObjectId(decodedId);
+
+    return decodedObjectId;
+});
 
 jobPostingSchema.pre('save', function beforeSavingJobPost(next) {
   var jobPosting = this;
     if(jobPosting.isNew) {
-        jobPosting.meta.id = generateUrlId(jobPosting._id.toString());
+        var _id = jobPosting._id.toString();
+        jobPosting = jobPosting.encodeUrlId(_id);
     }
     next();
 });
-
-
 
 /**
  * Export schema
