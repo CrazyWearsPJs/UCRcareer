@@ -70,7 +70,7 @@ angular.module('huntEdu.services')
         var PROFILE_DATA_FIELDS = {};
 
         PROFILE_DATA_FIELDS[USER_ROLES.all] =  ['personal', 'contact', 'location'];
-        PROFILE_DATA_FIELDS[USER_ROLES.applicant] = ['spec', 'interests'];
+        PROFILE_DATA_FIELDS[USER_ROLES.applicant] = ['spec', 'interests', 'bookmarkedPosts', 'postNotifications'];
         PROFILE_DATA_FIELDS[USER_ROLES.employer] = ['companyName'];
         
         var employerProfileData = unionArray(PROFILE_DATA_FIELDS[USER_ROLES.all], 
@@ -112,6 +112,8 @@ angular.module('huntEdu.services')
                 'country': null
             }, 
             'interests': [],
+            'bookmarkedPosts': [],
+            'postNotifications': [],
             'role': USER_ROLES.guest, 
         };
 
