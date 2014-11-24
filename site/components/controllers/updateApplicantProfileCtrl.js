@@ -1,4 +1,4 @@
-angular.module('ucrCareerControllers')
+angular.module('huntEdu.controllers')
     .controller('UpdateApplicantProfileCtrl', ['$scope', '$location', 'fileUpload', 'User', 
     function UpdateApplicantProfileCtrl($scope, $location, fileUpload, User) {
         

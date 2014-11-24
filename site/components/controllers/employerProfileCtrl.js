@@ -1,4 +1,4 @@
-angular.module('ucrCareerControllers')
+angular.module('huntEdu.controllers')
     .controller('EmployerProfileCtrl', ['$scope', 'User', '$location',
     function EmployerProfileCtrl($scope, User, $location) {
     $scope.showEmployer = function() {

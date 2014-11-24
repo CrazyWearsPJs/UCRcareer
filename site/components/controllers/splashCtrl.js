@@ -1,4 +1,4 @@
-angular.module('ucrCareerControllers')
+angular.module('huntEdu.controllers')
     .controller('SplashCtrl', ['$scope', '$location', 'User', function SplashCtrl($scope, $location, User){
         $scope.splash = {
             'search': []

@@ -1,4 +1,4 @@
-angular.module('ucrCareerControllers')
+angular.module('huntEdu.controllers')
     .controller('ApplicantRegisterCtrl', ['$scope', '$location', 'User', 'AuthService', 'fileUpload', 'USER_ROLES', function ApplicantRegisterCtrl($scope, $location, User, AuthService, fileUpload, USER_ROLES){
         $scope.user = {
             'credentials': {},

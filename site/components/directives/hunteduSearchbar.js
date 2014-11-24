@@ -1,4 +1,4 @@
-angular.module('ucrCareerDirectives')
+angular.module('huntEdu.directives')
     .directive('hunteduSearchbar',[ 
         function huntSearchBarDirective(){
     

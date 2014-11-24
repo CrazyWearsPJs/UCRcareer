@@ -1,4 +1,4 @@
-angular.module('ucrCareerServices')
+angular.module('huntEdu.services')
     .factory('JobPost', function JobPostFactory() {
         var forEach = angular.forEach,
             isObject = angular.isObject,

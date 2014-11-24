@@ -1,4 +1,4 @@
-angular.module('ucrCareerControllers')
+angular.module('huntEdu.controllers')
     .controller('ThankyouCtrl', ['$scope','$timeout', '$location', 'User', 
         function($scope, $timeout, $location, User){
         var timeoutMs = 3000;

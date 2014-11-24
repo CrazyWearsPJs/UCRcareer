@@ -1,4 +1,4 @@
-angular.module('ucrCareerControllers')
+angular.module('huntEdu.controllers')
     .controller('JobPostingCtrl', ['$scope', '$location', '$http', '$q','User', 'PostService', 'JobPost', 'JobListService', 
     function JobPostingCtrl($scope, $location, $http, $q, User, PostService, JobPost, JobListService){
         var redirectPath = '/',

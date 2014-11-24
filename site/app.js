@@ -1,58 +1,6 @@
-angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'ucrCareerServices', 'ucrCareerDirectives'])
+angular.module('huntEdu', ['ngRoute', 'ngMessages', 'huntEdu.controllers', 'huntEdu.services', 'huntEdu.directives'])
     .run(['AuthService', function(AuthService){
             AuthService.heartbeat();
-    }])
-    .config(['$routeProvider', function($routeProvider) {
-            $routeProvider.when('/', {
-                templateUrl: 'templates/splash.html',
-                controller: 'SplashCtrl' 
-            }).when('/applicantRegister', {
-                templateUrl: 'templates/register/applicantRegister.html',
-                controller: 'ApplicantRegisterCtrl'
-            }).when('/employerRegister', {
-   	        templateUrl: 'templates/register/employerRegister.html',
-            	controller: 'EmployerRegisterCtrl'
-            }).when('/jobPosting', {
-                templateUrl: 'templates/jobs/jobPosting.html',
-       	        controller: 'JobPostingCtrl'
-            }).when('/searchResults', {
-                templateUrl: 'templates/searchResults.html',
-                controller: 'SearchResultsCtrl'
-            }).when('/employerProfile', {
-                templateUrl: 'templates/employerProfile.html',
-                controller: 'EmployerProfileCtrl'
-            }).when('/applicantProfile', {
-                templateUrl: 'templates/applicantProfile.html',
-                controller: 'ApplicantProfileCtrl'
-            }).when('/jobListing/:keyword/:index', {
-                templateUrl: 'templates/jobs/jobListing.html',
-                controller: 'JobListingCtrl'
-            }).when('/searchResults/:keyword', {
-                templateUrl: 'templates/searchResults.html',
-                controller: 'SearchResultsCtrl'
-            }).when('/thankyou', {
-                templateUrl: 'templates/thankyou.html',
-                controller: 'ThankyouCtrl'
-            }).when('/updateApplicantProfile', {
-                templateUrl: 'templates/updateApplicantProfile.html',
-                controller: 'UpdateApplicantProfileCtrl',
-            }).when('/updateEmployerProfile', {
-                templateUrl: 'templates/updateEmployerProfile.html',
-                controller: 'UpdateEmployerProfileCtrl',
-            }).when('/newJob', {
-                templateUrl: 'templates/jobs/jobListing.html',
-                controller: 'NewJobCtrl'
-            }).when('/home', {
-                templateUrl: 'templates/home.html',
-                controller: 'HomeCtrl',
-                resolve: {
-                    jobs: function(JobListService){
-                        return JobListService.getRecommendedJobs();
-                    }
-                }    
-            }).otherwise({
-                    redirectTo: '/'
-            });
     }])
     .directive('fileModel', ['$parse', function ($parse) {
         return {
@@ -103,13 +51,12 @@ angular.module('ucrCareer', ['ngRoute', 'ngMessages', 'ucrCareerControllers', 'u
         logout: 'logout'
     });
 
+angular.module('huntEdu.directives', ['huntEdu.controllers']);
 
-angular.module('ucrCareerDirectives', ['ucrCareerControllers']);
+angular.module('huntEdu.controllers', ['ui.bootstrap', 'youtube-embed']);
 
-angular.module('ucrCareerControllers', ['ui.bootstrap', 'youtube-embed']);
-
-angular.module('ucrCareerServices', ['LocalStorageModule'])
+angular.module('huntEdu.services', ['LocalStorageModule'])
     .config(['localStorageServiceProvider', function(localStorageServiceProvider){
-        localStorageServiceProvider.setPrefix('ucrCareer');
+        localStorageServiceProvider.setPrefix('huntEdu.');
         localStorageServiceProvider.setStorageCookie(45, '/');
     }]);        

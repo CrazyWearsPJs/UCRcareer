@@ -1,4 +1,4 @@
-angular.module('ucrCareerServices')
+angular.module('huntEdu.services')
     .factory('User', ['$http', '$q', 'USER_ROLES', function UserFactory($http, $q, USER_ROLES) {
         var forEach = angular.forEach,
             isFunction = angular.isFunction,

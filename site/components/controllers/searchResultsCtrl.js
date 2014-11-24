@@ -1,10 +1,12 @@
-angular.module('ucrCareerControllers')
-    .controller('SearchResultsCtrl',['$scope', '$routeParams', 'JobListService', 
-        function ($scope, $routeParams, JobListService){
-            $scope.$on('$viewContentLoaded', function(){
-               var keyword = $routeParams.keyword,
-                   jobs = JobListService.getResults(keyword);
-               $scope.keyword = keyword;
+angular.module('huntEdu.controllers')
+    .controller('SearchResultsCtrl',['$scope', '$routeParams','$location', 'jobs', 
+        function ($scope, $routeParams, $location, jobs){
+            $scope.$on('$routeChangeSuccess', function(){
                $scope.searchResultsData = jobs;
+               $scope.keyword = $routeParams.keyword;
+            });
+
+            $scope.$on('$routeChangeError', function() {
+                $location.path('/searchError' + $routeParams.keyword);
             });
     }]);

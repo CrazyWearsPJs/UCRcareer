@@ -1,4 +1,4 @@
-angular.module('ucrCareerServices')
+angular.module('huntEdu.services')
     .service('PostService', ['$http', '$q', 'User', function PostService($http, $q, User){
 
         this.postJob = function(job) {

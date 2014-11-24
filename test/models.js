@@ -246,6 +246,7 @@ describe('models', function (){
             var bestPost   = new JobPosting({
                     specifics: {
                         jobTitle:      "Software Engineer"
+                      , companyName:   "Google Inc"
                       , description:   "Best Job Evar!"
                       , requirements:  "Over 9000 IQ"
                       , salary:        "$100,000 annual"
