@@ -11,10 +11,11 @@ var express        = require('express')
   , path           = require('path')
   , winston        = require('winston');
 
-var config = require('./app/config')
-  , models = require('./app/models')
-  , logger = require('./app/logger')
-  , router = require('./app/router');
+var config        = require('./app/config')
+  , models        = require('./app/models')
+  , logger        = require('./app/logger')
+  , router        = require('./app/router')
+  , notifications = require('./app/notifications');
 
 var app    = express()
   , server = http.Server(app);
@@ -61,6 +62,12 @@ db.on('close', function() {
 
 // Register models
 models.register(db);
+
+/**
+ * Attach server to notifications module
+ */
+
+notifications.attachToServer(server);
 
 /**
  * Setup server
@@ -114,12 +121,19 @@ app.use(bodyParser.json());
 /**
  * Use Session Cookies
  */
-app.use(session({
+
+var sessionMiddleware = session({
     'name': 'ucrCareer.api-token',
     'resave': true,
     'secret': 'test',
     'saveUninitialized' : true
-}));
+});
+
+// Register session middleware for socket.io
+notifications.attachSessions(sessionMiddleware);
+
+// Register session middleware for express server
+app.use(sessionMiddleware);
 
 /**
  * Set application routes
@@ -135,3 +149,5 @@ var port = serverSettings.port || 8080;
 server.listen(port, function (){
     logger.info("Application started on port %s", port);
 });
+
+notifications.start();
