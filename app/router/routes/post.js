@@ -17,7 +17,7 @@ router.post('/', function(req, res, next) {
     var JobPosting = models.jobPosting(),
         newJobPosting = null,
         jobPostingData = req.body;
-
+    
     if(!req.session.employerUserId) {
         var err = new Error("Not Authorized: not Employer");
         err.name = "ForbiddenError";
@@ -43,33 +43,33 @@ router.post('/', function(req, res, next) {
     }
 });
 
-/**
- * Job Posting search route. Given a keyword, this
- * function will return all job postings that contain
- * the keyword in its title or description
- */
 
-router.post('/search', function(req, res, next) {
-    var JobPosting = models.jobPosting()
-      , keyword    = req.body.keyword;
+var ObjectId = require('mongoose').Types.ObjectId;
 
-    // sanity checking
-    if (!keyword) {
-        res.status(400).end();
-        return;
-    }
-    if (typeof keyword != 'string') {
-        res.status(400).end();
-        return;
-    }
+router.get('/id/:id', function(req, res, next) {
+    var JobPosting = models.jobPosting(), 
+        id = req.params.id;
 
-    JobPosting.findByKeyword(keyword, function(err, posts){
-        if (err) {
-            res.send(400).end();
-            return;
-        }
-        res.send(posts);
-    });
+    if(id) {
+        var buffer = new Buffer(id.replace('-', '+').replace('_','/'), 'base64'),
+            decodedId = buffer.toString('hex'),
+            decodedObjectId = new ObjectId(decodedId);
+
+        JobPosting.findById(decodedId, function(err, jobPosting) {
+            if(err) {
+                err.status = 404;
+                next(err);
+            } else {
+               res.status(200).json(jobPosting); 
+            }
+        });
+    
+    } else {
+        var err = new Error("Missing id");
+        err.name = "BadRequestError";
+        err.status = 403;
+        next(err);
+    } 
 });
 
 exports = module.exports = router;

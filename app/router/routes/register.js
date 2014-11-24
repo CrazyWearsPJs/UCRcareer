@@ -27,7 +27,6 @@ router.post('/applicant', function(req, res, next) {
         newApplicant.save(function(err, newApplicantUpdated) {
             if(err) {
                 err.status = 400;
-                logger.error(err);
                 next(err);
             } else {
                 req.session.applicantUserId = newApplicantUpdated._id;
@@ -38,7 +37,6 @@ router.post('/applicant', function(req, res, next) {
         var err = new Error('Missing applicant credentials');            
         err.name = 'error';
         err.status = 400;
-        logger.error(err);
         next(err);
     }
 });
@@ -63,7 +61,6 @@ router.post('/employer', function(req, res, next) {
         newEmployer.save(function(err, newEmployerUpdated) {
             if(err) {
                 err.status = 400;
-                logger.error(err);
                 next(err);
             } else {
                 req.session.employerUserId = newEmployerUpdated._id;
@@ -74,7 +71,6 @@ router.post('/employer', function(req, res, next) {
         var err = new Error('Missing employer credentials');            
         err.name = 'error';
         err.status = 400;
-        logger.error(err);
         next(err);
     }
 });

@@ -255,7 +255,7 @@ angular.module('huntEdu.services')
         User.clearAll = function() {
             forEach(User, function(value, key) {
                 if(!isFunction(value)) {
-                    if(isArray(value)){
+                   if(isArray(value)){
                         User[key] = [];
                     } else if (isObject(value)) {
                         User[key] = {};

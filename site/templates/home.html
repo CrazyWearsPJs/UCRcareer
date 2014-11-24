@@ -4,7 +4,7 @@
         <div class="jumbotron" id="splashSearch">
             <div ng-repeat="job in jobs" class="row">
                 
-                <a ng-href="#/jobListing/{{keyword}}/{{$index}}">{{job.specifics.jobTitle}}</a>
+                <a ng-href="#/jobListing/{{job.getId()}}">{{job.specifics.jobTitle}}</a>
                     {{job.specfics.salary}}
             </div>
         </div>

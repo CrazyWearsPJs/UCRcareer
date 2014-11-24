@@ -21,7 +21,7 @@ angular.module('huntEdu.services')
             return dest;
         };
 
-        var JOB_POST_DATA_FIELDS = ['specifics', 'location', 
+        var JOB_POST_DATA_FIELDS = ['meta','specifics', 'location', 
                             'date', 'media', 'tags'];
         
         function JobPost(data) {
@@ -34,6 +34,9 @@ angular.module('huntEdu.services')
         }
 
         JobPost.prototype = {
+            'meta': {
+                'id': null
+            },
             'specifics': {
                 'jobTitle': null, 
                 'description': null, 
@@ -58,6 +61,10 @@ angular.module('huntEdu.services')
             'tags': []
         };
         
+        JobPost.prototype.getId = function() {
+            return this.meta.id;
+        };
+
         JobPost.getJobPostDataFields = function() {
             return JOB_POST_DATA_FIELDS;
         };

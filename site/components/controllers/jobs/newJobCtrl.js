@@ -1,8 +1,8 @@
 angular.module('huntEdu.controllers')
-    .controller('NewJobCtrl',['$scope', '$location', 'JobListService', 
-        function newJobCtrl($scope, $location, JobListService){
+    .controller('NewJobCtrl',['$scope', '$location', 'JobList', 
+        function newJobCtrl($scope, $location, JobList){
             $scope.$on('$viewContentLoaded', function(){
-               var job = JobListService.getNewJob();
+               var job = JobList.getNewJob();
                if(!job) {
                     $location.path('/jobPosting');
                }

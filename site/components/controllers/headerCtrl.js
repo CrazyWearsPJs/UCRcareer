@@ -1,7 +1,7 @@
 angular.module('huntEdu.controllers')
     .controller('HeaderCtrl', 
-    ['$scope', '$modal', '$location', 'AuthService', 'User', 'JobListService', 
-    function HeaderCtrl($scope, $modal, $location, AuthService, User, JobListService){
+    ['$scope', '$modal', '$location', 'AuthService', 'User', 'JobList', 
+    function HeaderCtrl($scope, $modal, $location, AuthService, User, JobList){
 
         $scope.ok = function() {
             if($scope.splash.search[0]) {
@@ -42,7 +42,7 @@ angular.module('huntEdu.controllers')
             AuthService.logout()
                 .then(function(){
                     User.clearAll();
-                    JobListService.clearAll();
+                    JobList.clearAll();
                     $location.path('/');   
                 });
         };

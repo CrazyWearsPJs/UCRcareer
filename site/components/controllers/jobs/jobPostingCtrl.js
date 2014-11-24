@@ -1,6 +1,6 @@
 angular.module('huntEdu.controllers')
-    .controller('JobPostingCtrl', ['$scope', '$location', '$http', '$q','User', 'PostService', 'JobPost', 'JobListService', 
-    function JobPostingCtrl($scope, $location, $http, $q, User, PostService, JobPost, JobListService){
+    .controller('JobPostingCtrl', ['$scope', '$location', '$http', '$q','User', 'PostService', 'JobPost', 'JobList', 
+    function JobPostingCtrl($scope, $location, $http, $q, User, PostService, JobPost, JobList){
         var redirectPath = '/',
             youtubeUrlPrefix = "https://gdata.youtube.com/feeds/api/videos/",
             youtubeUrlSuffix = "?v=2",
@@ -95,7 +95,7 @@ angular.module('huntEdu.controllers')
                         return PostService.postJob(job);
                     }).then(function(){
                         //post job is successful!
-                        JobListService.setNewJob(job);
+                        JobList.setNewJob(job);
                         $location.path('/newJob');
                     });
                 
