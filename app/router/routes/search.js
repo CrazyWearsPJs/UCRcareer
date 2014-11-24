@@ -24,7 +24,7 @@ router.get('/:keyword', function(req, res, next) {
     }
 
     JobPosting.findByKeyword(keyword, function(err, posts){
-        if (err) {
+        if (err || !posts) {
             res.send(400).end();
             return;
         }
