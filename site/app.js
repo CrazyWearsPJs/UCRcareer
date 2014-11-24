@@ -39,7 +39,10 @@ angular.module('huntEdu', ['ngRoute', 'ngMessages', 'huntEdu.controllers', 'hunt
             return input.join(delimiter);
         };
     })
-
+    /* inject lodash as a util factory */
+    .factory('_', ['$window', function($window) {
+        return $window._;
+    }])
     .constant('USER_ROLES', {
         all: '*',
         guest: 'guest',
