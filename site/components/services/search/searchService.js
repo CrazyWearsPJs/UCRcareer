@@ -5,7 +5,7 @@ angular.module('huntEdu.services')
         var forEach = angular.forEach;
 
         /**
-         * Populate JobList service with jobs containing keyword, the
+         * Populate JobList service with jobs containing keyword, then
          * return the results. 
          * @param keyword {String} search keyword
          * @param limit {Integer} max number of results
