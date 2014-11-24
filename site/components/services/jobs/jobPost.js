@@ -4,6 +4,14 @@ angular.module('huntEdu.services')
             isObject = angular.isObject,
             copy = angular.copy;
 
+        /**
+         * Wrapper around angular.copy. Copies src
+         * to dest. If src is an object, dest will
+         * not have any null valued fields.
+         * @param src {Object, Array} Source
+         * @param dest {Object, Array} Destination
+         */
+         
         var copyNonNull = function(src, dest) {
             if(dest) {
                 copy(src, dest);
@@ -24,8 +32,16 @@ angular.module('huntEdu.services')
         var JOB_POST_DATA_FIELDS = ['meta','specifics', 'location', 
                             'date', 'media', 'tags'];
         
+        /**
+         * Constructor for Job Post. Initializes Job Post given
+         * data. 
+         * @param data {Object} 
+         */
+
         function JobPost(data) {
            var self = this;
+           // Copy each value in data whose key exists in our job post
+           // schema
            forEach(data, function(value, key) {         
                 if(JOB_POST_DATA_FIELDS.indexOf(key) !== -1) {
                    self[key] = copyNonNull(value);
