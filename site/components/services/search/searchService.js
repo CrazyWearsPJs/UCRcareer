@@ -67,9 +67,9 @@ angular.module('huntEdu.services')
             } else {
                 $http.get('/post/id/' + id)
                     .then(function(res) {
-                         var jobPostRaw = res.data;
-                         JobList.addJob(jobPostRaw);
-                         deferred.resolve(JobList.getJobById(jobPostRaw.meta.id));
+                        var jobPostRaw = res.data;
+                        JobList.addJob(jobPostRaw);
+                        deferred.resolve(JobList.getJobById(jobPostRaw.meta.id));
                     }, deferred.reject);
            }
            return deferred.promise;

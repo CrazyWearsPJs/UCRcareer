@@ -39,11 +39,9 @@ angular.module('huntEdu')
                         return SearchService.search(keyword);
                     }]
                 }
-            }).when('/searchError/:keyword', {
+            }).when('/searchError', {
                 templateUrl: 'templates/search/searchError.html', 
-                controller: ['$scope', '$routeParams', function SearchErrorCtrl($scope, $routeParams) {
-                        $scope.keyword = $routeParams.key;              
-            }]}).when('/thankyou', {
+            }).when('/thankyou', {
                 templateUrl: 'templates/thankyou.html',
                 controller: 'ThankyouCtrl'
             }).when('/updateApplicantProfile', {
