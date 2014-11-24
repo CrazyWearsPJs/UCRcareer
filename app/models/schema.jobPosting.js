@@ -40,6 +40,30 @@ var jobPostingSchema = new Schema({
   , tags:             [ String ]
 }); 
 
+var textSearchIndexFields = {
+    "specifics.jobTitle": "text",
+    "specifics.description": "text",
+    "specifics.requirements": "text",
+    "specifics.companyName": "text",
+    "specifics.jobType": "text",
+    "specifics.location": "text",
+    "tags": "text"
+},
+    textSearchIndexOptions = {
+    "name": "text_search_index",
+    "weights": {
+        "specifics.jobTitle": 4,
+        "specifics.description": 1,
+        "specifics.requirements": 1,
+        "specifics.companyName": 5,
+        "specifics.jobType": 4,
+        "specifics.location": 4,
+        "tags": 6
+    }
+};
+
+jobPostingSchema.index(textSearchIndexFields, textSearchIndexOptions);
+
 /**
  * Search for job postings based on a keyword. Keyword
  * could be contained in job description OR job title
@@ -48,23 +72,31 @@ var jobPostingSchema = new Schema({
  * callback(err, [post1, post2...])
  */
 
-jobPostingSchema.static('findByKeyword', function jobSearch(keyword, cb){
+jobPostingSchema.static('findByKeyword', function jobSearch(keyword, cb, options){
     var jobPosting = this;
     
+    var limit = 100;
+
     // Sanity checking
     if (!keyword)
         return cb(new Error("Keyword was not provided"));
     if (typeof keyword !== "string")
         return cb(new Error("Keyword was not a string"));
     
-    var keywordRegex = new RegExp(".*" + keyword + ".*", "i");
-    
-    jobPosting.find({ 
-        $or :[
-            {'specifics.jobTitle': keywordRegex}
-          , {'specifics.description': keywordRegex}
-        ]}
-      , cb);
+    if(options) {
+        if(options.limit) {
+            limit = options.limit;
+        }
+    }
+
+    jobPosting.find(
+        {$text: {$search: keyword }},
+        {score : {$meta: "textScore"}}
+     )
+     .sort({score: {$meta: "textScore"} 
+     })
+     .limit(limit)
+     .exec(cb);
 });
 
 jobPostingSchema.static('encodeUrlId',  function encodeJobPostUrlId(_id)  {  
