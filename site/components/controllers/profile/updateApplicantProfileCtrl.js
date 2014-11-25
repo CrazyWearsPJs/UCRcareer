@@ -28,6 +28,8 @@ angular.module('huntEdu.controllers')
                             fileUpload.uploadFileToUrl($scope.user.spec.resume, '/upload', function(){ 
                                 $location.path(profilePage);
                             });
+                        } else {
+                            $location.path(profilePage);
                         }
                     }, function() {
                     });
