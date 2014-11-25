@@ -96,6 +96,9 @@ describe('models', function (){
                         fName: "John"
                       , lName: "Doe"
                     }
+                  , interests: []
+                  , bookmarkedPosts: []
+                  , postNotifications: []
                 });
             
             // Save applicant
@@ -136,7 +139,99 @@ describe('models', function (){
                 done();
             });
         });
-        
+       
+        describe('#addBookmark', function(){
+            it('should add a job id to an applicants bookmark list', function(done){
+                var Applicant = models.applicant();
+                Applicant.findOne({"credentials.email" : "jdoe001@ucr.edu"}, function(err, applicant){
+                    if(err) throw err;
+                    expect(applicant).to.not.be.equal(null);
+
+                    // Save dummy jobposting id to bookmark list
+                    var dummyId = mongoose.Types.ObjectId();
+                    applicant.addBookmark(dummyId);
+                    
+                    // Verify it was saved
+                    expect(applicant.bookmarkedPosts).to.have.length(1);
+                    expect(applicant.bookmarkedPosts[0]).to.be.equal(dummyId);
+
+                    done();
+                });
+            });
+        });
+
+        describe('#removeBookmark', function(){
+            it('should remove a job id from an applicants bookmark list', function(done){
+                var Applicant = models.applicant();
+                Applicant.findOne({"credentials.email" : "jdoe001@ucr.edu"}, function(err, applicant){
+                    if(err) throw err;
+                    expect(applicant).to.not.be.equal(null);
+
+                    // Save dummy jobposting id
+                    var dummyId = mongoose.Types.ObjectId();
+                    applicant.addBookmark(dummyId);
+                    
+                    // Verify it was saved
+                    expect(applicant.bookmarkedPosts).to.have.length(1);
+                    expect(applicant.bookmarkedPosts[0]).to.be.equal(dummyId);
+
+                    // Remove the jobposting id
+                    applicant.removeBookmark(dummyId);
+
+                    // Verify it was removed
+                    expect(applicant.bookmarkedPosts).to.have.length(0);
+
+                    done();
+                });
+            });
+        });
+
+        describe('#addPostNotification', function(){
+            it('should add a job id to an applicants notification list', function(done){
+                var Applicant = models.applicant();
+                Applicant.findOne({"credentials.email" : "jdoe001@ucr.edu"}, function(err, applicant){
+                    if(err) throw err;
+                    expect(applicant).to.not.be.equal(null);
+
+                    // Save dummy jobposting id to notification list
+                    var dummyId = mongoose.Types.ObjectId();
+                    applicant.addPostNotification(dummyId);
+
+                    // Verify it was saved
+                    expect(applicant.postNotifications).to.have.length(1);
+                    expect(applicant.postNotifications[0]).to.be.equal(dummyId);
+
+                    done();
+                });
+            });
+        });
+
+        describe('#removePostNotification', function(){
+            it('should remove a job id from an applicants notification list', function(done){
+                var Applicant = models.applicant();
+                Applicant.findOne({"credentials.email" : "jdoe001@ucr.edu"}, function(err, applicant){
+                    if(err) throw err;
+                    expect(applicant).to.not.be.equal(null);
+
+                    // Save dummy jobposting id
+                    var dummyId = mongoose.Types.ObjectId();
+                    applicant.addPostNotification(dummyId);
+                    
+                    // Verify it was saved
+                    expect(applicant.postNotifications).to.have.length(1);
+                    expect(applicant.postNotifications[0]).to.be.equal(dummyId);
+
+                    // Remove the jobposting id
+                    applicant.removePostNotification(dummyId);
+
+                    // Verify it was removed
+                    expect(applicant.postNotifications).to.have.length(0);
+
+                    done();
+                });
+            });
+        });
+
         describe('#findByCredentials', function (){
             it('should check if an applicant exists, given credentials', function(done){
                 var Applicant = models.applicant();

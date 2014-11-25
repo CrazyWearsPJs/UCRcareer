@@ -4,6 +4,14 @@ angular.module('huntEdu.services')
 
         var forEach = _.forEach;
 
+        /**
+         * Populate JobList service with jobs containing keyword, then
+         * return the results. 
+         * @param keyword {String} search keyword
+         * @param limit {Integer} max number of results
+         * @return [Job1, Job2, ...]
+         */
+
         this.search = function(keyword, limit) {
             var deferred = $q.defer();
 
@@ -59,9 +67,9 @@ angular.module('huntEdu.services')
             } else {
                 $http.get('/post/id/' + id)
                     .then(function(res) {
-                         var jobPostRaw = res.data;
-                         JobList.addJob(jobPostRaw);
-                         deferred.resolve(JobList.getJobById(jobPostRaw.meta.id));
+                        var jobPostRaw = res.data;
+                        JobList.addJob(jobPostRaw);
+                        deferred.resolve(JobList.getJobById(jobPostRaw.meta.id));
                     }, deferred.reject);
            }
            return deferred.promise;

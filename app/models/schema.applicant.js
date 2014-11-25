@@ -4,6 +4,7 @@
 
 var mongoose = require('mongoose')
   , bcrypt   = require('bcrypt')
+  , _        = require('underscore')
   , Schema   = mongoose.Schema; 
 
 var config   = require('../config');
@@ -16,37 +17,39 @@ var bcryptSettings = config.bcryptSettings;
 
 var applicantSchema = new Schema({
     credentials: {
-        password:  { type: String, required: true }
-      , email:     { type: String, required: true, lowercase: true, unique: true }
+        password:      { type: String, required: true }
+      , email:         { type: String, required: true, lowercase: true, unique: true }
     }
   , contact: {
-        website:   { type: String } 
-      , linkedIn:  { type: String }
-      , facebook:  { type: String }
-      , twitter:   { type: String }
-      , phoneNum:  { type: String }
+        website:       { type: String } 
+      , linkedIn:      { type: String }
+      , facebook:      { type: String }
+      , twitter:       { type: String }
+      , phoneNum:      { type: String }
     }
   , location: {
-        city:      { type: String, required: true }
-      , state:     { type: String, required: true }
-      , zip:       { type: String, required: true }
-      , address1:  { type: String, required: true }
-      , address2:  { type: String }
-      , country:   { type: String, required: true }
+        city:          { type: String, required: true }
+      , state:         { type: String, required: true }
+      , zip:           { type: String, required: true }
+      , address1:      { type: String, required: true }
+      , address2:      { type: String }
+      , country:       { type: String, required: true }
     }
   , spec: {
-        degree:    { type: String }
-      , univ:      { type: String }
-      , year:      { type: String }
-      , resume:    { type: String }
-      , focus:     { type: String }
+        degree:        { type: String }
+      , univ:          { type: String }
+      , year:          { type: String }
+      , resume:        { type: String }
+      , focus:         { type: String }
     }
   , personal: {
-        fName:     { type: String, required: true }
-      , mInit:     { type: String }
-      , lName:     { type: String, required: true }
+        fName:         { type: String, required: true }
+      , mInit:         { type: String }
+      , lName:         { type: String, required: true }
     }
-  , interests:     [ String ]
+  , interests:         [ String ]
+  , bookmarkedPosts:   [{ type: Schema.Types.ObjectId, ref: 'JobPosting' }]
+  , postNotifications: [{ type: Schema.Types.ObjectId, ref: 'JobPosting' }]
 }); 
 
 /**
@@ -98,6 +101,70 @@ applicantSchema.methods.setPassword = function(plainTextPassword) {
     applicant.plainTextPassword = true;
     applicant.credentials.password = plainTextPassword;
 };
+
+/**
+ * Adds a job posting id to applicant's bookmarked posts
+ * @param postId {ObjectId} Job posting id
+ */
+
+applicantSchema.methods.addBookmark = function(postId){
+    var applicant = this;
+    // If bookmark already exists, don't do anything
+    if (_.indexOf(applicant.bookmarkedPosts, postId, true) !== -1)
+        return;
+
+    // Figure out where to insert post id as to keep array of 
+    // bookmarked posts sorted
+    var insertionPoint = _.sortedIndex(applicant.bookmarkedPosts, postId);
+    applicant.bookmarkedPosts.splice(insertionPoint, 0, postId);
+}
+
+/**
+ * Removes a job posting id from the applicant's bookmarked posts
+ * @param postId {ObjectId} Job posting id
+ */
+
+applicantSchema.methods.removeBookmark = function(postId){
+    var applicant = this;
+    // Figure out where the id to remove is located
+    var removalPoint = _.indexOf(applicant.bookmarkedPosts, postId, true);
+    // If bookmark doesn't exist, then there is nothing to do!
+    if ( removalPoint === -1)
+        return;
+    applicant.bookmarkedPosts.splice(removalPoint, 1);
+}
+
+/**
+ * Adds a job posting id to applicant's notification queue
+ * @param postId {ObjectId} Job posting id
+ */
+
+applicantSchema.methods.addPostNotification = function(postId){
+    var applicant = this;
+    // If notification already exists, don't do anything
+    if (_.indexOf(applicant.postNotifications, postId, true) !== -1)
+        return;
+
+    // Figure out where to insert post as to keep array of 
+    // post notifications sorted
+    var insertionPoint = _.sortedIndex(applicant.postNotifications, postId);
+    applicant.postNotifications.splice(insertionPoint, 0, postId);
+}
+
+/**
+ * Removes a job posting id from the applicant's notification queue
+ * @param postId {ObjectId} Job posting id
+ */
+
+applicantSchema.methods.removePostNotification = function(postId){
+    var applicant = this;
+    // Figure out where the id to remove is located
+    var removalPoint = _.indexOf(applicant.postNotifications, postId, true);
+    // If bookmark doesn't exist, then there is nothing to do!
+    if ( removalPoint === -1)
+        return;
+    applicant.postNotifications.splice(removalPoint, 1);
+}
 
 /**
  * Set pre-save hook for replacing password field

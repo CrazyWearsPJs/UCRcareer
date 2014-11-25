@@ -53,11 +53,10 @@ router.get('/id/:id', function(req, res, next) {
         console.log(decodedId);
 
         JobPosting.findById(decodedId, function(err, jobPosting) {
-            if(err) {
-                err.status = 404;
-                next(err);
+            if(err || !jobPosting) {
+                res.status(404).end();
             } else {
-               res.status(200).json(jobPosting); 
+                res.status(200).json(jobPosting); 
             }
         }); 
     } else {

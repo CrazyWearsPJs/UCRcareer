@@ -19,7 +19,7 @@ router.get('/', function(req, res, next){
 
     // Find applicants resume
     Applicant.findOne({_id : applicantUserId}, function(err, applicant){
-        if (!applicant)
+        if (!applicant || !applicant.spec.resume)
             return res.send(400, 'No Resume was uploaded');
         res.sendFile(applicant.spec.resume);
     });

@@ -20,8 +20,13 @@ angular.module('huntEdu.services')
                 } else {
                     context[key] = val;
                 }
-            });
         }
+
+        /**
+         * Constructor for Job Post. Initializes Job Post given
+         * data. 
+         * @param data {Object} 
+         */
 
         function JobPost(data) {
            baseSetJobPostData(data, this);
