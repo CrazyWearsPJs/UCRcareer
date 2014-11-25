@@ -23,12 +23,12 @@ router.post('/', function(req, res){
       , applicantUserId = req.session.applicantUserId;
     
     if (!applicantUserId)
-        return req.send(400, 'Must be logged in first');
+        return res.send(400, 'Must be logged in first');
     
     var form = new multiparty.Form();
     form.parse(req, function(err, fields, files) {
         if(err) 
-            return req.send(400, 'Error uploading file');
+            return res.send(400, 'Error uploading file');
         // Path to temporary file we fetched
         var filePath = files.file[0].path;
         // Move temporary file to something more
@@ -37,10 +37,10 @@ router.post('/', function(req, res){
         
         fs.rename(filePath, saveFilePath, function(err){
             // We shouldn't have trouble moving a file
-            if (err) return req.send(400, 'Error saving file');
+            if (err) return res.send(400, 'Error saving file');
             // Save the path to the resume to the applicant
             Applicant.update({ _id : applicantUserId}, {'spec.resume': saveFilePath}, {}, function(err){
-                    if(err) return req.sendStatus(400).end();
+                    if(err) return res.sendStatus(400).end();
                     res.sendStatus(200).end();
             });
         });
