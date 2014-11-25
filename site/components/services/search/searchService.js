@@ -1,8 +1,8 @@
 angular.module('huntEdu.services')
-    .service('SearchService', ['$http', '$q', 'JobList', 'User',  
-    function searchService($http, $q, JobList, User) {
+    .service('SearchService', ['$http', '$q', '_', 'JobList', 'User',  
+    function searchService($http, $q, _, JobList, User) {
 
-        var forEach = angular.forEach;
+        var forEach = _.forEach;
 
         this.search = function(keyword, limit) {
             var deferred = $q.defer();

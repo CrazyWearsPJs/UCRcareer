@@ -18,14 +18,17 @@ angular.module('huntEdu.controllers')
             'personal': {},
             'interests': []
         };
-         
+   
+
         $scope.update = function() {
             if($scope.updateProfile.$valid) {
                 User.updateProfileData($scope.user)
                     .then(function() {
-                        fileUpload.uploadFileToUrl($scope.user.spec.resume, '/upload', function(){ 
-                            $location.path(profilePage);
-                        });
+                        if($scope.user.spec.resume) {
+                            fileUpload.uploadFileToUrl($scope.user.spec.resume, '/upload', function(){ 
+                                $location.path(profilePage);
+                            });
+                        }
                     }, function() {
                     });
             }
