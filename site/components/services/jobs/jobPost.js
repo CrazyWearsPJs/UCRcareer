@@ -20,6 +20,8 @@ angular.module('huntEdu.services')
                 } else {
                     context[key] = val;
                 }
+
+            });
         }
 
         /**
