@@ -99,15 +99,15 @@ jobPostingSchema.static('findByKeyword', function jobSearch(keyword, cb, options
      .exec(cb);
 });
 
-jobPostingSchema.static('encodeUrlId',  function encodeJobPostUrlId(_id)  {  
+jobPostingSchema.methods.encodeUrlId =  function encodeJobPostUrlId()  {  
     var jobPosting = this;
-    buffer = new Buffer(_id, 'hex');
+    buffer = new Buffer(jobPosting._id.toString(), 'hex');
     base64Id = buffer.toString('base64')
                     .replace('+', '-')
                     .replace('/', '_');
         
-    return base64Id;
-});
+    jobPosting.meta.id = base64Id;
+};
 
 jobPostingSchema.static('decodeUrlId', function decodeJobPostUrlId(base64Id) {
     var buffer = new Buffer(base64Id.replace('-', '+').replace('_','/'), 'base64'),
@@ -120,8 +120,7 @@ jobPostingSchema.static('decodeUrlId', function decodeJobPostUrlId(base64Id) {
 jobPostingSchema.pre('save', function beforeSavingJobPost(next) {
   var jobPosting = this;
     if(jobPosting.isNew) {
-        var _id = jobPosting._id.toString();
-        jobPosting = jobPosting.encodeUrlId(_id);
+        jobPosting.encodeUrlId();
     }
     next();
 });
