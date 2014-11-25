@@ -43,6 +43,10 @@ var express = require('express'),
                     throw err;
                 } else {
                     deepExtend(applicant, updatedProfileInfo);
+                    //need to do this, as mongo doesn't index arrays
+                    if(updatedProfileInfo.interests && updatedProfileInfo.interests.length > 0) {
+                        applicant.markModified('interests');
+                    }
                     return Q.ninvoke(applicant, 'save')
                         .then(function(){
                            var jsonResponse = applicant.getProfileData();
@@ -98,7 +102,9 @@ var express = require('express'),
                     err.status = 403;
                     throw err;
                 } else {
-                    deepExtend(employer, updatedProfileInfo);                 
+                    deepExtend(employer, updatedProfileInfo);
+
+                    
                     return Q.ninvoke(employer, 'save')
                         .then(function(){
                            var jsonResponse = employer.getProfileData();

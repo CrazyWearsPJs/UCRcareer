@@ -8,16 +8,16 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" ng-href="#/">HuntEdu</a>
+            <a class="navbar-brand" ng-click="clickLogo()">HuntEdu</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li ng-show="!showGuest()"><p class="navbar-text"> Welcome {{welcome.personal.fName}} {{welcome.personal.lName}}</p> </li>
                 <li><a href="" ng-click="registerOpen()" ng-show="showGuest()">Register</a></li>
-                <li><a href="" ng-click="loginOpen()" ng-show="showGuest()">Log In</a></li>
+                <li><a href="" ng-click="loginOpen()" ng-show="showGuest()">Log In <span class='glyphicon glyphicon-log-in'></span></a></li>
                 <li><a href="" ng-click="gotoProfile()" ng-show="!showGuest()">Profile Page</a></li>
                 <li><a href="" ng-click="gotoJobPostingPage()" ng-show="showEmployer()">Post New Job</a></li>
-                <li><a href="" ng-click="logout()" ng-show="!showGuest()">Sign Out</a></li>
+                <li><a href="" ng-click="logout()" ng-show="!showGuest()">Sign Out <span class='glyphicon glyphicon-log-out'> </span></a></li>
             </ul>
             <span huntedu-nav-searchbar
                   form-class="navbar-form navbar-left"

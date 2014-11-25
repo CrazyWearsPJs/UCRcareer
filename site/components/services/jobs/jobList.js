@@ -1,8 +1,8 @@
 angular.module('huntEdu.services')
-    .factory('JobList', ['JobPost', 
-    function JobListFactory(JobPost) {
+    .factory('JobList', ['JobPost', '_', 
+    function JobListFactory(JobPost, _) {
 
-        var forEach = angular.forEach;
+        var forEach = _.forEach;
 
         var JobList = {
             'searchResults': {}, //map of search queries to ordered array of ids 

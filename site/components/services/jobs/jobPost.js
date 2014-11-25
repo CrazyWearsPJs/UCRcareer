@@ -1,36 +1,37 @@
 angular.module('huntEdu.services')
-    .factory('JobPost', function JobPostFactory() {
-        var forEach = angular.forEach,
-            isObject = angular.isObject,
-            copy = angular.copy;
-
-        var copyNonNull = function(src, dest) {
-            if(dest) {
-                copy(src, dest);
-            } else {
-                dest = copy(src); 
-            }
-
-            if(isObject(dest)) {
-                forEach(dest, function(value, key) {
-                    if(!value) {
-                        delete dest[key];
-                    }
-                });
-            }
-            return dest;
-        };
+    .factory('JobPost', ['_', 'Util', function JobPostFactory(_, Util) {
+        var forEach = _.forEach,
+            isArray = _.isArray,
+            pick = _.pick,
+            uniq = _.uniq,
+            compactObject = Util.compactObject,
+            compactObjectDeep = Util.compactObjectDeep;
 
         var JOB_POST_DATA_FIELDS = ['meta','specifics', 'location', 
                             'date', 'media', 'tags'];
         
-        function JobPost(data) {
-           var self = this;
-           forEach(data, function(value, key) {         
-                if(JOB_POST_DATA_FIELDS.indexOf(key) !== -1) {
-                   self[key] = copyNonNull(value);
+        function baseSetJobPostData(data, context) {
+            var relevantData = pick(data, JOB_POST_DATA_FIELDS),
+                compactData = compactObject(relevantData);
+
+            forEach(compactData, function(val, key) {
+                if(isArray(val)) {
+                    context[key] = uniq(val);
+                } else {
+                    context[key] = val;
                 }
+
             });
+        }
+
+        /**
+         * Constructor for Job Post. Initializes Job Post given
+         * data. 
+         * @param data {Object} 
+         */
+
+        function JobPost(data) {
+           baseSetJobPostData(data, this);
         }
 
         JobPost.prototype = {
@@ -86,26 +87,12 @@ angular.module('huntEdu.services')
         };
 
         JobPost.prototype.setJobPostData = function(data) {
-            var self = this;
-            forEach(data, function(value, key) {
-                if(JOB_POST_DATA_FIELDS.indexOf(key) !== -1) {
-                   self[key] = copyNonNull(value);
-                }
-            });
+            baseSetJobPostData(data, this);
         };
 
         JobPost.prototype.getJobPostData = function() {
-            var info = {};
-            forEach(this, function(value, key) {
-                forEach(JOB_POST_DATA_FIELDS, function(jobPostDataField) {
-                    if(value && (key === jobPostDataField)) {
-                        info[jobPostDataField] = 
-                            copyNonNull(value);
-                    }
-                });  
-            });
-            return info;
+            return compactObjectDeep(this);
         };
         
          return JobPost;
-    });
+    }]);

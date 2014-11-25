@@ -13,7 +13,8 @@ angular.module('huntEdu.controllers')
         if(User.isApplicant()){
             var role = User.getUserRole();
             $scope.applicantProfileData = User.getProfileData(role);
-    	}
+    	    $scope.showResume = User.hasResume();
+        }
         else {
             $location.path('/');
         }

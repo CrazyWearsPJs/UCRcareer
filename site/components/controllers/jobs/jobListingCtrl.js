@@ -7,7 +7,6 @@ angular.module('huntEdu.controllers')
             });
 
             $scope.$on('$routeChangeSuccess', function(){
-                console.log(job);
                 $scope.jobListingData = job;
                 $scope.hasVideo = job.hasVideo();
                 $scope.hasImage = job.hasImage();

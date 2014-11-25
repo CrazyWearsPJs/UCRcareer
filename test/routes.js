@@ -49,6 +49,8 @@ var applicant = {
           , lName: "Doe"
         }
       , interests: []
+      , bookmarkedPosts: []
+      , postNotifications: []
 };
  
 var employer = {  

@@ -65,6 +65,14 @@ angular.module('huntEdu.controllers')
             });
         };
 
+        $scope.clickLogo = function() {
+            if(User.isApplicant()) {
+                $location.path('/home');
+            } else {
+                $location.path('/');
+            }
+        };
+
         $scope.loginOpen = function() {
                 var modalInstance = $modal.open({
                 templateUrl: 'templates/loginModal.html',

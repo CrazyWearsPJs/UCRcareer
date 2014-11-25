@@ -1,81 +1,27 @@
 angular.module('huntEdu.services')
-    .factory('User', ['$http', '$q', 'USER_ROLES', function UserFactory($http, $q, USER_ROLES) {
-        var forEach = angular.forEach,
-            isFunction = angular.isFunction,
-            isObject = angular.isObject,
-            isArray = angular.isArray,
-            copy = angular.copy,
-            equals = angular.equals;
-
-        var copyNonNull = function(src, dest) {
-            if(dest) {
-                copy(src, dest);
-            } else {
-                dest = copy(src); 
-            }
-
-            if(isObject(dest)) {
-                forEach(dest, function(value, field) {
-                    if (isArray(value)) {
-                        if(equals([], value)) {
-                            delete dest[field];
-                        }
-                    }
-                    else if(isObject(value)) {
-                        if(equals({}, value)) {
-                            delete dest[field];
-                        } else {
-                            forEach(value, function(propertyVal, propertyKey) {
-                                if(!propertyVal) {
-                                    delete dest[field][propertyKey];
-                                }
-                            });
-                        }
-                    } else if(!value) {
-                        delete dest[field];
-                    }
-                });
-            }
-            return dest;
-        };
-
-        var unionArray = function(a, b) {
-            var newArr = copy(a),
-                found = false;
-            forEach(b, function(bValue) {
-                found = false;
-                forEach(a, function(aValue) {
-                    if(bValue === aValue) {
-                        found = true;   
-                    }
-                });
-                if(!found) {
-                    newArr.push(bValue);
-                }
-            });
-
-            return newArr;
-        };
-
-        var getProfileDataFields = function(role) {
-              if(role === USER_ROLES.employer) {
-                return employerProfileData;
-              } else if (role === USER_ROLES.applicant) {
-                return applicantProfileData;
-              }
-              return [];
-        };
-
+    .factory('User', ['$http', '$q', 'USER_ROLES', '_', 'Util', function UserFactory($http, $q, USER_ROLES, _, Util) {
+        var forEach = _.forEach,
+            isFunction = _.isFunction,
+            isObject = _.isObject,
+            isArray = _.isArray,
+            clone = _.clone,
+            uniq = _.uniq,
+            union = _.union,
+            pick = _.pick,
+            diffObject = Util.diffObject,
+            compactObjectDeep = Util.compactObjectDeep,
+            compactObject = Util.compactObject,
+            prettyList = Util.prettyList;
        
         var PROFILE_DATA_FIELDS = {};
 
         PROFILE_DATA_FIELDS[USER_ROLES.all] =  ['personal', 'contact', 'location'];
-        PROFILE_DATA_FIELDS[USER_ROLES.applicant] = ['spec', 'interests'];
+        PROFILE_DATA_FIELDS[USER_ROLES.applicant] = ['spec', 'interests', 'bookmarkedPosts', 'postNotifications'];
         PROFILE_DATA_FIELDS[USER_ROLES.employer] = ['companyName'];
         
-        var employerProfileData = unionArray(PROFILE_DATA_FIELDS[USER_ROLES.all], 
-                                            PROFILE_DATA_FIELDS[USER_ROLES.employer]),
-            applicantProfileData = unionArray(PROFILE_DATA_FIELDS[USER_ROLES.all],
+        var employerProfileData = union(PROFILE_DATA_FIELDS[USER_ROLES.all], 
+                                            PROFILE_DATA_FIELDS[USER_ROLES.employer]), 
+            applicantProfileData = union(PROFILE_DATA_FIELDS[USER_ROLES.all],
                                             PROFILE_DATA_FIELDS[USER_ROLES.applicant]); 
 
         var User = {
@@ -112,6 +58,8 @@ angular.module('huntEdu.services')
                 'country': null
             }, 
             'interests': [],
+            'bookmarkedPosts': [],
+            'postNotifications': [],
             'role': USER_ROLES.guest, 
         };
 
@@ -127,37 +75,25 @@ angular.module('huntEdu.services')
          *  that have the same value of the properties in User deleted
          */
         
-        var filterArrayDuplicates = function(arr) {
-            var uniqueArr = [];
-            forEach(arr, function(value) {
-                // if not found in uniqueArray, add to uniqueArray
-                if(uniqueArr.indexOf(value) === -1) {
-                    uniqueArr.push(value);
-                }
-            });
-            return uniqueArr;
+
+        var getProfileDataFields = function(role) {
+            role = role || User.role;
+            if(role === USER_ROLES.applicant) {
+                return applicantProfileData;
+            } else if (role === USER_ROLES.employer) {
+                return employerProfileData;
+            } else {
+                return PROFILE_DATA_FIELDS[USER_ROLES.all];
+            }
         };
 
-        var copyDifferentProfileData = function(data, role) {
+        var updatedProfileData = function(data, role) {
              role = role || User.role;
             var profileDataFields = getProfileDataFields(role),
-                _data = copyNonNull(data);
+                compactData = compactObjectDeep(data),
+                diffData = diffObject(compactData, User); 
 
-            forEach(profileDataFields, function(value, field) {
-                if (_data.hasOwnProperty(field)) {
-                    if(equals(_data[field], User[field])) {
-                        delete _data[field];
-                    } else {
-                        forEach(_data[field], function(subPropertyValue, subPropertyKey) {
-                            if(equals(_data[field][subPropertyKey], User[field][subPropertyKey])) {
-                                delete _data[field][subPropertyKey];
-                            }
-                        });
-                    }
-                }
-            });
-
-            return _data;
+            return pick(diffData, profileDataFields);  
         };
 
         User.setCredentials = function(email, password) {
@@ -179,6 +115,14 @@ angular.module('huntEdu.services')
 
         User.getMajor = function() {
             return User.spec.focus;
+        };
+    
+        User.getInterests = function() {
+            return clone(User.interests);
+        };
+
+        User.prettyListInterests = function(conjunction, noneString) {
+            return prettyList(User.interests, conjunction, noneString);
         };
 
         User.getUserRole = function() {
@@ -206,50 +150,36 @@ angular.module('huntEdu.services')
             return User.role === USER_ROLES.applicant;
         };
 
+        User.hasResume = function() {
+            return !!User.spec.resume;
+        };
+
         User.clearPassword = function() {
             User.credentials.password = null;
         };
 
         User.getAll = function() {
-            var info = {};
-            forEach(User, function(value, key){
-                if(!isFunction(value)) {
-                    info[key] = copyNonNull(value); 
-                }
-            });
-            return info;
+            return compactObjectDeep();
         };
 
         User.setProfileData = function(data,  role) {
-            role = role || User.role;
-            var profileDataFields = getProfileDataFields(role);
-            forEach(data, function(value, key) {
-                if(profileDataFields.indexOf(key) !== -1) {
-                    if(isObject(value)) {
-                        User[key] = copyNonNull(value);
-                    } else if(isArray(value)) {
-                        User[key] = filterArrayDuplicates(value);
+            var updatedData = updatedProfileData(data, role);
+
+            forEach(updatedData, function(value, key) {
+                    if(isArray(value)) {
+                        User[key] = uniq(value);
                     } else {
                         User[key] = value;
                     }
-                }   
             });
         };
 
         User.getProfileData = function(role) {
             role = role || User.role;
-            var info = {},
-                profileDataFields = getProfileDataFields(role);
+            var profileDataFields = getProfileDataFields(role),
+                data = compactObject(User);
             
-            forEach(User, function(value, key) {
-                forEach(profileDataFields, function(profileDataField) {
-                    if(value && key === profileDataField) {
-                        info[profileDataField] = 
-                            copyNonNull(value);
-                    }
-                });  
-            });
-            return info;
+            return pick(data, profileDataFields);
         };
 
         User.clearAll = function() {
@@ -286,18 +216,17 @@ angular.module('huntEdu.services')
                 deferred.reject();
                 return deferred.promise;
             }
-            
-            var updatedProfileData = copyDifferentProfileData(data, role);
-            updatedProfileData.email = User.credentials.email;
-            
-            if(updatedProfileData.interests) {
-                updatedProfileData.interests = filterArrayDuplicates(updatedProfileData.interests);
-            }
+        
+            var updatedData = updatedProfileData(data); 
+            updatedData.email = User.credentials.email;
 
-            $http.post('/profile/' + role, updatedProfileData)
+            console.log("Sending Data:", updatedData);
+
+            $http.post('/profile/' + role, updatedData)
                 .then(function(res) {
-                    var updatedProfileDataResponse = res.data;
-                    User.setProfileData(updatedProfileDataResponse);
+                    var updatedDataRes = res.data;
+                    console.log(updatedDataRes);
+                    User.setProfileData(updatedDataRes);
                     deferred.resolve(res);
                 }, function(err) {
                     deferred.reject(err);   

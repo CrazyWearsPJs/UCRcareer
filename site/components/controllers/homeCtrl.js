@@ -1,18 +1,21 @@
 angular.module('huntEdu.controllers')
-    .controller('HomeCtrl',['$scope', '$location', 'User', 'jobs',
-        function homeCtrl($scope, $location, User, jobs){
+    .controller('HomeCtrl',['$scope', '$location', 'User', 'focusJobs', 'interestJobs',
+        function homeCtrl($scope, $location, User, focusJobs, interestJobs){
             $scope.$on('$routeChangeSuccess', function(){
-               var keyword = null;
 
                if(!User.isApplicant()) {
                     $location.path('/');       
                } else {
-                    keyword = User.getMajor();
-                    $scope.keyword = keyword;
-                    $scope.jobs = jobs;
-                    if(!$scope.jobs) {
-                        $location.path('/');    
-                    }
+                    $scope.focusJobs = focusJobs;
+                    $scope.interestJobs = interestJobs;
+                    
+                    $scope.showInterestJobs = interestJobs && interestJobs.length > 0;
+                    $scope.showFocusJobs = focusJobs && focusJobs.length > 0;
+                    $scope.showRecommendations = $scope.showInterestJobs ||
+                                                 $scope.showFocusJobs;
+
+                    $scope.focus = User.getMajor();
+                    $scope.interests = User.prettyListInterests();
                }
             });
     }]);

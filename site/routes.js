@@ -39,11 +39,9 @@ angular.module('huntEdu')
                         return SearchService.search(keyword);
                     }]
                 }
-            }).when('/searchError/:keyword', {
+            }).when('/searchError', {
                 templateUrl: 'templates/search/searchError.html', 
-                controller: ['$scope', '$routeParams', function SearchErrorCtrl($scope, $routeParams) {
-                        $scope.keyword = $routeParams.key;              
-            }]}).when('/thankyou', {
+            }).when('/thankyou', {
                 templateUrl: 'templates/thankyou.html',
                 controller: 'ThankyouCtrl'
             }).when('/updateApplicantProfile', {
@@ -64,8 +62,12 @@ angular.module('huntEdu')
                 templateUrl: 'templates/home.html',
                 controller: 'HomeCtrl',
                 resolve: {
-                    jobs: ['SearchService', function(SearchService){
-                        return SearchService.getRecommendedJobs();
+                    focusJobs: ['SearchService', function(SearchService){
+                        return SearchService.getRecommendedFocusJobs();
+                    }],
+
+                    interestJobs: ['SearchService', function(SearchService) {
+                        return SearchService.getRecommendedInterestJobs();
                     }]
                 }    
             }).otherwise({

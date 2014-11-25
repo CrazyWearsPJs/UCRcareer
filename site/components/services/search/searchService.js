@@ -1,8 +1,17 @@
 angular.module('huntEdu.services')
-    .service('SearchService', ['$http', '$q', 'JobList', 'User',  
-    function searchService($http, $q, JobList, User) {
+    .service('SearchService', ['$http', '$q', '_', 'JobList', 'User',  
+    function searchService($http, $q, _, JobList, User) {
 
-        var forEach = angular.forEach;
+        var forEach = _.forEach,
+            isEmpty = _.isEmpty;
+
+        /**
+         * Populate JobList service with jobs containing keyword, then
+         * return the results. 
+         * @param keyword {String} search keyword
+         * @param limit {Integer} max number of results
+         * @return [Job1, Job2, ...]
+         */
 
         this.search = function(keyword, limit) {
             var deferred = $q.defer();
@@ -33,13 +42,13 @@ angular.module('huntEdu.services')
             return deferred.promise;
         };
 
-        this.getRecommendedJobs = function() {
+        this.getRecommendedFocusJobs = function() {
              var deferred = $q.defer(),
                 keyword = User.getMajor(),
                 limit = 3;
 
              if(!keyword) {
-                deferred.reject();
+                deferred.resolve([]);
                 return deferred.promise;
              }
 
@@ -51,6 +60,28 @@ angular.module('huntEdu.services')
              return deferred.promise;
         };
 
+        this.getRecommendedInterestJobs = function() {
+            var deferred = $q.defer(),
+                interests = User.getInterests(),
+                limit = 3;
+
+             if(isEmpty(interests)) {
+                deferred.resolve([]);
+                return deferred.promise;
+             }
+
+             var interestsStr = interests.join(" ");
+
+             this.search(interestsStr, limit)
+                .then(function(jobs) {
+                    console.log(jobs);
+                    deferred.resolve(jobs);
+                }, deferred.reject);
+             
+             return deferred.promise;
+
+        };
+
         this.findJobById = function(id) {
             var deferred = $q.defer();
 
@@ -59,9 +90,9 @@ angular.module('huntEdu.services')
             } else {
                 $http.get('/post/id/' + id)
                     .then(function(res) {
-                         var jobPostRaw = res.data;
-                         JobList.addJob(jobPostRaw);
-                         deferred.resolve(JobList.getJobById(jobPostRaw.meta.id));
+                        var jobPostRaw = res.data;
+                        JobList.addJob(jobPostRaw);
+                        deferred.resolve(JobList.getJobById(jobPostRaw.meta.id));
                     }, deferred.reject);
            }
            return deferred.promise;
