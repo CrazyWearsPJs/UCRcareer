@@ -1,12 +1,32 @@
 <div id="home">
     <div class='container'>
-        <h2>Recommended Jobs for you:</h2>
         <div class="jumbotron" id="recommendations">
-            <div ng-repeat="job in jobs" class="row">
-                
-                <a ng-href="#/jobListing/{{job.getId()}}">{{job.specifics.jobTitle}}</a>
+            <div class="row">
+                <div class="col-md-1">
+                    <img src="../imgs/logo.png" id="logo"></img> 
+                </div>
+                <span huntedu-searchbar 
+                    placeholder="Job Title, Company, or Keyword" 
+                    search-bar-id="searchbar"
+                    search-button-id="search-btn"
+                    form-id="nextoShark">
+                </span>
+            
+            </div>
+
+            <h2 ng-show="showRecommendations">Recommended Jobs for you:</h2>
+            <h3 ng-show="showFocusJobs">Based on your focus: {{focus}}</h3>
+            <div ng-repeat="job in focusJobs" class="row"> 
+                   <a ng-href="#/joblisting/{{job.getId()}}">{{job.specifics.jobTitle}}</a>
                     {{job.specfics.salary}}
             </div>
+            
+            <h3 ng-show="showInterestJobs">Based on your interests: {{interests}}</h3>
+            <div ng-repeat="job in interestJobs" class="row"> 
+                   <a ng-href="#/joblisting/{{job.getId()}}">{{job.specifics.jobTitle}}</a>
+                    {{job.specfics.salary}}
+            </div>
+
         </div>
     </div>
 </div>

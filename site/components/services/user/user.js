@@ -4,12 +4,14 @@ angular.module('huntEdu.services')
             isFunction = _.isFunction,
             isObject = _.isObject,
             isArray = _.isArray,
+            clone = _.clone,
             uniq = _.uniq,
             union = _.union,
             pick = _.pick,
             diffObject = Util.diffObject,
             compactObjectDeep = Util.compactObjectDeep,
-            compactObject = Util.compactObject;
+            compactObject = Util.compactObject,
+            prettyList = Util.prettyList;
        
         var PROFILE_DATA_FIELDS = {};
 
@@ -114,6 +116,14 @@ angular.module('huntEdu.services')
         User.getMajor = function() {
             return User.spec.focus;
         };
+    
+        User.getInterests = function() {
+            return clone(User.interests);
+        };
+
+        User.prettyListInterests = function(conjunction, noneString) {
+            return prettyList(User.interests, conjunction, noneString);
+        };
 
         User.getUserRole = function() {
             return User.role;
@@ -210,9 +220,12 @@ angular.module('huntEdu.services')
             var updatedData = updatedProfileData(data); 
             updatedData.email = User.credentials.email;
 
+            console.log("Sending Data:", updatedData);
+
             $http.post('/profile/' + role, updatedData)
                 .then(function(res) {
                     var updatedDataRes = res.data;
+                    console.log(updatedDataRes);
                     User.setProfileData(updatedDataRes);
                     deferred.resolve(res);
                 }, function(err) {

@@ -2,7 +2,8 @@ angular.module('huntEdu.services')
     .service('SearchService', ['$http', '$q', '_', 'JobList', 'User',  
     function searchService($http, $q, _, JobList, User) {
 
-        var forEach = _.forEach;
+        var forEach = _.forEach,
+            isEmpty = _.isEmpty;
 
         /**
          * Populate JobList service with jobs containing keyword, then
@@ -41,13 +42,13 @@ angular.module('huntEdu.services')
             return deferred.promise;
         };
 
-        this.getRecommendedJobs = function() {
+        this.getRecommendedFocusJobs = function() {
              var deferred = $q.defer(),
                 keyword = User.getMajor(),
                 limit = 3;
 
              if(!keyword) {
-                deferred.reject();
+                deferred.resolve([]);
                 return deferred.promise;
              }
 
@@ -57,6 +58,28 @@ angular.module('huntEdu.services')
                 }, deferred.reject);
              
              return deferred.promise;
+        };
+
+        this.getRecommendedInterestJobs = function() {
+            var deferred = $q.defer(),
+                interests = User.getInterests(),
+                limit = 3;
+
+             if(isEmpty(interests)) {
+                deferred.resolve([]);
+                return deferred.promise;
+             }
+
+             var interestsStr = interests.join(" ");
+
+             this.search(interestsStr, limit)
+                .then(function(jobs) {
+                    console.log(jobs);
+                    deferred.resolve(jobs);
+                }, deferred.reject);
+             
+             return deferred.promise;
+
         };
 
         this.findJobById = function(id) {

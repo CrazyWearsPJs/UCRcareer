@@ -62,8 +62,12 @@ angular.module('huntEdu')
                 templateUrl: 'templates/home.html',
                 controller: 'HomeCtrl',
                 resolve: {
-                    jobs: ['SearchService', function(SearchService){
-                        return SearchService.getRecommendedJobs();
+                    focusJobs: ['SearchService', function(SearchService){
+                        return SearchService.getRecommendedFocusJobs();
+                    }],
+
+                    interestJobs: ['SearchService', function(SearchService) {
+                        return SearchService.getRecommendedInterestJobs();
                     }]
                 }    
             }).otherwise({
