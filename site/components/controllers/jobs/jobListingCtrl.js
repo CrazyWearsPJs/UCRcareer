@@ -1,6 +1,6 @@
 angular.module('huntEdu.controllers')
-    .controller('JobListingCtrl',['$scope', '$location', 'job', 
-        function ($scope, $location, job){
+    .controller('JobListingCtrl',['$scope', '$location', '$http', '$q', 'job', 
+        function ($scope, $location, $http, $q, job){
             
             $scope.$on('$routeChangeError', function() {
                 $location.path('/searchError');
@@ -11,4 +11,22 @@ angular.module('huntEdu.controllers')
                 $scope.hasVideo = job.hasVideo();
                 $scope.hasImage = job.hasImage();
             });
+
+            /**
+             * Save a job as a bookmark
+             */
+
+            $scope.saveBookmark = function (){
+                var jobId = job.meta.id;
+                var deferred = $q.defer();
+                $http.post('/bookmark/add', { 'id' : jobId })
+                    .then(function(data){
+                        console.log("saved!");
+                        deferred.resolve();
+                    }, function(err){
+                        console.log(err);
+                        deferred.reject();
+                    });
+                return deferred.promise;
+            };
     }]);
