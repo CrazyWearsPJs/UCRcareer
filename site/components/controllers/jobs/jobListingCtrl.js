@@ -27,7 +27,7 @@ angular.module('huntEdu.controllers')
                     }, function(){
                         deferred.reject();
                     });
-                console.log(User.getProfileData());
+
                 return deferred.promise;
             };
     }]);
