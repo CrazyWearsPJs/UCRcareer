@@ -21,10 +21,8 @@ angular.module('huntEdu.controllers')
                 var deferred = $q.defer();
                 $http.post('/bookmark/add', { 'id' : jobId })
                     .then(function(data){
-                        console.log("saved!");
                         deferred.resolve();
                     }, function(err){
-                        console.log(err);
                         deferred.reject();
                     });
                 return deferred.promise;
