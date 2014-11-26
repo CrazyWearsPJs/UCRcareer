@@ -21,6 +21,7 @@ module.exports = function(app) {
     app.use('/resume', require('./routes/resume'));
     app.use('/search', require('./routes/search'));
     app.use('/heartbeat', require('./routes/heartbeat'));
+    app.use('/bookmark', require('./routes/bookmark'));
 
     /*
      * Error middleware
