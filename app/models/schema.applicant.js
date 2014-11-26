@@ -1,4 +1,4 @@
-/**
+.0/**
  * Module Dependencies
  */
 
@@ -94,7 +94,7 @@ applicantSchema.methods.hashPassword = function(next) {
  *
  * Setter to set a new plain-text password 
  *
- *@param plainTextPassword {String} Plain-text password which will be hashed upon save
+ * @param plainTextPassword {String} Plain-text password which will be hashed upon save
  */
 applicantSchema.methods.setPassword = function(plainTextPassword) {
     var applicant = this;
@@ -105,9 +105,10 @@ applicantSchema.methods.setPassword = function(plainTextPassword) {
 /**
  * Adds a job posting id to applicant's bookmarked posts
  * @param postId {ObjectId} Job posting id
+ * @param cb {Function} callback
  */
 
-applicantSchema.methods.addBookmark = function(postId){
+applicantSchema.methods.addBookmark = function(postId, cb){
     var applicant = this;
     // If bookmark already exists, don't do anything
     if (_.indexOf(applicant.bookmarkedPosts, postId, true) !== -1)
@@ -117,6 +118,8 @@ applicantSchema.methods.addBookmark = function(postId){
     // bookmarked posts sorted
     var insertionPoint = _.sortedIndex(applicant.bookmarkedPosts, postId);
     applicant.bookmarkedPosts.splice(insertionPoint, 0, postId);
+
+    applicant.save(cb);
 }
 
 /**
