@@ -1,0 +1,20 @@
+<div class="container">
+    <div ng-repeat="r  in reviewData">
+        <div class="row">
+            {{r.title}}
+        </div>    
+        <div class="row">
+            {{r.date | date:'MMM dd, yyyy hh:mm a'}}
+        </div>    
+        <div class="row">
+            Posted by {{r.author}}
+        </div>    
+        <div class="row">
+            Rating: <rating ng-model="r.rating" max="max" readonly="isReadOnly" on-hover="hoveringOver(value)" on-leave="overStart = null"></rating>
+        </div>    
+        <div class="row">
+            Comment: {{r.comment}}
+            <hr>
+        </div>    
+    </div>
+</div>
