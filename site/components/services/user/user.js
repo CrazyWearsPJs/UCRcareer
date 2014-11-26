@@ -8,6 +8,7 @@ angular.module('huntEdu.services')
             uniq = _.uniq,
             union = _.union,
             pick = _.pick,
+            indexOf = _.indexOf,
             diffObject = Util.diffObject,
             compactObjectDeep = Util.compactObjectDeep,
             compactObject = Util.compactObject,
@@ -152,6 +153,33 @@ angular.module('huntEdu.services')
 
         User.hasResume = function() {
             return !!User.spec.resume;
+        };
+
+        User.hasBookmark = function(jobId) {
+            if (indexOf(User.bookmarkedPosts, jobId) === -1){
+                return false;
+            }
+            else {
+                return true;
+            }
+        };
+
+        User.removeBookmark = function(jobId) {
+            var jobIdPos = indexOf(User.bookmarkedPosts, jobId);
+            if (jobIdPos === -1){
+                return;
+            }
+            else {
+                User.bookmarkedPosts.splice(jobIdPos, 1);
+            }
+        };
+
+        User.addBookmark = function(jobId){
+            if (this.hasBookmark(jobId)){
+                return;
+            }
+
+            User.bookmarkedPosts.push(jobId);
         };
 
         User.clearPassword = function() {
