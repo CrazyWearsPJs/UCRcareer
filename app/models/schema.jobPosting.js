@@ -103,9 +103,16 @@ jobPostingSchema.static('findByKeyword', function jobSearch(keyword, cb, options
 
 jobPostingSchema.static('findByUrlId', function jobSearchUrlId(id, cb) {
     var JobPosting = this,
-        decodedId = JobPosting.decodeUrlId(id);
-   
-    return JobPosting.findById(decodedId, cb);
+        decodedId = null;
+
+    try {
+        decodedId = JobPosting.decodeUrlId(id); 
+        return JobPosting.findById(decodedId, cb);
+    } catch(err) {
+        err.status = 400;
+        cb(err);
+    }
+
 });
 
 jobPostingSchema.methods.encodeUrlId =  function encodeJobPostUrlId()  {  
