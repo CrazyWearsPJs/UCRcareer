@@ -99,6 +99,7 @@ describe('models', function (){
                   , interests: []
                   , bookmarkedPosts: []
                   , postNotifications: []
+                  , subscription: 0
                 });
             
             // Save applicant
@@ -275,6 +276,7 @@ describe('models', function (){
                         fName: "John"
                       , lName: "Doe"
                     }
+                  , subscription: 0
                 });
             
             // Save employer
