@@ -4,12 +4,12 @@
 
 module.exports = {
     dbSettings: {
-	  host:     "localhost"
+	  host:     "10.0.2.15"
   	, port:     "8081"
   	, database: "UCRcareers"
     }
   , dbTestSettings: {
-	  host:     "localhost"
+	  host:     "10.0.2.15"
 	, port:     "8081"
 	, database: "TestUCRcareers"
     }
