@@ -130,7 +130,7 @@
 
     <div class="row">
         <div class="col-md-6">
-            <label for="userInterests"> Interested and Skills: </label>
+            <label for="userInterests"> Interests and Skills: </label>
             <div id="userInterests"
                 ng-repeat="interest in applicantProfileData.interests">
                     <td>{{interest}}&nbsp</td>
@@ -138,4 +138,49 @@
         </div>
     </div>
 </form>
+<!--
+    Make a check for whether they are a paying user.
+    If they aren't ask them if they want to go premium.
+    If the are, don't ask them anything.
+-->
+<!--
+    Need to set up a listener (IPN) for dealing with
+    when there actually is a payment.
+    Right now, they just pay and that's it.
+    How it should work is that when the payment goes through,
+    the member's subscription value goes up by however many
+    days they purchased.
+-->
+<h3>Want to go Premium?</h3>
+<hr>
+    <div>
+        For 1 month of Premium Membership:
+        <form name="_xclick" action="https://www.sandbox.paypal.com/us/cgi-bin/webscr" method="post">
+        <input type="hidden" name="cmd" value="_xclick">
+        <input type="hidden" name="business" value="merchant2@haha.com">
+        <input type="hidden" name="currency_code" value="USD">
+        <input type="hidden" name="item_name" value="1 Month of Premium Access to HuntEdu">
+        <input type="hidden" name="amount" value="12.00">
+        <input type="hidden" name="return" value="http://localhost:8080/#/home">
+        <input type="image"
+            src="http://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif"
+            border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
+        </form>
+    </div>
+    <br>
+    <div>
+        For 1 year of Premium Membership:
+        <form name="_xclick" action="https://www.sandbox.paypal.com/us/cgi-bin/webscr" method="post">
+        <input type="hidden" name="cmd" value="_xclick">
+        <input type="hidden" name="business" value="merchant2@haha.com">
+        <input type="hidden" name="currency_code" value="USD">
+        <input type="hidden" name="item_name" value="1 Year of Premium Access to HuntEdu">
+        <input type="hidden" name="amount" value="100.00">
+        <input type="hidden" name="return" value="http://localhost:8080/#/home">
+        <input type="image"
+            src="http://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif"
+            border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
+        </form>
+    </div>
 </div>
+
