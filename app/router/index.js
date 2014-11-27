@@ -34,7 +34,31 @@ module.exports = function(app) {
         if(!err.status) {
             err.status = 500;
             logger.error(err);
-        } 
+        } else if (!err.name) {
+            switch(err.status) {
+                case 400:
+                    err.name = "BadRequestError";
+                    break;
+                case 401:
+                    err.name = "UnauthorizedError";
+                    break;
+                case 403:
+                    err.name = "ForbiddenError";
+                    break;
+                case 404:
+                    err.name = "NotFoundError";
+                    break;
+                case 405:
+                    err.name = "MethodNotAllowedError";
+                    break;
+                case 406:
+                    err.name = "NotAcceptableError";
+                    break;
+                case 409:
+                    err.name = "ConflictErrpr";
+                    break;
+            }
+        }
 
         res.status(err.status).json(err);
     });

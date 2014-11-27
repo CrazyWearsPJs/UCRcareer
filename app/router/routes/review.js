@@ -23,21 +23,18 @@ router.post('/id/:jobPostingId/review/', function(req, res, next) {
     
     if(!jobPostingId) {
         var err = new Error("JobPostId not provided");
-        err.name = "BadRequestError";
         err.status = 400;
         next(err);
     }
 
     if(!jobReviewData) {
         var err = new Error("Missing job review data");
-        err.name = "BadRequestError";
         err.status = 400;
         next(err);
     }
 
     if(!applicantUserId) {
         var err = new Error("Not Authorized: not Applicant");
-        err.name = "ForbiddenError";
         err.status = 403;
         next(err);
     }

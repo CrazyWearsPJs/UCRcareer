@@ -20,7 +20,6 @@ router.post('/', function(req, res, next) {
     
     if(!req.session.employerUserId) {
         var err = new Error("Not Authorized: not Employer");
-        err.name = "ForbiddenError";
         err.status = 403;
         next(err);
     }
@@ -37,7 +36,6 @@ router.post('/', function(req, res, next) {
         });
     } else {
         var err = new Error('Missing job post info');            
-        err.name = 'error';
         err.status = 400;
         next(err);
     }
@@ -58,7 +56,6 @@ router.get('/id/:id', function(req, res, next) {
         }); 
     } else {
         var err = new Error("Missing id");
-        err.name = "BadRequestError";
         err.status = 403;
         next(err);
     } 
