@@ -40,6 +40,7 @@ var employerSchema = new Schema({
       , mInit:     { type: String }
       , lName:     { type: String, required: true }
     }
+  , subscription:  { type: Number }
 }); 
 
 /**
