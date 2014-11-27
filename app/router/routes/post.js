@@ -49,10 +49,7 @@ router.get('/id/:id', function(req, res, next) {
         base64Id = req.params.id;
 
     if(base64Id) { 
-        var decodedId = JobPosting.decodeUrlId(base64Id);
-        console.log(decodedId);
-
-        JobPosting.findById(decodedId, function(err, jobPosting) {
+        JobPosting.findByUrlId(base64Id, function(err, jobPosting) {
             if(err || !jobPosting) {
                 res.status(404).end();
             } else {

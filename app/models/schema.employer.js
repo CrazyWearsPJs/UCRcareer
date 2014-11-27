@@ -157,7 +157,6 @@ employerSchema.static('findByCredentials', function(creds,cb){
     });
 });
 
-
 /**
  * Instance method that returns the object representation
  * of an employer while hiding sensitive information

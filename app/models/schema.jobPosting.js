@@ -4,8 +4,8 @@
 
 var mongoose = require('mongoose')
   , Schema   = mongoose.Schema
-  , ObjectId = mongoose.Types.ObjectId;
-
+  , ObjectId = mongoose.Types.ObjectId
+  , jobReviewSchema = require('./schema.jobReview');
 
 /**
  * Define job posting schema
@@ -38,6 +38,7 @@ var jobPostingSchema = new Schema({
         id:           { type: String }
   }
   , tags:             [ String ]
+  , reviews:          [jobReviewSchema]
 }); 
 
 var textSearchIndexFields = {
@@ -96,7 +97,15 @@ jobPostingSchema.static('findByKeyword', function jobSearch(keyword, cb, options
      .sort({score: {$meta: "textScore"} 
      })
      .limit(limit)
+     .populate('reviews')
      .exec(cb);
+});
+
+jobPostingSchema.static('findByUrlId', function jobSearchUrlId(id, cb) {
+    var JobPosting = this,
+        decodedId = JobPosting.decodeUrlId(id);
+   
+    return JobPosting.findById(decodedId, cb);
 });
 
 jobPostingSchema.methods.encodeUrlId =  function encodeJobPostUrlId()  {  
