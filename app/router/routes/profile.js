@@ -13,14 +13,12 @@ var express = require('express'),
 
         if(updatedProfileInfo.credentials) {
             var err = new Error("Change of Credentials if forbidden");
-            err.name = "BadRequestError";
             err.status = 400;
             next(err);
         }
         
         if(!email) {
             var err = new Error("Resource " + req.baseUrl +" doesn't exist");
-            err.name = "NotFoundError";
             err.status = 404;
             next(err);
         } else {
@@ -29,7 +27,6 @@ var express = require('express'),
 
         if(!applicantUserId) {
             var err = new Error("Applicant not authorized");
-            err.name = "UnauthorizedError";
             err.status = 401;
             next(err);
         }
@@ -38,7 +35,6 @@ var express = require('express'),
             .then(function foundApplicant(applicant) {
                 if(applicant.credentials.email !== email) {
                     var err = new Error("Applicant email " + applicant.credentials.email + " doesn't match given email" + email);
-                    err.name = "ForbiddenError";
                     err.status = 403;
                     throw err;
                 } else {
@@ -73,14 +69,12 @@ var express = require('express'),
         
         if(updatedProfileInfo.credentials) {
             var err = new Error("Change of Credentials if forbidden");
-            err.name = "BadRequestError";
             err.status = 400;
             next(err);
         }
 
         if(!email) {
             var err = new Error("Resource " + req.baseUrl +" doesn't exist");
-            err.name = "NotFoundError";
             err.status = 404;
             next(err);
         } else {
@@ -89,7 +83,6 @@ var express = require('express'),
 
         if(!employerUserId) {
             var err = new Error("employer not authorized");
-            err.name = "UnauthorizedError";
             err.status = 401;
             next(err);
         }
@@ -98,7 +91,6 @@ var express = require('express'),
             .then(function foundEmployer(employer) {
                 if(employer.credentials.email !== email) {
                     var err = new Error("employer email " + employer.credentials.email + " doesn't match given email" + email);
-                    err.name = "ForbiddenError";
                     err.status = 403;
                     throw err;
                 } else {
