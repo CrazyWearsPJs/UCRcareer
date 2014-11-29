@@ -192,7 +192,9 @@ applicantSchema.pre('save', function(next){
 applicantSchema.static('findByEmail', function(email, cb) {
     var Applicant = this;
 
-    Applicant.findOne({'credentials.email' : email}, cb);
+    Applicant.findOne({'credentials.email' : email})
+        .populate("bookmarkedPosts")
+        .exec(cb);
 });
 
 
