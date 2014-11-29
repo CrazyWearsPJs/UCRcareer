@@ -18,7 +18,7 @@ var express = require('express')
          */
 
         if(applicantUserId) {
-            Q.ninvoke(Applicant, 'findById', applicantUserId)
+            Q.ninvoke(Applicant, 'findByApplicantId', applicantUserId)
                 .then(function foundApplicant(applicant){
                     var jsonResponse = applicant.getProfileData();
                     jsonResponse.email = applicant.getEmail();
