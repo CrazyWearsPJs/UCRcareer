@@ -1,6 +1,6 @@
 angular.module('huntEdu.controllers')
-    .controller('JobListingCtrl',['$scope', '$location', '$http', '$q', 'User', 'job', 
-        function ($scope, $location, $http, $q, User, job){
+    .controller('JobListingCtrl',['$scope', '$location', '$http', '$q', 'User', 'USER_ROLES', 'job', 
+        function ($scope, $location, $http, $q, User, USER_ROLES, job){
             
             $scope.$on('$routeChangeError', function() {
                 $location.path('/searchError');
@@ -12,7 +12,7 @@ angular.module('huntEdu.controllers')
                 $scope.hasImage = job.hasImage();
             });
 
-            $scope.hideSaveBookmarkBtns = User.isLoggedIn();
+            $scope.showSaveBookmarkBtns = User.isLoggedIn() && (User.getUserRole() === USER_ROLES.applicant);
             $scope.isBookmarked = User.hasBookmark(job.meta.id);
 
             /**
