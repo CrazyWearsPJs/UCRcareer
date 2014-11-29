@@ -125,6 +125,7 @@ applicantSchema.methods.addBookmark = function(postId, cb){
 /**
  * Removes a job posting id from the applicant's bookmarked posts
  * @param postId {ObjectId} Job posting id
+ * @param cb {Function} callback
  */
 
 applicantSchema.methods.removeBookmark = function(postId){
@@ -135,6 +136,8 @@ applicantSchema.methods.removeBookmark = function(postId){
     if ( removalPoint === -1)
         return;
     applicant.bookmarkedPosts.splice(removalPoint, 1);
+
+    applicant.save(cb);
 }
 
 /**
