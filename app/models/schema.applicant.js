@@ -1,4 +1,4 @@
-.0/**
+/**
  * Module Dependencies
  */
 
