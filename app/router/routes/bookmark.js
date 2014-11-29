@@ -15,7 +15,7 @@ var router     = express.Router()
  * @req id {String} encoded job posting id
  */
 
-router.post('/add', function(req, res){
+router.post('/add', function(req, res, next){
     var applicantId = req.session.applicantUserId;
 
     // User can't save bookmark if they arn't logged in
