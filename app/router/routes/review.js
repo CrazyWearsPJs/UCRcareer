@@ -24,19 +24,19 @@ router.post('/id/:jobPostingId/review/', function(req, res, next) {
     if(!jobPostingId) {
         var err = new Error("JobPostId not provided");
         err.status = 400;
-        next(err);
+        return next(err);
     }
 
     if(!jobReviewData) {
         var err = new Error("Missing job review data");
         err.status = 400;
-        next(err);
+        return next(err);
     }
 
     if(!applicantUserId) {
         var err = new Error("Not Authorized: not Applicant");
         err.status = 403;
-        next(err);
+        return next(err);
     }
 
     jobReviewData = {
