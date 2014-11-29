@@ -40,7 +40,6 @@ var express = require('express')
                 });
         } else {
             var err = new Error("Missing credentials");
-            err.name = "error";
             err.status = 400;
             next(err);
         }

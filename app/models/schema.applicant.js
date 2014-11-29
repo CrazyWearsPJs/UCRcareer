@@ -95,7 +95,7 @@ applicantSchema.methods.hashPassword = function(next) {
  *
  * Setter to set a new plain-text password 
  *
- *@param plainTextPassword {String} Plain-text password which will be hashed upon save
+ * @param plainTextPassword {String} Plain-text password which will be hashed upon save
  */
 applicantSchema.methods.setPassword = function(plainTextPassword) {
     var applicant = this;
@@ -106,33 +106,49 @@ applicantSchema.methods.setPassword = function(plainTextPassword) {
 /**
  * Adds a job posting id to applicant's bookmarked posts
  * @param postId {ObjectId} Job posting id
+ * @param cb {Function} callback
  */
 
-applicantSchema.methods.addBookmark = function(postId){
+applicantSchema.methods.addBookmark = function(postId, cb){
     var applicant = this;
+    
+    // Create a copy of applicants bookmarked posts as strings
+    var _bookmarkedPosts = _.map(applicant.bookmarkedPosts, function(objId){
+        return String(objId);
+    });
+
     // If bookmark already exists, don't do anything
-    if (_.indexOf(applicant.bookmarkedPosts, postId, true) !== -1)
+    if (_.indexOf(_bookmarkedPosts, String(postId), true) !== -1)
         return;
 
-    // Figure out where to insert post id as to keep array of 
-    // bookmarked posts sorted
-    var insertionPoint = _.sortedIndex(applicant.bookmarkedPosts, postId);
-    applicant.bookmarkedPosts.splice(insertionPoint, 0, postId);
+    applicant.bookmarkedPosts.push(postId);
+    applicant.save(cb);
 }
 
 /**
  * Removes a job posting id from the applicant's bookmarked posts
  * @param postId {ObjectId} Job posting id
+ * @param cb {Function} callback
  */
 
-applicantSchema.methods.removeBookmark = function(postId){
+applicantSchema.methods.removeBookmark = function(postId, cb){
     var applicant = this;
+
+    // Create a copy of applicants bookmarked posts as strings
+    var _bookmarkedPosts = _.map(applicant.bookmarkedPosts, function(objId){
+        return String(objId);
+    });
+
     // Figure out where the id to remove is located
-    var removalPoint = _.indexOf(applicant.bookmarkedPosts, postId, true);
+    var removalPoint = _.indexOf(_bookmarkedPosts, String(postId));
+
     // If bookmark doesn't exist, then there is nothing to do!
-    if ( removalPoint === -1)
-        return;
+    if ( removalPoint === -1){
+        return cb(null);
+    }
+
     applicant.bookmarkedPosts.splice(removalPoint, 1);
+    applicant.save(cb);
 }
 
 /**
@@ -185,14 +201,29 @@ applicantSchema.pre('save', function(next){
 
 /*
  * Wrapper around Applicant.findOne({'credentials.email' . .. 
+ * Applicant will have bookmarkedPosts populated
  */
 
 applicantSchema.static('findByEmail', function(email, cb) {
     var Applicant = this;
 
-    Applicant.findOne({'credentials.email' : email}, cb);
+    Applicant.findOne({'credentials.email' : email})
+        .populate("bookmarkedPosts", "-_id -__v")
+        .exec(cb);
 });
 
+/**
+ * Wrapper around Applicant.findById
+ * Applicant will have bookmarkedPosts populated
+ */
+
+applicantSchema.static('findByApplicantId', function(id, cb) {
+    var Applicant = this;
+
+    Applicant.findById(id)
+        .populate("bookmarkedPosts", "-_id -__v")
+        .exec(cb);
+});
 
 /**
  * Finds an applicant with the given credentials.

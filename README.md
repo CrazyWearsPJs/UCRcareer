@@ -227,13 +227,19 @@ EX. git push origin :bad-branch-dev
 Start the VM and do the following
 ```bash
 cd /vagrant
-mongod --host 10.0.2.15 --port 8081
+mongod --config etc/install/mongod-yaml.conf
 npm install
+cd site
+bower install
+cd ..
 ```
 These steps will
 * Move you to our development directory
 * Start the mongo daemon
 * Locally install our node dependancies
+* Move you to our frontend directory
+* Locally install our web client dependancies
+* Move you back to our development directory
 
 Next, to start the webserver run
 ```bash

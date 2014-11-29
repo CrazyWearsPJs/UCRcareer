@@ -101,13 +101,17 @@ var jobPost = {
 describe('routes', function (){
    var apiPrefix = '/api/v1'
     , applicantRouteSuffix = '/applicant'
-    , employerRouteSuffix = '/employer'
-    , jobPostingRouteSuffix = '/post';
+    , employerRouteSuffix = '/employer';
+    
     
     var registerRoutePrefix = '/register'  
     , loginRoutePrefix = '/login'
-    , updateProfilePrefix = '/profile';
- 
+    , updateProfilePrefix = '/profile'
+    , jobPostingRoutePrefix = '/post'
+    , jobReviewRouteSuffix = '/review'
+    , idParam = '/id';
+
+
     var registerApplicantRoute = registerRoutePrefix + applicantRouteSuffix
     , registerEmployerRoute = registerRoutePrefix + employerRouteSuffix; 
          
@@ -484,7 +488,7 @@ describe('routes', function (){
                 .send(employer.credentials)
                 .end(function(err, res) {
                     agent
-                        .post('/post')
+                        .post(jobPostingRoutePrefix)
                         .send(jobPost)
                         .expect(200, done);
                 });
@@ -496,7 +500,7 @@ describe('routes', function (){
                 .send(employer.credentials)
                 .end(function(err, res) {
                     agent
-                        .post('/post')
+                        .post(jobPostingRoutePrefix)
                         .send({
                             city: 'Riverside'
                          , state: 'California'    
@@ -511,20 +515,88 @@ describe('routes', function (){
                 .send(applicant.credentials)
                 .end(function(err, res) {
                     agent
-                        .post('/post')
+                        .post(jobPostingRoutePrefix)
                         .send(jobPost)
                         .expect(403, done);
                 });
         });
 
        });
-     describe('GET /search', function (){
+    
+    describe('GET /search', function (){
             it('should return a list of job posts', function(done) {
                 var keyword = 'software';
                 request(app)
                     .get('/search' + '/' + keyword)
                     .expect(200, done);
             });
+    });
+
+    describe('POST /post/id/:id/review', function() {
+        var agent = null;
+        var reviewContent = {
+            title : "This is the bes",
+            body: "Resturant I have ever been to. Wait, wrong site.",
+            rating: 5
+        };
+
+        before('register applicant', function(done) {
+                request(app)
+                    .post(registerApplicantRoute)
+                    .send(applicant)
+                    .expect(200, done);
+        });
+         
+        before('register employer', function(done) {
+                request(app)
+                    .post(registerEmployerRoute)
+                    .send(employer)
+                    .expect(200, done);
         });
 
+        before('have employer post job', function(done) {
+           agent = request.agent(app);
+           agent
+                .post(loginRoute)
+                .send(employer.credentials)
+                .end(function(err, res) {
+                    agent
+                        .post(jobPostingRoutePrefix)
+                        .send(jobPost)
+                        .expect(200, done);
+                });
+
+        });
+
+         after('destroy applicant/employer/post db', function(done) {
+            models.jobPosting().remove({}, function(err) {
+                models.employer().remove({}, function(err){
+                    models.applicant().remove({}, done);
+                });
+            }); 
+        });
+  
+        beforeEach('register new cookie agent', function() {
+            agent = request.agent(app);
+        });
+        
+        it('should post a job review', function(done) {
+            //login as applicant
+            agent
+                .post(loginRoute)
+                .send(applicant.credentials)
+                .end(function() {
+                    // then find jobPosting
+                    models.jobPosting().findOne(jobPost, function(err, post) {
+                        var urlId = post.meta.id,
+                        jobReviewRoute = jobPostingRoutePrefix + idParam + "/" +  urlId + jobReviewRouteSuffix;
+
+                        agent
+                            .post(jobReviewRoute)
+                            .send(reviewContent)
+                            .expect(200, done);                  
+                    }); 
+                });
+        });
+    });
 });
