@@ -12,7 +12,8 @@ angular.module('huntEdu.controllers')
                 $scope.hasImage = job.hasImage();
             });
 
-            $scope.hideSaveBookmarkBtn = User.isLoggedIn();
+            $scope.hideSaveBookmarkBtns = User.isLoggedIn();
+            $scope.isBookmarked = User.hasBookmark(job.meta.id);
 
             /**
              * Save a job as a bookmark
@@ -20,14 +21,11 @@ angular.module('huntEdu.controllers')
 
             $scope.saveBookmark = function (){
                 var jobId = job.meta.id;
-                var deferred = $q.defer();
-                $http.post('/bookmark/add', { 'id' : jobId })
+                User.addBookmark(jobId)
                     .then(function(){
-                        deferred.resolve();
+                        $scope.isBookmarked = true;
                     }, function(){
-                        deferred.reject();
+                        $scope.isBookmarked = false;
                     });
-
-                return deferred.promise;
             };
     }]);

@@ -121,7 +121,13 @@
         </div>
     </div>
     <br>
-    <button class='btn btn-primary pull-left' ng-click='saveBookmark()' ng-show='hideSaveBookmarkBtn'>
-        Save Job
-    </button>
+    <!-- Bookmark buttons -->
+    <div id='bookmarkBtns' ng-show='hideSaveBookmarkBtns'>
+        <button class='btn btn-primary pull-left' ng-hide='isBookmarked' ng-click='saveBookmark()'>
+            Add Bookmark
+        </button>
+        <button class='btn btn-danger pull-left' ng-show='isBookmarked' ng-click='removeBookmark()'>
+            Remove Bookmark
+        </button>
+    </div>
 </div> 
