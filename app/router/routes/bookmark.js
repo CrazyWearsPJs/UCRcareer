@@ -20,15 +20,17 @@ router.post('/add', function(req, res, next){
 
     // User can't save bookmark if they arn't logged in
     if (!applicantId){
-        res.status(403).end();
-        return;
+        var Err = new Error();
+        Err.status = 403;
+        return next(Err);
     }
 
     var postId = req.body.id;
     // Response must have a post id
     if (!postId){
-        res.status(404).end();
-        return;
+        var Err = new Error();
+        Err.status = 400;
+        return next(Err);
     }
 
     Applicant.findById(applicantId, function(err, applicant){
@@ -36,7 +38,8 @@ router.post('/add', function(req, res, next){
             return next(err);
         }
         if (!applicant){
-            var err = new Error("DB should contain applicant id");
+            var Err = new Error();
+            Err.status = 400;
             return next(err);
         }
 
@@ -47,7 +50,7 @@ router.post('/add', function(req, res, next){
             // Database err, but we should make it seem
             // like its the users fault :P
             if(err){
-                res.status(404).end();
+                return next(err);
             }
             res.status(200).end();
         });
