@@ -194,7 +194,7 @@ applicantSchema.static('findByEmail', function(email, cb) {
     var Applicant = this;
 
     Applicant.findOne({'credentials.email' : email})
-        .populate("bookmarkedPosts")
+        .populate("bookmarkedPosts", "-_id")
         .exec(cb);
 });
 
@@ -207,7 +207,7 @@ applicantSchema.static('findByApplicantId', function(id, cb) {
     var Applicant = this;
 
     Applicant.findById(id)
-        .populate("bookmarkedPosts")
+        .populate("bookmarkedPosts", "-_id")
         .exec(cb);
 });
 
