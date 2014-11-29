@@ -42,6 +42,7 @@ var jobPostingSchema = new Schema({
   }
   , tags:             [ String ]
   , reviews:          [JobReviewSchema]
+  , poster: {type: Schema.Type.ObjectId, ref: 'Employer'} 
 }); 
 
 var textSearchIndexFields = {
