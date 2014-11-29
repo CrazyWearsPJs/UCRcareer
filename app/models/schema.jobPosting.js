@@ -117,6 +117,18 @@ jobPostingSchema.static('findByUrlId', function jobSearchUrlId(b64Id, cb) {
     }
 });
 
+jobPostingSchema.methods.getReviewByUrlId = function reviewSearchUrlId(reviewB64Id) {
+    var jobPosting = this,
+        review_id = null;
+
+    try {
+        review_id = base64ObjectId(reviewB64Id);
+        return jobPosting.reviews.id(review_id);
+    } catch(err) {
+        return null;    
+    }
+};
+
 jobPostingSchema.pre('save', function beforeSavingJobPost(next) {
   var jobPosting = this;
     if(jobPosting.isNew) {
