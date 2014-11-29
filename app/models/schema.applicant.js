@@ -198,6 +198,18 @@ applicantSchema.static('findByEmail', function(email, cb) {
         .exec(cb);
 });
 
+/**
+ * Wrapper around Applicant.findById
+ * Applicant will have bookmarkedPosts populated
+ */
+
+applicantSchema.static('findByApplicantId', function(id, cb) {
+    var Applicant = this;
+
+    Applicant.findById(id)
+        .populate("bookmarkedPosts")
+        .exec(cb);
+});
 
 /**
  * Finds an applicant with the given credentials.
