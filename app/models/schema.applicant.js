@@ -110,15 +110,17 @@ applicantSchema.methods.setPassword = function(plainTextPassword) {
 
 applicantSchema.methods.addBookmark = function(postId, cb){
     var applicant = this;
+    
+    // Create a copy of applicants bookmarked posts as strings
+    var _bookmarkedPosts = _.map(applicant.bookmarkedPosts, function(objId){
+        return String(objId);
+    });
+
     // If bookmark already exists, don't do anything
-    if (_.indexOf(applicant.bookmarkedPosts, postId, true) !== -1)
+    if (_.indexOf(_bookmarkedPosts, String(postId), true) !== -1)
         return;
 
-    // Figure out where to insert post id as to keep array of 
-    // bookmarked posts sorted
-    var insertionPoint = _.sortedIndex(applicant.bookmarkedPosts, postId);
-    applicant.bookmarkedPosts.splice(insertionPoint, 0, postId);
-
+    applicant.bookmarkedPosts.push(postId);
     applicant.save(cb);
 }
 
@@ -128,15 +130,23 @@ applicantSchema.methods.addBookmark = function(postId, cb){
  * @param cb {Function} callback
  */
 
-applicantSchema.methods.removeBookmark = function(postId){
+applicantSchema.methods.removeBookmark = function(postId, cb){
     var applicant = this;
-    // Figure out where the id to remove is located
-    var removalPoint = _.indexOf(applicant.bookmarkedPosts, postId, true);
-    // If bookmark doesn't exist, then there is nothing to do!
-    if ( removalPoint === -1)
-        return;
-    applicant.bookmarkedPosts.splice(removalPoint, 1);
 
+    // Create a copy of applicants bookmarked posts as strings
+    var _bookmarkedPosts = _.map(applicant.bookmarkedPosts, function(objId){
+        return String(objId);
+    });
+
+    // Figure out where the id to remove is located
+    var removalPoint = _.indexOf(_bookmarkedPosts, String(postId));
+
+    // If bookmark doesn't exist, then there is nothing to do!
+    if ( removalPoint === -1){
+        return cb(null);
+    }
+
+    applicant.bookmarkedPosts.splice(removalPoint, 1);
     applicant.save(cb);
 }
 

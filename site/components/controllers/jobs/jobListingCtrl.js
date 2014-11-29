@@ -24,7 +24,17 @@ angular.module('huntEdu.controllers')
                 User.addBookmark(jobId)
                     .then(function(){
                         $scope.isBookmarked = true;
-                    }, function(){
+                    });
+            };
+
+            /**
+             * Remove a bookmark
+             */
+
+            $scope.removeBookmark = function (){
+                var jobId = job.meta.id;
+                User.removeBookmark(jobId)
+                    .then(function(){
                         $scope.isBookmarked = false;
                     });
             };

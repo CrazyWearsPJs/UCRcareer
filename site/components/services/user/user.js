@@ -169,16 +169,22 @@ angular.module('huntEdu.services')
         };
 
         User.removeBookmark = function(jobId) {
-            var jobPos = findIndex(User.bookmarkedPosts, function(post){
-                return post.meta.id === jobId;
-            });
-
-            if (jobPos === -1){
-                return;
-            }
-            else {
-                User.bookmarkedPosts.splice(jobPos, 1);
-            }
+            var deferred = $q.defer();
+            if (!this.hasBookmark(jobId)){
+                return deferred.promise;
+            } 
+            
+            $http.post('/bookmark/remove', { 'id' : jobId })
+                .then(function(){
+                    var jobPos = findIndex(User.bookmarkedPosts, function(post){
+                        return post.meta.id === jobId;
+                    });
+                    User.bookmarkedPosts.splice(jobPos, 1);
+                    deferred.resolve();
+                }, function(){
+                    deferred.reject();
+                });
+            return deferred.promise;
         };
 
         User.addBookmark = function(jobId){
