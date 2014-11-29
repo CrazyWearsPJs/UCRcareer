@@ -187,6 +187,7 @@ applicantSchema.pre('save', function(next){
 
 /*
  * Wrapper around Applicant.findOne({'credentials.email' . .. 
+ * Applicant will have bookmarkedPosts populated
  */
 
 applicantSchema.static('findByEmail', function(email, cb) {
