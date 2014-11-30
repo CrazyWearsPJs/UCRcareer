@@ -13,7 +13,7 @@ ObjectIdBase64Conv.objectIdToBase64 = function(objId) {
 
 ObjectIdBase64Conv.base64ToObjectId = function(b64str) {
     var replacedB64Str = b64str.replace('-', '+').replace('_', '/'),
-        buffer = new Buffer(replaceB64Str, 'base64'),
+        buffer = new Buffer(replacedB64Str, 'base64'),
         decodedIdStr = buffer.toString('hex'),
         objId = new ObjectId(decodedIdStr);
 
