@@ -345,7 +345,7 @@ describe('routes', function (){
     });
 
     describe('POST /profile', function() {
-        describe('/applicant', function() {
+        describe('/applicant', function(e) {
              var updatedInfo = {
                 spec: {
                     degree: "Computer Engineering"
@@ -562,7 +562,7 @@ describe('routes', function (){
             agent = request.agent(app);
         });
         
-        before('should add job successfully as employer (owner)', function(done) {
+        before('add job post', function(done) {
             agent = request.agent(app);
             agent
                 .post(loginRoute)
@@ -621,6 +621,75 @@ describe('routes', function (){
 
        });
    
+     describe('GET /post', function() {
+        var agent = null;        
+        
+        after('destroy applicant/employer/post db', function(done) {
+            models.jobPosting().remove({}, function(err) {
+                models.employer().remove({}, function(err){
+                    models.applicant().remove({}, done);
+                });
+            }); 
+        });
+
+        afterEach('reset cookie agent', function() {
+            agent = null;
+        });
+        
+        before('register employer', function(done) {
+                request(app)
+                    .post(registerEmployerRoute)
+                    .send(employer)
+                    .expect(200, done);
+        });
+
+        beforeEach('register new cookie agent', function() {
+            agent = request.agent(app);
+        });
+        
+        before('add two job posts', function(done) {
+            agent = request.agent(app);
+            agent
+                .post(loginRoute)
+                .send(employer.credentials)
+                .end(function(err, res) {
+                    agent
+                        .post(jobPostingRoutePrefix)
+                        .send(jobPost)
+                        .expect(200)
+                        .end(function(err, res) {
+                            agent 
+                                .post(jobPostingRoutePrefix)
+                                .send(jobPost)
+                                .expect(200, done);
+                        });
+                });
+        });  
+
+        it('should return own job posts', function(done) {
+            agent
+                .post(loginRoute)
+                .send(employer.credentials)
+                .end(function(err, res) {
+                    agent
+                        .get(jobPostingRoutePrefix)
+                        .expect(200)
+                        .end(function(err, res) {
+                            var posts = res.body;
+                            expect(posts).to.have.length(2);
+                            _.forEach(posts, function(post) {
+                                expect(post).to.contain.keys("meta", "reviews", "specifics", "tags", "location", "date");
+                                expect(post.specifics).to.deep.equal(jobPost.specifics);
+                                expect(post.location).to.deep.equal(jobPost.location);
+                                expect(post.date).to.deep.equal(jobPost.date);
+                            });
+                            done();
+                        });
+                });
+        });  
+     });
+
+
     describe('GET /search', function (){
             it('should return a list of job posts', function(done) {
                 var keyword = 'software';
@@ -630,7 +699,7 @@ describe('routes', function (){
             });
     });
 
-    describe('POST /post/id/:id/review', function() {
+        describe('POST /post/id/:id/review', function() {
         var agent = null;
         var reviewContent = {
             title : "This is the bes",
