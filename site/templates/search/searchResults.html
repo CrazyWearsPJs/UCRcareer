@@ -3,6 +3,22 @@
         <tr>
               
             <th>
+            Filter By: 
+            <br>
+                <input type="radio" ng-model="color" value="state"> State
+                <input type="radio" ng-model="color" value="company"> Company
+                <input type="radio" ng-model="color" value="title"> Job Title
+                <input type="text" name="input" ng-model="text">
+                <button ng-click="submit()">
+                  Filter
+                </button>
+            </th>
+
+        </tr>
+
+        <tr>
+
+            <th>
                 <a href="" ng-click="predicate = 'specifics.companyName';">
                     Company
                 </a>
