@@ -42,7 +42,7 @@ var jobPostingSchema = new Schema({
   }
   , tags:             [ String ]
   , reviews:          [JobReviewSchema]
-  , poster: {type: Schema.Type.ObjectId, ref: 'Employer'} 
+  , poster: {type: Schema.Types.ObjectId, ref: 'Employer'} 
 }); 
 
 var textSearchIndexFields = {
@@ -137,6 +137,8 @@ jobPostingSchema.pre('save', function beforeSavingJobPost(next) {
     }
     next();
 });
+
+
 
 
 /**
