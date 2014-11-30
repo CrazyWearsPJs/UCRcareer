@@ -29,7 +29,6 @@ var jobReviewSchema = new Schema({
 
 jobReviewSchema.pre('save', function(next) {
     var jobReview = this;
-    console.log("hello there!");
     if(jobReview.isNew) {
         jobReview.meta.id = objectIdToBase64(jobReview._id);
     } else if(jobReview.isModified) {
