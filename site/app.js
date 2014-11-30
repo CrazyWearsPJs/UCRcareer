@@ -23,7 +23,7 @@ angular.module('huntEdu', ['ngRoute', 'ngMessages', 'huntEdu.controllers', 'hunt
             fd.append('file', file);
             $http.post(uploadUrl, fd, {
                 transformRequest: angular.identity,
-                headers: {'Content-Type': 'multipart/form-data'}
+                headers: {'Content-Type': undefined}
             })
             .success(function(){
                 cb();
