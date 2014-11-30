@@ -114,9 +114,14 @@ app.use(expressWinston.errorLogger({
 }));
 
 /**
- * Use body parser
+ * Use body parser to accept 
+ * json and urlencoded content types
+ * as json content type
  */
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
 /**
  * Use Session Cookies
@@ -140,6 +145,17 @@ app.use(sessionMiddleware);
  */
 
 router(app);
+
+app.post('/payment', function(req, res) {
+    console.log('Received POST /payment');
+    console.log(req.body);
+    console.log('\n\n');
+    
+    //req.body = req.body || {};
+    //res.send(200, 'OK');
+    res.send(req.body);
+    res.end;
+});
 
 /**
  * Start application
