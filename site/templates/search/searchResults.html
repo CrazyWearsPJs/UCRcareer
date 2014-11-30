@@ -5,10 +5,10 @@
             <th>
             Filter By: 
             <br>
-                <input type="radio" ng-model="color" value="state"> State
-                <input type="radio" ng-model="color" value="company"> Company
-                <input type="radio" ng-model="color" value="title"> Job Title
-                <input type="text" name="input" ng-model="text">
+                <input type="radio" ng-model="search.location.state" value="state"> State
+                <input type="radio" ng-model="search.specifics.companyName" value="company"> Company
+                <input type="radio" ng-model="search.specifics.jobTitle" value="title"> Title
+                <input type="text" name="input" ng-model="search">
                 <button ng-click="submit()">
                   Filter
                 </button>
@@ -52,7 +52,7 @@
         <tr>
     </thead>
     <tbody>
-        <tr ng-repeat="job in searchResultsData | orderBy:predicate">
+        <tr ng-repeat="job in searchResultsData | orderBy:predicate | filter:search">
             <td>
                 <a ng-href="#/jobListing/{{job.getId()}}">{{job.specifics.companyName}}. </a>
             </td>
