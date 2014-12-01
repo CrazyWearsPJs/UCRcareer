@@ -99,5 +99,20 @@
         </div>
     </div>
 
+<h3>My Job Posts</h3>
+<hr>
+    <div class="row">
+        <div class="col-md-6" ng-repeat-start='job in employerProfileData.posts'>
+            Title: {{job.specifics.jobTitle}}<br>
+            Description: {{job.specifics.description}}
+        </div>
+        <div class="col-md-6">
+            <button class='btn btn-primary'>
+                Edit
+            </button>
+        </div>
+        <div class='clearfix visible-md-block'></div>
+        <br ng-repeat-end>
+    </div>
 </form>
 </div>
