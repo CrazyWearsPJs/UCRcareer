@@ -158,6 +158,17 @@ app.post('/payment', function(req, res) {
             if(params.payment_status == 'Completed') {
                 console.log("Success!");
                 /* Now act on it. */
+                var applicant = models.applicant(),
+                    employer = models.employer(),
+                    customer = params.on1,
+                    customerId = params.on0;
+                /* Update customer subscription values by finding them in the
+                   db by _id */
+                if(customer == "applicant") {
+                    
+                } else if(customer == "employer") {
+                    
+                }
             }
         }
     });
