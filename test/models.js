@@ -99,7 +99,7 @@ describe('models', function (){
                   , interests: []
                   , bookmarkedPosts: []
                   , postNotifications: []
-                  , subscription: 0
+                  , subscription: "0"
                 });
             
             // Save applicant
