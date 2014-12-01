@@ -41,7 +41,7 @@ var employerSchema = new Schema({
       , mInit:     { type: String }
       , lName:     { type: String, required: true }
     }
-  , subscription:  { type: Number }
+  , subscription:  { type: String }
   , posts:   [{ type: Schema.Types.ObjectId, ref: 'JobPosting' }]
 }); 
 

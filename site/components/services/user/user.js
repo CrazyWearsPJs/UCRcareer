@@ -61,7 +61,7 @@ angular.module('huntEdu.services')
             'interests': [],
             'bookmarkedPosts': [],
             'postNotifications': [],
-            'subscription': 0,
+            'subscription': "0",
             'role': USER_ROLES.guest, 
         };
 
