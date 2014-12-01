@@ -5,7 +5,7 @@
 var mongoose = require('mongoose')
   , Schema   = mongoose.Schema;
 
-var ObjectIdBase64Conv = require('./util').ObjectIdBase64Conv
+var ObjectIdBase64Conv = require('../util').ObjectIdBase64Conv
   , objectIdToBase64 = ObjectIdBase64Conv.objectIdToBase64;
 
 /**

@@ -6,7 +6,7 @@ var mongoose = require('mongoose')
   , Schema   = mongoose.Schema 
   , JobReviewSchema = require('./schema.jobReview');
 
-var ObjectIdBase64Conv = require('./util').ObjectIdBase64Conv
+var ObjectIdBase64Conv = require('../util').ObjectIdBase64Conv
   , objectIdToBase64 = ObjectIdBase64Conv.objectIdToBase64
   , base64ToObjectId = ObjectIdBase64Conv.base64ToObjectId;
 

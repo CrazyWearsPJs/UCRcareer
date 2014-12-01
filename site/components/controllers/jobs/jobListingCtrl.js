@@ -1,6 +1,6 @@
 angular.module('huntEdu.controllers')
-    .controller('JobListingCtrl',['$scope', '$location', '$http', '$q', 'User', 'job', 
-        function ($scope, $location, $http, $q, User, job){
+    .controller('JobListingCtrl',['$scope', '$location', '$http', '$q', 'User', 'USER_ROLES', 'job', 
+        function ($scope, $location, $http, $q, User, USER_ROLES, job){
             
             $scope.$on('$routeChangeError', function() {
                 $location.path('/searchError');
@@ -12,7 +12,8 @@ angular.module('huntEdu.controllers')
                 $scope.hasImage = job.hasImage();
             });
 
-            $scope.hideSaveBookmarkBtn = User.isLoggedIn();
+            $scope.showSaveBookmarkBtns = User.isLoggedIn() && (User.getUserRole() === USER_ROLES.applicant);
+            $scope.isBookmarked = User.hasBookmark(job.meta.id);
 
             /**
              * Save a job as a bookmark
@@ -20,14 +21,21 @@ angular.module('huntEdu.controllers')
 
             $scope.saveBookmark = function (){
                 var jobId = job.meta.id;
-                var deferred = $q.defer();
-                $http.post('/bookmark/add', { 'id' : jobId })
+                User.addBookmark(jobId)
                     .then(function(){
-                        deferred.resolve();
-                    }, function(){
-                        deferred.reject();
+                        $scope.isBookmarked = true;
                     });
+            };
 
-                return deferred.promise;
+            /**
+             * Remove a bookmark
+             */
+
+            $scope.removeBookmark = function (){
+                var jobId = job.meta.id;
+                User.removeBookmark(jobId)
+                    .then(function(){
+                        $scope.isBookmarked = false;
+                    });
             };
     }]);
