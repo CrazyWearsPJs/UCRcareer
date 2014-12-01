@@ -6,4 +6,4 @@ pushd site
 popd
 
 # Run gulp build
-gulp make:js build:css
+./node_modules/gulp/bin/gulp.js make:js build:css
