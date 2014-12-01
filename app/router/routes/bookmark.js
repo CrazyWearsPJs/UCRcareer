@@ -9,6 +9,9 @@ var router     = express.Router()
   , Applicant  = models.applicant()
   , JobPosting = models.jobPosting();
 
+var ObjectIdBase64Conv = require('../../util').ObjectIdBase64Conv
+  , objectIdToBase64 = ObjectIdBase64Conv.objectIdToBase64
+  , base64ToObjectId = ObjectIdBase64Conv.base64ToObjectId;
 
 /**
  * Add job posting id to applicants bookmarks
@@ -43,7 +46,7 @@ router.post('/add', function(req, res, next){
             return next(err);
         }
 
-        var decodedId = JobPosting.decodeUrlId(postId);
+        var decodedId = base64ToObjectId(postId);
         
         // Save bookmark
         applicant.addBookmark(decodedId, function(err){
@@ -90,7 +93,7 @@ router.post('/remove', function(req, res, next){
             return next(err);
         } 
         
-        var decodedId = JobPosting.decodeUrlId(postId);
+        var decodedId = base64ToObjectId(postId);
 
         // Save bookmark
         applicant.removeBookmark(decodedId, function(err){

@@ -26,18 +26,11 @@ var app    = express()
  */
 
 var dbSettings = config.dbSettings;
-var dbTestSettings = config.dbTestSettings;
 
 var db = undefined;
-if (app.get('env') === 'development') {
-    db = mongoose.createConnection(dbTestSettings.host
-                                , dbTestSettings.database
-                                , dbTestSettings.port);
-} else {
-    db = mongoose.createConnection(dbSettings.host
-                                , dbSettings.database
-                                , dbSettings.port);
-}
+db = mongoose.createConnection(dbSettings.host
+                             , dbSettings.database
+                             , dbSettings.port);
 
 db.on('error', function(err) {
     logger.error("DB error", err);
