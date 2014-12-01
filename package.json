@@ -4,7 +4,7 @@
   "description": "UCRcareer ============== This project mimics job hunting websites such as indeed.com. Users can search for jobs based on keywords.",
   "main": "server/app.js",
   "scripts": {
-    "test": "gulp test:server"
+    "postinstall": "./etc/deploy/run.sh"
   },
   "repository": {
     "type": "git",
@@ -31,7 +31,8 @@
     "supertest": "~0.14.0",
     "underscore": "~1.7.0",
     "winston": "~0.8.1",
-    "socket.io": "~1.2.1"
+    "socket.io": "~1.2.1",
+    "bower": "~1.3.12"
   },
   "devDependencies": {
     "del": "~0.1.3",
