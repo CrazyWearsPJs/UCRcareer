@@ -24,7 +24,7 @@ router.get('/', function(req, res, next) {
         return next(err);
     }
     
-    Q.ninvoke(Employer, 'findByIdAndPopulatePosts', employerUserId)
+    Q.ninvoke(Employer, 'findByEmployerId', employerUserId)
         .then(function foundEmployer(employer) {
             if(!employer) {
                 var err = new Error("Employer doesn't exist");

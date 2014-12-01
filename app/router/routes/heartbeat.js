@@ -34,7 +34,7 @@ var express = require('express')
                 });
 
         } else if (employerUserId){
-            Q.ninvoke(Employer, 'findById', employerUserId)
+            Q.ninvoke(Employer, 'findByEmployerId', employerUserId)
                 .then(function foundEmployer(employer){
                     var jsonResponse = employer.getProfileData();
                     jsonResponse.email = employer.getEmail();

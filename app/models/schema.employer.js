@@ -113,19 +113,21 @@ employerSchema.pre('save', function(next){
 
 /**
  * Wrapper around Employer.findOne('{credentials.email': ...
-*/
+ * Populates employers job posts
+ */
+
 employerSchema.static('findByEmail', function(email, cb) {
     var Employer = this;
-    Employer.findOne({'credentials.email': email}, function(err, employer) {
-        return cb(err, employer);
-    });
+    Employer.findOne({'credentials.email': email})
+        .populate('posts')
+        .exec(cb);
 });
 
-employerSchema.static('findByIdAndPopulatePosts', function(id, cb) {
+employerSchema.static('findByEmployerId', function(id, cb) {
     var Employer = this;
     Employer.findById(id)
-            .populate('posts')
-            .exec(cb);
+        .populate('posts')
+        .exec(cb);
 });
 
 employerSchema.methods.createdPost = function(postId) {
