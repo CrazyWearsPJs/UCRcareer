@@ -16,7 +16,7 @@ var config     = require('../app/config')
   , models     = require('../app/models')
   , router     = require('../app/router');
 
-var dbTestSettings = config.dbTestSettings
+var dbSettings = config.dbSettings
   , db             = undefined;
 
 var app = undefined;
@@ -126,8 +126,8 @@ describe('routes', function (){
     before('Setup app and create a db connection', function(done) {
         app = express();
 
-        db = mongoose.createConnection(dbTestSettings.host
-                                     , dbTestSettings.database
+        db = mongoose.createConnection(dbSettings.host
+                                     , dbSettings.database
                                      , 8081); 
    
         app.use(session({

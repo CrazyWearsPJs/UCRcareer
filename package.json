@@ -4,7 +4,8 @@
   "description": "UCRcareer ============== This project mimics job hunting websites such as indeed.com. Users can search for jobs based on keywords.",
   "main": "server/app.js",
   "scripts": {
-    "postinstall": "/usr/bin/env bash ./etc/deploy/run.sh"
+    "postinstall": "/usr/bin/env bash ./etc/deploy/run.sh",
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
