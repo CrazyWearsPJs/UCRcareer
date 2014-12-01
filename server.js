@@ -9,7 +9,8 @@ var express        = require('express')
   , expressWinston = require('express-winston')
   , mongoose       = require('mongoose')
   , path           = require('path')
-  , winston        = require('winston');
+  , winston        = require('winston')
+  , ipn            = require('paypal-ipn');
 
 var config        = require('./app/config')
   , models        = require('./app/models')
@@ -151,10 +152,23 @@ app.post('/payment', function(req, res) {
     console.log(req.body);
     console.log('\n\n');
     
-    //req.body = req.body || {};
-    //res.send(200, 'OK');
-    res.send(req.body);
+    req.body = req.body || {};
+    res.send(200, 'OK');
     res.end;
+
+    var params = req.body;
+    //ipn.verify(params, function callback(err, msg) { // Use this when not testing anymore
+    ipn.verify(params, {'allow_sandbox': true}, function callback(err, msg) {
+        if(err) {
+            console.error(err);
+        } else {
+            if(params.payment_status == 'Completed') {
+                console.log("Success!");
+                /* Now act on it. */
+            }
+        }
+    });
+    console.log("Passed");
 });
 
 /**
