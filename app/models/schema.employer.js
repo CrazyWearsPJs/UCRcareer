@@ -119,14 +119,14 @@ employerSchema.pre('save', function(next){
 employerSchema.static('findByEmail', function(email, cb) {
     var Employer = this;
     Employer.findOne({'credentials.email': email})
-        .populate('posts')
+        .populate('posts', '-_id -__v')
         .exec(cb);
 });
 
 employerSchema.static('findByEmployerId', function(id, cb) {
     var Employer = this;
     Employer.findById(id)
-        .populate('posts')
+        .populate('posts', '-_id -__v')
         .exec(cb);
 });
 
