@@ -13,7 +13,7 @@ var ObjectIdBase64Conv = require('./util').ObjectIdBase64Conv
  */
 var jobReviewSchema = new Schema({
    meta: {
-        id: {type: String, required: true}      
+        id: {type: String}      
     }
   , timestamps: {
         created: {type: Date, default: Date.now, required: true},
@@ -29,13 +29,12 @@ var jobReviewSchema = new Schema({
 
 jobReviewSchema.pre('save', function(next) {
     var jobReview = this;
-    console.log("hello there!");
+    
     if(jobReview.isNew) {
         jobReview.meta.id = objectIdToBase64(jobReview._id);
-    } else if(jobReview.isModified) {
+    } else {
         // new Date() represents Date.now as a Date Object
         jobReview.timestamps.lastModified = new Date();
-        delete jobReview.isModified;
     }
     next();
 });
