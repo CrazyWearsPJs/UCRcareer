@@ -5,13 +5,20 @@
             <th>
             Filter By: 
             <br>
-                <input type="radio" ng-model="search.location.state" value="state"> State
-                <input type="radio" ng-model="search.specifics.companyName" value="company"> Company
-                <input type="radio" ng-model="search.specifics.jobTitle" value="title"> Title
-                <input type="text" name="input" ng-model="search">
-                <button ng-click="submit()">
-                  Filter
-                </button>
+                <input type="radio" ng-model="filter.state.selected"  
+                    ng-checked="filter.state.selected" value="state"> State
+                <input ng-show="filter.state.selected" 
+                    type="text" name="input" ng-model="filter.state.value">
+
+                <input type="radio" ng-model="filter.companyName.selected" 
+                    ng-checked="filter.companyName.selected" value="company"> Company
+                <input ng-show="filter.companyName.selected" 
+                    type="text" name="input" ng-model="filter.companyName.value">
+
+                <input type="radio" ng-model="filter.jobTitle.selected" 
+                    ng-checked="filter.jobTitle.selected" value="title"> Title
+                <input ng-show="filter.jobTitle.selected"
+                    type="text" name="input" ng-model="filter.jobTitle.value">
             </th>
 
         </tr>
@@ -52,10 +59,19 @@
         <tr>
     </thead>
     <tbody>
-        <tr ng-repeat="job in searchResultsData | orderBy:predicate | filter:search">
+    <tr ng-repeat="job in searchResultsData | orderBy:predicate | 
+        JobSearchFilter:{filterUse: filter.state.selected, 
+                filterKey: 'state', 
+                filterValue: filter.state.value}
+                :{filterUse: filter.companyName.selected, 
+                filterKey: 'companyName', 
+                filterValue: filter.companyName.value}
+                :{filterUse: filter.jobTitle.selected, 
+                filterKey: 'jobTitle', 
+                filterValue: filter.jobTitle.value}">
             <td>
                 <a ng-href="#/jobListing/{{job.getId()}}">{{job.specifics.companyName}}. </a>
-            </td>
+            </td>i
             
             <td>
                 {{job.specifics.jobTitle}}.
