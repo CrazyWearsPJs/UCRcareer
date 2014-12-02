@@ -69,7 +69,7 @@ angular.module('huntEdu')
                     interestJobs: ['SearchService', function(SearchService) {
                         return SearchService.getRecommendedInterestJobs();
                     }]
-                }    
+                }
             }).otherwise({
                     redirectTo: '/'
             });
