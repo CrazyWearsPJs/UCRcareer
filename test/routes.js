@@ -16,7 +16,7 @@ var config     = require('../app/config')
   , models     = require('../app/models')
   , router     = require('../app/router');
 
-var dbTestSettings = config.dbTestSettings
+var dbSettings = config.dbSettings
   , db             = undefined;
 
 var app = undefined;
@@ -73,6 +73,7 @@ var employer = {
             fName: "John"
           , lName: "Doe"
         }
+      , posts: []
 };
 
 var jobPost = {
@@ -96,16 +97,24 @@ var jobPost = {
       }
 };
 
+function deepClone(a) {
+       return JSON.parse(JSON.stringify(a));
+}
+
 describe('routes', function (){
    var apiPrefix = '/api/v1'
     , applicantRouteSuffix = '/applicant'
-    , employerRouteSuffix = '/employer'
-    , jobPostingRouteSuffix = '/post';
+    , employerRouteSuffix = '/employer';
+    
     
     var registerRoutePrefix = '/register'  
     , loginRoutePrefix = '/login'
-    , updateProfilePrefix = '/profile';
- 
+    , updateProfilePrefix = '/profile'
+    , jobPostingRoutePrefix = '/post'
+    , jobReviewRouteSuffix = '/review'
+    , idParam = '/id';
+
+
     var registerApplicantRoute = registerRoutePrefix + applicantRouteSuffix
     , registerEmployerRoute = registerRoutePrefix + employerRouteSuffix; 
          
@@ -117,8 +126,8 @@ describe('routes', function (){
     before('Setup app and create a db connection', function(done) {
         app = express();
 
-        db = mongoose.createConnection(dbTestSettings.host
-                                     , dbTestSettings.database
+        db = mongoose.createConnection(dbSettings.host
+                                     , dbSettings.database
                                      , 8081); 
    
         app.use(session({
@@ -249,7 +258,7 @@ describe('routes', function (){
                 });
 
                 it('should allow a registered user to login and send back profile data', function(done) {
-                    var profileData = _.extend({}, applicant);
+                    var profileData = deepClone(applicant);
                     delete profileData.credentials;
                     profileData.type = 'applicant';
 
@@ -264,7 +273,7 @@ describe('routes', function (){
                      * Make deep copy of credentials
                      */
 
-                    var invalidCredentials = _.extend({}, applicantCredentials);
+                    var invalidCredentials = deepClone(applicantCredentials);
                     
                     invalidCredentials.password += "wrong";
 
@@ -274,7 +283,7 @@ describe('routes', function (){
                         .expect(403, done);
                 });
                 it('should not allow an unregistered user to login', function(done) {
-                    var invalidCredentials = _.extend({}, applicantCredentials);
+                    var invalidCredentials = deepClone(applicantCredentials);
                     invalidCredentials.email = "Not" + invalidCredentials.email;
 
                     request(app)
@@ -299,7 +308,7 @@ describe('routes', function (){
                 });
 
                 it('should allow a registered user to login and send back profile data', function(done) {
-                    var profileData = _.extend({}, employer);
+                    var profileData = deepClone(employer);
                     delete profileData.credentials;
                     profileData.type = 'employer';
 
@@ -314,7 +323,7 @@ describe('routes', function (){
                      * Make deep copy of credentials
                      */
 
-                    var invalidCredentials = _.extend({}, employerCredentials);
+                    var invalidCredentials = deepClone(employerCredentials);
                     
                     invalidCredentials.password += "wrong";
 
@@ -324,7 +333,7 @@ describe('routes', function (){
                         .expect(403, done);
                 });
                 it('should not allow an unregistered user to login', function(done) {
-                    var invalidCredentials = _.extend({}, employerCredentials);
+                    var invalidCredentials = deepClone(employerCredentials);
                     invalidCredentials.email = "Not" + invalidCredentials.email;
 
                     request(app)
@@ -336,7 +345,7 @@ describe('routes', function (){
     });
 
     describe('POST /profile', function() {
-        describe('/applicant', function() {
+        describe('/applicant', function(e) {
              var updatedInfo = {
                 spec: {
                     degree: "Computer Engineering"
@@ -366,7 +375,7 @@ describe('routes', function (){
                     .send(updatedInfo)
                     .expect(200)
                     .end(function(err, res) {
-                        var cloneApplicant = _.extend({}, applicant);
+                        var cloneApplicant = deepClone(applicant);
                         cloneApplicant.spec.degree = updatedInfo.spec.degree;
                         delete cloneApplicant.credentials;
                         models.applicant().findByEmail(applicant.credentials.email, function(err, _applicant){
@@ -418,7 +427,7 @@ describe('routes', function (){
                     .send(updatedInfo)
                     .expect(200)
                     .end(function(err, res) {
-                        var cloneEmployer = _.extend({}, employer);
+                        var cloneEmployer = deepClone(employer);
                         cloneEmployer.companyName = updatedInfo.companyName;
                         delete cloneEmployer.credentials;
                         models.employer().findByEmail(employer.credentials.email, function(err, _employer){
@@ -482,7 +491,7 @@ describe('routes', function (){
                 .send(employer.credentials)
                 .end(function(err, res) {
                     agent
-                        .post('/post')
+                        .post(jobPostingRoutePrefix)
                         .send(jobPost)
                         .expect(200, done);
                 });
@@ -494,7 +503,7 @@ describe('routes', function (){
                 .send(employer.credentials)
                 .end(function(err, res) {
                     agent
-                        .post('/post')
+                        .post(jobPostingRoutePrefix)
                         .send({
                             city: 'Riverside'
                          , state: 'California'    
@@ -509,20 +518,253 @@ describe('routes', function (){
                 .send(applicant.credentials)
                 .end(function(err, res) {
                     agent
-                        .post('/post')
+                        .post(jobPostingRoutePrefix)
                         .send(jobPost)
                         .expect(403, done);
                 });
         });
 
        });
-     describe('GET /search', function (){
+ 
+    describe('POST /post/id/:id', function (){
+        var agent = null, 
+            employer2 =  deepClone(employer);
+        
+        employer2.credentials.email = "eviluser001@gmail.com";
+
+        after('destroy applicant/employer/post db', function(done) {
+            models.jobPosting().remove({}, function(err) {
+                models.employer().remove({}, function(err){
+                    models.applicant().remove({}, done);
+                });
+            }); 
+        });
+
+        afterEach('reset cookie agent', function() {
+            agent = null;
+        });
+        
+        before('register employer', function(done) {
+                request(app)
+                    .post(registerEmployerRoute)
+                    .send(employer)
+                    .expect(200, done);
+        });
+
+        before('register another employer', function(done) {
+                request(app)
+                    .post(registerEmployerRoute)
+                    .send(employer2)
+                    .expect(200, done);
+        });
+
+        beforeEach('register new cookie agent', function() {
+            agent = request.agent(app);
+        });
+        
+        before('add job post', function(done) {
+            agent = request.agent(app);
+            agent
+                .post(loginRoute)
+                .send(employer.credentials)
+                .end(function(err, res) {
+                    agent
+                        .post(jobPostingRoutePrefix)
+                        .send(jobPost)
+                        .expect(200, done);
+                });
+        });  
+
+        it('should edit job successfully as employer (owner)', function(done) {
+            agent
+                .post(loginRoute)
+                .send(employer.credentials)
+                .end(function(err, res) {
+                    agent
+                        .post(jobPostingRoutePrefix)
+                        .send(jobPost)
+                        .expect(200, done);
+                });
+        });  
+
+        it('should not edit job if not original creator of post', function(done) {
+            agent
+                .post(loginRoute)
+                .send(employer2.credentials)
+                .end(function(err, res) {
+                    models.jobPosting().findOne(jobPost, function(err, post) {
+
+                        var urlId = post.meta.id,
+                        jobPostEditRoute = jobPostingRoutePrefix + idParam + "/" +  urlId;
+                        agent
+                            .post(jobPostEditRoute) 
+                            .send({'location': {
+                                city: 'Riverside'
+                             , state: 'California'
+                            }})
+                            .expect(403, done);
+                    });
+                });
+        });
+
+        it('should not save if not logged in as an applicant', function(done) {
+           agent
+                .post(loginRoute)
+                .send(applicant.credentials)
+                .end(function(err, res) {
+                    agent
+                        .post(jobPostingRoutePrefix)
+                        .send(jobPost)
+                        .expect(403, done);
+                });
+        });
+
+       });
+   
+     describe('GET /post', function() {
+        var agent = null;        
+        
+        after('destroy applicant/employer/post db', function(done) {
+            models.jobPosting().remove({}, function(err) {
+                models.employer().remove({}, function(err){
+                    models.applicant().remove({}, done);
+                });
+            }); 
+        });
+
+        afterEach('reset cookie agent', function() {
+            agent = null;
+        });
+        
+        before('register employer', function(done) {
+                request(app)
+                    .post(registerEmployerRoute)
+                    .send(employer)
+                    .expect(200, done);
+        });
+
+        beforeEach('register new cookie agent', function() {
+            agent = request.agent(app);
+        });
+        
+        before('add two job posts', function(done) {
+            agent = request.agent(app);
+            agent
+                .post(loginRoute)
+                .send(employer.credentials)
+                .end(function(err, res) {
+                    agent
+                        .post(jobPostingRoutePrefix)
+                        .send(jobPost)
+                        .expect(200)
+                        .end(function(err, res) {
+                            agent 
+                                .post(jobPostingRoutePrefix)
+                                .send(jobPost)
+                                .expect(200, done);
+                        });
+                });
+        });  
+
+        it('should return own job posts', function(done) {
+            agent
+                .post(loginRoute)
+                .send(employer.credentials)
+                .end(function(err, res) {
+                    agent
+                        .get(jobPostingRoutePrefix)
+                        .expect(200)
+                        .end(function(err, res) {
+                            var posts = res.body;
+                            expect(posts).to.have.length(2);
+                            _.forEach(posts, function(post) {
+                                expect(post).to.contain.keys("meta", "reviews", "specifics", "tags", "location", "date");
+                                expect(post.specifics).to.deep.equal(jobPost.specifics);
+                                expect(post.location).to.deep.equal(jobPost.location);
+                                expect(post.date).to.deep.equal(jobPost.date);
+                            });
+                            done();
+                        });
+                });
+        });  
+     });
+
+
+    describe('GET /search', function (){
             it('should return a list of job posts', function(done) {
                 var keyword = 'software';
                 request(app)
                     .get('/search' + '/' + keyword)
                     .expect(200, done);
             });
+    });
+
+        describe('POST /post/id/:id/review', function() {
+        var agent = null;
+        var reviewContent = {
+            title : "This is the bes",
+            body: "Resturant I have ever been to. Wait, wrong site.",
+            rating: 5
+        };
+
+        before('register applicant', function(done) {
+                request(app)
+                    .post(registerApplicantRoute)
+                    .send(applicant)
+                    .expect(200, done);
+        });
+         
+        before('register employer', function(done) {
+                request(app)
+                    .post(registerEmployerRoute)
+                    .send(employer)
+                    .expect(200, done);
         });
 
+        before('have employer post job', function(done) {
+           agent = request.agent(app);
+           agent
+                .post(loginRoute)
+                .send(employer.credentials)
+                .end(function(err, res) {
+                    agent
+                        .post(jobPostingRoutePrefix)
+                        .send(jobPost)
+                        .expect(200, done);
+                });
+
+        });
+
+        after('destroy applicant/employer/post db', function(done) {
+            models.jobPosting().remove({}, function(err) {
+                models.employer().remove({}, function(err){
+                    models.applicant().remove({}, done);
+                });
+            }); 
+        });
+  
+        beforeEach('register new cookie agent', function() {
+            agent = request.agent(app);
+        });
+        
+        it('should post a job review', function(done) {
+            //login as applicant
+            agent
+                .post(loginRoute)
+                .send(applicant.credentials)
+                .end(function() {
+                    // then find jobPosting
+                    models.jobPosting().findOne(jobPost, function(err, post) {
+
+                        var urlId = post.meta.id,
+                        jobReviewRoute = jobPostingRoutePrefix + idParam + "/" +  urlId + jobReviewRouteSuffix;
+
+                        agent
+                            .post(jobReviewRoute)
+                            .send(reviewContent)
+                            .expect(200, done);                  
+                    }); 
+                });
+        });
+    });
 });

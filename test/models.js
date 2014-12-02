@@ -9,7 +9,7 @@ var expect   = require('chai').expect
 var config     = require('../app/config') 
   , models     = require('../app/models');
 
-var dbTestSettings = config.dbTestSettings
+var dbSettings = config.dbSettings
   , db             = undefined;
 
 
@@ -20,9 +20,9 @@ var dbTestSettings = config.dbTestSettings
 describe('models', function (){
     
     before('Create a db connection', function(done) {
-        db = mongoose.createConnection(dbTestSettings.host
-                                     , dbTestSettings.database
-                                     , dbTestSettings.port);
+        db = mongoose.createConnection(dbSettings.host
+                                     , dbSettings.database
+                                     , dbSettings.port);
         //Wait till db is connected
         db.on('connected', function(){
             done();

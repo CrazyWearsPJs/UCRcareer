@@ -35,7 +35,6 @@ router.post('/applicant', function(req, res, next) {
         });
     } else {
         var err = new Error('Missing applicant credentials');            
-        err.name = 'error';
         err.status = 400;
         next(err);
     }
@@ -69,7 +68,6 @@ router.post('/employer', function(req, res, next) {
         });
     } else {
         var err = new Error('Missing employer credentials');            
-        err.name = 'error';
         err.status = 400;
         next(err);
     }

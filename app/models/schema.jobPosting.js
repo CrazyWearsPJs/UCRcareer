@@ -3,9 +3,12 @@
  */
 
 var mongoose = require('mongoose')
-  , Schema   = mongoose.Schema
-  , ObjectId = mongoose.Types.ObjectId;
+  , Schema   = mongoose.Schema 
+  , JobReviewSchema = require('./schema.jobReview');
 
+var ObjectIdBase64Conv = require('../util').ObjectIdBase64Conv
+  , objectIdToBase64 = ObjectIdBase64Conv.objectIdToBase64
+  , base64ToObjectId = ObjectIdBase64Conv.base64ToObjectId;
 
 /**
  * Define job posting schema
@@ -38,6 +41,8 @@ var jobPostingSchema = new Schema({
         id:           { type: String }
   }
   , tags:             [ String ]
+  , reviews:          [JobReviewSchema]
+  , poster: {type: Schema.Types.ObjectId, ref: 'Employer'} 
 }); 
 
 var textSearchIndexFields = {
@@ -96,34 +101,45 @@ jobPostingSchema.static('findByKeyword', function jobSearch(keyword, cb, options
      .sort({score: {$meta: "textScore"} 
      })
      .limit(limit)
+     .populate('reviews')
      .exec(cb);
 });
 
-jobPostingSchema.methods.encodeUrlId =  function encodeJobPostUrlId()  {  
-    var jobPosting = this;
-    buffer = new Buffer(jobPosting._id.toString(), 'hex');
-    base64Id = buffer.toString('base64')
-                    .replace('+', '-')
-                    .replace('/', '_');
-        
-    jobPosting.meta.id = base64Id;
-};
+jobPostingSchema.static('findByUrlId', function jobSearchUrlId(b64Id, cb) {
+    var JobPosting = this,
+        _id = null;
 
-jobPostingSchema.static('decodeUrlId', function decodeJobPostUrlId(base64Id) {
-    var buffer = new Buffer(base64Id.replace('-', '+').replace('_','/'), 'base64'),
-        decodedId = buffer.toString('hex'),
-        decodedObjectId = new ObjectId(decodedId);
-
-    return decodedObjectId;
+    try {
+        _id = base64ToObjectId(b64Id);
+        return JobPosting.findById(_id, cb);
+    } catch(err) {
+        err.status = 400;
+        cb(err);
+    }
 });
+
+jobPostingSchema.methods.getReviewByUrlId = function reviewSearchUrlId(reviewB64Id) {
+    var jobPosting = this,
+        review_id = null;
+
+    try {
+        review_id = base64ObjectId(reviewB64Id);
+        return jobPosting.reviews.id(review_id);
+    } catch(err) {
+        return null;    
+    }
+};
 
 jobPostingSchema.pre('save', function beforeSavingJobPost(next) {
   var jobPosting = this;
     if(jobPosting.isNew) {
-        jobPosting.encodeUrlId();
+        jobPosting.meta.id = objectIdToBase64(jobPosting._id);
     }
     next();
 });
+
+
+
 
 /**
  * Export schema

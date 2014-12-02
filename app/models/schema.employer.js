@@ -4,6 +4,7 @@
 
 var mongoose = require('mongoose')
   , bcrypt   = require('bcrypt')
+  , _        = require('underscore')
   , Schema   = mongoose.Schema;
 
 var config   = require('../config');
@@ -15,7 +16,7 @@ var bcryptSettings = config.bcryptSettings;
  */
 
 var employerSchema = new Schema({
-    companyName:   { type: String, required: true, unique: true } 
+    companyName:   { type: String, required: true } 
   , credentials: {
         password:  { type: String, required: true }
       , email:     { type: String, required: true, lowercase: true, unique: true }
@@ -40,6 +41,7 @@ var employerSchema = new Schema({
       , mInit:     { type: String }
       , lName:     { type: String, required: true }
     }
+  , posts:   [{ type: Schema.Types.ObjectId, ref: 'JobPosting' }]
 }); 
 
 /**
@@ -119,6 +121,34 @@ employerSchema.static('findByEmail', function(email, cb) {
     });
 });
 
+employerSchema.static('findByIdAndPopulatePosts', function(id, cb) {
+    var Employer = this;
+    Employer.findById(id)
+            .populate('posts')
+            .exec(cb);
+});
+
+employerSchema.methods.createdPost = function(postId) {
+    var employer = this;
+    return _.indexOf(employer.posts, postId, true) !== -1
+}
+
+employerSchema.methods.addPost = function(postId, cb){
+    var employer = this;
+    // If bookmark already exists, don't do anything
+    if (employer.createdPost(postId))
+        return;
+
+    // Figure out where to insert post id as to keep array of 
+    // bookmarked posts sorted
+    var insertionPoint = _.sortedIndex(employer.posts, postId);
+    employer.posts.splice(insertionPoint, 0, postId);
+
+    employer.save(cb);
+
+};
+
+
 /**
  * Finds an employer with the given credentials.
  * Returns true if the employer exists
@@ -156,7 +186,6 @@ employerSchema.static('findByCredentials', function(creds,cb){
         });
     });
 });
-
 
 /**
  * Instance method that returns the object representation

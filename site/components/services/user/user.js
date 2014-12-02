@@ -1,5 +1,5 @@
 angular.module('huntEdu.services')
-    .factory('User', ['$http', '$q', 'USER_ROLES', '_', 'Util', function UserFactory($http, $q, USER_ROLES, _, Util) {
+    .factory('User', ['$http', '$q', 'JobList', 'USER_ROLES', '_', 'Util', function UserFactory($http, $q, JobList, USER_ROLES, _, Util) {
         var forEach = _.forEach,
             isFunction = _.isFunction,
             isObject = _.isObject,
@@ -8,6 +8,7 @@ angular.module('huntEdu.services')
             uniq = _.uniq,
             union = _.union,
             pick = _.pick,
+            findIndex = _.findIndex,
             diffObject = Util.diffObject,
             compactObjectDeep = Util.compactObjectDeep,
             compactObject = Util.compactObject,
@@ -152,6 +153,53 @@ angular.module('huntEdu.services')
 
         User.hasResume = function() {
             return !!User.spec.resume;
+        };
+
+        User.hasBookmark = function(jobId) { 
+            var jobPos = findIndex(User.bookmarkedPosts, function(post){
+                return post.meta.id === jobId;
+            });
+
+            if (jobPos === -1){
+                return false;
+            }
+            else {
+                return true;
+            }
+        };
+
+        User.removeBookmark = function(jobId) {
+            var deferred = $q.defer();
+            if (!this.hasBookmark(jobId)){
+                return deferred.promise;
+            } 
+            
+            $http.post('/bookmark/remove', { 'id' : jobId })
+                .then(function(){
+                    var jobPos = findIndex(User.bookmarkedPosts, function(post){
+                        return post.meta.id === jobId;
+                    });
+                    User.bookmarkedPosts.splice(jobPos, 1);
+                    deferred.resolve();
+                }, function(){
+                    deferred.reject();
+                });
+            return deferred.promise;
+        };
+
+        User.addBookmark = function(jobId){
+            var deferred = $q.defer();
+            if (this.hasBookmark(jobId)){
+                return deferred.promise;
+            }
+            $http.post('/bookmark/add', { 'id' : jobId })
+                .then(function(){
+                    User.bookmarkedPosts.push(JobList.getJobById(jobId));
+                    deferred.resolve();
+                }, function(){
+                    deferred.reject();
+                });
+            return deferred.promise;
         };
 
         User.clearPassword = function() {
