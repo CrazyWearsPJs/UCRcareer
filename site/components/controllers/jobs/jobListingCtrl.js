@@ -15,6 +15,23 @@ angular.module('huntEdu.controllers')
             $scope.showSaveBookmarkBtns = User.isLoggedIn() && (User.getUserRole() === USER_ROLES.applicant);
             $scope.isBookmarked = User.hasBookmark(job.meta.id);
 
+            *$scope.reviewData = job.reviews;
+
+            
+            $scope.showLoggedIn = function() {
+                return User.isLoggedIn();
+            };
+
+            /* Star Ratings */
+            $scope.rate = 0;
+            $scope.max = 5;
+            $scope.isReadonly = true;
+
+            $scope.hoveringOver = function(value) {
+                $scope.overStar = value;
+                $scope.percent = 100 * (value / $scope.max);
+            }; 
+            
             /**
              * Save a job as a bookmark
              */
