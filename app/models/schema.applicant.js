@@ -185,18 +185,18 @@ applicantSchema.methods.notificationIndex = function(postId){
 /**
  * Adds a job posting id to applicant's notification queue
  * @param postId {ObjectId} Job posting id
+ * @param cb {Function} callback function
  */
 
-applicantSchema.methods.addPostNotification = function(postId){
+applicantSchema.methods.addPostNotification = function(postId, cb){
     var applicant = this;
+    
     // If notification already exists, don't do anything
-    if (_.indexOf(applicant.postNotifications, postId, true) !== -1)
-        return;
+    if (applicant.notificationIndex(postId) !== -1)
+        return cb(null);
 
-    // Figure out where to insert post as to keep array of 
-    // post notifications sorted
-    var insertionPoint = _.sortedIndex(applicant.postNotifications, postId);
-    applicant.postNotifications.splice(insertionPoint, 0, postId);
+    applicant.postNotifications.push(postId);
+    applicant.save(cb);
 }
 
 /**
