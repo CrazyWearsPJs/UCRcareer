@@ -202,16 +202,21 @@ applicantSchema.methods.addPostNotification = function(postId, cb){
 /**
  * Removes a job posting id from the applicant's notification queue
  * @param postId {ObjectId} Job posting id
+ * @param cb {Function} callback function
  */
 
-applicantSchema.methods.removePostNotification = function(postId){
+applicantSchema.methods.removePostNotification = function(postId, cb){
     var applicant = this;
     // Figure out where the id to remove is located
-    var removalPoint = _.indexOf(applicant.postNotifications, postId, true);
+    var removalPoint = applicant.notificationIndex(postId);
+
     // If bookmark doesn't exist, then there is nothing to do!
-    if ( removalPoint === -1)
-        return;
+    if ( removalPoint === -1){
+        return cb(null);
+    }
+
     applicant.postNotifications.splice(removalPoint, 1);
+    applicant.save(cb);
 }
 
 /**
