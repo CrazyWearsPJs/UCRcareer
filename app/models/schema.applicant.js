@@ -122,7 +122,7 @@ applicantSchema.methods.addBookmark = function(postId, cb){
 
     applicant.bookmarkedPosts.push(postId);
     applicant.save(cb);
-}
+};
 
 /**
  * Removes a job posting id from the applicant's bookmarked posts

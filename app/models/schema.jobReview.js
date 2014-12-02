@@ -5,12 +5,17 @@
 var mongoose = require('mongoose')
   , Schema   = mongoose.Schema;
 
+var ObjectIdBase64Conv = require('../util').ObjectIdBase64Conv
+  , objectIdToBase64 = ObjectIdBase64Conv.objectIdToBase64;
 
 /**
  * Define job posting schema
  */
 var jobReviewSchema = new Schema({
-    timestamps: {
+   meta: {
+        id: {type: String}      
+    }
+  , timestamps: {
         created: {type: Date, default: Date.now, required: true},
         lastModified: {type: Date, default: Date.now, required: true}
     }
@@ -22,4 +27,15 @@ var jobReviewSchema = new Schema({
   }
 }); 
 
+jobReviewSchema.pre('save', function(next) {
+    var jobReview = this;
+    
+    if(jobReview.isNew) {
+        jobReview.meta.id = objectIdToBase64(jobReview._id);
+    } else {
+        // new Date() represents Date.now as a Date Object
+        jobReview.timestamps.lastModified = new Date();
+    }
+    next();
+});
 exports = module.exports = jobReviewSchema;
