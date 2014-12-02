@@ -16,7 +16,7 @@ angular.module('huntEdu.services')
        
         var PROFILE_DATA_FIELDS = {};
 
-        PROFILE_DATA_FIELDS[USER_ROLES.all] =  ['personal', 'contact', 'location'];
+        PROFILE_DATA_FIELDS[USER_ROLES.all] =  ['personal', 'contact', 'location', 'subscription'];
         PROFILE_DATA_FIELDS[USER_ROLES.applicant] = ['spec', 'interests', 'bookmarkedPosts', 'postNotifications'];
         PROFILE_DATA_FIELDS[USER_ROLES.employer] = ['companyName'];
         
@@ -61,6 +61,7 @@ angular.module('huntEdu.services')
             'interests': [],
             'bookmarkedPosts': [],
             'postNotifications': [],
+            'subscription': "0",
             'role': USER_ROLES.guest, 
         };
 
@@ -120,6 +121,10 @@ angular.module('huntEdu.services')
     
         User.getInterests = function() {
             return clone(User.interests);
+        };
+
+        User.getSubscription = function() {
+            return User.subscription;
         };
 
         User.prettyListInterests = function(conjunction, noneString) {
@@ -208,6 +213,10 @@ angular.module('huntEdu.services')
 
         User.getAll = function() {
             return compactObjectDeep();
+        };
+
+        User.updateSubscription = function(days) {
+            User.subscription += days;
         };
 
         User.setProfileData = function(data,  role) {
