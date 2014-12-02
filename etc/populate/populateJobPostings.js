@@ -12,7 +12,6 @@ var mongoose = require('mongoose'),
  */
 
 var dbSettings = config.dbSettings;
-var dbTestSettings = config.dbTestSettings;
 
 var db = mongoose.createConnection(dbSettings.host
                                 , dbSettings.database

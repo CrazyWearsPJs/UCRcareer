@@ -51,6 +51,7 @@ var applicant = {
       , interests: []
       , bookmarkedPosts: []
       , postNotifications: []
+      , subscription: "0"
 };
  
 var employer = {  
@@ -73,6 +74,7 @@ var employer = {
             fName: "John"
           , lName: "Doe"
         }
+      , subscription: "0"
       , posts: []
 };
 
