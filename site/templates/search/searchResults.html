@@ -1,17 +1,17 @@
-<table class="table" id="searchTable">
+<table class="table" id="searchTable"i>
     <thead>
         <tr>
-              
             <th>
             Filter By: 
             <br>
-                <input type="radio" ng-model="search.location.state" value="state"> State
-                <input type="radio" ng-model="search.specifics.companyName" value="company"> Company
-                <input type="radio" ng-model="search.specifics.jobTitle" value="title"> Title
-                <input type="text" name="input" ng-model="search">
-                <button ng-click="submit()">
-                  Filter
-                </button>
+                <input type="checkbox" ng-model="filter.selected.state" value="state"> State
+                <input ng-show="filter.selected.state" type="text" name="input" ng-model="filter.state">
+
+                <input type="checkbox" ng-model="filter.selected.companyName"  value="company"> Company
+                <input ng-show="filter.selected.companyName" type="text" name="input" ng-model="filter.companyName">
+
+                <input type="checkbox" ng-model="filter.selected.jobTitle" value="title"> Title
+                <input ng-show="filter.selected.jobTitle" type="text" name="input" ng-model="filter.jobTitle">
             </th>
 
         </tr>
@@ -52,10 +52,10 @@
         <tr>
     </thead>
     <tbody>
-        <tr ng-repeat="job in searchResultsData | orderBy:predicate | filter:search">
+    <tr ng-repeat="job in searchResultsData | orderBy:predicate | filter:jobFilter()">
             <td>
                 <a ng-href="#/jobListing/{{job.getId()}}">{{job.specifics.companyName}}. </a>
-            </td>
+            </td>i
             
             <td>
                 {{job.specifics.jobTitle}}.
