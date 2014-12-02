@@ -1,18 +1,17 @@
-<table class="table" id="searchTable">
+<table class="table" id="searchTable"i>
     <thead>
         <tr>
-              
             <th>
             Filter By: 
             <br>
-                <input type="checkbox" ng-model="filter.selected.location.state" value="state"> State
-                <input ng-show="filter.selected.location.state" type="text" name="input" ng-model="filter.location.state">
+                <input type="checkbox" ng-model="filter.selected.state" value="state"> State
+                <input ng-show="filter.selected.state" type="text" name="input" ng-model="filter.state">
 
                 <input type="checkbox" ng-model="filter.selected.companyName"  value="company"> Company
                 <input ng-show="filter.selected.companyName" type="text" name="input" ng-model="filter.companyName">
 
-                <input type="checkbox" ng-model="filter.selected.specifics.jobTitle" value="title"> Title
-                <input ng-show="filter.selected.specifics.jobTitle" type="text" name="input" ng-model="filter.specifics.jobTitle">
+                <input type="checkbox" ng-model="filter.selected.jobTitle" value="title"> Title
+                <input ng-show="filter.selected.jobTitle" type="text" name="input" ng-model="filter.jobTitle">
             </th>
 
         </tr>

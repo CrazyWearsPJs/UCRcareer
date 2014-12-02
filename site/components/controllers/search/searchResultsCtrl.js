@@ -4,39 +4,37 @@ angular.module('huntEdu.controllers')
             $scope.filter = {
                 selected: {
                     companyName: false,
-                    location: {
-                        state: false
-                    },
-                    specifics: {
-                        jobTitle: false
-                    }
+                    state: false,
+                    jobTitle: false
                 },
                 companyName: "",
-                location: {
-                    state: ""
-                },
-                specifics: {
-                    jobTitle: ""
-                }
+                state: "",
+                jobTitle: ""
             }; 
             
             $scope.jobFilter = function() {
                 var filterObj = {};
 
                 if ($scope.filter.selected.companyName) {
-                    filterObj.companyName = $scope.filter.companyName;
+                    filterObj.specifics = {
+                        companyName : $scope.filter.companyName
+                    };
                 } 
 
-                if($scope.filter.selected.location.state){
+                if($scope.filter.selected.state){
                     filterObj.location = {
-                        state : $scope.filter.location.state
+                        state : $scope.filter.state
                     };
                 }
 
-                if($scope.filter.selected.specifics.jobTitle) {
-                    filterObj.specifics = {
-                        jobTitle : $scope.filter.specifics.jobTitle
-                    };
+                if($scope.filter.selected.jobTitle) {
+                    if(!filterObj.specifics) {
+                        filterObj.specifics = {
+                            jobTitle : $scope.filter.jobTitle
+                        };
+                    } else {
+                        filterObj.specifics.jobTitle = $scope.filter.jobTitle;
+                    }
                 }
 
                 return filterObj;
