@@ -14,9 +14,9 @@ var mongoose = require('mongoose'),
 var dbSettings = config.dbSettings;
 var dbTestSettings = config.dbTestSettings;
 
-var db = mongoose.createConnection(dbTestSettings.host
-                                , dbTestSettings.database
-                                , dbTestSettings.port);
+var db = mongoose.createConnection(dbSettings.host
+                                , dbSettings.database
+                                , dbSettings.port);
 
 db.on('error', function(err) {
     logger.error("DB error", err);
