@@ -18,11 +18,6 @@ angular.module('huntEdu.services')
 
             limit = limit || 100;
 
-            if(JobList.hasResults(keyword)) {
-                deferred.resolve(JobList.getResults(keyword));
-                return deferred.promise;  
-            }
-             
             $http.get('/search' + '/' + keyword)
                 .then(function(res) {
                     var jobPostsRaw = res.data,
