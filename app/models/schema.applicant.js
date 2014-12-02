@@ -161,6 +161,27 @@ applicantSchema.methods.removeBookmark = function(postId, cb){
     applicant.save(cb);
 }
 
+
+/**
+ * Returns index of job post in notification list if it exists 
+ * @param postid {ObjectID} job posting id
+ * @return {Integer} position of job posting in post notifications. -1 if
+ *                   not found
+ */
+
+applicantSchema.methods.notificationIndex = function(postId){
+    var applicant = this;
+    
+    // Create a copy of applicants post notifications as strings
+    // This needs to be done because ObjectIds cannot be compared to 
+    // each other directly
+    var _postNotifications = _.map(applicant._postNotifications, function(objId){
+        return String(objId);
+    });
+
+    return _.indexOf(_postNotifications, String(postId));
+}
+
 /**
  * Adds a job posting id to applicant's notification queue
  * @param postId {ObjectId} Job posting id
