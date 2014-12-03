@@ -50,7 +50,9 @@ var applicantSchema = new Schema({
   , interests:         [ String ]
   , bookmarkedPosts:   [{ type: Schema.Types.ObjectId, ref: 'JobPosting' }]
   , postNotifications: [{ type: Schema.Types.ObjectId, ref: 'JobPosting' }]
-  , subscription:      { type: String }
+  , subscription: { 
+        expires: {type: Date, default: null}
+  }
 }); 
 
 /**
@@ -101,6 +103,30 @@ applicantSchema.methods.setPassword = function(plainTextPassword) {
     var applicant = this;
     applicant.plainTextPassword = true;
     applicant.credentials.password = plainTextPassword;
+};
+
+
+applicantSchema.methods.isSubscribed = function() {
+    var applicant = this,
+        now = new Date();
+
+    return now < applicant.subscription.expires;
+};
+
+applicantSchema.methods.addDaysSubscription = function(days) {
+    var applicant = this,
+        daysToSeconds = days * 86400000,
+        now = new Date();
+    
+    if(!applicant.subscription.expires || applicant.subscription.expires < now) {
+        var daysFromNow = now;
+        daysFromNow.setDate(now.getTime() + daysToSeconds); 
+        applicant.subscription.expires = daysFromNow;
+    } else {
+        //extending membership
+        var expires = applicant.subscription.expires;
+        applicant.subscription.expires.setDate(expires.getTime() + daysToSeconds);
+    }
 };
 
 /**
