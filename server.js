@@ -15,8 +15,7 @@ var express        = require('express')
 var config        = require('./app/config')
   , models        = require('./app/models')
   , logger        = require('./app/logger')
-  , router        = require('./app/router')
-  , notifications = require('./app/notifications');
+  , router        = require('./app/router');
 
 var app    = express()
   , server = http.Server(app);
@@ -56,6 +55,13 @@ db.on('close', function() {
 
 // Register models
 models.register(db);
+
+/**
+ * Import notification module. Needs to imported after db connection
+ * is established
+ */
+
+var notifications = require('./app/notifications');
 
 /**
  * Attach server to notifications module
