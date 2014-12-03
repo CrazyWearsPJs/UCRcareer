@@ -1,21 +1,29 @@
-<div class="container">
-    <a href="" ng-click="newReview()" ng-show="showLoggedIn()">Post New Review</a>
-    <div ng-repeat="r  in reviewData">
+    <hr>
+    <div ng-repeat="r  in jobListingData.reviews | orderBy:sort:reverse">
         <div class="row">
-            {{r.title}}
+            <div class="col-md-8">
+                {{r.content.title}}
+            </div>
         </div>    
         <div class="row">
-            {{r.date | date:'MMM dd, yyyy hh:mm a'}}
+            <div class="col-md-8">
+                {{r.timestamps.created | date:'MMM dd, yyyy hh:mm a'}}
+            </div>
         </div>    
         <div class="row">
-            Posted by {{r.author}}
+            <div class="col-md-8">
+            Posted by {{r.reviewer.personal.fName}} {{r.reviewer.personal.lName}}
+            </div>
         </div>    
         <div class="row">
-            Rating: <rating ng-model="r.rating" max="max" readonly="isReadOnly" on-hover="hoveringOver(value)" on-leave="overStart = null"></rating>
+            <div class="col-md-8">
+                Rating: <rating ng-model="r.content.rating" max="max" readonly="true" on-hover="hoveringOver(value)" on-leave="overStart = null"></rating>
+            </div>
         </div>    
         <div class="row">
-            Comment: {{r.comment}}
+            <div class="col-md-8">
+                Comment: {{r.content.body}}
+            </div>
             <hr>
         </div>    
     </div>
-</div>

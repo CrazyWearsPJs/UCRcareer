@@ -15,8 +15,7 @@ angular.module('huntEdu.controllers')
             $scope.showSaveBookmarkBtns = User.isLoggedIn() && (User.getUserRole() === USER_ROLES.applicant);
             $scope.isBookmarked = User.hasBookmark(job.meta.id);
 
-            *$scope.reviewData = job.reviews;
-
+            /* Get Rating array to display them*/
             
             $scope.showLoggedIn = function() {
                 return User.isLoggedIn();
@@ -25,13 +24,33 @@ angular.module('huntEdu.controllers')
             /* Star Ratings */
             $scope.rate = 0;
             $scope.max = 5;
-            $scope.isReadonly = true;
 
             $scope.hoveringOver = function(value) {
                 $scope.overStar = value;
-                $scope.percent = 100 * (value / $scope.max);
+            };
+
+            /*captured rate when clicked on*/
+            $scope.getRate = function() {
+                $scope.rate = $scope.overStar;
+            };
+
+            $scope.postReview = {
+                'meta':{},
+                'timestamps': {},
+                'reviewer': {},
+                'content':{}
+            };
+            /**
+             * Add a job review
+             */
+            $scope.submitReview = function() {
+                $scope.postReview.content.rating = $scope.rate;    
+                $scope.jobListingData.addReview($scope.postReview.content)
+                    .then(function(){
+                        $scope.jobListingData.pushReview($scope.postReview);
+                    });
             }; 
-            
+
             /**
              * Save a job as a bookmark
              */

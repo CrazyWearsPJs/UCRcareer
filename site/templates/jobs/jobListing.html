@@ -130,7 +130,9 @@
             Remove Bookmark
         </button>
     </div>
-    <hr>
-    <ng-include src="'templates/jobs/jobReview.html'"></ng-include>
+    <br>
+    <br>
+    <ng-include src="'templates/jobs/reviewPosting.html'" ng-show="showLoggedIn()"></ng-include>
+    <ng-include src="'templates/jobs/jobReview.html'" ng-show="showLoggedIn()"></ng-include>
     
 </div> 

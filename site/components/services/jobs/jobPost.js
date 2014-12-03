@@ -1,5 +1,5 @@
 angular.module('huntEdu.services')
-    .factory('JobPost', ['_', 'Util', function JobPostFactory(_, Util) {
+    .factory('JobPost', ['$http', '$q', '_', 'Util', function JobPostFactory($http, $q, _, Util) {
         var forEach = _.forEach,
             isArray = _.isArray,
             pick = _.pick,
@@ -8,7 +8,7 @@ angular.module('huntEdu.services')
             compactObjectDeep = Util.compactObjectDeep;
 
         var JOB_POST_DATA_FIELDS = ['meta','specifics', 'location', 
-                            'date', 'media', 'tags'];
+                            'date', 'media', 'tags', 'reviews'];
         
         function baseSetJobPostData(data, context) {
             var relevantData = pick(data, JOB_POST_DATA_FIELDS),
@@ -59,7 +59,8 @@ angular.module('huntEdu.services')
                 'image': null,
                 'video': null
             },
-            'tags': []
+            'tags': [],
+            'reviews': []
         };
         
         JobPost.prototype.getId = function() {
@@ -93,6 +94,22 @@ angular.module('huntEdu.services')
         JobPost.prototype.getJobPostData = function() {
             return compactObjectDeep(this);
         };
-        
-         return JobPost;
+
+        JobPost.prototype.pushReview = function(data) {
+            this.reviews.push(data);
+        };
+
+        JobPost.prototype.addReview = function(data) {
+            var deferred = $q.defer(),
+                jobPost = this;
+            $http.post('/post/id/' + jobPost.getId() + '/review', data)
+                .then(function(){
+                    deferred.resolve();
+                }, function(){
+                    deferred.reject();
+                });
+            return deferred.promise;
+        };
+ 
+        return JobPost;
     }]);

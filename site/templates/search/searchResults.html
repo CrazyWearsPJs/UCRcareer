@@ -38,11 +38,11 @@
     <tbody>
         <tr ng-repeat="job in searchResultsData | orderBy:predicate">
             <td>
-                <a ng-href="#/jobListing/{{job.getId()}}">{{job.specifics.companyName}}. </a>
+                <a ng-href="#/jobListing/{{job.getId()}}">{{job.specifics.companyName}}</a>
             </td>
             
             <td>
-                {{job.specifics.jobTitle}}.
+                {{job.specifics.jobTitle}}
             </td>
             <td>
                 {{job.location.city}}, {{job.location.state}}
