@@ -9,6 +9,11 @@ angular.module('huntEdu.controllers')
             $location.path('/updateEmployerProfile');
         };
 
+        $scope.edit = function(jobId) {
+            var postId = jobId;
+            $location.path('/updateJobPosting' + postId);
+        };
+
         $scope.$on('$viewContentLoaded', function() {
             if(User.isEmployer()){
                 var role = User.getUserRole();
