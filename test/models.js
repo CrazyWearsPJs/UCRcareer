@@ -98,7 +98,7 @@ describe('models', function (){
                     }
                   , interests: []
                   , bookmarkedPosts: []
-                  , postNotifications: []
+                  , notifications: []
                   , subscription: "0"
                 });
             
@@ -187,46 +187,46 @@ describe('models', function (){
             });
         });
 
-        describe('#addPostNotification', function(){
-            it('should add a job id to an applicants notification list', function(done){
+        describe('#addNotification', function(){
+            it('should add a notification to an applicants notification list', function(done){
                 var Applicant = models.applicant();
                 Applicant.findOne({"credentials.email" : "jdoe001@ucr.edu"}, function(err, applicant){
                     if(err) throw err;
                     expect(applicant).to.not.be.equal(null);
 
-                    // Save dummy jobposting id to notification list
+                    // Save dummy notification id to notification list
                     var dummyId = mongoose.Types.ObjectId();
-                    applicant.addPostNotification(dummyId);
+                    applicant.addNotification(dummyId);
 
                     // Verify it was saved
-                    expect(applicant.postNotifications).to.have.length(1);
-                    expect(applicant.postNotifications[0]).to.be.equal(dummyId);
+                    expect(applicant.notifications).to.have.length(1);
+                    expect(applicant.notifications[0]).to.be.equal(dummyId);
 
                     done();
                 });
             });
         });
 
-        describe('#removePostNotification', function(){
-            it('should remove a job id from an applicants notification list', function(done){
+        describe('#removeNotification', function(){
+            it('should remove a notification from an applicants notification list', function(done){
                 var Applicant = models.applicant();
                 Applicant.findOne({"credentials.email" : "jdoe001@ucr.edu"}, function(err, applicant){
                     if(err) throw err;
                     expect(applicant).to.not.be.equal(null);
 
-                    // Save dummy jobposting id
+                    // Save dummy notfication id
                     var dummyId = mongoose.Types.ObjectId();
-                    applicant.addPostNotification(dummyId);
+                    applicant.addNotification(dummyId);
                     
                     // Verify it was saved
-                    expect(applicant.postNotifications).to.have.length(1);
-                    expect(applicant.postNotifications[0]).to.be.equal(dummyId);
+                    expect(applicant.notifications).to.have.length(1);
+                    expect(applicant.notifications[0]).to.be.equal(dummyId);
 
                     // Remove the jobposting id
-                    applicant.removePostNotification(dummyId);
+                    applicant.removeNotification(dummyId);
 
                     // Verify it was removed
-                    expect(applicant.postNotifications).to.have.length(0);
+                    expect(applicant.notifications).to.have.length(0);
 
                     done();
                 });

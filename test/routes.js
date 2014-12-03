@@ -50,7 +50,7 @@ var applicant = {
         }
       , interests: []
       , bookmarkedPosts: []
-      , postNotifications: []
+      , notifications: []
       , subscription: "0"
 };
  
