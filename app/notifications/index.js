@@ -17,11 +17,13 @@ var Applicant    = models.applicant()
  */
 
 var notificationTypes = {
-    "UpdatedJobPost" : {
-        "message": "Job post has new updates"
-      , "meta": {
-            "jobPost": null
-        }
+    UpdatedJobPost : function(jobPostId) {
+        return {
+            "message": "Job post has new updates"
+          , "meta": {
+                "jobPost": jobPostId
+            }
+        };
     }
 };
 
@@ -87,11 +89,24 @@ function sendNotification (applicantId, notificationData, cb){
 }
 
 /**
+ * Send a job posting update notification to applicant
+ * @param applicantId {ObjectId} Applicant Id
+ * @param jobPostId {ObjectId} Job posting id
+ * @param cb {Function} callback
+ */
+
+function sendJobUpdatedNotification (applicantId, jobPostId, cb){
+    var notificationData = notificationTypes.UpdatedJobPost(jobPostId);
+    sendNotification(applicantId, notificationData, cb);
+}
+
+/**
  * Exports
  */
 
 exports = module.exports = {
-    attachToServer: attachToServer
-  , attachSessions: attachSessions
-  , start:          start
+    attachToServer:             attachToServer
+  , attachSessions:             attachSessions
+  , start:                      start
+  , sendJobUpdatedNotification: sendJobUpdatedNotification
 };
