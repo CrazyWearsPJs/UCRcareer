@@ -4,7 +4,9 @@
 
 var mongoose = require('mongoose')
   , Schema   = mongoose.Schema 
-  , JobReviewSchema = require('./schema.jobReview');
+  , JobReviewSchema = require('./schema.jobReview')
+  , _ = require('lodash');
+
 
 var ObjectIdBase64Conv = require('../util').ObjectIdBase64Conv
   , objectIdToBase64 = ObjectIdBase64Conv.objectIdToBase64
@@ -44,7 +46,7 @@ var jobPostingSchema = new Schema({
         created: { type: Date, default: Date.now, required: true},
         lastModified: { type: Date, default: Date.now, require: true}
 
-  },
+  }
   , tags:             [ String ]
   , reviews:          [JobReviewSchema]
   , poster: {type: Schema.Types.ObjectId, ref: 'Employer'} 
@@ -99,13 +101,13 @@ jobPostingSchema.static('findByKeyword', function jobSearch(keyword, cb, options
         return cb(new Error("Keyword was not a string"));
     
     if(options) {
-            if(options.limit) {
-                limit = options.limit;
-            }
-            
-            if(options.delay) {
-                delay = options.delay;
-            }
+        if(options.limit) {
+            limit = options.limit;
+        }
+        
+        if(options.delay) {
+            delay = options.delay;
+        }
     }
     
 
@@ -126,9 +128,24 @@ jobPostingSchema.static('findByKeyword', function jobSearch(keyword, cb, options
         finalQuery = baseQuery;
      } else {
         // If not showAllJobs, then this is a non-subscribed user,
-        // only show posts that are at least delay hours old
+        // only show posts that are at least delay*hours old
         var delayHoursFromNow = new Date(Date.now() - (delay * MILLISECONDS_PER_HOUR));
-        finalQuery = baseQuery.where('timestamps.created').lte(delayHoursFromNow);
+        if(options && options.ownJobs) {
+            // this is the case where an employer searches using a keyword
+            // and expects his own posted job to be a part of the search results
+            //
+            // so, we narrow down the search results to jobs that
+            // are older than delay*hour, or jobs that this employer has posted himself
+            finalQuery = baseQuery.$where(function() {
+                var job = this;
+                return job.timestamps.created <= delayHoursFromNow || 
+                    _.some(options.ownJobs, {'_id': job._id});
+            });
+        } else {
+            // otherwise is a guest or an unpaid applicant, who can only see 
+            // jobs that are older than an hour
+            finalQuery = baseQuery.where('timestamps.created').lte(delayHoursFromNow);
+        }
      }
 
      //execute the query
@@ -141,7 +158,7 @@ jobPostingSchema.static('findByUrlId', function jobSearchUrlId(b64Id, cb) {
 
     try {
         _id = base64ToObjectId(b64Id);
-        return JobPosting.findById(_id, cb);
+        return JobPosting.findById(_id, cb).populate('reviews');
     } catch(err) {
         err.status = 400;
         cb(err);

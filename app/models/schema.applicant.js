@@ -113,19 +113,21 @@ applicantSchema.methods.isSubscribed = function() {
     return now < applicant.subscription.expires;
 };
 
-applicantSchema.methods.addDaysSubscription = function(days) {
+var MILLISECONDS_PER_DAY = 86400000;
+
+applicantSchema.methods.addSubscriptionDays = function(days) {
     var applicant = this,
-        daysToSeconds = days * 86400000,
+        daysToMilliSeconds = days * MILLISECONDS_PER_DAY,
         now = new Date();
     
     if(!applicant.subscription.expires || applicant.subscription.expires < now) {
         var daysFromNow = now;
-        daysFromNow.setDate(now.getTime() + daysToSeconds); 
+        daysFromNow.setDate(now.getTime() + daysToMilliSeconds); 
         applicant.subscription.expires = daysFromNow;
     } else {
         //extending membership
         var expires = applicant.subscription.expires;
-        applicant.subscription.expires.setDate(expires.getTime() + daysToSeconds);
+        applicant.subscription.expires.setDate(expires.getTime() + daysToMilliSeconds);
     }
 };
 

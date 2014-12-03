@@ -4,7 +4,7 @@
 
 var expect   = require('chai').expect
   , mongoose = require('mongoose')
-  , _        = require('underscore');
+  , _        = require('lodash');
 
 var config     = require('../app/config') 
   , models     = require('../app/models');
@@ -410,6 +410,8 @@ describe('models', function (){
                    if(err) throw err;
                    expect(posts).to.have.length(1);
                    done();
+                }, {
+                    showAllJobs: true   
                 });
             });
         });

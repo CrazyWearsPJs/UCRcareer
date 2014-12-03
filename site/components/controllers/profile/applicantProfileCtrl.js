@@ -14,7 +14,8 @@ angular.module('huntEdu.controllers')
             var role = User.getUserRole();
             $scope.applicantProfileData = User.getProfileData(role);
     	    $scope.showResume = User.hasResume();
-        }
+            $scope.email = User.getEmail();
+	}
         else {
             $location.path('/');
         }
