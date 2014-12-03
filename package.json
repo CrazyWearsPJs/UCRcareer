@@ -27,6 +27,7 @@
     "express-session": "^1.9.1",
     "express-winston": "~0.2.8",
     "gulp-sass": "~1.1.0",
+    "lodash": "^2.4.1",
     "mongoose": "3.8.19",
     "multiparty": "~4.0.0",
     "paypal-ipn": "^3.0.0",

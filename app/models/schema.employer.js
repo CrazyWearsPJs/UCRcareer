@@ -4,7 +4,7 @@
 
 var mongoose = require('mongoose')
   , bcrypt   = require('bcrypt')
-  , _        = require('underscore')
+  , _        = require('lodash')
   , Schema   = mongoose.Schema;
 
 var config   = require('../config');
