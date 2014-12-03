@@ -79,8 +79,9 @@ function notification () {
  */
 
 module.exports = {
-    register:   register
-  , applicant:  applicant
-  , employer:   employer
-  , jobPosting: jobPosting
+    register:     register
+  , applicant:    applicant
+  , employer:     employer
+  , jobPosting:   jobPosting
+  , notification: notification
 };
