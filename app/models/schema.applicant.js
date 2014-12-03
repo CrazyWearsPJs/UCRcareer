@@ -245,7 +245,17 @@ applicantSchema.static('findByEmail', function(email, cb) {
 
     Applicant.findOne({'credentials.email' : email})
         .populate("bookmarkedPosts", "-_id -__v")
-        .exec(cb);
+        .populate("notifications", "-_id -__v")
+        .exec(function(err, docs){
+            if (err){
+                return cb(err);
+            }
+            var options = {
+                path: "notifications.meta.jobPost"
+            };
+
+            Applicant.populate(docs, options, cb);
+        });
 });
 
 /**
@@ -258,7 +268,17 @@ applicantSchema.static('findByApplicantId', function(id, cb) {
 
     Applicant.findById(id)
         .populate("bookmarkedPosts", "-_id -__v")
-        .exec(cb);
+        .populate("notifications", "-_id -__v")
+        .exec(function(err, docs){
+            if (err){
+                return cb(err);
+            }
+            var options = {
+                path: "notifications.meta.jobPost"
+            };
+
+            Applicant.populate(docs, options, cb);
+        });
 });
 
 /**

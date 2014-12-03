@@ -13,7 +13,7 @@ var mongoose = require('mongoose')
 var notificationSchema = new Schema({
     message: { type: String, required: true }
   , meta: {
-        jobPostId: { type: Schema.Types.ObjectId, ref: 'JobPosting' }
+        jobPost: { type: Schema.Types.ObjectId, ref: 'JobPosting' }
     }
 });
 
