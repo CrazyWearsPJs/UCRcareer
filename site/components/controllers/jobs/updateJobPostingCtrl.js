@@ -7,19 +7,15 @@ angular.module('huntEdu.controllers')
             youtubeUrlSuffix = "?v=2",
             imagePrefix = "http://www.";
 */
-        $scope.updatedPost = {
-            'jobTitle':     {},
-            'description':  {},
-            'requirements': {},
-            'salary':       {},
-            'department':   {},
-            'jobType':      {},
-            'application':  {},
-            'city':         {},
-            'state':        {},
-            'image':        {},
-            'video':        {},
-            'tags':         []
+        $scope.post = {
+            'specifics': {},
+            'location':  {},
+            'date':      {},
+            'media':     {},
+            'meta':      {},
+            'tags':      {},
+            'reviews':   {},
+            'poster':    {}
         };
 /*
         $scope.mediaCheck = {
@@ -33,18 +29,20 @@ angular.module('huntEdu.controllers')
                 $location.path('/');
             }
         });
-        
+       
+
+        $scope.updateJobPostingData = JobPost.prototype.getJobPostData();
+/* 
         var postId = $routeParams.id;
         var jobPosts = User.getProfileData().posts;
-        var postToUpdate = jobPosts[0];
         for(var i = 0; i < jobPosts.length; ++i)
         {
             if(jobPosts[i].meta.id === postId)
             {
                 $scope.updateJobPostingData = jobPosts[i];
-                postToUpdate = jobPosts[i];
             }
         }
+*/
 /*
         var checkValidVideo = function(job) {
             var deferred = $q.defer(),
@@ -102,7 +100,14 @@ angular.module('huntEdu.controllers')
         };
 */
         $scope.updateJob = function() {
-                JobPost.prototype.updateJobPost(postToUpdate);
+            if($scope.updateJobPosting.$valid) {
+                JobPost.prototype.updateJobPost($scope.post)
+                .then(function() {
+                    $location.path(profilePage);
+                }, function() {
+                    console.log("JobPost update failed.");
+                });
+            }
         };
 
         $scope.updateCancel = function() {
