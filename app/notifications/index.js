@@ -9,22 +9,6 @@ var socketio = require('socket.io');
 var io = null; 
 
 /**
- * These are the different kinds of notifications
- * we can send, and their associated messages. 
- */
-
-var notificationTypes = {
-    UpdatedJobPost : function(jobPostId) {
-        return {
-            "message": "Job post has new updates"
-          , "meta": {
-                "jobPost": jobPostId
-            }
-        };
-    }
-};
-
-/**
  * Configure io to listen on an http server
  * @param server {HTTP} HTTP server instance
  */
@@ -64,5 +48,4 @@ exports = module.exports = {
     attachToServer:             attachToServer
   , attachSessions:             attachSessions
   , start:                      start
-  , notificationTypes:          notificationTypes
 };
