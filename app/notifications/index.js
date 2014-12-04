@@ -4,12 +4,9 @@
  * have a db connection
  */
 
-var socketio = require('socket.io')
-  , models   = require('../models');
+var socketio = require('socket.io');
 
-var Applicant    = models.applicant()
-  , Notification = models.notification()
-  , io           = null; 
+var io = null; 
 
 /**
  * These are the different kinds of notifications
@@ -60,47 +57,6 @@ function start (){
 }
 
 /**
- * Send a notification to a applicant
- * TODO: Use socket.io to send realtime notification if
- * user is connected
- * @param applicantId {ObjectId} Applicant id
- * @param notificationData {Object} Notification object
- * @param cb {Function} callback function
- */
-
-function sendNotification (applicantId, notificationData, cb){
-    Applicant.findById(applicantId, function(err, applicant){
-        if (err || !applicant){
-            var Err = new Error("Failed to send notification");
-            return cb(Err);
-        }
-
-        // Create Notification 
-        var notification = new Notification(notificationData);
-        notification.save(function(err, _notification){
-            if (err){
-                return cb(err);
-            }
-
-            // Add notification to applicant
-            applicant.addNotification(_notification._id, cb);
-        })
-    });
-}
-
-/**
- * Send a job posting update notification to applicant
- * @param applicantId {ObjectId} Applicant Id
- * @param jobPostId {ObjectId} Job posting id
- * @param cb {Function} callback
- */
-
-function sendJobUpdatedNotification (applicantId, jobPostId, cb){
-    var notificationData = notificationTypes.UpdatedJobPost(jobPostId);
-    sendNotification(applicantId, notificationData, cb);
-}
-
-/**
  * Exports
  */
 
@@ -108,5 +64,5 @@ exports = module.exports = {
     attachToServer:             attachToServer
   , attachSessions:             attachSessions
   , start:                      start
-  , sendJobUpdatedNotification: sendJobUpdatedNotification
+  , notificationTypes:          notificationTypes
 };
