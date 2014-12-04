@@ -49,7 +49,7 @@ var applicantSchema = new Schema({
     }
   , interests:         [ String ]
   , bookmarkedPosts:   [{ type: Schema.Types.ObjectId, ref: 'JobPosting' }]
-  , notifications: [{ type: Schema.Types.ObjectId, ref: 'Notification' }]
+  , notifications:     [{ type: Schema.Types.ObjectId, ref: 'Notification' }]
   , subscription:      { type: String }
 }); 
 
