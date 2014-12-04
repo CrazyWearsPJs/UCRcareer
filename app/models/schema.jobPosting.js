@@ -117,9 +117,8 @@ jobPostingSchema.static('findByKeyword', function jobSearch(keyword, cb, options
         )
         .sort({score: {$meta: "textScore"} 
         })
-        .limit(limit)
-        .populate('reviews');
-     
+        .limit(limit);
+
      var finalQuery = null;
 
      if(options && options.showAllJobs) {
@@ -130,7 +129,7 @@ jobPostingSchema.static('findByKeyword', function jobSearch(keyword, cb, options
         // If not showAllJobs, then this is a non-subscribed user,
         // only show posts that are at least delay*hours old
         var delayHoursFromNow = new Date(Date.now() - (delay * MILLISECONDS_PER_HOUR));
-        if(options && options.ownJobs) {
+        if(options && !_.isEmpty(options.ownJobs)) {
             // this is the case where an employer searches using a keyword
             // and expects his own posted job to be a part of the search results
             //
@@ -149,7 +148,8 @@ jobPostingSchema.static('findByKeyword', function jobSearch(keyword, cb, options
      }
 
      //execute the query
-     finalQuery.exec(cb);
+     finalQuery.populate('reviews').exec(cb);
+     
 });
 
 jobPostingSchema.static('findByUrlId', function jobSearchUrlId(b64Id, cb) {

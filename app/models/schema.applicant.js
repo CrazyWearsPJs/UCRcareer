@@ -109,8 +109,7 @@ applicantSchema.methods.setPassword = function(plainTextPassword) {
 applicantSchema.methods.isSubscribed = function() {
     var applicant = this,
         now = new Date();
-
-    return now < applicant.subscription.expires;
+    return applicant.subscription.expires >= now;
 };
 
 
@@ -125,8 +124,6 @@ applicantSchema.methods.addSubscriptionDays = function(days, cb) {
     } else {
         //extending membership
         var curExpTime = applicant.subscription.expires.getTime();
-        console.log(curExpTime)
-        console.log(daysToMilliSeconds);
         applicant.subscription.expires.setTime(curExpTime + daysToMilliSeconds);
     }
 

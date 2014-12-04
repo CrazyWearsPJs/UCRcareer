@@ -1,5 +1,6 @@
 var express = require('express'),
-    models = require('../../models');
+    models = require('../../models'),
+    Q = require('q');
 
 var router = express.Router();
 
@@ -45,9 +46,9 @@ router.get('/:keyword', function(req, res, next) {
     }
 
     if(applicantUserId) {
-        Q.ninvoke(Applicant, 'findByApplicantId', applicantUserId)
+        Q.ninvoke(Applicant, 'findById', applicantUserId)
             .then(function foundApplicant(applicant){
-                search(keyword, {
+               search(keyword, {
                     limit: 100, 
                     showAllJobs: applicant.isSubscribed()
                 }, res);
@@ -58,14 +59,13 @@ router.get('/:keyword', function(req, res, next) {
             .then(function foundEmployer(employer){
                  search(keyword, {
                     limit: 100, 
-                    ownJobs: employer.getPosts()
+                    ownJobs: employer.posts
                 }, res);
  
             }); 
+    } else {
+        search(keyword, {limit: 100}, res);
     }
-    
-    search(keyword, {limit: 100}, res);
-
 });
 
 exports = module.exports = router;

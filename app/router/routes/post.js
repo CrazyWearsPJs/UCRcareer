@@ -92,7 +92,7 @@ router.post('/', function(req, res, next) {
             next(err);
         })
         .then(function jobCreationSuccessful(){
-            res.status(200).end();  
+            res.status(200).json(newJobPosting);  
         })
         .catch(function catchAll(err) {
             next(err);  
