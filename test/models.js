@@ -367,4 +367,171 @@ describe('models', function (){
             });
         });
     });
+
+    describe('Notification', function(){
+        // Create a dummy notification
+        beforeEach(function(done){
+            var Notification         = models.notification()
+              , annoyingNotification = new Notification({
+                    message:    "Hey Hey Hey You Hey Hey Hi!!"
+                  , recipients: [mongoose.Types.ObjectId()]
+                });
+
+            annoyingNotification.save(function(err){
+                if (err){
+                    throw err;
+                }
+
+                done();
+            });
+        });
+
+        // Remove dummy notifications
+        afterEach(function(done){
+            var Notification = models.notification();
+            Notification.remove({}, function(err){
+                if (err){
+                    throw err;
+                }
+                done();
+            });
+        });
+
+        it('should be able to be saved to DB', function(done){
+            var Notification = models.notification();
+            Notification.findOne({message: "Hey Hey Hey You Hey Hey Hi!!"}, function(err, notification){
+                if (err){
+                    throw err;
+                }
+                expect(notification).to.not.be.equal(null);
+                done();
+            });
+        });
+
+        it('should throw an error when saved if it is missing a required field', function(done){
+            var Notification    = models.notification()
+              , badNotification = new Notification ({});
+
+            badNotification.save(function(err){
+                expect(err).to.not.be.equal(null);
+                done();
+            }); 
+        });
+
+        describe('#createJobUpdated', function(){
+            it('should create and save a notification', function (done){
+                var Notification     = models.notification()
+                  , dummyPostId      = mongoose.Types.ObjectId()
+                  , dummyApplicantId = mongoose.Types.ObjectId()
+                  , dummyRecipients  = [dummyApplicantId];
+
+                // Do initial save
+                Notification.createJobUpdated(dummyPostId, dummyRecipients, function(err, notification){
+                    if (err){
+                        throw err;
+                    }
+
+                    expect(notification).to.not.be.equal(null);
+
+                    // Append a new recipient to dummyRecipients
+                    dummyRecipients.push(mongoose.Types.ObjectId());
+
+                    // Do second save
+                    Notification.createJobUpdated(dummyPostId, dummyRecipients, function(err, _notification){
+                        if (err){
+                            throw err;
+                        }
+
+                        expect(_notification).to.not.be.equal(null);
+                        expect(_notification.recipients).to.have.length(2);
+                        done();
+                    });
+                });
+            });
+
+            it('should update recipients list if notification already existed', function(done){
+                var Notification    = models.notification()
+                  , dummyPostId     = mongoose.Types.ObjectId()
+                  , dummyRecipients = [mongoose.Types.ObjectId()]
+
+                Notification.createJobUpdated(dummyPostId, dummyRecipients, function(err, notification){
+                    if (err){
+                        throw err;
+                    }
+
+                    expect(notification).to.not.be.equal(null);
+                    done();
+                });
+            });
+        });
+
+        describe('#removeRecipient', function(){
+            it('should remove a recipient from a notification', function(done){
+                var Notification     = models.notification()
+                  , dummyPostId      = mongoose.Types.ObjectId()
+                  , dummyApplicantId = mongoose.Types.ObjectId()
+                  , dummyRecipients  = [dummyApplicantId, mongoose.Types.ObjectId()];
+
+                // Create a job post notification
+                Notification.createJobUpdated(dummyPostId, dummyRecipients, function(err, notification){
+                    if (err){
+                        throw err;
+                    }
+
+                    expect(notification).to.not.be.equal(null);
+
+                    // Remove a dummyApplicantId from notification
+                    Notification.removeRecipient(dummyApplicantId, notification._id, function(err){
+                        if (err){
+                            throw err;
+                        }
+
+                        // Find notification again and make sure its missing 1 recipient
+                        Notification.findById(notification._id, function(err, _notification){
+                            if (err){
+                                throw err;
+                            }
+
+                            expect(_notification).to.not.be.equal(null);
+                            expect(_notification.recipients).to.have.length(1);
+                            done();
+                        });
+                    })
+                }); 
+            });
+
+            it('should delete a notification if it has run out of recipients', function(done){
+                var Notification     = models.notification()
+                  , dummyPostId      = mongoose.Types.ObjectId()
+                  , dummyApplicantId = mongoose.Types.ObjectId()
+                  , dummyRecipients  = [dummyApplicantId];
+
+                // Create a job post notification
+                Notification.createJobUpdated(dummyPostId, dummyRecipients, function(err, notification){
+                    if (err){
+                        throw err;
+                    }
+
+                    expect(notification).to.not.be.equal(null);
+
+                    // Remove a dummyApplicantId from notification
+                    Notification.removeRecipient(dummyApplicantId, notification._id, function(err){
+                        if (err){
+                            throw err;
+                        }
+
+                        // Attempt to find notification again. It shouldn't exist anymore
+                        Notification.findById(notification._id, function(err, _notification){
+                            if (err){
+                                throw err;
+                            }
+
+                            expect(_notification).to.be.equal(null);
+                            done();
+                        });
+                    })
+                }); 
+            });
+        });
+    });
 });
