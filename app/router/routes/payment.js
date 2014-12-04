@@ -30,10 +30,6 @@ router.post('/', function(req, res) {
                     daysAdd = 90;
                 }
     
-
-                /* Update customer subscription values by finding them in the
-                   db by _id */
-
                 Applicant.findByEmail(customerEmail, function(err, applicant) {
                     if(err) {
                         err.status = 404;
@@ -43,8 +39,14 @@ router.post('/', function(req, res) {
                         err.status = 404;
                         next(err)
                     } else {
-                        applicant.addSubscriptionDays(daysAdd);
-                        applicant.save();
+                        applicant.addSubscriptionDays(daysAdd, function (err, app, numberAffected) {
+                            if(err) {
+                                console.log("Error with saving new applicant");
+                            }
+                            if(!numberAffected) {
+                                console.log("Couldn't find and update applicant");
+                            }
+                        });
                     }
                 });
             }
