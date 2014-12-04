@@ -47,7 +47,7 @@ notificationSchema.static('createJobUpdated', function (jobPostId, recipients, c
 
     // Figure out if a notification already existed, if so we would 
     // just want to update the recipient list
-    Notification.find({meta: {jobPost: jobPostId}}, function (err, notification){
+    Notification.findOne({meta: {jobPost: jobPostId}}, function (err, notification){
         if (err) {
             var Err = new Error("Couldn't create notification");
             return cb(Err);
@@ -60,16 +60,16 @@ notificationSchema.static('createJobUpdated', function (jobPostId, recipients, c
         
         // notification did not exist
         else {
-            // Create notification body
-            var body = {
+            // Create new notification
+            var jobUpdatedNotification = new Notification({
                 message: "New updates to listing are available"
               , meta: {
                     jobPost: jobPostId
                 }
               , recipients: recipients
-            };
+            });
 
-            Notification.save(body, cb);
+            jobUpdatedNotification.save(cb);
         }
     });
 });
