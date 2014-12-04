@@ -14,7 +14,7 @@
                         <label for="jobTitle">
                             Job Title
                         </label>
-                        <input ng-model="post.specifics.jobTitle" 
+                        <input ng-model="updatedPost.jobTitle" 
                                type="text" 
                                class="form-control" 
                                id="jobTitle"
@@ -33,7 +33,7 @@
                         <label for="jobDescription">
                             Job Description
                         </label>
-                        <input ng-model="post.specifics.description" 
+                        <input ng-model="updatedPost.description" 
                                type="text" 
                                class="form-control" 
                                id="description"
@@ -52,7 +52,7 @@
                         <label for="jobReqs">
                             Job Requirements
                         </label>
-                        <input ng-model="post.specifics.requirements" 
+                        <input ng-model="updatedPost.requirements" 
                                type="text" 
                                class="form-control" 
                                id="jobReqs"
@@ -71,7 +71,7 @@
                         <label for="salary">
                             Salary
                         </label>
-                        <input ng-model="post.specifics.salary" 
+                        <input ng-model="updatedPost.salary" 
                                type="text" 
                                class="form-control" 
                                id="salary"
@@ -90,7 +90,7 @@
                         <label for="department">
                             Department
                         </label>
-                        <input ng-model="post.specifics.department" 
+                        <input ng-model="updatedPost.department" 
                                type="text" 
                                class="form-control" 
                                id="department"
@@ -109,7 +109,7 @@
                         <label for="jobType">
                             Job Type
                         </label>
-                        <input ng-model="post.specifics.jobType" 
+                        <input ng-model="updatedPost.jobType" 
                                type="text" 
                                class="form-control" 
                                id="jobType"
@@ -128,7 +128,7 @@
                         <label for="application">
                             Application
                         </label>
-                        <input ng-model="post.specifics.application" type="text" 
+                        <input ng-model="updatedPost.application" type="text" 
                                class="form-control" id="application"
                                placeholder="{{updateJobPostingData.specifics.application}}"
                                name="application"
@@ -148,7 +148,7 @@
                         <label for="jobCity">
                             City
                         </label>
-                        <input ng-model="post.location.city" 
+                        <input ng-model="updatedPost.city" 
                                type="text" 
                                class="form-control" 
                                id="jobCity"
@@ -167,7 +167,7 @@
                         <label for="jobState">
                             State
                         </label>
-                        <input ng-model="post.location.state" 
+                        <input ng-model="updatedPost.state" 
                                type="text" 
                                class="form-control" 
                                id="jobState"
@@ -260,7 +260,7 @@
                                 www.
                             </span> 
 
-                            <input ng-model="post.media.image" 
+                            <input ng-model="updatedPost.image" 
                                    type="text" 
                                    class="form-control" 
                                    id="jobImage"
@@ -288,7 +288,7 @@
                                 www.youtube.com/watch?v=
                             </span>
           
-                            <input ng-model="post.media.video" 
+                            <input ng-model="updatedPost.video" 
                                    type="text" 
                                    class="form-control" 
                                    id="jobVideo"
@@ -311,7 +311,7 @@
                         <label for="newUserInterests">
                             List Tags Associated With the Position (Seperate with commas)
                         </label>
-                        <input ng-model="post.tags" 
+                        <input ng-model="updatedPost.tags" 
                                type="text" 
                                class="form-control" 
                                id="newPostTags"
@@ -329,10 +329,10 @@
             	
         <div class = "footer">
             <input class="btn" 
-                   value="Submit" 
+                   value="Update" 
                    ng-class="jobPosting.$valid?'btn-primary':'btn-default'" 
                    type="Submit"/>
-            <button class="btn btn-warning" ng-click="cancel()"> 
+            <button class="btn btn-warning" ng-click="updateCancel()"> 
                 Cancel 
             </button>
         </div>

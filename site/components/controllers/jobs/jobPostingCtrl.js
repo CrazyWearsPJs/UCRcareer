@@ -98,8 +98,6 @@ angular.module('huntEdu.controllers')
                         JobList.setNewJob(job);
                         $location.path('/newJob');
                     });
-                
-
            }
         };
 
