@@ -152,6 +152,8 @@
 -->
 <h3>Want to go Premium?</h3>
 <hr>
+    Current Membership Until: <br>
+    {{expires}} <br> <br>
     <div>
         For 30 days of Premium Membership:
         <form name="_xclick" action="https://www.sandbox.paypal.com/us/cgi-bin/webscr" method="post">
@@ -161,7 +163,6 @@
         <input type="hidden" name="item_name" value="30 days of Premium Access to HuntEdu">
         <input type="hidden" name="amount" value="12.00">
         <input type="hidden" name="on0" value="{{email}}">
-        <input type="hidden" name="return" value="http://192.241.206.102/">
         <input type="hidden" name="notify_url" value="http://192.241.206.102/payment/">
         <input type="image"
             src="http://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif"
@@ -178,7 +179,6 @@
         <input type="hidden" name="item_name" value="90 days of Premium Access to HuntEdu">
         <input type="hidden" name="amount" value="30.00">
         <input type="hidden" name="on0" value="{{email}}">
-        <input type="hidden" name="return" value="http://192.241.206.102/">
         <input type="hidden" name="notify_url" value="http://192.241.206.102/payment/">
         <input type="image"
             src="http://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif"

@@ -220,6 +220,10 @@ angular.module('huntEdu.services')
             User.subscription += days;
         };
 
+        User.getExpiration = function() {
+            return new Date(User.subscription.expires);
+        };
+
         User.setProfileData = function(data,  role) {
             var updatedData = updatedProfileData(data, role);
 
