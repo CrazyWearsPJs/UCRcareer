@@ -183,6 +183,7 @@ jobPostingSchema.pre('save', function beforeSavingJobPost(next) {
         jobPosting.meta.id = objectIdToBase64(jobPosting._id);
     } else {
         jobPosting.timestamps.lastModified = new Date();
+        jobPosting.markModified('timestamps.lastModified');
     }
 
     next();

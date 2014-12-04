@@ -36,6 +36,7 @@ jobReviewSchema.pre('save', function(next) {
     } else {
         // new Date() represents Date.now as a Date Object
         jobReview.timestamps.lastModified = new Date();
+        jobReview.markModified('timestamps.lastModified');
     }
     next();
 });
