@@ -1,7 +1,5 @@
 /**
  * Module dependancies
- * NOTE: This module requires the models module to already
- * have a db connection
  */
 
 var socketio = require('socket.io');
@@ -30,7 +28,7 @@ function attachSessions(sessionMiddleware){
 }
 
 /**
- * Start notifications system
+ * Start instant update system
  */
 
 function start (){
