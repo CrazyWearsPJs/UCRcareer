@@ -98,7 +98,6 @@ describe('models', function (){
                     }
                   , interests: []
                   , bookmarkedPosts: []
-                  , notifications: []
                   , subscription: "0"
                 });
             
@@ -181,52 +180,6 @@ describe('models', function (){
 
                     // Verify it was removed
                     expect(applicant.bookmarkedPosts).to.have.length(0);
-
-                    done();
-                });
-            });
-        });
-
-        describe('#addNotification', function(){
-            it('should add a notification to an applicants notification list', function(done){
-                var Applicant = models.applicant();
-                Applicant.findOne({"credentials.email" : "jdoe001@ucr.edu"}, function(err, applicant){
-                    if(err) throw err;
-                    expect(applicant).to.not.be.equal(null);
-
-                    // Save dummy notification id to notification list
-                    var dummyId = mongoose.Types.ObjectId();
-                    applicant.addNotification(dummyId);
-
-                    // Verify it was saved
-                    expect(applicant.notifications).to.have.length(1);
-                    expect(applicant.notifications[0]).to.be.equal(dummyId);
-
-                    done();
-                });
-            });
-        });
-
-        describe('#removeNotification', function(){
-            it('should remove a notification from an applicants notification list', function(done){
-                var Applicant = models.applicant();
-                Applicant.findOne({"credentials.email" : "jdoe001@ucr.edu"}, function(err, applicant){
-                    if(err) throw err;
-                    expect(applicant).to.not.be.equal(null);
-
-                    // Save dummy notfication id
-                    var dummyId = mongoose.Types.ObjectId();
-                    applicant.addNotification(dummyId);
-                    
-                    // Verify it was saved
-                    expect(applicant.notifications).to.have.length(1);
-                    expect(applicant.notifications[0]).to.be.equal(dummyId);
-
-                    // Remove the jobposting id
-                    applicant.removeNotification(dummyId);
-
-                    // Verify it was removed
-                    expect(applicant.notifications).to.have.length(0);
 
                     done();
                 });

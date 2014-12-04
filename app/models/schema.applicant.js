@@ -49,7 +49,6 @@ var applicantSchema = new Schema({
     }
   , interests:         [ String ]
   , bookmarkedPosts:   [{ type: Schema.Types.ObjectId, ref: 'JobPosting' }]
-  , notifications:     [{ type: Schema.Types.ObjectId, ref: 'Notification' }]
   , subscription:      { type: String }
 }); 
 
@@ -158,64 +157,6 @@ applicantSchema.methods.removeBookmark = function(postId, cb){
     }
 
     applicant.bookmarkedPosts.splice(removalPoint, 1);
-    applicant.save(cb);
-}
-
-
-/**
- * Returns index of notification in notification list if it exists 
- * @param notificationId {ObjectID} notification id
- * @return {Integer} position of notification in notification list. -1 if
- *                   not found
- */
-
-applicantSchema.methods.notificationIndex = function(notificationId){
-    var applicant = this;
-    
-    // Create a copy of applicants post notifications as strings
-    // This needs to be done because ObjectIds cannot be compared to 
-    // each other directly
-    var _notifications = _.map(applicant.notifications, function(objId){
-        return String(objId);
-    });
-
-    return _.indexOf(_notifications, String(notificationId));
-}
-
-/**
- * Adds a notification id to applicant's notification queue
- * @param notificationId {ObjectId} notification id
- * @param cb {Function} callback function
- */
-
-applicantSchema.methods.addNotification = function(notificationId, cb){
-    var applicant = this;
-    
-    // If notification already exists, don't do anything
-    if (applicant.notificationIndex(notificationId) !== -1)
-        return cb(null);
-
-    applicant.notifications.push(notificationId);
-    applicant.save(cb);
-}
-
-/**
- * Removes a notification id from the applicant's notification queue
- * @param notificationId {ObjectId} notification id
- * @param cb {Function} callback function
- */
-
-applicantSchema.methods.removeNotification = function(notificationId, cb){
-    var applicant = this;
-    // Figure out where the id to remove is located
-    var removalPoint = applicant.notificationIndex(notificationId);
-
-    // If notification doesn't exist, then there is nothing to do!
-    if ( removalPoint === -1){
-        return cb(null);
-    }
-
-    applicant.notifications.splice(removalPoint, 1);
     applicant.save(cb);
 }
 
