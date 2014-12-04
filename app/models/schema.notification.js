@@ -35,7 +35,8 @@ notificationSchema.static('findByNotificationId', function(id, cb){
 });
 
 /**
- * Create and save a updated job posting notification. 
+ * Create and save a updated job posting notification. If a notification for the job post
+ * already exists, then update the recipient list
  * @param jobPostId {ObjectID} id of jobposting to include in notification
  * @param recipients {Array of ObjectID's} all the applicants to attach to recipients
                                            list
