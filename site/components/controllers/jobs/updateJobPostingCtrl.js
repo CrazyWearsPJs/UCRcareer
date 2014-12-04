@@ -1,32 +1,32 @@
 angular.module('huntEdu.controllers')
-    .controller('UpdateJobPostingCtrl', ['$scope', '$location', '$http', '$q', '$routeParams', 'User', 'JobPost', 'JobList',
-    function UpdateJobPostingCtrl($scope, $location, $http, $q, $routeParams, User, JobPost, JobList){
-
-        var profilePage = '/employerProfile',
+    .controller('UpdateJobPostingCtrl', ['$scope', '$location', '$http', '$q', '$routeParams', 'User', 'JobPost',
+    function UpdateJobPostingCtrl($scope, $location, $http, $q, $routeParams, User, JobPost){
+        var profilePage = '/employerProfile';
+/*
             youtubeUrlPrefix = "https://gdata.youtube.com/feeds/api/videos/",
             youtubeUrlSuffix = "?v=2",
             imagePrefix = "http://www.";
-
+*/
         $scope.updatedPost = {
-            jobTitle:     "",
-            description:  "",
-            requirements: "",
-            salary:       "",
-            department:   "",
-            jobType:      "",
-            application:  "",
-            city:         "",
-            state:        "",
-            image:        "",
-            video:        "",
-            tags:         ""
+            'jobTitle':     {},
+            'description':  {},
+            'requirements': {},
+            'salary':       {},
+            'department':   {},
+            'jobType':      {},
+            'application':  {},
+            'city':         {},
+            'state':        {},
+            'image':        {},
+            'video':        {},
+            'tags':         []
         };
-
+/*
         $scope.mediaCheck = {
             'failedVideo': false,
             'failedImage': false
         };
-
+*/
         $scope.$on('$viewContentLoaded', function() {
             if(!User.isEmployer())
             {
@@ -45,7 +45,7 @@ angular.module('huntEdu.controllers')
                 postToUpdate = jobPosts[i];
             }
         }
-
+/*
         var checkValidVideo = function(job) {
             var deferred = $q.defer(),
                 hasVideo = job.hasVideo();
@@ -100,12 +100,9 @@ angular.module('huntEdu.controllers')
 
             return deferred.promise;
         };
-
-        $scope.update = function() {
-            if($scope.updatejobPosting.$valid) {
-                checkValidMedia(postToUpdate);
-            
-            }
+*/
+        $scope.updateJob = function() {
+                JobPost.prototype.updateJobPost(postToUpdate);
         };
 
         $scope.updateCancel = function() {

@@ -1,9 +1,9 @@
-<input class="btn" value="Update" ng-class="updateJobPosting.$valid?'btn-primary':'btn-default'" type="Submit"/>
-<button class="btn btn-warning" ng-click="updateCancel()"> Cancel </button>
+<form name="updateJobPosting" ng-submit="updateJob()" novalidate>
 
 <div class="container">
+<input class="btn" value="Update" ng-class="updateJobPosting.$valid?'btn-primary':'btn-default'" type="Submit"/>
+<button class="btn btn-warning" ng-click="updateCancel()"> Cancel </button>
     <h1>Update Your Job Posting!</h1>
-    <form name="updateJobPosting" ng-submit="update()" novalidate>
         <div class="body">
             <h2>Job Specifics</h2>
             <hr> 
@@ -14,7 +14,7 @@
                         <label for="jobTitle">
                             Job Title
                         </label>
-                        <input ng-model="updatedPost.jobTitle" 
+                        <input ng-model="post.specifics.jobTitle" 
                                type="text" 
                                class="form-control" 
                                id="jobTitle"
@@ -33,7 +33,7 @@
                         <label for="jobDescription">
                             Job Description
                         </label>
-                        <input ng-model="updatedPost.description" 
+                        <input ng-model="post.specifics.description" 
                                type="text" 
                                class="form-control" 
                                id="description"
@@ -52,7 +52,7 @@
                         <label for="jobReqs">
                             Job Requirements
                         </label>
-                        <input ng-model="updatedPost.requirements" 
+                        <input ng-model="post.specifics.requirements" 
                                type="text" 
                                class="form-control" 
                                id="jobReqs"
@@ -71,7 +71,7 @@
                         <label for="salary">
                             Salary
                         </label>
-                        <input ng-model="updatedPost.salary" 
+                        <input ng-model="post.specifics.salary" 
                                type="text" 
                                class="form-control" 
                                id="salary"
@@ -90,7 +90,7 @@
                         <label for="department">
                             Department
                         </label>
-                        <input ng-model="updatedPost.department" 
+                        <input ng-model="post.specifics.department" 
                                type="text" 
                                class="form-control" 
                                id="department"
@@ -109,7 +109,7 @@
                         <label for="jobType">
                             Job Type
                         </label>
-                        <input ng-model="updatedPost.jobType" 
+                        <input ng-model="post.specifics.jobType" 
                                type="text" 
                                class="form-control" 
                                id="jobType"
@@ -128,7 +128,7 @@
                         <label for="application">
                             Application
                         </label>
-                        <input ng-model="updatedPost.application" type="text" 
+                        <input ng-model="post.specifics.application" type="text" 
                                class="form-control" id="application"
                                placeholder="{{updateJobPostingData.specifics.application}}"
                                name="application"
@@ -148,7 +148,7 @@
                         <label for="jobCity">
                             City
                         </label>
-                        <input ng-model="updatedPost.city" 
+                        <input ng-model="post.location.city" 
                                type="text" 
                                class="form-control" 
                                id="jobCity"
@@ -167,7 +167,7 @@
                         <label for="jobState">
                             State
                         </label>
-                        <input ng-model="updatedPost.state" 
+                        <input ng-model="post.location.state" 
                                type="text" 
                                class="form-control" 
                                id="jobState"
@@ -260,7 +260,7 @@
                                 www.
                             </span> 
 
-                            <input ng-model="updatedPost.image" 
+                            <input ng-model="post.media.image" 
                                    type="text" 
                                    class="form-control" 
                                    id="jobImage"
@@ -288,7 +288,7 @@
                                 www.youtube.com/watch?v=
                             </span>
           
-                            <input ng-model="updatedPost.video" 
+                            <input ng-model="post.media.video" 
                                    type="text" 
                                    class="form-control" 
                                    id="jobVideo"
@@ -311,7 +311,7 @@
                         <label for="newUserInterests">
                             List Tags Associated With the Position (Seperate with commas)
                         </label>
-                        <input ng-model="updatedPost.tags" 
+                        <input ng-model="post.tags" 
                                type="text" 
                                class="form-control" 
                                id="newPostTags"
@@ -329,7 +329,7 @@
             	
         <div class = "footer">
             <input class="btn" 
-                   value="Update" 
+                   value="Submit" 
                    ng-class="jobPosting.$valid?'btn-primary':'btn-default'" 
                    type="Submit"/>
             <button class="btn btn-warning" ng-click="updateCancel()"> 

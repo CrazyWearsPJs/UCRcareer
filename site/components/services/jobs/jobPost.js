@@ -69,14 +69,18 @@ angular.module('huntEdu.services')
                 diffData = diffObject(compactData, JobPost.prototype);
             return pick(diffData, JobPost.prototype);
         };
-        
+       
+
+
+        //TODO When I'm sending data, I'm not saying which element to overwrite
+        //Need to include the meta.id somehow 
         JobPost.prototype.updateJobPost = function(data) {
             var deferred = $q.defer();
             var updatedData = updatedJobPostData(data);
 
             console.log("Sending Data:", updatedData);
 
-            $http.post('post/', updatedData)
+            $http.post('/post', updatedData)
                 .then(function(res) {
                     var updatedDataRes = res.data;
                     console.log(updatedDataRes);
