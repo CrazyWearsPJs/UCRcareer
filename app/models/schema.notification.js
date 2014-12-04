@@ -3,7 +3,7 @@
  */
 
 var mongoose   = require('mongoose')
-  , underscore = require('underscore') 
+  , _ = require('underscore') 
   , Schema     = mongoose.Schema;
 
 
