@@ -51,7 +51,7 @@ var applicantSchema = new Schema({
   , bookmarkedPosts:   [{ type: Schema.Types.ObjectId, ref: 'JobPosting' }]
   , postNotifications: [{ type: Schema.Types.ObjectId, ref: 'JobPosting' }]
   , subscription: { 
-        expires: {type: Date, default: null}
+        expires:       { type: Date, default: '1/1/1970' }
   }
 }); 
 
@@ -113,22 +113,25 @@ applicantSchema.methods.isSubscribed = function() {
     return now < applicant.subscription.expires;
 };
 
-var MILLISECONDS_PER_DAY = 86400000;
 
-applicantSchema.methods.addSubscriptionDays = function(days) {
+var MILLISECONDS_PER_DAY = 86400000;
+applicantSchema.methods.addSubscriptionDays = function(days, cb) {
     var applicant = this,
-        daysToMilliSeconds = days * MILLISECONDS_PER_DAY,
-        now = new Date();
+        now = new Date(),
+        daysToMilliSeconds = days * MILLISECONDS_PER_DAY;
     
-    if(!applicant.subscription.expires || applicant.subscription.expires < now) {
-        var daysFromNow = now;
-        daysFromNow.setDate(now.getTime() + daysToMilliSeconds); 
-        applicant.subscription.expires = daysFromNow;
+    if(applicant.subscription.expires < now) {
+        applicant.subscription.expires.setTime(now.getTime() + daysToMilliSeconds);
     } else {
         //extending membership
-        var expires = applicant.subscription.expires;
-        applicant.subscription.expires.setDate(expires.getTime() + daysToMilliSeconds);
+        var curExpTime = applicant.subscription.expires.getTime();
+        console.log(curExpTime)
+        console.log(daysToMilliSeconds);
+        applicant.subscription.expires.setTime(curExpTime + daysToMilliSeconds);
     }
+
+    applicant.markModified('subscription.expires');
+    applicant.save(cb);
 };
 
 /**
