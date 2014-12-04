@@ -9,8 +9,9 @@ var ObjectIdBase64Conv = require('../util').ObjectIdBase64Conv
   , objectIdToBase64 = ObjectIdBase64Conv.objectIdToBase64;
 
 /**
- * Define job posting schema
+ * Define job review schema
  */
+
 var jobReviewSchema = new Schema({
    meta: {
         id: {type: String}      
@@ -38,4 +39,9 @@ jobReviewSchema.pre('save', function(next) {
     }
     next();
 });
+
+/**
+ * Export schema
+ */
+ 
 exports = module.exports = jobReviewSchema;
