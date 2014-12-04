@@ -19,6 +19,22 @@ var notificationSchema = new Schema({
 });
 
 /**
+ * Wrapper around notification.findById
+ * populates recipients list and jobPost fields
+ * @param id {ObjectId} notification id
+ * @param cb {Function} callback function
+ */
+
+notificationSchema.static('findByNotificationId', function(id, cb){
+    var Notification = this;
+
+    Notification.findById(id)
+        .populate("recipients", "-_id -__v")
+        .populate("meta.jobPost", "-_id -__v")
+        .exec(cb);
+});
+
+/**
  * Create and save a updated job posting notification. 
  * @param jobPostId {ObjectID} id of jobposting to include in notification
  * @param recipients {Array of ObjectID's} all the applicants to attach to recipients
@@ -29,16 +45,33 @@ var notificationSchema = new Schema({
 notificationSchema.static('createJobUpdated', function (jobPostId, recipients, cb){
     var Notification = this;
 
-    // Create notification body
-    var body = {
-        message: "New updates to listing are available"
-      , meta: {
-            jobPost: jobPostId
+    // Figure out if a notification already existed, if so we would 
+    // just want to update the recipient list
+    Notification.find({meta: {jobPost: jobPostId}}, function (err, notification){
+        if (err) {
+            var Err = new Error("Couldn't create notification");
+            return cb(Err);
         }
-      , recipients: recipients
-    };
+        // notification already existed
+        else if (notification) {
+            notification.recipients = recipients;
+            notification.save(cb);  
+        }
+        
+        // notification did not exist
+        else {
+            // Create notification body
+            var body = {
+                message: "New updates to listing are available"
+              , meta: {
+                    jobPost: jobPostId
+                }
+              , recipients: recipients
+            };
 
-    Notification.save(body, cb);
+            Notification.save(body, cb);
+        }
+    });
 });
 
 /**
@@ -54,7 +87,7 @@ notificationSchema.static('removeRecipient', function (applicantId, notification
 
     Notification.findById(notificationId, function(err, notification){
         if (err || !notification){
-            var Err = "Couldn't remove applicant from notification";
+            var Err = new Error("Couldn't remove applicant from notification");
             return cb(Err);
         }
 
