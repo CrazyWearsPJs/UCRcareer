@@ -15,7 +15,7 @@ var notificationSchema = new Schema({
   , meta: {
         jobPost: { type: Schema.Types.ObjectId, ref: 'JobPosting' }
     }
-  , recipients: [{ type: Schema.Types.ObjectId, ref: 'Applicant'}]
+  , recipients: [{ type: Schema.Types.ObjectId, ref: 'Applicant', required: true }]
 });
 
 /**
