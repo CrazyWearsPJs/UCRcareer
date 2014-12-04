@@ -1,5 +1,5 @@
 angular.module('huntEdu.services')
-    .factory('User', ['$http', '$q', 'JobList', 'USER_ROLES', '_', 'Util', function UserFactory($http, $q, JobList, USER_ROLES, _, Util) {
+    .factory('User', ['$http', '$q', 'USER_ROLES', '_', 'Util', function UserFactory($http, $q, USER_ROLES, _, Util) {
         var forEach = _.forEach,
             isFunction = _.isFunction,
             isObject = _.isObject,
@@ -193,14 +193,15 @@ angular.module('huntEdu.services')
             return deferred.promise;
         };
 
-        User.addBookmark = function(jobId){
-            var deferred = $q.defer();
+        User.addBookmark = function(job){
+            var deferred = $q.defer(),
+                jobId = job.getId();
             if (this.hasBookmark(jobId)){
                 return deferred.promise;
             }
             $http.post('/bookmark/add', { 'id' : jobId })
                 .then(function(){
-                    User.bookmarkedPosts.push(JobList.getJobById(jobId));
+                    User.bookmarkedPosts.push(job);
                     deferred.resolve();
                 }, function(){
                     deferred.reject();
