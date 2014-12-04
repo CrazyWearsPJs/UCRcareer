@@ -55,7 +55,7 @@ router.get('/:keyword', function(req, res, next) {
             });
 
     } else if (employerUserId){
-        Q.ninvoke(Employer, 'findByEmployerId', employerUserId)
+        Q.ninvoke(Employer, 'findById', employerUserId)
             .then(function foundEmployer(employer){
                  search(keyword, {
                     limit: 100, 

@@ -130,16 +130,16 @@ jobPostingSchema.static('findByKeyword', function jobSearch(keyword, cb, options
         // only show posts that are at least delay*hours old
         var delayHoursFromNow = new Date(Date.now() - (delay * MILLISECONDS_PER_HOUR));
         if(options && !_.isEmpty(options.ownJobs)) {
+            console.log(options.ownJobs);
             // this is the case where an employer searches using a keyword
             // and expects his own posted job to be a part of the search results
             //
             // so, we narrow down the search results to jobs that
             // are older than delay*hour, or jobs that this employer has posted himself
-            finalQuery = baseQuery.$where(function() {
-                var job = this;
-                return job.timestamps.created <= delayHoursFromNow || 
-                    _.some(options.ownJobs, {'_id': job._id});
-            });
+            finalQuery = baseQuery.or([{'timestamps.created': {$lte: delayHoursFromNow}}, {
+                                        '_id': {$in: options.ownJobs}
+ 
+                }]);
         } else {
             // otherwise is a guest or an unpaid applicant, who can only see 
             // jobs that are older than an hour
