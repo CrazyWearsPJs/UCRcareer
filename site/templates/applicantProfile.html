@@ -155,6 +155,20 @@
             </div>
         </div>
     </div>
+
+<h3>My Bookmarks</h3>
+<hr>
+<div class="row">
+    <div class="col-md-6" ng-repeat-start='bookmark in applicantProfileData.bookmarkedPosts'>
+        Title: {{bookmark.specifics.jobTitle}}<br>
+        Company: {{bookmark.specifics.companyName}}
+    </div>
+    <div class="col-md-6"> 
+        <button class='btn btn-danger' ng-click='removeBookmark(bookmark.meta.id)'>Remove</button>
+    </div>
+    <br><br><br>
+    <div class='clearfix' ng-repeat-end></div>
+</div>
 <!--
     Make a check for whether they are a paying user.
     If they aren't ask them if they want to go premium.

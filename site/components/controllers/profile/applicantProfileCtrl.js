@@ -20,6 +20,10 @@ angular.module('huntEdu.controllers')
         $location.path('/updateApplicantProfile');
     };
 
+    $scope.removeBookmark = function(jobId){
+        User.removeBookmark(jobId);
+    };
+
     $scope.$on('$viewContentLoaded', function() {
         if(User.isApplicant()){
             var role = User.getUserRole();
