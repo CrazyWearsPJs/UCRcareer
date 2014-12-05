@@ -108,8 +108,7 @@ applicantSchema.methods.setPassword = function(plainTextPassword) {
 applicantSchema.methods.isSubscribed = function() {
     var applicant = this,
         now = new Date();
-    //return applicant.subscription.expires >= now;
-    return true;
+    return applicant.subscription.expires >= now;
 };
 
 
