@@ -1,5 +1,5 @@
 angular.module('huntEdu.services')
-    .factory('JobPost', ['_', 'Util', function JobPostFactory(_, Util) {
+    .factory('JobPost', ['$http', '$q', '_', 'Util', function JobPostFactory($http, $q, _, Util) {
         var forEach = _.forEach,
             isArray = _.isArray,
             pick = _.pick,
@@ -61,7 +61,7 @@ angular.module('huntEdu.services')
             },
             'tags': []
         };
-        
+
         JobPost.prototype.getId = function() {
             return this.meta.id;
         };

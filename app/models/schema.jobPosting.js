@@ -4,7 +4,9 @@
 
 var mongoose = require('mongoose')
   , Schema   = mongoose.Schema 
-  , JobReviewSchema = require('./schema.jobReview');
+  , JobReviewSchema = require('./schema.jobReview')
+  , _ = require('lodash');
+
 
 var ObjectIdBase64Conv = require('../util').ObjectIdBase64Conv
   , objectIdToBase64 = ObjectIdBase64Conv.objectIdToBase64
@@ -39,6 +41,11 @@ var jobPostingSchema = new Schema({
     }
   , meta: {
         id:           { type: String }
+  },
+  timestamps: {
+        created: { type: Date, default: Date.now, required: true},
+        lastModified: { type: Date, default: Date.now, require: true}
+
   }
   , tags:             [ String ]
   , reviews:          [JobReviewSchema]
@@ -77,10 +84,15 @@ jobPostingSchema.index(textSearchIndexFields, textSearchIndexOptions);
  * callback(err, [post1, post2...])
  */
 
+
+
+var MILLISECONDS_PER_HOUR = 3600000;
+
 jobPostingSchema.static('findByKeyword', function jobSearch(keyword, cb, options){
     var jobPosting = this;
     
-    var limit = 100;
+    var limit = 100, 
+        delay = 1; // delay is in hours
 
     // Sanity checking
     if (!keyword)
@@ -92,17 +104,52 @@ jobPostingSchema.static('findByKeyword', function jobSearch(keyword, cb, options
         if(options.limit) {
             limit = options.limit;
         }
+        
+        if(options.delay) {
+            delay = options.delay;
+        }
     }
+    
 
-    jobPosting.find(
-        {$text: {$search: keyword }},
-        {score : {$meta: "textScore"}}
-     )
-     .sort({score: {$meta: "textScore"} 
-     })
-     .limit(limit)
-     .populate('reviews')
-     .exec(cb);
+    var baseQuery = jobPosting.find(
+            {$text: {$search: keyword }},
+            {score : {$meta: "textScore"}}
+        )
+        .sort({score: {$meta: "textScore"} 
+        })
+        .limit(limit);
+
+     var finalQuery = null;
+
+     if(options && options.showAllJobs) {
+        //If showAllJobs, then this is probably a subscribed applicant
+        //don't filter any information
+        finalQuery = baseQuery;
+     } else {
+        // If not showAllJobs, then this is a non-subscribed user,
+        // only show posts that are at least delay*hours old
+        var delayHoursFromNow = new Date(Date.now() - (delay * MILLISECONDS_PER_HOUR));
+        if(options && !_.isEmpty(options.ownJobs)) {
+            console.log(options.ownJobs);
+            // this is the case where an employer searches using a keyword
+            // and expects his own posted job to be a part of the search results
+            //
+            // so, we narrow down the search results to jobs that
+            // are older than delay*hour, or jobs that this employer has posted himself
+            finalQuery = baseQuery.or([{'timestamps.created': {$lte: delayHoursFromNow}}, {
+                                        '_id': {$in: options.ownJobs}
+ 
+                }]);
+        } else {
+            // otherwise is a guest or an unpaid applicant, who can only see 
+            // jobs that are older than an hour
+            finalQuery = baseQuery.where('timestamps.created').lte(delayHoursFromNow);
+        }
+     }
+
+     //execute the query
+     finalQuery.populate('reviews').exec(cb);
+     
 });
 
 jobPostingSchema.static('findByUrlId', function jobSearchUrlId(b64Id, cb) {
@@ -111,7 +158,7 @@ jobPostingSchema.static('findByUrlId', function jobSearchUrlId(b64Id, cb) {
 
     try {
         _id = base64ToObjectId(b64Id);
-        return JobPosting.findById(_id, cb);
+        return JobPosting.findById(_id, cb).populate('reviews');
     } catch(err) {
         err.status = 400;
         cb(err);
@@ -134,12 +181,13 @@ jobPostingSchema.pre('save', function beforeSavingJobPost(next) {
   var jobPosting = this;
     if(jobPosting.isNew) {
         jobPosting.meta.id = objectIdToBase64(jobPosting._id);
+    } else {
+        jobPosting.timestamps.lastModified = new Date();
+        jobPosting.markModified('timestamps.lastModified');
     }
+
     next();
 });
-
-
-
 
 /**
  * Export schema

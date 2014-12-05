@@ -4,7 +4,7 @@
 
 var mongoose = require('mongoose')
   , bcrypt   = require('bcrypt')
-  , _        = require('underscore')
+  , _        = require('lodash')
   , Schema   = mongoose.Schema; 
 
 var config   = require('../config');
@@ -49,7 +49,10 @@ var applicantSchema = new Schema({
     }
   , interests:         [ String ]
   , bookmarkedPosts:   [{ type: Schema.Types.ObjectId, ref: 'JobPosting' }]
-  , subscription:      { type: String }
+  , postNotifications: [{ type: Schema.Types.ObjectId, ref: 'JobPosting' }]
+  , subscription: { 
+        expires:       { type: Date, default: '1/1/1970' }
+  }
 }); 
 
 /**
@@ -100,6 +103,32 @@ applicantSchema.methods.setPassword = function(plainTextPassword) {
     var applicant = this;
     applicant.plainTextPassword = true;
     applicant.credentials.password = plainTextPassword;
+};
+
+
+applicantSchema.methods.isSubscribed = function() {
+    var applicant = this,
+        now = new Date();
+    return applicant.subscription.expires >= now;
+};
+
+
+var MILLISECONDS_PER_DAY = 86400000;
+applicantSchema.methods.addSubscriptionDays = function(days, cb) {
+    var applicant = this,
+        now = new Date(),
+        daysToMilliSeconds = days * MILLISECONDS_PER_DAY;
+    
+    if(applicant.subscription.expires < now) {
+        applicant.subscription.expires.setTime(now.getTime() + daysToMilliSeconds);
+    } else {
+        //extending membership
+        var curExpTime = applicant.subscription.expires.getTime();
+        applicant.subscription.expires.setTime(curExpTime + daysToMilliSeconds);
+    }
+
+    applicant.markModified('subscription.expires');
+    applicant.save(cb);
 };
 
 /**

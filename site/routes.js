@@ -10,9 +10,18 @@ angular.module('huntEdu')
    	        templateUrl: 'templates/register/employerRegister.html',
             	controller: 'EmployerRegisterCtrl'
             }).when('/jobPosting', {
-		        templateUrl: 'templates/jobs/jobPosting.html',
-        		controller: 'JobPostingCtrl'
-            }).when('/searchResults', {
+		templateUrl: 'templates/jobs/jobPosting.html',
+        	controller: 'JobPostingCtrl'
+            }).when('/updateJobPosting/:id', {
+                templateUrl: 'templates/jobs/updateJobPosting.html',
+                controller: 'UpdateJobPostingCtrl', 
+                resolve: {
+                    job: ['$route', 'SearchService', function($route, SearchService) {
+                        var id = $route.current.params.id;
+                        return SearchService.findJobById(id);
+                    }]
+                }
+           }).when('/searchResults', {
                 templateUrl: 'templates/searchResults.html',
                 controller: 'SearchResultsCtrl'
             }).when('/employerProfile', {
@@ -50,14 +59,6 @@ angular.module('huntEdu')
             }).when('/updateEmployerProfile', {
                 templateUrl: 'templates/updateEmployerProfile.html',
                 controller: 'UpdateEmployerProfileCtrl',
-            }).when('/newJob', {
-                templateUrl: 'templates/jobs/jobListing.html',
-                controller: 'NewJobCtrl',
-                resolve: {
-                    job: ['JobList',  function(JobList) {
-                        return JobList.getNewJob();
-                    }]
-                }
             }).when('/home', {
                 templateUrl: 'templates/home.html',
                 controller: 'HomeCtrl',

@@ -10,7 +10,7 @@ var express = require('express')
 var expect   = require('chai').expect
   , request  = require('supertest') 
   , mongoose = require('mongoose')
-  , _        = require('underscore');
+  , _        = require('lodash');
 
 var config     = require('../app/config') 
   , models     = require('../app/models')
@@ -50,7 +50,10 @@ var applicant = {
         }
       , interests: []
       , bookmarkedPosts: []
-      , subscription: "0"
+      , postNotifications: []
+      , subscription: {
+        expires: null
+      }
 };
  
 var employer = {  
@@ -622,7 +625,7 @@ describe('routes', function (){
 
        });
    
-     describe('GET /post', function() {
+    describe('GET /post', function() {
         var agent = null;        
         
         after('destroy applicant/employer/post db', function(done) {
@@ -690,15 +693,28 @@ describe('routes', function (){
         });  
      });
 
-
-    describe('GET /search', function (){
-            it('should return a list of job posts', function(done) {
+     describe('GET /search', function (){
+         before('register applicant', function(done) {
+                request(app)
+                    .post(registerApplicantRoute)
+                    .send(applicant)
+                    .expect(200, done);
+        });
+           it('should return a list of job posts', function(done) {
                 var keyword = 'software';
                 request(app)
                     .get('/search' + '/' + keyword)
                     .expect(200, done);
-            });
-    });
+         });
+
+         after('destroy applicant/employer/post db', function(done) {
+            models.jobPosting().remove({}, function(err) {
+                models.employer().remove({}, function(err){
+                    models.applicant().remove({}, done);
+                });
+            }); 
+        });
+   });
 
         describe('POST /post/id/:id/review', function() {
         var agent = null;

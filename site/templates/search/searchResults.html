@@ -1,7 +1,23 @@
 <table class="table" id="searchTable">
     <thead>
         <tr>
-              
+            <th>
+            Filter By: 
+            <br>
+                <input type="checkbox" ng-model="filter.selected.state" value="state"> State
+                <input ng-show="filter.selected.state" type="text" name="input" ng-model="filter.state">
+
+                <input type="checkbox" ng-model="filter.selected.companyName"  value="company"> Company
+                <input ng-show="filter.selected.companyName" type="text" name="input" ng-model="filter.companyName">
+
+                <input type="checkbox" ng-model="filter.selected.jobTitle" value="title"> Title
+                <input ng-show="filter.selected.jobTitle" type="text" name="input" ng-model="filter.jobTitle">
+            </th>
+
+        </tr>
+
+        <tr>
+
             <th>
                 <a href="" ng-click="predicate = 'specifics.companyName';">
                     Company
@@ -36,7 +52,7 @@
         <tr>
     </thead>
     <tbody>
-        <tr ng-repeat="job in searchResultsData | orderBy:predicate">
+    <tr ng-repeat="job in searchResultsData | orderBy:predicate | filter:jobFilter()">
             <td>
                 <a ng-href="#/jobListing/{{job.getId()}}">{{job.specifics.companyName}}. </a>
             </td>

@@ -14,7 +14,11 @@ angular.module('huntEdu.controllers')
             var role = User.getUserRole();
             $scope.applicantProfileData = User.getProfileData(role);
     	    $scope.showResume = User.hasResume();
-        }
+            $scope.email = User.getEmail();
+            var expires = User.getExpiration();
+            var now = new Date();
+            $scope.expires = expires.getTime() <= now.getTime() ? 'No current membership' : expires.toLocaleString();
+	}
         else {
             $location.path('/');
         }

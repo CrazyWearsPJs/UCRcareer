@@ -23,7 +23,7 @@ module.exports = function(app) {
     app.use('/search', require('./routes/search'));
     app.use('/heartbeat', require('./routes/heartbeat'));
     app.use('/bookmark', require('./routes/bookmark'));
-
+    app.use('/payment', require('./routes/payment'));
     /*
      * Error middleware
      */

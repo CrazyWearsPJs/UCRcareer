@@ -9,8 +9,7 @@ var express        = require('express')
   , expressWinston = require('express-winston')
   , mongoose       = require('mongoose')
   , path           = require('path')
-  , winston        = require('winston')
-  , ipn            = require('paypal-ipn');
+  , winston        = require('winston');
 
 var config        = require('./app/config')
   , models        = require('./app/models')
@@ -137,46 +136,12 @@ app.use(sessionMiddleware);
 
 router(app);
 
-app.post('/payment', function(req, res) {
-    console.log('Received POST /payment');
-    console.log(req.body);
-    console.log('\n\n');
-    
-    req.body = req.body || {};
-    res.send(200, 'OK');
-    res.end;
-
-    var params = req.body;
-    //ipn.verify(params, function callback(err, msg) { // Use this when not testing anymore
-    ipn.verify(params, {'allow_sandbox': true}, function callback(err, msg) {
-        if(err) {
-            console.error(err);
-        } else {
-            if(params.payment_status == 'Completed') {
-                console.log("Success!");
-                /* Now act on it. */
-                var applicant = models.applicant(),
-                    employer = models.employer(),
-                    customer = params.on1,
-                    customerId = params.on0;
-                /* Update customer subscription values by finding them in the
-                   db by _id */
-                if(customer == "applicant") {
-                    
-                } else if(customer == "employer") {
-                    
-                }
-            }
-        }
-    });
-    console.log("Passed");
-});
-
 /**
  * Start application
  */
 
-var port = serverSettings.port || 8080;
+//var port = serverSettings.port || 8080;
+var port = 8080;
 server.listen(port, function (){
     logger.info("Application started on port %s", port);
 });

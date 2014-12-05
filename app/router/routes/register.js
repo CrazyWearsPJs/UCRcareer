@@ -20,24 +20,38 @@ var router = express.Router()
  */
 router.post('/applicant', function(req, res, next) {
     var Applicant = models.applicant(),
+        Employer =  models.employer(),
         newApplicant = null,
         applicantData = req.body;
+
     if(applicantData && applicantData.credentials) {
-        newApplicant = new Applicant(applicantData);
-        newApplicant.save(function(err, newApplicantUpdated) {
+      var email = applicantData.credentials.email;
+        Employer.findByEmail(email, function(err, result) {
             if(err) {
                 err.status = 400;
                 next(err);
+            } else if(!result) {
+                newApplicant = new Applicant(applicantData);
+                newApplicant.save(function(err, newApplicantUpdated) {
+                    if(err) {
+                        err.status = 400;
+                        next(err);
+                    } else {
+                        req.session.applicantUserId = newApplicantUpdated._id;
+                        res.status(200).end();
+                    }
+                });
             } else {
-                req.session.applicantUserId = newApplicantUpdated._id;
-                res.status(200).end();
+                var err = new Error("Account already exists as employer");
+                err.status = 409;
+                next(err);
             }
-        });
-    } else {
-        var err = new Error('Missing applicant credentials');            
-        err.status = 400;
-        next(err);
-    }
+         });
+        } else {
+            var err = new Error('Missing applicant credentials');            
+            err.status = 400;
+            next(err);
+        }
 });
 
 /*
@@ -52,18 +66,31 @@ router.post('/applicant', function(req, res, next) {
 */
 router.post('/employer', function(req, res, next) {
     var Employer = models.employer(),
+        Applicant = models.applicant(),
         newEmployer = null,
         employerData = req.body;
    
     if(employerData && employerData.credentials) {
-        newEmployer = new Employer(employerData);
-        newEmployer.save(function(err, newEmployerUpdated) {
+        var email = employerData.credentials.email;
+        Applicant.findByEmail(email, function(err, result) {
             if(err) {
                 err.status = 400;
                 next(err);
+            } else if(!result) {
+                newEmployer = new Employer(employerData);
+                newEmployer.save(function(err, newEmployerUpdated) {
+                    if(err) {
+                        err.status = 400;
+                        next(err);
+                    } else {
+                        req.session.employerUserId = newEmployerUpdated._id;
+                        res.status(200).end();
+                    }
+                });
             } else {
-                req.session.employerUserId = newEmployerUpdated._id;
-                res.status(200).end();
+                var err = new Error("Account already exists as applicant");
+                err.status = 409;
+                next(err);
             }
         });
     } else {

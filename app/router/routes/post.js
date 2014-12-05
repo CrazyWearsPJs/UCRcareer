@@ -92,7 +92,7 @@ router.post('/', function(req, res, next) {
             next(err);
         })
         .then(function jobCreationSuccessful(){
-            res.status(200).end();  
+            res.status(200).json(newJobPosting);
         })
         .catch(function catchAll(err) {
             next(err);  
@@ -135,7 +135,7 @@ router.post('/id/:id', function(req, res, next) {
         err.status = 400;
         return next(err);
     }
-
+    
     Q.ninvoke(Employer, 'findById', employerUserId)
         .then(function foundEmployer(_employer) {
             employer = _employer;
@@ -161,14 +161,17 @@ router.post('/id/:id', function(req, res, next) {
                 next(err);
             } else {
                 deepExtend(post, jobPostingData);
+                if(jobPostingData.hasOwnProperty("tags")) {
+                    post.markModified("tags");
+                }
                 return Q.ninvoke(post, 'save');
             }
         }, function jobPostSaveFailed(err) {
             err.status = 400;
             next(err);
         })
-        .then(function jobPostSaveSuccessful(){
-            res.status(200).end();  
+        .then(function jobPostSaveSuccessful(updatedPost){
+           res.status(200).json(updatedPost[0]);  
         })        
         .catch(function catchAll(err) {
             next(err);  
