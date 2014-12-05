@@ -1,7 +1,8 @@
 var express = require('express'),
     models = require('../../models'),
     Q = require('q'),
-    deepExtend = require('deep-extend');
+    deepExtend = require('deep-extend'),
+    instantUpdate = require('../../instantUpdate');
 
 var router = express.Router();
 
@@ -113,6 +114,8 @@ router.post('/', function(req, res, next) {
 
 router.post('/id/:id', function(req, res, next) {
     var JobPosting = models.jobPosting(),
+        Notification = models.notification(),
+        Applicant = models.applicant(),
         jobPostingData = req.body,
         base64Id = req.params.id,
         Employer = models.employer(),
@@ -171,7 +174,19 @@ router.post('/id/:id', function(req, res, next) {
             next(err);
         })
         .then(function jobPostSaveSuccessful(updatedPost){
-           res.status(200).json(updatedPost[0]);  
+            // Send notification to all applicants who had this
+            // jobpost bookmarked
+            Applicant.find({'bookmarkedPosts':updatedPost[0]._id}, function(err, applicants){
+                if (err || applicants.length == 0){
+                    return res.status(200).json(updatedPost[0]);
+                }
+                Notification.createJobUpdated(updatedPost[0]._id, applicants, function(err, message){
+                    for(var i = 0; i < applicants.length; ++i){
+                        instantUpdate.sendNotification(applicants[i]._id, message);
+                    }
+                    res.status(200).json(updatedPost[0]);  
+                });
+            });
         })        
         .catch(function catchAll(err) {
             next(err);  

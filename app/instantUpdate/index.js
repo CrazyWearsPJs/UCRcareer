@@ -3,7 +3,8 @@
  */
 
 var socketio = require('socket.io')
-  , models   = require('../models');
+  , models   = require('../models')
+  , mongoose = require('mongoose');
 
 var io               = null
   , connectedClients = []; // Array of objects { applicantId:String, socket: SocketObj}
@@ -123,12 +124,20 @@ function start (){
                 if(!applicant || err){
                     return;
                 }
-		addClient(applicant._id, socket);
+		        addClient(applicant._id, socket);
                 // Send notification info to client
                 Notification.findByRecipientId(applicant._id, function(err, notifications){
                     socket.emit('multipleNotifications', {'notifications':notifications});
                 });
             });
+        });
+
+        socket.on('remove', function(data){
+            var clientPos = findClient(socket);
+            if(clientPos !== -1){
+                var applicantId = connectedClients[clientPos].applicantId;
+                Notification.removeRecipient(mongoose.Types.ObjectId(applicantId), data.notification._id, function(){});
+            }
         });
 
         socket.on('logout', function(){
