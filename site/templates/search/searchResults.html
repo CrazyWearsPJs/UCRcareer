@@ -52,7 +52,7 @@
         <tr>
     </thead>
     <tbody>
-    <tr ng-repeat="job in searchResultsData | orderBy:predicate | filter:jobFilter()">
+    <tr ng-class="{freshPost:isFreshJob(job), ownPost:isOwnJob(job)}"  ng-repeat="job in searchResultsData | orderBy:predicate | filter:jobFilter()">
             <td>
                 <a ng-href="#/jobListing/{{job.getId()}}">{{job.specifics.companyName}} </a>
             </td>

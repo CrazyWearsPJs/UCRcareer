@@ -8,7 +8,7 @@ angular.module('huntEdu.services')
             compactObjectDeep = Util.compactObjectDeep;
 
         var JOB_POST_DATA_FIELDS = ['meta','specifics', 'location', 
-                            'date', 'media', 'tags'];
+                            'date', 'media', 'tags', 'timestamps'];
         
         function baseSetJobPostData(data, context) {
             var relevantData = pick(data, JOB_POST_DATA_FIELDS),
@@ -35,6 +35,10 @@ angular.module('huntEdu.services')
         }
 
         JobPost.prototype = {
+            'timestamps': {
+                'created': null,
+                'lastModified': null
+            },
             'meta': {
                 'id': null
             },
@@ -64,6 +68,24 @@ angular.module('huntEdu.services')
 
         JobPost.prototype.getId = function() {
             return this.meta.id;
+        };
+
+        JobPost.prototype.getCreated = function() {
+            return new Date(this.timestamps.created);
+        };
+
+        JobPost.prototype.isIn = function(posts) {
+            var id = this.getId(),
+                found = false;
+            
+            forEach(posts, function(post) {
+                if(post.getId() === id) {
+                    found = true;
+                    return false;
+                }
+            });
+
+            return found;
         };
 
         JobPost.getJobPostDataFields = function() {
