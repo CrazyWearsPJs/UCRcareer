@@ -120,6 +120,8 @@ function start (){
     io.on('connection', function(socket){
         // Login authentication 
         socket.on('login', function(credentials){
+            if (!credentials)
+                return;
             Applicant.findByCredentials(credentials, function(err, applicant){
                 if(!applicant || err){
                     return;

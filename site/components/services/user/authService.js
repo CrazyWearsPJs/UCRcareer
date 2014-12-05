@@ -17,7 +17,7 @@ angular.module('huntEdu.services')
                         User.setEmail(email);
 
                         User.setProfileData(profileData, role);
-                    
+
                         deferred.resolve(profileData);
                     } else {
                         deferred.reject(res);

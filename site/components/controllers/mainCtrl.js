@@ -1,9 +1,11 @@
 angular.module('huntEdu.controllers')
-    .controller('MainCtrl', ['$rootScope', 'socket', function($rootScope, socket){
+    .controller('MainCtrl', ['$rootScope', 'socket', 'User', function($rootScope, socket, User){
         $rootScope.notifications = [];
        
         socket.on('multipleNotifications', function(data){
-            $rootScope.notifications = data.notifications;
+            for (var i = 0; i < data.notifications.length; ++i){
+                $rootScope.notifications.push(data.notifications[i]);
+            }
         });
 
         socket.on('singleNotification', function(data){

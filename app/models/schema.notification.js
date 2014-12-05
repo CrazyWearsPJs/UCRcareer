@@ -63,31 +63,33 @@ notificationSchema.static('createJobUpdated', function (jobPostId, recipients, c
 
     // Figure out if a notification already existed, if so we would 
     // just want to update the recipient list
-    Notification.findOne({meta: {jobPost: jobPostId}}, function (err, notification){
-        if (err) {
-            var Err = new Error("Couldn't create notification");
-            return cb(Err);
-        }
-        // notification already existed
-        else if (notification) {
-            notification.recipients = recipients;
-            notification.save(cb);  
-        }
-        
-        // notification did not exist
-        else {
-            // Create new notification
-            var jobUpdatedNotification = new Notification({
-                message: "New updates to listing are available"
-              , meta: {
-                    jobPost: jobPostId
-                }
-              , recipients: recipients
-            });
+    Notification.findOne({meta: {jobPost: jobPostId}})
+        .populate('meta.jobPost')
+        .exec(function (err, notification){
+            if (err) {
+                var Err = new Error("Couldn't create notification");
+                return cb(Err);
+            }
+            // notification already existed
+            else if (notification) {
+                notification.recipients = recipients;
+                notification.save(cb);  
+            }
+            
+            // notification did not exist
+            else {
+                // Create new notification
+                var jobUpdatedNotification = new Notification({
+                    message: "New updates to listing are available"
+                  , meta: {
+                        jobPost: jobPostId
+                    }
+                  , recipients: recipients
+                });
 
-            jobUpdatedNotification.save(cb);
-        }
-    });
+                jobUpdatedNotification.save(cb);
+            }
+        });
 });
 
 /**
