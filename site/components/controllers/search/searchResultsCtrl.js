@@ -13,30 +13,32 @@ angular.module('huntEdu.controllers')
             }; 
             
             $scope.jobFilter = function() {
-                var filterObj = {};
-
-                if ($scope.filter.selected.companyName) {
-                    filterObj.specifics = {
-                        companyName : $scope.filter.companyName
-                    };
-                } 
-
-                if($scope.filter.selected.state){
+                var filterObj = {},
+                    selCompanyName = $scope.filter.selected.companyName,
+                    selState = $scope.filter.selected.state,
+                    selJobTitle = $scope.filter.selected.jobTitle;
+                
+                if(selState){
                     filterObj.location = {
                         state : $scope.filter.state
                     };
-                }
+                } 
 
-                if($scope.filter.selected.jobTitle) {
-                    if(!filterObj.specifics) {
-                        filterObj.specifics = {
-                            jobTitle : $scope.filter.jobTitle
-                        };
-                    } else {
-                        filterObj.specifics.jobTitle = $scope.filter.jobTitle;
-                    }
-                }
+                if(selCompanyName && !selJobTitle) {
+                    filterObj.specifics = {
+                        companyName : $scope.filter.companyName
+                    };
+                } else if(selJobTitle && !selCompanyName) {
+                    filterObj.specifics = {
+                        jobTitle : $scope.filter.jobTitle
+                    };
+                } else if (selCompanyName && selJobTitle) {
+                    filterObj.specifics = {
+                        companyName : $scope.filter.companyName,
+                        jobTitle: $scope.filter.jobTitle
+                    };
 
+                }
                 return filterObj;
             };
 

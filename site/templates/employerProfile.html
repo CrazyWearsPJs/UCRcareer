@@ -107,9 +107,7 @@
             Description: {{job.specifics.description}}
         </div>
         <div class="col-md-6"> 
-            <button class='btn btn-primary'>
-                Edit
-            </button>
+            <a ng-href="#/updateJobPosting/{{job.meta.id}}">Edit</a>
         </div>
         <br><br><br>
         <div class='clearfix' ng-repeat-end></div>

@@ -62,7 +62,7 @@ angular.module('huntEdu.services')
             'tags': [],
             'reviews': []
         };
-        
+
         JobPost.prototype.getId = function() {
             return this.meta.id;
         };
