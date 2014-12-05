@@ -170,10 +170,16 @@
 -->
 <h3>Want to go Premium?</h3>
 <hr>
-    Current Membership Until: <br>
+    <div ng-show="isSubscribed()">
+      Current Membership Until: <br>
     {{expires}} <br> <br>
+    Extend your membership Today!
+   </div>
+
     <div>
-        For 30 days of Premium Membership:
+        See job posts before everyone else!
+        <br> <br>
+        $12 for 30 days of Premium Membership:
         <form name="_xclick" action="https://www.sandbox.paypal.com/us/cgi-bin/webscr" method="post">
         <input type="hidden" name="cmd" value="_xclick">
         <input type="hidden" name="business" value="merchant2@haha.com">
@@ -189,7 +195,7 @@
     </div>
     <br>
     <div>
-        For 90 days of Premium Membership:
+        $30 for 90 days of Premium Membership ($10/month!):
         <form name="_xclick" action="https://www.sandbox.paypal.com/us/cgi-bin/webscr" method="post">
         <input type="hidden" name="cmd" value="_xclick">
         <input type="hidden" name="business" value="merchant2@haha.com">

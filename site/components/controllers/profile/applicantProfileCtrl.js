@@ -3,6 +3,11 @@ angular.module('huntEdu.controllers')
     function ApplicantProfileCtrl($scope, User, $location) {
     $scope.showApplicant = function() {
         return User.isApplicant();
+
+    };
+
+    $scope.isSubscribed = function() {
+        return User.isSubscribed();
     };
 
     $scope.isCollapsed = true;

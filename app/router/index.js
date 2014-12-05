@@ -28,7 +28,7 @@ module.exports = function(app) {
      * Error middleware
      */
     app.use(function(err, req, res, next) {
-        if(err.status >= 200 && err.status < 300) {
+        if(!err && err.status >= 200 && err.status < 300) {
             next();
         }
 
