@@ -30,10 +30,10 @@ angular.module('huntEdu.controllers')
             };
 
             /**
-             * Save a jobs as a bookmark
+             * Save search
              */
 
-            $scope.saveBookmark = function (){
+            $scope.saveSearch = function (){
                 forEach(jobs, function(job) {
                     User.addBookmark(job)
                         .then(function(){
@@ -43,11 +43,11 @@ angular.module('huntEdu.controllers')
             };
 
             /**
-             * Remove a bookmark
+             * Remove a search
              */
-            $scope.showSaveBookmarkBtns = User.isLoggedIn() && (User.isApplicant());
+            $scope.showSaveSearchBtns = User.isLoggedIn() && (User.isApplicant());
  
-            $scope.removeBookmark = function (){
+            $scope.removeSearch = function (){
                 forEach(jobs, function(job) {
                     var jobId = job.getId();
                     User.removeBookmark(jobId)

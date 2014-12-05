@@ -66,6 +66,7 @@ angular.module('huntEdu.services')
             $http.post('/logout' + '/' + User.getUserRole())
                 .then(function(){
                     User.setUserRole(USER_ROLES.guest);
+                    socket.emit('logout');
                     $rootScope.$broadcast(LOGIN_EVENTS.logout); 
                     deferred.resolve();
                 }, deferred.reject);
