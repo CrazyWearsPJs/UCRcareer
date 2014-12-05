@@ -33,20 +33,23 @@ angular.module('huntEdu.controllers')
                 $scope.overStar = value;
             };
 
-            /*captured rate when clicked on*/
+            /*when creating a review*/
             $scope.getRate = function() {
                 $scope.rate = $scope.overStar;
             };
+    
+            /*when updating a review*/
+            $scope.updateRate = function() {
+                $scope.updatedRate = $scope.overStar;
+            };
 
+            /*Add a job review*/
             $scope.postReview = {
                 'meta':{},
                 'timestamps': {},
                 'reviewer': {},
                 'content':{}
             };
-            /**
-             * Add a job review
-             */
             $scope.submitReview = function() {
                 $scope.postReview.content.rating = $scope.rate;    
                 $scope.jobListingData.addReview($scope.postReview.content)
@@ -55,6 +58,29 @@ angular.module('huntEdu.controllers')
                     });
             }; 
 
+            /* Edit a job review*/
+            $scope.editing = false;
+            
+            $scope.editReview = function(data) {
+                $scope.editing = true;
+                $scope.currentReview = data;
+                console.log("Editing job review", data);
+            };
+
+            $scope.submitReviewEdit = function() {
+                $scope.postReview.content.rating = $scope.updatedRate;
+                console.log("Edited job review", $scope.postReview);
+                $scope.jobListingData.editReview($scope.postReview.content, $scope.currentReview.meta.id)
+                    .then(function(){
+                        $scope.editing = false;
+                        $scope.postReview = null;
+                    });
+            };
+
+            $scope.cancelEdit = function() {
+                $scope.editing = false;
+                $scope.postReview = null;
+            };
             /**
              * Save a job as a bookmark
              */

@@ -12,6 +12,9 @@
             <div class="col-md-8">
                 {{r.timestamps.created | date:'MMM dd, yyyy hh:mm a'}}
             </div>
+            <div class="cold-md-4">
+                <a href="" ng-click="editReview(r)" ng-show="true">Edit this review</a>
+            </div>
         </div>    
         <div class="row">
             <div class="col-md-8">
@@ -27,6 +30,6 @@
             <div class="col-md-8">
                 Comment: {{r.content.body}}
             </div>
-            <hr>
-        </div>    
+        </div>   
+        <hr>
     </div>

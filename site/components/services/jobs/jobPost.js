@@ -110,6 +110,18 @@ angular.module('huntEdu.services')
                 });
             return deferred.promise;
         };
+        
+        JobPost.prototype.editReview = function(data, reviewId) {
+            var deferred = $q.defer(),
+                jobPost = this;
+            $http.post('/post/id/' + jobPost.getId() + '/review/id/' + reviewId ,data)
+                .then(function(){
+                    deferred.resolve();
+                }, function(){
+                    deferred.reject();
+                });
+            return deferred.promise;
+        };
  
         return JobPost;
     }]);
