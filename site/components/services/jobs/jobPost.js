@@ -5,8 +5,7 @@ angular.module('huntEdu.services')
             pick = _.pick,
             uniq = _.uniq,
             compactObject = Util.compactObject,
-            compactObjectDeep = Util.compactObjectDeep,
-            diffObject = Util.diffObject;
+            compactObjectDeep = Util.compactObjectDeep;
 
         var JOB_POST_DATA_FIELDS = ['meta','specifics', 'location', 
                             'date', 'media', 'tags'];
@@ -63,35 +62,6 @@ angular.module('huntEdu.services')
             'tags': []
         };
 
-
-        var updatedJobPostData = function(data) {
-            var compactData = compactObjectDeep(data),
-                diffData = diffObject(compactData, JobPost.prototype);
-            return pick(diffData, JobPost.prototype);
-        };
-       
-
-
-        //TODO When I'm sending data, I'm not saying which element to overwrite
-        //Need to include the meta.id somehow 
-        JobPost.prototype.updateJobPost = function(data) {
-            var deferred = $q.defer();
-            var updatedData = updatedJobPostData(data);
-
-            console.log("Sending Data:", updatedData);
-
-            $http.post('/post', updatedData)
-                .then(function(res) {
-                    var updatedDataRes = res.data;
-                    console.log(updatedDataRes);
-                    JobPost.prototype.setJobPostData(updatedDataRes);
-                    deferred.resolve(res);
-                }, function(err) {
-                    deferred.reject(err);
-                });
-             return deferred.promise;
-        };
-        
         JobPost.prototype.getId = function() {
             return this.meta.id;
         };

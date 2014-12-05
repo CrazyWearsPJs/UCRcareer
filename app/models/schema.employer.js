@@ -132,9 +132,17 @@ employerSchema.static('findByEmployerId', function(id, cb) {
 });
 
 employerSchema.methods.createdPost = function(postId) {
-    var employer = this;
-    return _.indexOf(employer.posts, postId, true) !== -1
-}
+    var employer = this,
+        found = false;
+    _.forEach(employer.posts, function(otherId) {
+         if (otherId.toString() === postId.toString()) {
+            found = true;
+            return false;
+         }
+    });
+
+    return found;
+};
 
 employerSchema.methods.addPost = function(postId, cb){
     var employer = this;

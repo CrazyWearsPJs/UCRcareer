@@ -14,8 +14,14 @@ angular.module('huntEdu')
         	controller: 'JobPostingCtrl'
             }).when('/updateJobPosting/:id', {
                 templateUrl: 'templates/jobs/updateJobPosting.html',
-                controller: 'UpdateJobPostingCtrl'
-            }).when('/searchResults', {
+                controller: 'UpdateJobPostingCtrl', 
+                resolve: {
+                    job: ['$route', 'SearchService', function($route, SearchService) {
+                        var id = $route.current.params.id;
+                        return SearchService.findJobById(id);
+                    }]
+                }
+           }).when('/searchResults', {
                 templateUrl: 'templates/searchResults.html',
                 controller: 'SearchResultsCtrl'
             }).when('/employerProfile', {

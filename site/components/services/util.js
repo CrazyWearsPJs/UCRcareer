@@ -5,11 +5,15 @@ angular.module('huntEdu.services')
             isArray = _.isArray,
             clone = _.clone,
             isEqual = _.isEqual, 
-            cloneDeep = _.cloneDeep,
             isEmpty = _.isEmpty,
             compact = _.compact,
             omit = _.omit,
-            has = _.has;
+            has = _.has,
+            createCallback = _.createCallback,
+            flatten = _.flatten,
+            rest = _.res,
+            contains = _.contains,
+            transform = _.transform;
 
         /**
          * Predicate which returns true if val is "fluffy",
@@ -24,7 +28,40 @@ angular.module('huntEdu.services')
            return !val || isEmpty(val) || isFunction(val);  
         };
 
+        var isNotFluff = function(val) {
+            return !isFluff(val);
+        };
+
         this.isFluff = isFluff;
+
+        var pickDeep = function(collection, pred, thisArg) {
+            if(isObject(pred)) {
+                pred = createCallback(pred, thisArg);
+            } else {
+                var keys = flatten(rest(arguments));
+                pred = function(key) {
+                    return contains(keys, key);
+                };
+            }
+
+            var isArr = isArray(collection);
+            return transform(collection, function(memo, val, key) {
+                var include = pred(key);
+                if(!include && isObject(val)) {
+                    val = pickDeep(val, pred);
+                    include = !isEmpty(val);
+                }
+                if(include) {
+                    if(isArr) { 
+                        memo.push(val);
+                    } else {
+                        memo[key] = val;
+                    }
+                }
+            });
+        };
+
+        this.pickDeep = pickDeep;
 
         /**
          * Returns a shallow clone of src minus any "fluff"
@@ -53,9 +90,7 @@ angular.module('huntEdu.services')
          *
          */
         this.compactObjectDeep = function(src) { 
-            return cloneDeep(compactObject(src), function(value){
-                return compactObject(value);
-            });
+            return pickDeep(src, isNotFluff);
         };
 
         /**

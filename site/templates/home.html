@@ -17,13 +17,13 @@
             <h2 ng-show="showRecommendations">Recommended Jobs for you:</h2>
             <h3 ng-show="showFocusJobs">Based on your focus: {{focus}}</h3>
             <div ng-repeat="job in focusJobs" class="row"> 
-                   <a ng-href="#/joblisting/{{job.getId()}}">{{job.specifics.jobTitle}}</a>
+                   <a ng-href="#/jobListing/{{job.getId()}}">{{job.specifics.jobTitle}}</a>
                     {{job.specfics.salary}}
             </div>
             
             <h3 ng-show="showInterestJobs">Based on your interests: {{interests}}</h3>
             <div ng-repeat="job in interestJobs" class="row"> 
-                   <a ng-href="#/joblisting/{{job.getId()}}">{{job.specifics.jobTitle}}</a>
+                   <a ng-href="#/jobListing/{{job.getId()}}">{{job.specifics.jobTitle}}</a>
                     {{job.specfics.salary}}
             </div>
 

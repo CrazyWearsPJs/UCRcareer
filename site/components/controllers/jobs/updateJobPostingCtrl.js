@@ -1,36 +1,35 @@
 angular.module('huntEdu.controllers')
-    .controller('UpdateJobPostingCtrl', ['$scope', '$location', '$http', '$q', '$routeParams', 'User', 'JobPost',
-    function UpdateJobPostingCtrl($scope, $location, $http, $q, $routeParams, User, JobPost){
-        var profilePage = '/employerProfile';
-/*
+    .controller('UpdateJobPostingCtrl', ['$scope', '$location', '$http', '$q','User', 'JobPost', 'PostService', 'job',
+    function UpdateJobPostingCtrl($scope, $location, $http, $q, User, JobPost, PostService, job){
+
+        var profilePage = '/employerProfile',
             youtubeUrlPrefix = "https://gdata.youtube.com/feeds/api/videos/",
             youtubeUrlSuffix = "?v=2",
             imagePrefix = "http://www.";
-*/
+
         $scope.post = {
             'specifics': {},
             'location':  {},
             'date':      {},
             'media':     {},
             'meta':      {},
-            'tags':      {},
-            'reviews':   {},
-            'poster':    {}
+            'tags':      {}
         };
-/*
+
         $scope.mediaCheck = {
             'failedVideo': false,
             'failedImage': false
         };
-*/
+
         $scope.$on('$viewContentLoaded', function() {
             if(!User.isEmployer()){
                 $location.path('/');
             }
-	    $scope.post.meta.id = $routeParams.id;
-       	    
-	 });
-/*
+            $scope.post.meta.id = job.getId();
+            $scope.oldJobPosting = job.getJobPostData();
+            $scope.oldJobPosting.tags = $scope.oldJobPosting.tags.join(", ");
+    });
+
         var checkValidVideo = function(job) {
             var deferred = $q.defer(),
                 hasVideo = job.hasVideo();
@@ -51,6 +50,21 @@ angular.module('huntEdu.controllers')
             }
             return deferred.promise;
         };
+
+        var isImage = function(src) {
+            var deferred = $q.defer();
+
+            var image = new Image();
+            image.onerror = function() {
+                deferred.reject();
+            };
+            image.onload = function() {
+                deferred.resolve();
+            };
+            image.src = src;
+
+            return deferred.promise;
+        };
        
         var checkValidImage = function(job) {
             var deferred = $q.defer(),
@@ -61,7 +75,7 @@ angular.module('huntEdu.controllers')
                 deferred.resolve();
             } else {
                 var imageUrl = job.getImage();
-                $http.head(imagePrefix + imageUrl)
+                isImage(imagePrefix + imageUrl)
                     .then(function(){
                         $scope.mediaCheck.failedImage = false;
                         deferred.resolve();
@@ -85,8 +99,26 @@ angular.module('huntEdu.controllers')
 
             return deferred.promise;
         };
-*/
+
         $scope.updateJob = function() {
+            var updatedJob = new JobPost($scope.post);
+
+            if($scope.updateJobPosting.$valid && updatedJob) {
+                checkValidMedia(updatedJob)
+                    .then(function() {
+                        PostService.updateJob(updatedJob)
+                            .then(function(res) {
+                                var id = updatedJob.getId(),
+                                    updatedJobPostRawData = res.data;
+                                console.log(updatedJobPostRawData);
+
+                                User.setJobPost(updatedJobPostRawData);
+                                $location.path('/jobListing/' + id);  
+                            }, function(err) {
+                                console.log("something went wrong :(", err);
+                            });
+                    });
+            }
         };
 
         $scope.updateCancel = function() {

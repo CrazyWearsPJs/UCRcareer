@@ -1,4 +1,5 @@
-<table class="table" id="searchTable"i>
+<table class="table" id="searchTable">
+    {{jobFilter()}}
     <thead>
         <tr>
             <th>
@@ -55,7 +56,7 @@
     <tr ng-repeat="job in searchResultsData | orderBy:predicate | filter:jobFilter()">
             <td>
                 <a ng-href="#/jobListing/{{job.getId()}}">{{job.specifics.companyName}}. </a>
-            </td>i
+            </td>
             
             <td>
                 {{job.specifics.jobTitle}}.

@@ -6,6 +6,7 @@ angular.module('huntEdu.controllers')
             youtubeUrlSuffix = "?v=2",
             imagePrefix = "http://www.";
 
+
         $scope.mediaCheck = {
             'failedVideo': false,
             'failedImage': false
@@ -51,18 +52,33 @@ angular.module('huntEdu.controllers')
             return deferred.promise;
         };
         
+        var isImage = function(src) {
+            var deferred = $q.defer();
+
+            var image = new Image();
+            image.onerror = function() {
+                deferred.reject();
+            };
+            image.onload = function() {
+                deferred.resolve();
+            };
+            image.src = src;
+
+            return deferred.promise;
+        };
+
         var checkValidImage = function(job) {
             var deferred = $q.defer(),
                 hasImage = job.hasImage();
-            
+
             if(!hasImage) {
-                $scope.mediaCheck.failedImage = false;    
+                $scope.mediaCheck.failedImage = false;
                 deferred.resolve();
             } else {
                 var imageUrl = job.getImage();
-                $http.head(imagePrefix + imageUrl)
+                isImage(imagePrefix + imageUrl)
                     .then(function(){
-                        $scope.mediaCheck.failedImage = false;    
+                        $scope.mediaCheck.failedImage = false;
                         deferred.resolve();
                     },function() {
                         $scope.mediaCheck.failedImage = true;
@@ -97,6 +113,7 @@ angular.module('huntEdu.controllers')
                         //post job is successful!
                         var jobRawData = res.data;
                         job = new JobPost(jobRawData);
+                        User.setJobPost(jobRawData);
                         $location.path('/jobListing/' + job.getId());
                     });
            }
