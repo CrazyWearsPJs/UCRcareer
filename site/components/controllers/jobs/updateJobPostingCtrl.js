@@ -24,25 +24,12 @@ angular.module('huntEdu.controllers')
         };
 */
         $scope.$on('$viewContentLoaded', function() {
-            if(!User.isEmployer())
-            {
+            if(!User.isEmployer()){
                 $location.path('/');
             }
-        });
-       
-
-        $scope.updateJobPostingData = JobPost.prototype.getJobPostData();
-/* 
-        var postId = $routeParams.id;
-        var jobPosts = User.getProfileData().posts;
-        for(var i = 0; i < jobPosts.length; ++i)
-        {
-            if(jobPosts[i].meta.id === postId)
-            {
-                $scope.updateJobPostingData = jobPosts[i];
-            }
-        }
-*/
+	    $scope.post.meta.id = $routeParams.id;
+       	    
+	 });
 /*
         var checkValidVideo = function(job) {
             var deferred = $q.defer(),
@@ -100,14 +87,6 @@ angular.module('huntEdu.controllers')
         };
 */
         $scope.updateJob = function() {
-            if($scope.updateJobPosting.$valid) {
-                JobPost.prototype.updateJobPost($scope.post)
-                .then(function() {
-                    $location.path(profilePage);
-                }, function() {
-                    console.log("JobPost update failed.");
-                });
-            }
         };
 
         $scope.updateCancel = function() {

@@ -89,7 +89,7 @@ angular.module('huntEdu.services')
                 }, function(err) {
                     deferred.reject(err);
                 });
-             return JobPost.prototype;
+             return deferred.promise;
         };
         
         JobPost.prototype.getId = function() {
