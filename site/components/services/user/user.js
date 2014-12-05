@@ -225,6 +225,11 @@ angular.module('huntEdu.services')
             return new Date(User.subscription.expires);
         };
 
+        User.isSubscribed = function() {
+            var now = new Date();
+            return User.isApplicant() && User.getExpiration() > now;
+        };
+
         User.isOwnJob = function(job) {
             if(User.isEmployer()) {
                 return job.isIn(User.posts);
@@ -293,9 +298,6 @@ angular.module('huntEdu.services')
             }
           }
         };
-
-
-
         /**
         * Sends a request to update profile information in the server,
         * if it is valid info, then merge all changes from the backend

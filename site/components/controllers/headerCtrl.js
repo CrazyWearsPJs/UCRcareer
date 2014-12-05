@@ -46,6 +46,10 @@ angular.module('huntEdu.controllers')
                 });
         };
 
+        $scope.isSubscribed = function() {
+            return User.isSubscribed();            
+        };
+
         $scope.registerOpen = function() {
             var modalInstance = $modal.open({
                 templateUrl: 'templates/register/registerModal.html',
