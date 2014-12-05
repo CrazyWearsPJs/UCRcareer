@@ -24,7 +24,6 @@ angular.module('huntEdu.controllers')
             
             $scope.isFreshJob = function(job) {
                 var created = job.getCreated();
-                console.log(created);
                 return created > hourAgo;                
             };
 

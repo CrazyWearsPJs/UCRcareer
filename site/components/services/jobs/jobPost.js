@@ -7,7 +7,7 @@ angular.module('huntEdu.services')
             compactObject = Util.compactObject,
             compactObjectDeep = Util.compactObjectDeep;
 
-        var JOB_POST_DATA_FIELDS = ['meta','specifics', 'location', 
+        var JOB_POST_DATA_FIELDS = ['meta','specifics', 'location', 'reviews',
                             'date', 'media', 'tags', 'timestamps'];
         
         function baseSetJobPostData(data, context) {
@@ -121,19 +121,23 @@ angular.module('huntEdu.services')
             this.reviews.push(data);
         };
 
-        JobPost.prototype.updateReview = function(data, reviewId)
-        {
-            
+        JobPost.prototype.updateReview = function(review){
+            var jobPost = this;
+            forEach(jobPost.reviews, function(val, key) {
+                if(val.meta.id === review.meta.id) {
+                    jobPost.reviews[key] = review;
+                }
+            });
         };
 
         JobPost.prototype.addReview = function(data) {
             var deferred = $q.defer(),
                 jobPost = this;
             $http.post('/post/id/' + jobPost.getId() + '/review', data)
-                .then(function(){
-                    deferred.resolve();
-                }, function(){
-                    deferred.reject();
+                .then(function(res){
+                    deferred.resolve(res);
+                }, function(err){
+                    deferred.reject(err);
                 });
             return deferred.promise;
         };
@@ -142,10 +146,10 @@ angular.module('huntEdu.services')
             var deferred = $q.defer(),
                 jobPost = this;
             $http.post('/post/id/' + jobPost.getId() + '/review/id/' + reviewId , data)
-                .then(function(){
-                    deferred.resolve();
-                }, function(){
-                    deferred.reject();
+                .then(function(res){
+                    deferred.resolve(res);
+                }, function(err){
+                    deferred.reject(err);
                 });
             return deferred.promise;
         };

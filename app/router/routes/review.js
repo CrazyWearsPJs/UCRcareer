@@ -19,7 +19,8 @@ router.post('/id/:jobPostingId/review/', function(req, res, next) {
     var JobPosting = models.jobPosting(),
         jobPostingId = req.params.jobPostingId,
         jobReviewData = req.body,
-        applicantUserId = req.session.applicantUserId;
+        applicantUserId = req.session.applicantUserId, 
+        newLen = 0;
 
     
     if(!jobPostingId) {
@@ -47,14 +48,17 @@ router.post('/id/:jobPostingId/review/', function(req, res, next) {
 
     Q.ninvoke(JobPosting, 'findByUrlId', jobPostingId)
         .then(function foundJobPost(post) {
-           post.reviews.push(jobReviewData);
+           newLen = post.reviews.push(jobReviewData);
            post.markModified('reviews');
            return Q.ninvoke(post, 'save');
         }) 
-        .then(function saveReviewSuccessful() {
-            res.status(200).end();  
+        .then(function saveReviewSuccessful(savedPost) {
+            return Q.ninvoke(savedPost[0], 'populate', 'reviewer');
         })
-        .catch(function errorCatchAll(err) {
+         .then(function populateReviewSuccessful(updatedJobPost) {
+            res.status(200).json(updatedJobPost.reviews[newLen-1]);
+        })
+       .catch(function errorCatchAll(err) {
             err.status = 404;
             next(err);
         });
@@ -113,12 +117,11 @@ router.post('/id/:jobPostingId/review/id/:jobReviewId', function(req, res, next)
             return Q.ninvoke(post, 'save');
         }) 
         .then(function saveReviewSuccessful(updatedJobReview) {
-            return Q.ninvoke(updatedJobReview, 'populate', 'reviewer');
+            return Q.ninvoke(updatedJobReview[0], 'populate', 'reviewer');
         })
-        .then(function populateReviewSuccessful(updatedJobReview) {
-            console.log(updatedJobReview);
-            res.status(200).json(updatedJobReview);
-        });
+        .then(function populateReviewSuccessful(updatedJobPost) {
+            res.status(200).json(updatedJobPost.getReviewByUrlId(jobReviewId));
+        })
         .catch(function errorCatchAll(err) {
             err.status = 404;
             next(err);

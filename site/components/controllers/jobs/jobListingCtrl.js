@@ -16,11 +16,26 @@ angular.module('huntEdu.controllers')
             $scope.isBookmarked = User.hasBookmark(job.meta.id);
 
             /* Get Rating array to display them*/
-            
+  
+            $scope.isOriginalPoster = function(review) {
+                return User.isApplicant() && User.getEmail() === review.reviewer.credentials.email;
+            };
+
             $scope.showLoggedIn = function() {
                 return User.isLoggedIn();
             };
         
+            $scope.showModified = function(review) {
+                var created = new Date(review.timestamps.created),
+                    modified =  new Date(review.timestamps.lastModified);
+                
+                return modified > created;
+            };
+
+            $scope.showReviewPosting = function () {
+                return User.isApplicant() && !$scope.editing;
+            };
+
             $scope.showApplicant = function() {
                 return User.isApplicant();
             };
@@ -51,11 +66,26 @@ angular.module('huntEdu.controllers')
                 'reviewer': {},
                 'content':{}
             };
+
+            var nukeIt = function(obj) {
+                obj.reviewer = {};
+                obj.meta = {};
+                obj.content = {};
+                obj.timestamps = {};
+            };
+
             $scope.submitReview = function() {
                 $scope.postReview.content.rating = $scope.rate;    
                 $scope.jobListingData.addReview($scope.postReview.content)
-                    .then(function(){
-                        $scope.jobListingData.pushReview($scope.postReview);
+                    .then(function(res){
+                        var newReview = res.data;
+                        newReview.reviewer = {
+                               "credentials": {
+                                    "email": User.getEmail()
+                               }
+                        };
+                        nukeIt($scope.postReview);
+                        $scope.jobListingData.pushReview(newReview);
                     });
             }; 
 
@@ -70,32 +100,31 @@ angular.module('huntEdu.controllers')
             };
             
             $scope.editReview = function(data) {
-               console.log(User);
-                console.log(data.reviewer);            
-
-
     
                 $scope.editing = true;
                 $scope.currentReview = data;
-                console.log("Editing job review", data);
             };
 
             $scope.submitReviewEdit = function() {
                 $scope.postEditReview.content.rating = $scope.updatedRate;
-                console.log("Edited job review", $scope.postEditReview);
                 $scope.jobListingData.editReview($scope.postEditReview.content, $scope.currentReview.meta.id)
-                    .then(function(){
+                    .then(function(res){
+                        var updatedReview = res.data;
+                        updatedReview.reviewer = {
+                               "credentials": {
+                                    "email": User.getEmail()
+                               }
+                        };
                         $scope.editing = false;
-                        $scope.postEditReview = $scope.postReview;
+                        $scope.jobListingData.updateReview(updatedReview);
+                        nukeIt($scope.postEditReview);
                     });
             };
 
             $scope.cancelEdit = function() {
                 $scope.editing = false;
-                $scope.postEditReview = $scope.postReview;
             };
-
-            
+         
             /**
              * Save a job as a bookmark
              */

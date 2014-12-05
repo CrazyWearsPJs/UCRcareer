@@ -2,7 +2,7 @@
     <div>
     <h4>Reviews and Comments</h4>
     </div>
-    <div ng-repeat="r  in jobListingData.reviews | orderBy:sort:reverse">
+    <div ng-repeat="r  in jobListingData.reviews | orderReviews">
         <div class="row">
             <div class="col-md-8">
                 {{r.content.title}}
@@ -10,15 +10,19 @@
         </div>    
         <div class="row">
             <div class="col-md-8">
-                {{r.timestamps.created | date:'MMM dd, yyyy hh:mm a'}}
+                Posted On: {{r.timestamps.created | date:'MMM dd, yyyy hh:mm a'}}
+            </div>
+             <div ng-show="showModified(r)" class="col-md-8">
+                Last Modified: {{r.timestamps.lastModified | date:'MMM dd, yyyy hh:mm a'}}
             </div>
             <div class="cold-md-4">
-                <a href="" ng-click="editReview(r)" ng-show="true">Edit this review</a>
-            </div>
+
+                <a href="" ng-click="editReview(r)" ng-show="isOriginalPoster(r)">Edit this review</a>
+           </div>
         </div>    
         <div class="row">
             <div class="col-md-8">
-            Posted by {{r.reviewer}}
+            Posted by {{r.reviewer.credentials.email}}
             </div>
         </div>    
         <div class="row">

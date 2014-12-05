@@ -130,7 +130,6 @@ jobPostingSchema.static('findByKeyword', function jobSearch(keyword, cb, options
         // only show posts that are at least delay*hours old
         var delayHoursFromNow = new Date(Date.now() - (delay * MILLISECONDS_PER_HOUR));
         if(options && !_.isEmpty(options.ownJobs)) {
-            console.log(options.ownJobs);
             // this is the case where an employer searches using a keyword
             // and expects his own posted job to be a part of the search results
             //
@@ -152,13 +151,25 @@ jobPostingSchema.static('findByKeyword', function jobSearch(keyword, cb, options
      
 });
 
+jobPostingSchema.static('findAndPopulateReviewsById', function jobSearch(id, cb) {
+    var JobPosting = this;
+
+    return JobPosting.findById(id).populate('reviews').exec(function(err, job){
+        if(!err && job) {   
+            JobPosting.populate(job, { path: 'reviews.reviewer', select:'credentials.email'}, cb);
+        } else {
+            cb(err, null)
+        }
+    });
+});
+
 jobPostingSchema.static('findByUrlId', function jobSearchUrlId(b64Id, cb) {
     var JobPosting = this,
         _id = null;
 
     try {
         _id = base64ToObjectId(b64Id);
-        return JobPosting.findById(_id, cb).populate('reviews');
+        return JobPosting.findAndPopulateReviewsById(_id, cb);
     } catch(err) {
         err.status = 400;
         cb(err);
@@ -185,7 +196,6 @@ jobPostingSchema.pre('save', function beforeSavingJobPost(next) {
         jobPosting.timestamps.lastModified = new Date();
         jobPosting.markModified('timestamps.lastModified');
     }
-
     next();
 });
 
