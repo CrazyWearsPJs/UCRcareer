@@ -128,9 +128,6 @@ var sessionMiddleware = session({
     'saveUninitialized' : true
 });
 
-// Register session middleware for socket.io
-instantUpdate.attachSessions(sessionMiddleware);
-
 // Register session middleware for express server
 app.use(sessionMiddleware);
 

@@ -18,18 +18,6 @@ function attachToServer(server){
 }
 
 /**
- * Give socket io access to express middleware
- * See http://stackoverflow.com/questions/25532692/how-to-share-sessions-with-socket-io-1-x-and-express-4-x/25618636#25618636
- * @param sessionMiddleware {Function} express middleware function
- */
-
-function attachSessions(sessionMiddleware){
-    io.use(function (socket, next){
-        sessionMiddleware(socket.request, socket.request.res, next);
-    });
-}
-
-/**
  * Returns index of applicant in connectedClients list. Returns
  * -1 if not found
  * @param socket {Socket} 
@@ -156,7 +144,6 @@ function start (){
 
 exports = module.exports = {
     attachToServer:             attachToServer
-  , attachSessions:             attachSessions
   , start:                      start
   , sendNotification:           sendNotification
   , sendNotifications:          sendNotifications
