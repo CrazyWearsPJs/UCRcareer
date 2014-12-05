@@ -1,6 +1,11 @@
 angular.module('huntEdu.controllers')
-    .controller('SearchResultsCtrl',['$scope', '$routeParams','$location', 'jobs', 
-        function ($scope, $routeParams, $location, jobs){
+    .controller('SearchResultsCtrl',['$scope', '$routeParams','$location', 'User','jobs', 
+        function ($scope, $routeParams, $location, User, jobs){                
+                var MILLISECONDS_PER_HOUR = 3600000;
+                
+                var now = null,
+                hourAgo = null;
+
             $scope.filter = {
                 selected: {
                     companyName: false,
@@ -12,6 +17,16 @@ angular.module('huntEdu.controllers')
                 jobTitle: ""
             }; 
             
+
+            $scope.isOwnJob = function(job) {
+               return User.isOwnJob(job);  
+            };
+            
+            $scope.isFreshJob = function(job) {
+                var created = job.getCreated();
+                return created > hourAgo;                
+            };
+
             $scope.jobFilter = function() {
                 var filterObj = {},
                     selCompanyName = $scope.filter.selected.companyName,
@@ -45,6 +60,8 @@ angular.module('huntEdu.controllers')
             $scope.$on('$routeChangeSuccess', function(){
                $scope.searchResultsData = jobs;
                $scope.keyword = $routeParams.keyword;
+               now = new Date();
+               hourAgo = new Date(now.getTime() - MILLISECONDS_PER_HOUR);
             });
 
             $scope.$on('$routeChangeError', function() {

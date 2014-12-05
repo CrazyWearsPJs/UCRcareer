@@ -225,6 +225,14 @@ angular.module('huntEdu.services')
             return new Date(User.subscription.expires);
         };
 
+        User.isOwnJob = function(job) {
+            if(User.isEmployer()) {
+                return job.isIn(User.posts);
+            } else {
+                return false;
+            }
+        };
+
         User.setProfileData = function(data,  role) {
             var updatedData = updatedProfileData(data, role);
 
@@ -272,6 +280,7 @@ angular.module('huntEdu.services')
                 len = User.posts.length,
                 found = false,
                 id = newJobPost.getId();
+             
              for(; i < len; ++i) {
                 if(User.posts[i].meta.id === id) {
                     User.posts[i] = newJobPost;

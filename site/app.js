@@ -42,6 +42,14 @@ angular.module('huntEdu', ['ngRoute', 'ngMessages', 'btford.socket-io', 'huntEdu
             return input.join(delimiter);
         };
     })
+    .filter('orderReviews', ['_', function(_) {
+        var sortBy = _.sortBy;
+        return function orderReviews(input) {
+            return sortBy(input, function(review) {
+                return new Date(review.timestamps.created);
+            }).reverse();
+        };
+    }])
     /* inject lodash as a util factory */
     .factory('_', ['$window', function($window) {
         return $window._;
