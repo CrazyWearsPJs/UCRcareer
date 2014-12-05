@@ -2,6 +2,10 @@
     <thead>
         <tr>
             <th>
+            </th>
+        </tr>
+        <tr>
+            <th>
             Filter By: 
             <br>
                 <input type="checkbox" ng-model="filter.selected.state" value="state"> State
@@ -9,9 +13,6 @@
 
                 <input type="checkbox" ng-model="filter.selected.companyName"  value="company"> Company
                 <input ng-show="filter.selected.companyName" type="text" name="input" ng-model="filter.companyName">
-
-                <input type="checkbox" ng-model="filter.selected.jobTitle" value="title"> Title
-                <input ng-show="filter.selected.jobTitle" type="text" name="input" ng-model="filter.jobTitle">
             </th>
 
         </tr>
@@ -75,3 +76,13 @@
         </tr>
     </tbody>
 </table>
+<!-- Bookmark buttons -->
+    <div id='bookmarkBtns' ng-show='showSaveBookmarkBtns'>
+        <button class='btn btn-primary pull-left' ng-hide='isBookmarked' ng-click='saveBookmark()'>
+            Add Bookmark
+        </button>
+        <button class='btn btn-danger pull-left' ng-show='isBookmarked' ng-click='removeBookmark()'>
+            Remove Bookmark
+        </button>
+    </div>
+

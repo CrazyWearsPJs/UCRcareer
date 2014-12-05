@@ -1,10 +1,12 @@
 angular.module('huntEdu.controllers')
-    .controller('SearchResultsCtrl',['$scope', '$routeParams','$location', 'User','jobs', 
-        function ($scope, $routeParams, $location, User, jobs){                
+    .controller('SearchResultsCtrl',['$scope', '$routeParams','$location', 'User','jobs', '_', 
+        function ($scope, $routeParams, $location, User, jobs, _){                
                 var MILLISECONDS_PER_HOUR = 3600000;
                 
                 var now = null,
                 hourAgo = null;
+
+                var forEach = _.forEach;
 
             $scope.filter = {
                 selected: {
@@ -25,6 +27,34 @@ angular.module('huntEdu.controllers')
             $scope.isFreshJob = function(job) {
                 var created = job.getCreated();
                 return created > hourAgo;                
+            };
+
+            /**
+             * Save a jobs as a bookmark
+             */
+
+            $scope.saveBookmark = function (){
+                forEach(jobs, function(job) {
+                    User.addBookmark(job)
+                        .then(function(){
+                            $scope.isBookmarked = true;
+                        });
+                });
+            };
+
+            /**
+             * Remove a bookmark
+             */
+            $scope.showSaveBookmarkBtns = User.isLoggedIn() && (User.isApplicant());
+ 
+            $scope.removeBookmark = function (){
+                forEach(jobs, function(job) {
+                    var jobId = job.getId();
+                    User.removeBookmark(jobId)
+                        .then(function(){
+                            $scope.isBookmarked = false;
+                        });
+                });
             };
 
             $scope.jobFilter = function() {

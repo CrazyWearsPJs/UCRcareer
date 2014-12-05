@@ -222,7 +222,11 @@ angular.module('huntEdu.services')
         };
 
         User.getExpiration = function() {
-            return new Date(User.subscription.expires);
+            if(User.isApplicant()) {
+                return new Date(User.subscription.expires);
+            } else {
+                return null;
+            }
         };
 
         User.isSubscribed = function() {
