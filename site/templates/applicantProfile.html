@@ -14,7 +14,7 @@
                 <div ng-repeat='notification in notifications'>
                     Message: {{notification.message}}
                     <a ng-click="goToNotification({{notification.meta.jobPost.meta.id}})">
-                    {{notification.meta.jobPost.title}}
+                    Title: {{notification.meta.jobPost.title}}
                     </a>
                 </div>
             <div class='clearfix' ng-repeat-end></div> 
