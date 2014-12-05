@@ -170,7 +170,7 @@ jobPostingSchema.methods.getReviewByUrlId = function reviewSearchUrlId(reviewB64
         review_id = null;
 
     try {
-        review_id = base64ObjectId(reviewB64Id);
+        review_id = base64ToObjectId(reviewB64Id);
         return jobPosting.reviews.id(review_id);
     } catch(err) {
         return null;    

@@ -75,10 +75,9 @@ router.post('/id/:jobPostingId/review/id/:jobReviewId', function(req, res, next)
         jobPostingId = req.params.jobPostingId,
         jobReviewId = req.params.jobReviewId,
         jobReviewData = req.body,
-        jobReview = null
+        jobReview = null,
         applicantUserId = req.session.applicantUserId;
 
-    
     if(!jobPostingId) {
         var err = new Error("JobPostId not provided");
         err.status = 400;
@@ -102,12 +101,11 @@ router.post('/id/:jobPostingId/review/id/:jobReviewId', function(req, res, next)
         err.status = 403;
         return next(err);
     }
-
-    
+ 
     jobReviewData = {
-        'content': jobReviewContent
+        'content': jobReviewData
     };
-
+    
     Q.ninvoke(JobPosting, 'findByUrlId', jobPostingId)
         .then(function getAndUpdateJobReview(post) {
             jobReview = post.getReviewByUrlId(jobReviewId);
@@ -116,14 +114,11 @@ router.post('/id/:jobPostingId/review/id/:jobReviewId', function(req, res, next)
         }) 
         .then(function saveReviewSuccessful() {
             res.status(200).end(); 
-
         })
         .catch(function errorCatchAll(err) {
             err.status = 404;
             next(err);
         });
-
-
 });
 
 exports = module.exports = router;
