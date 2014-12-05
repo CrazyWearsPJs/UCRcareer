@@ -1,0 +1,39 @@
+    <hr>
+    <div>
+    <h4>Reviews and Comments</h4>
+    </div>
+    <div ng-repeat="r  in jobListingData.reviews | orderReviews">
+        <div class="row">
+            <div class="col-md-8">
+                {{r.content.title}}
+            </div>
+        </div>    
+        <div class="row">
+            <div class="col-md-8">
+                Posted On: {{r.timestamps.created | date:'MMM dd, yyyy hh:mm a'}}
+            </div>
+             <div ng-show="showModified(r)" class="col-md-8">
+                Last Modified: {{r.timestamps.lastModified | date:'MMM dd, yyyy hh:mm a'}}
+            </div>
+            <div class="cold-md-4">
+
+                <a href="" ng-click="editReview(r)" ng-show="isOriginalPoster(r)">Edit this review</a>
+           </div>
+        </div>    
+        <div class="row">
+            <div class="col-md-8">
+            Posted by {{r.reviewer.credentials.email}}
+            </div>
+        </div>    
+        <div class="row">
+            <div class="col-md-8">
+                Rating: <rating ng-model="r.content.rating" max="max" readonly="true" on-hover="hoveringOver(value)" on-leave="overStart = null"></rating>
+            </div>
+        </div>    
+        <div class="row">
+            <div class="col-md-8">
+                Comment: {{r.content.body}}
+            </div>
+        </div>   
+        <hr>
+    </div>

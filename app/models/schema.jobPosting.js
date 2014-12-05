@@ -151,13 +151,25 @@ jobPostingSchema.static('findByKeyword', function jobSearch(keyword, cb, options
      
 });
 
+jobPostingSchema.static('findAndPopulateReviewsById', function jobSearch(id, cb) {
+    var JobPosting = this;
+
+    return JobPosting.findById(id).populate('reviews').exec(function(err, job){
+        if(!err && job) {   
+            JobPosting.populate(job, { path: 'reviews.reviewer', select:'credentials.email'}, cb);
+        } else {
+            cb(err, null)
+        }
+    });
+});
+
 jobPostingSchema.static('findByUrlId', function jobSearchUrlId(b64Id, cb) {
     var JobPosting = this,
         _id = null;
 
     try {
         _id = base64ToObjectId(b64Id);
-        return JobPosting.findById(_id, cb).populate('reviews');
+        return JobPosting.findAndPopulateReviewsById(_id, cb);
     } catch(err) {
         err.status = 400;
         cb(err);
@@ -169,7 +181,7 @@ jobPostingSchema.methods.getReviewByUrlId = function reviewSearchUrlId(reviewB64
         review_id = null;
 
     try {
-        review_id = base64ObjectId(reviewB64Id);
+        review_id = base64ToObjectId(reviewB64Id);
         return jobPosting.reviews.id(review_id);
     } catch(err) {
         return null;    
@@ -184,7 +196,6 @@ jobPostingSchema.pre('save', function beforeSavingJobPost(next) {
         jobPosting.timestamps.lastModified = new Date();
         jobPosting.markModified('timestamps.lastModified');
     }
-
     next();
 });
 
