@@ -8,7 +8,6 @@ angular.module('huntEdu.services')
             var deferred = $q.defer(),
                jobPostData = job.getJobPostData();
             
-            console.log(jobPostData);
             path = path || jobPostingRoutePrefix;
                 
             if(!jobPostData || !User.isEmployer()) {

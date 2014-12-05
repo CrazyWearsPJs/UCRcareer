@@ -130,7 +130,6 @@ jobPostingSchema.static('findByKeyword', function jobSearch(keyword, cb, options
         // only show posts that are at least delay*hours old
         var delayHoursFromNow = new Date(Date.now() - (delay * MILLISECONDS_PER_HOUR));
         if(options && !_.isEmpty(options.ownJobs)) {
-            console.log(options.ownJobs);
             // this is the case where an employer searches using a keyword
             // and expects his own posted job to be a part of the search results
             //

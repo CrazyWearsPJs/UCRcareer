@@ -272,10 +272,7 @@ angular.module('huntEdu.services')
                 len = User.posts.length,
                 found = false,
                 id = newJobPost.getId();
-             console.log(newJobPostRawData);
-             console.log("blahhh", id);
              for(; i < len; ++i) {
-                console.log(User.posts[i]);
                 if(User.posts[i].meta.id === id) {
                     User.posts[i] = newJobPost;
                     found = true;
@@ -313,12 +310,10 @@ angular.module('huntEdu.services')
             var updatedData = updatedProfileData(data); 
             updatedData.email = User.credentials.email;
 
-            console.log("Sending Data:", updatedData);
 
             $http.post('/profile/' + role, updatedData)
                 .then(function(res) {
                     var updatedDataRes = res.data;
-                    console.log(updatedDataRes);
                     User.setProfileData(updatedDataRes);
                     deferred.resolve(res);
                 }, function(err) {
