@@ -2,7 +2,8 @@
  * Module dependancies
  */
 
-var socketio = require('socket.io');
+var socketio = require('socket.io')
+  , models   = require('../models');
 
 var io               = null
   , connectedClients = []; // Array of objects { applicantId:String, socket: SocketObj}
@@ -31,12 +32,12 @@ function attachSessions(sessionMiddleware){
 /**
  * Returns index of applicant in connectedClients list. Returns
  * -1 if not found
- * @param applicantId {ObjectId} applicants id
+ * @param socket {Socket} 
  */
 
-function findClient(applicantId){
+function findClient(socket){
     for (var i = 0; i < connectedClients.length; ++i){
-        if (connectedClients[i].applicantId == String(applicantId)){
+        if (connectedClients[i].socket.id == socket.id){
             return i;
         }
     }
@@ -60,12 +61,12 @@ function addClient(applicantId, socket){
 }
 
 /**
- * Remove a client from the connectedClients list given their applicant id
- * @param applicantId {ObjectId} applicant id
+ * Remove a client from the connectedClients list
+ * @param socket {Socket}
  */
 
-function removeClient(applicantId){
-    var clientPos = findClient(applicantId);
+function removeClient(socket){
+    var clientPos = findClient(socket);
     // If applicant isn't connected, nothing to do
     if (clientPos === -1){
         return;
@@ -81,7 +82,13 @@ function removeClient(applicantId){
  */
 
 function sendNotifications(applicantId, notifications){
-    var clientPos = findClient(applicantId);
+    var clientPos = -1;
+    for (var i = 0; i < connectedClients.length; ++i){
+        if (connectedClients[i].applicantId == String(applicantId)){
+            clientPos = i;
+            break;
+        }
+    }
     // If applicant isn't connected, nothing to do
     if(clientPos === -1){
         return;
@@ -97,7 +104,14 @@ function sendNotifications(applicantId, notifications){
  */
 
 function sendNotification(applicantId, notification){
-    var clientPos = findClient(applicantId);
+    var clientPos = -1;
+    for (var i = 0; i < connectedClients.length; ++i){
+        if (connectedClients[i].applicantId == String(applicantId)){
+            clientPos = i;
+            break;
+        }
+    }
+    
     // If applicant isn't connected, nothing to do
     if(clientPos === -1){
         return;
@@ -111,34 +125,27 @@ function sendNotification(applicantId, notification){
  */
 
 function start (){
+    var Applicant    = models.applicant()
+      , Notification = models.notification(); 
     // Start handling on connection events
     io.on('connection', function(socket){
-        // In case user is authenticated already,
-        // but lost socket connection temporarily
-        if(socket.request.session.applicantId){
-            addClient(socket.request.session.applicantId, socket);
-        }
-
         // Login authentication 
-        socket.on('login', function(){
-            var applicantId = socket.request.session.applicantId;
-            if (applicantId) {
-                addClient(applicantId, socket);
-            }
+        socket.on('login', function(credentials){
+            Applicant.findByCredentials(credentials, function(err, applicant){
+                addClient(applicant._id, socket);
+                // Send notification info to client
+                Notification.findByRecipientId(applicant._id, function(err, notifications){
+                    socket.emit('multipleNotifications', {'notifications':notifications});
+                });
+            });
         });
 
         socket.on('logout', function(){
-            var applicantId = socket.request.session.applicantId;
-            if (applicantId){
-                removeClient(applicantId);
-            }
+            removeClient(socket);
         });
         
         socket.on('disconnect', function(){
-            var applicantId = socket.request.session.applicantId;
-            if (applicantId){
-                removeClient(applicantId);
-            }
+            removeClient(socket); 
         });
     });
 }

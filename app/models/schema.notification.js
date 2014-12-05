@@ -36,6 +36,22 @@ notificationSchema.static('findByNotificationId', function(id, cb){
 });
 
 /**
+ * Wrapper around notification.find
+ * populates recipients list and jobPost fields
+ * @param id {ObjectId} applicant id
+ * @param cb {Function} callback function
+ */
+
+notificationSchema.static('findByRecipientId', function(id, cb){
+    var Notification = this;
+
+    Notification.find({recipients:id})
+        .populate("recipients", "-_id -__v")
+        .populate("meta.jobPost", "-_id -__v")
+        .exec(cb);
+});
+
+/**
  * Create and save a updated job posting notification. If a notification for the job post
  * already exists, then update the recipient list
  * @param jobPostId {ObjectID} id of jobposting to include in notification
