@@ -7,6 +7,10 @@ angular.module('huntEdu.controllers')
 
     $scope.isCollapsed = true;
 
+    $scope.goToNotification = function(postId) {
+        $location.path('/jobListing/' + postId);
+    };
+
     $scope.updateApplicant = function() {
         $location.path('/updateApplicantProfile');
     };
