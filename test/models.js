@@ -312,7 +312,6 @@ describe('models', function (){
                         fName: "John"
                       , lName: "Doe"
                     }
-                  , subscription: 0
                 });
             
             // Save employer

@@ -76,7 +76,6 @@ var employer = {
             fName: "John"
           , lName: "Doe"
         }
-      , subscription: "0"
       , posts: []
 };
 
