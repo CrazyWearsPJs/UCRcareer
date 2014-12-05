@@ -120,7 +120,10 @@ function start (){
         // Login authentication 
         socket.on('login', function(credentials){
             Applicant.findByCredentials(credentials, function(err, applicant){
-                addClient(applicant._id, socket);
+                if(!applicant || err){
+                    return;
+                }
+		addClient(applicant._id, socket);
                 // Send notification info to client
                 Notification.findByRecipientId(applicant._id, function(err, notifications){
                     socket.emit('multipleNotifications', {'notifications':notifications});
