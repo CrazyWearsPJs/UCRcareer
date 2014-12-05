@@ -20,6 +20,10 @@ angular.module('huntEdu.controllers')
             $scope.showLoggedIn = function() {
                 return User.isLoggedIn();
             };
+        
+            $scope.showApplicant = function() {
+                return User.isApplicant();
+            };
 
             /* Star Ratings */
             $scope.rate = 0;
