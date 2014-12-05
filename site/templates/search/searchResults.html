@@ -54,20 +54,20 @@
     <tbody>
     <tr ng-repeat="job in searchResultsData | orderBy:predicate | filter:jobFilter()">
             <td>
-                <a ng-href="#/jobListing/{{job.getId()}}">{{job.specifics.companyName}}. </a>
+                <a ng-href="#/jobListing/{{job.getId()}}">{{job.specifics.companyName}} </a>
             </td>
             
             <td>
-                {{job.specifics.jobTitle}}.
+                {{job.specifics.jobTitle}}
             </td>
             <td>
                 {{job.location.city}}, {{job.location.state}}
             </td>
             <td>
-                {{job.date.postedOn}}
+                {{job.date.postedOn | date : shortDate}}
             </td>
             <td>
-                {{job.date.endsOn}}
+                {{job.date.endsOn | date: shortDate}}
             </td>
             <td>
                 {{job.specifics.jobType}}
