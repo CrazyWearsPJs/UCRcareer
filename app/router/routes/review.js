@@ -112,9 +112,13 @@ router.post('/id/:jobPostingId/review/id/:jobReviewId', function(req, res, next)
             deepExtend(jobReview, jobReviewData);
             return Q.ninvoke(post, 'save');
         }) 
-        .then(function saveReviewSuccessful() {
-            res.status(200).end(); 
+        .then(function saveReviewSuccessful(updatedJobReview) {
+            return Q.ninvoke(updatedJobReview, 'populate', 'reviewer');
         })
+        .then(function populateReviewSuccessful(updatedJobReview) {
+            console.log(updatedJobReview);
+            res.status(200).json(updatedJobReview);
+        });
         .catch(function errorCatchAll(err) {
             err.status = 404;
             next(err);
