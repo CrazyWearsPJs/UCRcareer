@@ -5,6 +5,8 @@ angular.module('huntEdu.controllers')
         return User.isApplicant();
     };
 
+    $scope.isCollapsed = true;
+
     $scope.updateApplicant = function() {
         $location.path('/updateApplicantProfile');
     };
