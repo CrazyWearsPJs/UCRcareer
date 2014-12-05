@@ -1,6 +1,6 @@
 angular.module('huntEdu.controllers')
-    .controller('SearchResultsCtrl',['$scope', '$routeParams','$location', 'jobs', '_', 
-        function ($scope, $routeParams, $location, jobs, _){
+    .controller('SearchResultsCtrl',['$scope', '$routeParams','$location', 'jobs', 
+        function ($scope, $routeParams, $location, jobs){
             $scope.filter = {
                 selected: {
                     companyName: false,
