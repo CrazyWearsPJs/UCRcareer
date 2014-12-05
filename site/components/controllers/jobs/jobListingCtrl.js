@@ -27,6 +27,7 @@ angular.module('huntEdu.controllers')
 
             /* Star Ratings */
             $scope.rate = 0;
+            $scope.updatedRate = 0;
             $scope.max = 5;
 
             $scope.hoveringOver = function(value) {
@@ -60,27 +61,41 @@ angular.module('huntEdu.controllers')
 
             /* Edit a job review*/
             $scope.editing = false;
+    
+            $scope.postEditReview = {
+                'meta':{},
+                'timestamps':{},
+                'reviewer':{},
+                'content':{}
+            };
             
             $scope.editReview = function(data) {
+               console.log(User);
+                console.log(data.reviewer);            
+
+
+    
                 $scope.editing = true;
                 $scope.currentReview = data;
                 console.log("Editing job review", data);
             };
 
             $scope.submitReviewEdit = function() {
-                $scope.postReview.content.rating = $scope.updatedRate;
-                console.log("Edited job review", $scope.postReview);
-                $scope.jobListingData.editReview($scope.postReview.content, $scope.currentReview.meta.id)
+                $scope.postEditReview.content.rating = $scope.updatedRate;
+                console.log("Edited job review", $scope.postEditReview);
+                $scope.jobListingData.editReview($scope.postEditReview.content, $scope.currentReview.meta.id)
                     .then(function(){
                         $scope.editing = false;
-                        $scope.postReview = null;
+                        $scope.postEditReview = $scope.postReview;
                     });
             };
 
             $scope.cancelEdit = function() {
                 $scope.editing = false;
-                $scope.postReview = null;
+                $scope.postEditReview = $scope.postReview;
             };
+
+            
             /**
              * Save a job as a bookmark
              */

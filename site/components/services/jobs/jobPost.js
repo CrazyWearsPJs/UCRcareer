@@ -99,6 +99,11 @@ angular.module('huntEdu.services')
             this.reviews.push(data);
         };
 
+        JobPost.prototype.updateReview = function(data, reviewId)
+        {
+            
+        };
+
         JobPost.prototype.addReview = function(data) {
             var deferred = $q.defer(),
                 jobPost = this;
@@ -114,7 +119,7 @@ angular.module('huntEdu.services')
         JobPost.prototype.editReview = function(data, reviewId) {
             var deferred = $q.defer(),
                 jobPost = this;
-            $http.post('/post/id/' + jobPost.getId() + '/review/id/' + reviewId ,data)
+            $http.post('/post/id/' + jobPost.getId() + '/review/id/' + reviewId , data)
                 .then(function(){
                     deferred.resolve();
                 }, function(){
