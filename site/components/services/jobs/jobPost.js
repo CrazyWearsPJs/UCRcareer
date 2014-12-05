@@ -1,11 +1,12 @@
 angular.module('huntEdu.services')
-    .factory('JobPost', ['_', 'Util', function JobPostFactory(_, Util) {
+    .factory('JobPost', ['$http', '$q', '_', 'Util', function JobPostFactory($http, $q, _, Util) {
         var forEach = _.forEach,
             isArray = _.isArray,
             pick = _.pick,
             uniq = _.uniq,
             compactObject = Util.compactObject,
-            compactObjectDeep = Util.compactObjectDeep;
+            compactObjectDeep = Util.compactObjectDeep,
+            diffObject = Util.diffObject;
 
         var JOB_POST_DATA_FIELDS = ['meta','specifics', 'location', 
                             'date', 'media', 'tags'];
@@ -60,6 +61,35 @@ angular.module('huntEdu.services')
                 'video': null
             },
             'tags': []
+        };
+
+
+        var updatedJobPostData = function(data) {
+            var compactData = compactObjectDeep(data),
+                diffData = diffObject(compactData, JobPost.prototype);
+            return pick(diffData, JobPost.prototype);
+        };
+       
+
+
+        //TODO When I'm sending data, I'm not saying which element to overwrite
+        //Need to include the meta.id somehow 
+        JobPost.prototype.updateJobPost = function(data) {
+            var deferred = $q.defer();
+            var updatedData = updatedJobPostData(data);
+
+            console.log("Sending Data:", updatedData);
+
+            $http.post('/post', updatedData)
+                .then(function(res) {
+                    var updatedDataRes = res.data;
+                    console.log(updatedDataRes);
+                    JobPost.prototype.setJobPostData(updatedDataRes);
+                    deferred.resolve(res);
+                }, function(err) {
+                    deferred.reject(err);
+                });
+             return deferred.promise;
         };
         
         JobPost.prototype.getId = function() {

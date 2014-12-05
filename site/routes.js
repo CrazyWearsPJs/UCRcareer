@@ -10,8 +10,11 @@ angular.module('huntEdu')
    	        templateUrl: 'templates/register/employerRegister.html',
             	controller: 'EmployerRegisterCtrl'
             }).when('/jobPosting', {
-		        templateUrl: 'templates/jobs/jobPosting.html',
-        		controller: 'JobPostingCtrl'
+		templateUrl: 'templates/jobs/jobPosting.html',
+        	controller: 'JobPostingCtrl'
+            }).when('/updateJobPosting/:id', {
+                templateUrl: 'templates/jobs/updateJobPosting.html',
+                controller: 'UpdateJobPostingCtrl'
             }).when('/searchResults', {
                 templateUrl: 'templates/searchResults.html',
                 controller: 'SearchResultsCtrl'
