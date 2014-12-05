@@ -15,7 +15,7 @@ var config        = require('./app/config')
   , models        = require('./app/models')
   , logger        = require('./app/logger')
   , router        = require('./app/router')
-  , notifications = require('./app/notifications');
+  , instantUpdate = require('./app/instantUpdate');
 
 var app    = express()
   , server = http.Server(app);
@@ -57,10 +57,10 @@ db.on('close', function() {
 models.register(db);
 
 /**
- * Attach server to notifications module
+ * Attach server to instantUpdate module
  */
 
-notifications.attachToServer(server);
+instantUpdate.attachToServer(server);
 
 /**
  * Setup server
@@ -127,9 +127,6 @@ var sessionMiddleware = session({
     'saveUninitialized' : true
 });
 
-// Register session middleware for socket.io
-notifications.attachSessions(sessionMiddleware);
-
 // Register session middleware for express server
 app.use(sessionMiddleware);
 
@@ -149,4 +146,4 @@ server.listen(port, function (){
     logger.info("Application started on port %s", port);
 });
 
-notifications.start();
+instantUpdate.start();

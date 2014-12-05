@@ -1,5 +1,5 @@
 angular.module('huntEdu.services')
-    .factory('JobPost', ['_', 'Util', function JobPostFactory(_, Util) {
+    .factory('JobPost', ['$http', '$q', '_', 'Util', function JobPostFactory($http, $q, _, Util) {
         var forEach = _.forEach,
             isArray = _.isArray,
             pick = _.pick,
@@ -7,8 +7,8 @@ angular.module('huntEdu.services')
             compactObject = Util.compactObject,
             compactObjectDeep = Util.compactObjectDeep;
 
-        var JOB_POST_DATA_FIELDS = ['meta','specifics', 'location', 
-                            'date', 'media', 'tags'];
+        var JOB_POST_DATA_FIELDS = ['meta','specifics', 'location', 'reviews',
+                            'date', 'media', 'tags', 'timestamps'];
         
         function baseSetJobPostData(data, context) {
             var relevantData = pick(data, JOB_POST_DATA_FIELDS),
@@ -35,6 +35,10 @@ angular.module('huntEdu.services')
         }
 
         JobPost.prototype = {
+            'timestamps': {
+                'created': null,
+                'lastModified': null
+            },
             'meta': {
                 'id': null
             },
@@ -59,11 +63,30 @@ angular.module('huntEdu.services')
                 'image': null,
                 'video': null
             },
-            'tags': []
+            'tags': [],
+            'reviews': []
         };
-        
+
         JobPost.prototype.getId = function() {
             return this.meta.id;
+        };
+
+        JobPost.prototype.getCreated = function() {
+            return new Date(this.timestamps.created);
+        };
+
+        JobPost.prototype.isIn = function(posts) {
+            var id = this.getId(),
+                found = false;
+            
+            forEach(posts, function(post) {
+                if(post.getId() === id) {
+                    found = true;
+                    return false;
+                }
+            });
+
+            return found;
         };
 
         JobPost.getJobPostDataFields = function() {
@@ -93,6 +116,43 @@ angular.module('huntEdu.services')
         JobPost.prototype.getJobPostData = function() {
             return compactObjectDeep(this);
         };
+
+        JobPost.prototype.pushReview = function(data) {
+            this.reviews.push(data);
+        };
+
+        JobPost.prototype.updateReview = function(review){
+            var jobPost = this;
+            forEach(jobPost.reviews, function(val, key) {
+                if(val.meta.id === review.meta.id) {
+                    jobPost.reviews[key] = review;
+                }
+            });
+        };
+
+        JobPost.prototype.addReview = function(data) {
+            var deferred = $q.defer(),
+                jobPost = this;
+            $http.post('/post/id/' + jobPost.getId() + '/review', data)
+                .then(function(res){
+                    deferred.resolve(res);
+                }, function(err){
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
         
-         return JobPost;
+        JobPost.prototype.editReview = function(data, reviewId) {
+            var deferred = $q.defer(),
+                jobPost = this;
+            $http.post('/post/id/' + jobPost.getId() + '/review/id/' + reviewId , data)
+                .then(function(res){
+                    deferred.resolve(res);
+                }, function(err){
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+ 
+        return JobPost;
     }]);

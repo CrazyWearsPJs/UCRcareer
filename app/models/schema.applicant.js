@@ -109,7 +109,8 @@ applicantSchema.methods.setPassword = function(plainTextPassword) {
 applicantSchema.methods.isSubscribed = function() {
     var applicant = this,
         now = new Date();
-    return applicant.subscription.expires >= now;
+    //return applicant.subscription.expires >= now;
+    return true;
 };
 
 
@@ -187,38 +188,6 @@ applicantSchema.methods.removeBookmark = function(postId, cb){
 
     applicant.bookmarkedPosts.splice(removalPoint, 1);
     applicant.save(cb);
-}
-
-/**
- * Adds a job posting id to applicant's notification queue
- * @param postId {ObjectId} Job posting id
- */
-
-applicantSchema.methods.addPostNotification = function(postId){
-    var applicant = this;
-    // If notification already exists, don't do anything
-    if (_.indexOf(applicant.postNotifications, postId, true) !== -1)
-        return;
-
-    // Figure out where to insert post as to keep array of 
-    // post notifications sorted
-    var insertionPoint = _.sortedIndex(applicant.postNotifications, postId);
-    applicant.postNotifications.splice(insertionPoint, 0, postId);
-}
-
-/**
- * Removes a job posting id from the applicant's notification queue
- * @param postId {ObjectId} Job posting id
- */
-
-applicantSchema.methods.removePostNotification = function(postId){
-    var applicant = this;
-    // Figure out where the id to remove is located
-    var removalPoint = _.indexOf(applicant.postNotifications, postId, true);
-    // If bookmark doesn't exist, then there is nothing to do!
-    if ( removalPoint === -1)
-        return;
-    applicant.postNotifications.splice(removalPoint, 1);
 }
 
 /**

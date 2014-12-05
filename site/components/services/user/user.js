@@ -1,5 +1,5 @@
 angular.module('huntEdu.services')
-    .factory('User', ['$http', '$q', 'USER_ROLES', '_', 'Util', function UserFactory($http, $q, USER_ROLES, _, Util) {
+    .factory('User', ['$http', '$q', 'USER_ROLES', '_', 'Util', 'JobPost', function UserFactory($http, $q, USER_ROLES, _, Util, JobPost) {
         var forEach = _.forEach,
             isFunction = _.isFunction,
             isObject = _.isObject,
@@ -225,12 +225,25 @@ angular.module('huntEdu.services')
             return new Date(User.subscription.expires);
         };
 
+        User.isOwnJob = function(job) {
+            if(User.isEmployer()) {
+                return job.isIn(User.posts);
+            } else {
+                return false;
+            }
+        };
+
         User.setProfileData = function(data,  role) {
             var updatedData = updatedProfileData(data, role);
 
             forEach(updatedData, function(value, key) {
                     if(isArray(value)) {
                         User[key] = uniq(value);
+                        if(key === "posts") {
+                            forEach(User[key], function(post, index) {
+                                User[key][index] = new JobPost(post);
+                            });
+                        }
                     } else {
                         User[key] = value;
                     }
@@ -259,6 +272,29 @@ angular.module('huntEdu.services')
             });
             User.setUserRole(USER_ROLES.guest);
         };
+        
+        User.setJobPost = function(newJobPostRawData) {
+          var newJobPost = new JobPost(newJobPostRawData);
+          if(newJobPost) {
+             var i = 0,
+                len = User.posts.length,
+                found = false,
+                id = newJobPost.getId();
+             
+             for(; i < len; ++i) {
+                if(User.posts[i].meta.id === id) {
+                    User.posts[i] = newJobPost;
+                    found = true;
+                    break;
+                }
+            }
+            if(!found) {
+                User.posts.push(newJobPost);
+            }
+          }
+        };
+
+
 
         /**
         * Sends a request to update profile information in the server,
@@ -283,12 +319,10 @@ angular.module('huntEdu.services')
             var updatedData = updatedProfileData(data); 
             updatedData.email = User.credentials.email;
 
-            console.log("Sending Data:", updatedData);
 
             $http.post('/profile/' + role, updatedData)
                 .then(function(res) {
                     var updatedDataRes = res.data;
-                    console.log(updatedDataRes);
                     User.setProfileData(updatedDataRes);
                     deferred.resolve(res);
                 }, function(err) {

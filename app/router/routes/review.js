@@ -19,7 +19,8 @@ router.post('/id/:jobPostingId/review/', function(req, res, next) {
     var JobPosting = models.jobPosting(),
         jobPostingId = req.params.jobPostingId,
         jobReviewData = req.body,
-        applicantUserId = req.session.applicantUserId;
+        applicantUserId = req.session.applicantUserId, 
+        newLen = 0;
 
     
     if(!jobPostingId) {
@@ -47,14 +48,17 @@ router.post('/id/:jobPostingId/review/', function(req, res, next) {
 
     Q.ninvoke(JobPosting, 'findByUrlId', jobPostingId)
         .then(function foundJobPost(post) {
-           post.reviews.push(jobReviewData);
+           newLen = post.reviews.push(jobReviewData);
            post.markModified('reviews');
            return Q.ninvoke(post, 'save');
         }) 
-        .then(function saveReviewSuccessful() {
-            res.status(200).end();  
+        .then(function saveReviewSuccessful(savedPost) {
+            return Q.ninvoke(savedPost[0], 'populate', 'reviewer');
         })
-        .catch(function errorCatchAll(err) {
+         .then(function populateReviewSuccessful(updatedJobPost) {
+            res.status(200).json(updatedJobPost.reviews[newLen-1]);
+        })
+       .catch(function errorCatchAll(err) {
             err.status = 404;
             next(err);
         });
@@ -75,10 +79,9 @@ router.post('/id/:jobPostingId/review/id/:jobReviewId', function(req, res, next)
         jobPostingId = req.params.jobPostingId,
         jobReviewId = req.params.jobReviewId,
         jobReviewData = req.body,
-        jobReview = null
+        jobReview = null,
         applicantUserId = req.session.applicantUserId;
 
-    
     if(!jobPostingId) {
         var err = new Error("JobPostId not provided");
         err.status = 400;
@@ -102,28 +105,27 @@ router.post('/id/:jobPostingId/review/id/:jobReviewId', function(req, res, next)
         err.status = 403;
         return next(err);
     }
-
-    
+ 
     jobReviewData = {
-        'content': jobReviewContent
+        'content': jobReviewData
     };
-
+    
     Q.ninvoke(JobPosting, 'findByUrlId', jobPostingId)
         .then(function getAndUpdateJobReview(post) {
             jobReview = post.getReviewByUrlId(jobReviewId);
             deepExtend(jobReview, jobReviewData);
             return Q.ninvoke(post, 'save');
         }) 
-        .then(function saveReviewSuccessful() {
-            res.status(200).end(); 
-
+        .then(function saveReviewSuccessful(updatedJobReview) {
+            return Q.ninvoke(updatedJobReview[0], 'populate', 'reviewer');
+        })
+        .then(function populateReviewSuccessful(updatedJobPost) {
+            res.status(200).json(updatedJobPost.getReviewByUrlId(jobReviewId));
         })
         .catch(function errorCatchAll(err) {
             err.status = 404;
             next(err);
         });
-
-
 });
 
 exports = module.exports = router;

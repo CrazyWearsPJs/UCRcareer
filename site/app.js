@@ -1,4 +1,4 @@
-angular.module('huntEdu', ['ngRoute', 'ngMessages', 'huntEdu.controllers', 'huntEdu.services', 'huntEdu.directives'])
+angular.module('huntEdu', ['ngRoute', 'ngMessages', 'btford.socket-io', 'huntEdu.controllers', 'huntEdu.services', 'huntEdu.directives'])
     .run(['AuthService', function(AuthService){
             AuthService.heartbeat();
     }])
@@ -16,6 +16,9 @@ angular.module('huntEdu', ['ngRoute', 'ngMessages', 'huntEdu.controllers', 'hunt
                 });
             }
         };
+    }])
+    .service('socket', ['socketFactory', function(socketFactory){
+        return socketFactory();
     }])
     .service('fileUpload', ['$http', function ($http) {
         this.uploadFileToUrl = function(file, uploadUrl, cb){
@@ -39,6 +42,14 @@ angular.module('huntEdu', ['ngRoute', 'ngMessages', 'huntEdu.controllers', 'hunt
             return input.join(delimiter);
         };
     })
+    .filter('orderReviews', ['_', function(_) {
+        var sortBy = _.sortBy;
+        return function orderReviews(input) {
+            return sortBy(input, function(review) {
+                return new Date(review.timestamps.created);
+            }).reverse();
+        };
+    }])
     /* inject lodash as a util factory */
     .factory('_', ['$window', function($window) {
         return $window._;

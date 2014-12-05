@@ -1,6 +1,6 @@
 angular.module('huntEdu.services')
-    .service('AuthService', ['$rootScope', '$http','$q', 'User', 'USER_ROLES', 'LOGIN_EVENTS', 
-        function AuthService($rootScope, $http, $q, User, USER_ROLES, LOGIN_EVENTS){
+    .service('AuthService', ['$rootScope', '$http','$q', 'User', 'socket', 'USER_ROLES', 'LOGIN_EVENTS', 
+        function AuthService($rootScope, $http, $q, User, socket, USER_ROLES, LOGIN_EVENTS){
         var extend = angular.extend;
 
         this.heartbeat = function() {
@@ -41,6 +41,9 @@ angular.module('huntEdu.services')
                         User.setEmail(credentials.email);
 
                         User.setProfileData(profileData, role);
+                        
+                        // Attempt to login through socket
+                        socket.emit('login', credentials);
                         
                         $rootScope.$broadcast(LOGIN_EVENTS.successful, role);
                         

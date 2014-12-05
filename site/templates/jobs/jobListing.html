@@ -24,7 +24,7 @@
                 Posted On: 
             </label> 
             <td>
-                {{jobListingData.date.postedOn}}
+                {{jobListingData.date.postedOn | date: shortDate}}
             </td>
         </div>
         <div class="col-md-4">
@@ -32,7 +32,7 @@
                 Ends On: 
             </label> 
             <td>
-                {{jobListingData.date.endsOn}}
+                {{jobListingData.date.endsOn | date : shortDate}}
             </td>
         </div>
     </div>
@@ -116,7 +116,7 @@
     <div ng-show="hasImage" class="row">
         <div class="col-md-12">
             <td>
-                <img src="{{jobListingData.media.image}}"></img>
+                <img src="http://{{jobListingData.media.image}}"></img>
             </td>
         </div>
     </div>
@@ -130,4 +130,11 @@
             Remove Bookmark
         </button>
     </div>
+    <br>
+    <br>
+    <ng-include src="'templates/jobs/reviewPosting.html'" ng-show="showReviewPosting()"></ng-include>
+    <a id="edit"></a>
+    <ng-include src="'templates/jobs/editReview.html'" ng-show="editing"></ng-include>
+    <ng-include src="'templates/jobs/jobReview.html'"></ng-include>
+    
 </div> 
