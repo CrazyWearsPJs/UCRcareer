@@ -1,4 +1,4 @@
-angular.module('huntEdu', ['ngRoute', 'ngMessages', 'huntEdu.controllers', 'huntEdu.services', 'huntEdu.directives'])
+angular.module('huntEdu', ['ngRoute', 'ngMessages', 'btford.socket-io', 'huntEdu.controllers', 'huntEdu.services', 'huntEdu.directives'])
     .run(['AuthService', function(AuthService){
             AuthService.heartbeat();
     }])
@@ -16,6 +16,9 @@ angular.module('huntEdu', ['ngRoute', 'ngMessages', 'huntEdu.controllers', 'hunt
                 });
             }
         };
+    }])
+    .service('socket', ['socketFactory', function(socketFactory){
+        return socketFactory();
     }])
     .service('fileUpload', ['$http', function ($http) {
         this.uploadFileToUrl = function(file, uploadUrl, cb){
