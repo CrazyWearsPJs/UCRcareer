@@ -15,6 +15,87 @@ angular.module('huntEdu.controllers')
             $scope.showSaveBookmarkBtns = User.isLoggedIn() && (User.getUserRole() === USER_ROLES.applicant);
             $scope.isBookmarked = User.hasBookmark(job.meta.id);
 
+            /* Get Rating array to display them*/
+            
+            $scope.showLoggedIn = function() {
+                return User.isLoggedIn();
+            };
+        
+            $scope.showApplicant = function() {
+                return User.isApplicant();
+            };
+
+            /* Star Ratings */
+            $scope.rate = 0;
+            $scope.updatedRate = 0;
+            $scope.max = 5;
+
+            $scope.hoveringOver = function(value) {
+                $scope.overStar = value;
+            };
+
+            /*when creating a review*/
+            $scope.getRate = function() {
+                $scope.rate = $scope.overStar;
+            };
+    
+            /*when updating a review*/
+            $scope.updateRate = function() {
+                $scope.updatedRate = $scope.overStar;
+            };
+
+            /*Add a job review*/
+            $scope.postReview = {
+                'meta':{},
+                'timestamps': {},
+                'reviewer': {},
+                'content':{}
+            };
+            $scope.submitReview = function() {
+                $scope.postReview.content.rating = $scope.rate;    
+                $scope.jobListingData.addReview($scope.postReview.content)
+                    .then(function(){
+                        $scope.jobListingData.pushReview($scope.postReview);
+                    });
+            }; 
+
+            /* Edit a job review*/
+            $scope.editing = false;
+    
+            $scope.postEditReview = {
+                'meta':{},
+                'timestamps':{},
+                'reviewer':{},
+                'content':{}
+            };
+            
+            $scope.editReview = function(data) {
+               console.log(User);
+                console.log(data.reviewer);            
+
+
+    
+                $scope.editing = true;
+                $scope.currentReview = data;
+                console.log("Editing job review", data);
+            };
+
+            $scope.submitReviewEdit = function() {
+                $scope.postEditReview.content.rating = $scope.updatedRate;
+                console.log("Edited job review", $scope.postEditReview);
+                $scope.jobListingData.editReview($scope.postEditReview.content, $scope.currentReview.meta.id)
+                    .then(function(){
+                        $scope.editing = false;
+                        $scope.postEditReview = $scope.postReview;
+                    });
+            };
+
+            $scope.cancelEdit = function() {
+                $scope.editing = false;
+                $scope.postEditReview = $scope.postReview;
+            };
+
+            
             /**
              * Save a job as a bookmark
              */

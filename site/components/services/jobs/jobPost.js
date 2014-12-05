@@ -63,7 +63,8 @@ angular.module('huntEdu.services')
                 'image': null,
                 'video': null
             },
-            'tags': []
+            'tags': [],
+            'reviews': []
         };
 
         JobPost.prototype.getId = function() {
@@ -115,6 +116,39 @@ angular.module('huntEdu.services')
         JobPost.prototype.getJobPostData = function() {
             return compactObjectDeep(this);
         };
+
+        JobPost.prototype.pushReview = function(data) {
+            this.reviews.push(data);
+        };
+
+        JobPost.prototype.updateReview = function(data, reviewId)
+        {
+            
+        };
+
+        JobPost.prototype.addReview = function(data) {
+            var deferred = $q.defer(),
+                jobPost = this;
+            $http.post('/post/id/' + jobPost.getId() + '/review', data)
+                .then(function(){
+                    deferred.resolve();
+                }, function(){
+                    deferred.reject();
+                });
+            return deferred.promise;
+        };
         
-         return JobPost;
+        JobPost.prototype.editReview = function(data, reviewId) {
+            var deferred = $q.defer(),
+                jobPost = this;
+            $http.post('/post/id/' + jobPost.getId() + '/review/id/' + reviewId , data)
+                .then(function(){
+                    deferred.resolve();
+                }, function(){
+                    deferred.reject();
+                });
+            return deferred.promise;
+        };
+ 
+        return JobPost;
     }]);
