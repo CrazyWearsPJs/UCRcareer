@@ -13,8 +13,8 @@
             <div class="well well-lg">
                 <div ng-repeat='notification in notifications'>
                     Message: {{notification.message}}
-                    <a ng-click="goToNotification({{notification.meta.jobPost.meta.id}})">
-                    Title: {{notification.meta.jobPost.specifics.title}}
+                    <a ng-click="goToNotification(notification.meta.jobPost.meta.id)">
+                    Title: {{notification.meta.jobPost.specifics.jobTitle}}
                     </a>
                 </div>
             <div class='clearfix' ng-repeat-end></div> 
