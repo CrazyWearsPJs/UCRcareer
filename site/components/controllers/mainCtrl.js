@@ -9,12 +9,12 @@ angular.module('huntEdu.controllers')
             }
             
             forEach(data.notifications, function(notification) {
-                toastr.success(notification);
+                toastr.success(notification.message + "<br>" + notification.meta.jobPost.specifics.jobTitle);
             });
         });
 
         socket.on('singleNotification', function(data){
             $rootScope.notifications.push(data.notification);
-            toastr.success("data.notification");
+            toastr.success(data.notification.message + "<br>" + data.notification.meta.jobPost.specifics.jobTitle);
         });    
     }]);
