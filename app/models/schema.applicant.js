@@ -4,7 +4,7 @@
 
 var mongoose = require('mongoose')
   , bcrypt   = require('bcrypt')
-  , _        = require('underscore')
+  , _        = require('lodash')
   , Schema   = mongoose.Schema; 
 
 var config   = require('../config');
@@ -50,7 +50,9 @@ var applicantSchema = new Schema({
   , interests:         [ String ]
   , bookmarkedPosts:   [{ type: Schema.Types.ObjectId, ref: 'JobPosting' }]
   , postNotifications: [{ type: Schema.Types.ObjectId, ref: 'JobPosting' }]
-  , subscription:      { type: String }
+  , subscription: { 
+        expires:       { type: Date, default: '1/1/1970' }
+  }
 }); 
 
 /**
@@ -103,6 +105,52 @@ applicantSchema.methods.setPassword = function(plainTextPassword) {
     applicant.credentials.password = plainTextPassword;
 };
 
+
+applicantSchema.methods.isSubscribed = function() {
+    var applicant = this,
+        now = new Date();
+    return applicant.subscription.expires >= now;
+};
+
+
+var MILLISECONDS_PER_DAY = 86400000;
+applicantSchema.methods.addSubscriptionDays = function(days, cb) {
+    var applicant = this,
+        now = new Date(),
+        daysToMilliSeconds = days * MILLISECONDS_PER_DAY;
+    
+    if(applicant.subscription.expires < now) {
+        applicant.subscription.expires.setTime(now.getTime() + daysToMilliSeconds);
+    } else {
+        //extending membership
+        var curExpTime = applicant.subscription.expires.getTime();
+        applicant.subscription.expires.setTime(curExpTime + daysToMilliSeconds);
+    }
+
+    applicant.markModified('subscription.expires');
+    applicant.save(cb);
+};
+
+/**
+ * Returns index of job post in bookmarks list if it exists 
+ * @param postid {ObjectID} job posting id
+ * @return {Integer} position of job posting in bookmarked posts. -1 if
+ *                   not found
+ */
+
+applicantSchema.methods.bookmarkIndex = function(postId){
+    var applicant = this;
+    
+    // Create a copy of applicants bookmarked posts as strings
+    // This needs to be done because ObjectIds cannot be compared to 
+    // each other directly
+    var _bookmarkedPosts = _.map(applicant.bookmarkedPosts, function(objId){
+        return String(objId);
+    });
+
+    return _.indexOf(_bookmarkedPosts, String(postId));
+}
+
 /**
  * Adds a job posting id to applicant's bookmarked posts
  * @param postId {ObjectId} Job posting id
@@ -112,14 +160,9 @@ applicantSchema.methods.setPassword = function(plainTextPassword) {
 applicantSchema.methods.addBookmark = function(postId, cb){
     var applicant = this;
     
-    // Create a copy of applicants bookmarked posts as strings
-    var _bookmarkedPosts = _.map(applicant.bookmarkedPosts, function(objId){
-        return String(objId);
-    });
-
-    // If bookmark already exists, don't do anything
-    if (_.indexOf(_bookmarkedPosts, String(postId), true) !== -1)
-        return;
+    // If applicant has bookmark already, do nothing
+    if (applicant.bookmarkIndex(postId) !== -1)
+        return cb (null);
 
     applicant.bookmarkedPosts.push(postId);
     applicant.save(cb);
@@ -134,13 +177,8 @@ applicantSchema.methods.addBookmark = function(postId, cb){
 applicantSchema.methods.removeBookmark = function(postId, cb){
     var applicant = this;
 
-    // Create a copy of applicants bookmarked posts as strings
-    var _bookmarkedPosts = _.map(applicant.bookmarkedPosts, function(objId){
-        return String(objId);
-    });
-
     // Figure out where the id to remove is located
-    var removalPoint = _.indexOf(_bookmarkedPosts, String(postId));
+    var removalPoint = applicant.bookmarkIndex(postId);
 
     // If bookmark doesn't exist, then there is nothing to do!
     if ( removalPoint === -1){

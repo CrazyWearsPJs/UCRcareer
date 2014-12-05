@@ -87,7 +87,7 @@ var express = require('express'),
             next(err);
         }
 
-        Q.ninvoke(Employer, 'findById', employerUserId)
+        Q.ninvoke(Employer, 'findByEmployerId', employerUserId)
             .then(function foundEmployer(employer) {
                 if(employer.credentials.email !== email) {
                     var err = new Error("employer email " + employer.credentials.email + " doesn't match given email" + email);

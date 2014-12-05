@@ -4,7 +4,7 @@
 
 var mongoose = require('mongoose')
   , bcrypt   = require('bcrypt')
-  , _        = require('underscore')
+  , _        = require('lodash')
   , Schema   = mongoose.Schema;
 
 var config   = require('../config');
@@ -114,19 +114,21 @@ employerSchema.pre('save', function(next){
 
 /**
  * Wrapper around Employer.findOne('{credentials.email': ...
-*/
+ * Populates employers job posts
+ */
+
 employerSchema.static('findByEmail', function(email, cb) {
     var Employer = this;
-    Employer.findOne({'credentials.email': email}, function(err, employer) {
-        return cb(err, employer);
-    });
+    Employer.findOne({'credentials.email': email})
+        .populate('posts', '-_id -__v')
+        .exec(cb);
 });
 
-employerSchema.static('findByIdAndPopulatePosts', function(id, cb) {
+employerSchema.static('findByEmployerId', function(id, cb) {
     var Employer = this;
     Employer.findById(id)
-            .populate('posts')
-            .exec(cb);
+        .populate('posts', '-_id -__v')
+        .exec(cb);
 });
 
 employerSchema.methods.createdPost = function(postId) {

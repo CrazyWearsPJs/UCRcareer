@@ -31,7 +31,7 @@ function register (db) {
 
 function applicant () {
     if (dbRef === undefined)
-        throw new error('Need to register models first!');
+        throw new Error('Need to register models first!');
     return dbRef.model('Applicant');
 }
 
@@ -43,7 +43,7 @@ function applicant () {
 
 function employer () {
     if (dbRef === undefined)
-        throw new error('Need to register models first!');
+        throw new Error('Need to register models first!');
     return dbRef.model('Employer');
 }
 
@@ -56,7 +56,7 @@ function employer () {
 
 function jobPosting () {
     if (dbRef === undefined)
-        throw new error('Need to register models first!');
+        throw new Error('Need to register models first!');
     return dbRef.model('JobPosting');
 }
 

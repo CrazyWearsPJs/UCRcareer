@@ -4,7 +4,7 @@
 
 var expect   = require('chai').expect
   , mongoose = require('mongoose')
-  , _        = require('underscore');
+  , _        = require('lodash');
 
 var config     = require('../app/config') 
   , models     = require('../app/models');
@@ -250,6 +250,42 @@ describe('models', function (){
                 });
             });
         });
+    
+        describe('#addSubscriptionDays', function() {
+            it('should add 1 day of subscription to a user', function(done) {
+                var Applicant = models.applicant(),
+                    now = new Date();
+
+                Applicant.findByCredentials({'email':'jdoe001@ucr.edu', 'password':'password1'}, function(err, applicant) {
+                    expect(err).to.be.equal(null);
+                    expect(applicant).to.not.be.equal(null);
+                    expect(applicant.subscription.expires).to.not.be.equal(null);
+                    applicant.addSubscriptionDays(1, function(err, applicant) {
+                        expect(applicant.subscription.expires).to.not.be.equal(null);
+                        expect(applicant.subscription.expires).to.be.above(now); 
+                        done();
+                    });
+                });
+            });
+ 
+            it('should extend day of subscription to a user', function(done) {
+                var Applicant = models.applicant(),
+                    now = new Date()
+                    oldTime = new Date();
+
+                Applicant.findByCredentials({'email':'jdoe001@ucr.edu', 'password':'password1'}, function(err, applicant) {
+                    expect(err).to.be.equal(null);
+                    expect(applicant).to.not.be.equal(null);
+                    expect(applicant.subscription.expires).to.not.be.equal(null);
+                    oldTime.setTime(applicant.subscription.expires.getTime()); 
+                    applicant.addSubscriptionDays(1, function(err, applicant) {
+                        expect(applicant.subscription.expires).to.be.above(now);
+                        expect(applicant.subscription.expires).to.be.above(oldTime);
+                        done();
+                    });
+                });
+            });       
+        });
     });
 
     describe('Employer', function (){
@@ -410,6 +446,8 @@ describe('models', function (){
                    if(err) throw err;
                    expect(posts).to.have.length(1);
                    done();
+                }, {
+                    showAllJobs: true   
                 });
             });
         });

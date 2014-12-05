@@ -50,14 +50,6 @@ angular.module('huntEdu')
             }).when('/updateEmployerProfile', {
                 templateUrl: 'templates/updateEmployerProfile.html',
                 controller: 'UpdateEmployerProfileCtrl',
-            }).when('/newJob', {
-                templateUrl: 'templates/jobs/jobListing.html',
-                controller: 'NewJobCtrl',
-                resolve: {
-                    job: ['JobList',  function(JobList) {
-                        return JobList.getNewJob();
-                    }]
-                }
             }).when('/home', {
                 templateUrl: 'templates/home.html',
                 controller: 'HomeCtrl',

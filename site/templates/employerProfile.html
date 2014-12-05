@@ -98,6 +98,23 @@
             <label for=""> Country: </label><td>{{employerProfileData.location.country}}</td>
         </div>
     </div>
+
+<h3>My Job Posts</h3>
+<hr>
+    <div class="row">
+        <div class="col-md-6" ng-repeat-start='job in employerProfileData.posts'>
+            Title: {{job.specifics.jobTitle}}<br>
+            Description: {{job.specifics.description}}
+        </div>
+        <div class="col-md-6"> 
+            <button class='btn btn-primary'>
+                Edit
+            </button>
+        </div>
+        <br><br><br>
+        <div class='clearfix' ng-repeat-end></div>
+    </div>
+
 <!--
     Make a check for whether they are a paying user.
     If they aren't ask them if they want to go premium.
@@ -153,6 +170,7 @@
         </form>
     </div>
 </div>
+
 </form>
 </div>
 

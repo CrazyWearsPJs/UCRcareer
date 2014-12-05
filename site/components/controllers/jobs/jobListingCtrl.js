@@ -56,8 +56,7 @@ angular.module('huntEdu.controllers')
              */
 
             $scope.saveBookmark = function (){
-                var jobId = job.meta.id;
-                User.addBookmark(jobId)
+                User.addBookmark(job)
                     .then(function(){
                         $scope.isBookmarked = true;
                     });
@@ -68,7 +67,7 @@ angular.module('huntEdu.controllers')
              */
 
             $scope.removeBookmark = function (){
-                var jobId = job.meta.id;
+                var jobId = job.getId();
                 User.removeBookmark(jobId)
                     .then(function(){
                         $scope.isBookmarked = false;

@@ -55,7 +55,6 @@ router.post('/id/:jobPostingId/review/', function(req, res, next) {
             res.status(200).end();  
         })
         .catch(function errorCatchAll(err) {
-            console.log(err);
             err.status = 404;
             next(err);
         });

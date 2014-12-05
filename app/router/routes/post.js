@@ -24,7 +24,7 @@ router.get('/', function(req, res, next) {
         return next(err);
     }
     
-    Q.ninvoke(Employer, 'findByIdAndPopulatePosts', employerUserId)
+    Q.ninvoke(Employer, 'findByEmployerId', employerUserId)
         .then(function foundEmployer(employer) {
             if(!employer) {
                 var err = new Error("Employer doesn't exist");
@@ -92,7 +92,7 @@ router.post('/', function(req, res, next) {
             next(err);
         })
         .then(function jobCreationSuccessful(){
-            res.status(200).end();  
+            res.status(200).json(newJobPosting);  
         })
         .catch(function catchAll(err) {
             next(err);  
