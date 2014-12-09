@@ -160,7 +160,7 @@
 <hr>
 <div class="row">
     <div class="col-md-6" ng-repeat-start='bookmark in applicantProfileData.bookmarkedPosts'>
-        Title: {{bookmark.specifics.jobTitle}}<br>
+        Title: <a ng-href="#/jobListing/{{bookmark.meta.id}}">{{bookmark.specifics.jobTitle}}</a><br>
         Company: {{bookmark.specifics.companyName}}
     </div>
     <div class="col-md-6"> 
