@@ -6,17 +6,22 @@ angular.module('huntEdu.controllers')
                 var now = null,
                 hourAgo = null;
 
-                var forEach = _.forEach;
+                var forEach = _.forEach,
+                    pick = _.pick;
 
             $scope.filter = {
                 selected: {
                     companyName: false,
                     state: false,
-                    jobTitle: false
+                    jobTitle: false, 
+                    city: false,
+                    jobType: false
                 },
                 companyName: "",
                 state: "",
-                jobTitle: ""
+                jobTitle: "",
+                city: "",
+                jobType: ""
             }; 
             
 
@@ -57,34 +62,11 @@ angular.module('huntEdu.controllers')
                 });
             };
 
-            $scope.jobFilter = function() {
-                var filterObj = {},
-                    selCompanyName = $scope.filter.selected.companyName,
-                    selState = $scope.filter.selected.state,
-                    selJobTitle = $scope.filter.selected.jobTitle;
-                
-                if(selState){
-                    filterObj.location = {
-                        state : $scope.filter.state
-                    };
-                } 
-
-                if(selCompanyName && !selJobTitle) {
-                    filterObj.specifics = {
-                        companyName : $scope.filter.companyName
-                    };
-                } else if(selJobTitle && !selCompanyName) {
-                    filterObj.specifics = {
-                        jobTitle : $scope.filter.jobTitle
-                    };
-                } else if (selCompanyName && selJobTitle) {
-                    filterObj.specifics = {
-                        companyName : $scope.filter.companyName,
-                        jobTitle: $scope.filter.jobTitle
-                    };
-
-                }
-                return filterObj;
+            $scope.searchFilterObj = function() {
+                return pick($scope.filter, function(value, key) {
+                    return typeof value === "string" && $scope.filter.selected[key] &&
+                        value !== "";  
+                });
             };
 
             $scope.$on('$routeChangeSuccess', function(){

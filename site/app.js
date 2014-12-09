@@ -50,6 +50,30 @@ angular.module('huntEdu', ['ngRoute', 'ngMessages', 'btford.socket-io', 'huntEdu
             }).reverse();
         };
     }])
+    .filter('filterJobs', ['_', function(_) {
+        var isEmpty = _.isEmpty,
+            filter = _.filter,
+            some = _.some,
+            has = _.has;
+        return function filterJobs(input, searchFilterObj) {
+            if(isEmpty(searchFilterObj)) {
+                return input;
+            }
+
+            return filter(input, function(job) {
+                var jobFilterObj = job.toFilterObj();
+                return some(jobFilterObj, function(value, key) {
+                    if(!has(searchFilterObj, key) || typeof value !== "string") {
+                        return false;
+                    }
+                    var actual = value.toLowerCase(),
+                        expected = searchFilterObj[key].toLowerCase();
+                    
+                    return actual.indexOf(expected) !== -1;
+                });
+            });
+        };
+    }])
     /* inject lodash as a util factory */
     .factory('_', ['$window', function($window) {
         return $window._;

@@ -154,5 +154,16 @@ angular.module('huntEdu.services')
             return deferred.promise;
         };
  
+        JobPost.prototype.toFilterObj = function() {
+            var jobPost = this;
+            return {
+                'state': jobPost.location.state,
+                'city': jobPost.location.city,
+                'jobTitle': jobPost.specifics.jobTitle,
+                'companyName': jobPost.specifics.companyName,
+                'jobType': jobPost.specifics.jobType
+            };
+        };
+
         return JobPost;
     }]);

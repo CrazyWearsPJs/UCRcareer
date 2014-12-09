@@ -1,21 +1,45 @@
 <table class="table" id="searchTable">
     <thead>
-        <tr>
-            <th>
-            </th>
-        </tr>
-        <tr>
-            <th>
-            Filter By: 
-            <br>
-                <input type="checkbox" ng-model="filter.selected.state" value="state"> State
-                <input ng-show="filter.selected.state" type="text" name="input" ng-model="filter.state">
+            <accordion>
+                <accordion-group is-open="filter.show">
+                    <accordion-heading>
+                        Filter By <i class="pull-right fa" 
+                                    ng-class="{'fa-chevron-down': filter.show, 
+                                            'fa-chevron-right': !filter.show}"></i>
+                    </accordion-heading>
+                    <h4>Job Details</h4>
+                    <input type="checkbox" ng-model="filter.selected.companyName"  value="company"> Company
+                    <input ng-show="filter.selected.companyName" type="text" name="input" ng-model="filter.companyName">
+                    <br>
+                    <input type="checkbox" ng-model="filter.selected.jobTitle" value="title"> Title
+                    <input ng-show="filter.selected.jobTitle" type="text" name="input" ng-model="filter.jobTitle">
+                    <br>
+                    <input type="checkbox" ng-model="filter.selected.jobType"  value="jobType"> Job Type
+                    <input ng-show="filter.selected.jobType" type="text" name="input" ng-model="filter.jobType">
+                    <br>
 
-                <input type="checkbox" ng-model="filter.selected.companyName"  value="company"> Company
-                <input ng-show="filter.selected.companyName" type="text" name="input" ng-model="filter.companyName">
-            </th>
+                    <h4>Location</h4>
+                    <input type="checkbox" ng-model="filter.selected.city" value="city"> City
+                    <input ng-show="filter.selected.city" type="text" name="input" ng-model="filter.city">
+                    <br>
+                    <input type="checkbox" ng-model="filter.selected.state" value="state"> State
+                    <input ng-show="filter.selected.state" type="text" name="input" ng-model="filter.state">
+                    <br>
 
-        </tr>
+                </th>
+                </accordion-group>
+            </accordion>
+            <!-- search buttons -->
+            <div id='bookmarkBtns' ng-show='showSaveSearchBtns'>
+                <button class='btn btn-primary pull-right' 
+                    ng-hide='isBookmarked' ng-click='saveSearch()'>
+                    Bookmark Search
+                </button>
+                <button class='btn btn-danger pull-right' 
+                ng-show='isBookmarked' ng-click='removeSearch()'>
+                    Remove Bookmarked Search
+                </button>
+            </div>
 
         <tr>
 
@@ -53,7 +77,7 @@
         <tr>
     </thead>
     <tbody>
-    <tr ng-class="{freshPost:isFreshJob(job), ownPost:isOwnJob(job)}"  ng-repeat="job in searchResultsData | orderBy:predicate | filter:jobFilter()">
+    <tr ng-class="{freshPost:isFreshJob(job), ownPost:isOwnJob(job)}"  ng-repeat="job in searchResultsData | orderBy:predicate | filterJobs:searchFilterObj()">
             <td>
                 <a ng-href="#/jobListing/{{job.getId()}}">{{job.specifics.companyName}} </a>
             </td>
@@ -77,13 +101,4 @@
     </tbody>
 </table>
 
-<!-- search buttons -->
-<div id='bookmarkBtns' ng-show='showSaveSearchBtns'>
-    <button class='btn btn-primary pull-left' ng-hide='isBookmarked' ng-click='saveSearch()'>
-        Bookmark Search
-    </button>
-    <button class='btn btn-danger pull-left' ng-show='isBookmarked' ng-click='removeSearch()'>
-        Remove Bookmarked Search
-    </button>
-</div>
 
