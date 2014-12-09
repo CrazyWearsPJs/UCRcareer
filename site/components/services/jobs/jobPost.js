@@ -2,6 +2,8 @@ angular.module('huntEdu.services')
     .factory('JobPost', ['$http', '$q', '_', 'Util', function JobPostFactory($http, $q, _, Util) {
         var forEach = _.forEach,
             isArray = _.isArray,
+            isEmpty = _.isEmpty,
+            reduce = _.reduce,
             pick = _.pick,
             uniq = _.uniq,
             compactObject = Util.compactObject,
@@ -128,6 +130,24 @@ angular.module('huntEdu.services')
                     jobPost.reviews[key] = review;
                 }
             });
+        };
+
+        JobPost.prototype.numReviews = function() {
+            if(isArray(this.reviews)) {
+                return this.reviews.length;
+            } else {
+                return 0;
+            }
+        };
+
+        JobPost.prototype.getRating = function() {
+            if(isArray(this.reviews) && !isEmpty(this.reviews)) {
+                return reduce(this.reviews, function(sum, review) {
+                    return sum + review.content.rating;
+                }, 0)/this.numReviews();
+            } else {
+                return 0;
+            }
         };
 
         JobPost.prototype.addReview = function(data) {

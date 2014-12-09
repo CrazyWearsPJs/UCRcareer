@@ -39,6 +39,18 @@ angular.module('huntEdu.controllers')
             $scope.showApplicant = function() {
                 return User.isApplicant();
             };
+            
+            var hasReviews = function() {
+                return $scope.jobListingData.numReviews() !== 0;
+            };
+
+            $scope.showRating = function() {
+                return hasReviews();
+            };
+
+            $scope.getRating = function() {
+                return $scope.jobListingData.getRating();
+            };
 
             /* Star Ratings */
             $scope.rate = 0;

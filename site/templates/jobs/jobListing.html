@@ -8,6 +8,19 @@
     <hr>
 
     <div class="row">
+        <div class="col-md-2">
+            <label for="">
+                Rating: 
+            </label> 
+            <td>
+                <div ng-if="showRating()">
+                    {{getRating() | number}} / 5.0
+                </div>
+                <div ng-if="!showRating()">
+                    N/A
+                </div>
+            </td>
+        </div>
         <div class="col-md-4">
             <label for="">
                 Location: 
