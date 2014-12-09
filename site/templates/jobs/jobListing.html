@@ -14,7 +14,7 @@
             </label> 
             <td>
                 <div ng-if="showRating()">
-                    {{getRating() | number}} / 5.0
+                    {{getRating() | number}} / 5
                 </div>
                 <div ng-if="!showRating()">
                     N/A
@@ -148,6 +148,6 @@
     <ng-include src="'templates/jobs/reviewPosting.html'" ng-show="showReviewPosting()"></ng-include>
     <a id="edit"></a>
     <ng-include src="'templates/jobs/editReview.html'" ng-show="editing"></ng-include>
-    <ng-include src="'templates/jobs/jobReview.html'"></ng-include>
+    <ng-include src="'templates/jobs/jobReview.html'" ng-show="showRating()"></ng-include>
     
 </div> 
