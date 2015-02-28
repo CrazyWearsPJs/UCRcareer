@@ -403,6 +403,7 @@ describe('routes', function (){
              });
 
         });
+/*
         describe('/employer', function() {
              var updatedInfo = {
                 companyName: "Amazon",
@@ -784,4 +785,5 @@ describe('routes', function (){
                 });
         });
     });
+*/
 });
