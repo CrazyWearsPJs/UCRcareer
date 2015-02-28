@@ -4,8 +4,8 @@
 
 module.exports = {
     dbSettings: {
-      host:     process.env.DB_HOST || "10.0.2.15"
-  	, port:     process.env.DB_PORT || "8081"
+      host:     process.env.DB_HOST || "192.168.0.15"
+  	, port:     process.env.DB_PORT || "27017"
   	, database: process.env.DB_NAME || "TestUCRcareers"
     }
   , serverSettings: {
