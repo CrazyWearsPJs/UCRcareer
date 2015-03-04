@@ -1,0 +1,17 @@
+- name: MongoDB
+  service:
+    group: db
+    type: mongo
+
+- name: UCRCareer
+  service:
+    group: lang
+    type: node
+  install: 
+    - apt-get -y install build-essential
+    - npm install -g bower nodemon gulp mocha 
+    - npm install
+    - mkdir /opt/resumes
+    - chown -R vagrant:vagrant /opt/resumes
+  script:
+    - mocha
