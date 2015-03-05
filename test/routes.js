@@ -132,7 +132,7 @@ describe('routes', function (){
 
         db = mongoose.createConnection(dbSettings.host
                                      , dbSettings.database
-                                     , dbSettings.port); 
+                                     , 8081); 
    
         app.use(session({
             'name': 'ucrCareer.api-token'
@@ -243,7 +243,7 @@ describe('routes', function (){
         });
     });
  
-    describe('POST /login', function(){
+/*    describe('POST /login', function(){
         var employerCredentials = employer.credentials
             , applicantCredentials = applicant.credentials;
 
@@ -273,9 +273,7 @@ describe('routes', function (){
                         .expect(profileData, done);
                 });
                 it('should not allow a registered user with an invalid password to login', function(done) {
-                    /*
                      * Make deep copy of credentials
-                     */
 
                     var invalidCredentials = deepClone(applicantCredentials);
                     
@@ -323,9 +321,7 @@ describe('routes', function (){
                         .expect(profileData, done);
                 });
                 it('should not allow a registered user with an invalid password to login', function(done) {
-                    /*
                      * Make deep copy of credentials
-                     */
 
                     var invalidCredentials = deepClone(employerCredentials);
                     
@@ -403,7 +399,6 @@ describe('routes', function (){
              });
 
         });
-/*
         describe('/employer', function() {
              var updatedInfo = {
                 companyName: "Amazon",
@@ -530,7 +525,7 @@ describe('routes', function (){
         });
 
        });
- 
+ */
     describe('POST /post/id/:id', function (){
         var agent = null, 
             employer2 =  deepClone(employer);
@@ -784,6 +779,5 @@ describe('routes', function (){
                     }); 
                 });
         });
-    */
     });
 });
